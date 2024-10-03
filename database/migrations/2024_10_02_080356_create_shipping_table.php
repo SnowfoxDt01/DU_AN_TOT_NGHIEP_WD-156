@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('shipping', function (Blueprint $table) {
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
-            $table->string('name', 250)->comment('tên tài khoản người dùng sử dụng');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->integer('role')->default(2)->comment('vai trò người dùng: 1-Admin, 2-User');
-            $table->rememberToken();
+            $table->string('name')->comment('tên người giao hàng');
+            $table->enum('status', ['đang giao', 'rảnh rỗi'])->default('rảnh rỗi')->comment('Trạng thái giao hàng: đang giao, rảnh rỗi');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('shipping');
     }
 };

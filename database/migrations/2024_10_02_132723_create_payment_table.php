@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('payment', function (Blueprint $table) {
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
-            $table->string('name', 250)->comment('tên tài khoản người dùng sử dụng');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->integer('role')->default(2)->comment('vai trò người dùng: 1-Admin, 2-User');
-            $table->rememberToken();
+            $table->datetime('date_payment')->default(now())->comment('ngày giờ trả tiền đơn hàng');
+            $table->enum('method_payment', ['tiền mặt', 'chuyển khoản', 'thẻ tín dụng'])->comment('Phương thức thanh toán');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('payment');
     }
 };
