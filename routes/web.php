@@ -15,3 +15,7 @@ route::get('get-product/{id}', [ProductController::class, 'getProduct']);
 route::get('update-product', [ProductController::class, 'updateProduct']);
 
 Route::resource('users', UserControler::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
