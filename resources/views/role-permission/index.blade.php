@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container">
-    <h1>Assign Roles and Permissions</h1>
+    <h1>Bảng phân quyền</h1>
 
-    <h3>Assign Role to User</h3>
+    <h3>Phân quyền cho tài khoản</h3>
     <form action="{{ route('role-permission.assignRole') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="user">Select User</label>
+            <label for="user">Chọn tài khoản</label>
             <select name="user_id" class="form-control">
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -17,7 +17,7 @@
         </div>
     
         <div class="form-group">
-            <label for="roles">Select Roles</label>
+            <label for="roles">Chọn chức vụ</label>
             @foreach($roles as $role)
                 <div class="form-check">
                     <input type="checkbox" name="roles[]" value="{{ $role->name }}" class="form-check-input" id="role-{{ $role->id }}">
@@ -26,15 +26,15 @@
             @endforeach
         </div>
     
-        <button type="submit" class="btn btn-primary">Assign Role</button>
+        <button type="submit" class="btn btn-primary">Hoàn thành</button>
     </form>
     
 
-    <h3>Assign Permission to Role</h3>
+    <h3>Phân quyền cho từng chức vụ</h3>
     <form action="{{ route('role-permission.assignPermission') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="role">Select Role</label>
+            <label for="role">Chọn chức vụ</label>
             <select name="role_id" class="form-control">
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -43,7 +43,7 @@
         </div>
     
         <div class="form-group">
-            <label for="permissions">Select Permissions</label>
+            <label for="permissions">Chọn quyền</label>
             @foreach($permissions as $permission)
                 <div class="form-check">
                     <input type="checkbox" name="permissions[]" value="{{ $permission->name }}" class="form-check-input" id="permission-{{ $permission->id }}">
@@ -52,7 +52,7 @@
             @endforeach
         </div>
     
-        <button type="submit" class="btn btn-primary">Assign Permission</button>
+        <button type="submit" class="btn btn-primary">Hoàn thành</button>
     </form>    
 </div>
 @endsection
