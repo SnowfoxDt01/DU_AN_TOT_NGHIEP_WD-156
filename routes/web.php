@@ -3,10 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserControler;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function(){
-    echo 'abc';
+    return view('auth.login');
  });
+
+ Auth::routes();
 
 route::get('list-product', [ProductController::class, 'show']);
 
