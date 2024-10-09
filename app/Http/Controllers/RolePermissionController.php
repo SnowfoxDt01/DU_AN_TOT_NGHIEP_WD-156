@@ -18,6 +18,17 @@ class RolePermissionController extends Controller
         return view('role-permission.index', compact('users', 'roles', 'permissions'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'role_name' => 'required|string|max:255',
+        ]);
+
+        Role::create(['name' => $request->role_name]);
+
+        return redirect()->back()->with('success', 'Role created successfully.');
+    }
+
     public function assignRole(Request $request)
     {
         $user = User::find($request->user_id);
@@ -33,4 +44,5 @@ class RolePermissionController extends Controller
         $role->syncPermissions($request->permissions); // sync để thay thế các quyền hiện có bằng những quyền mới
         return redirect()->back()->with('success', 'Permissions assigned successfully.');
     }
+
 }
