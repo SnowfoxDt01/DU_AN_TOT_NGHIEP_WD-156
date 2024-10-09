@@ -9,7 +9,6 @@
                       <i class="nav-icon bi bi-person-lines-fill"></i>
                       <p>
                           Quản lí tài khoản
-                          <i class="fas fa-angle-left right"></i>
                       </p>
                   </a>
               </li>
@@ -18,7 +17,6 @@
                   <i class="bi bi-grid-3x3"></i>
                   <p>
                       Bảng phân quyền
-                      <i class="fas fa-angle-left right"></i>
                   </p>
               </a>
           </li>
