@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserControler extends Controller
 {
@@ -21,7 +23,7 @@ class UserControler extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -29,7 +31,8 @@ class UserControler extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::create($request->all());
+        return redirect()->route('users.index');
     }
 
     /**
