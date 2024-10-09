@@ -1,8 +1,7 @@
 @extends('layout.admin.master')
 @section('content')
 <div class="container">
-    <h1>Phân Quyền</h1>
-
+    <h1>Bảng phân quyền</h1>
     <h3>Phân quyền cho tài khoản</h3>
     <form action="{{ route('role-permission.assignRole') }}" method="POST">
         @csrf
