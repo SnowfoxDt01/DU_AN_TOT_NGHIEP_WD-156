@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('layout.admin.master')
 @section('content')
 <div class="container">
     <h1>Phân Quyền</h1>

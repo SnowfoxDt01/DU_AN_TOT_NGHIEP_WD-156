@@ -12,14 +12,13 @@ Route::get('/', function(){
 
 Auth::routes();
 
+Route::resource('/users', UserControler::class);
+
 route::get('list-product', [ProductController::class, 'show']);
 
 route::get('get-product/{id}', [ProductController::class, 'getProduct']);
 
 route::get('update-product', [ProductController::class, 'updateProduct']);
-
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('role:super-admin')->group(function () {
 
