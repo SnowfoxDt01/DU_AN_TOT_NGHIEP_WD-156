@@ -19,6 +19,7 @@ class RolesAndPermissionsSeeder extends Seeder
     {
          // Tạo các quyền (permissions)
     Permission::create(['name' => 'edit users']);
+
     Permission::create(['name' => 'delete users']);
     Permission::create(['name' => 'create users']);
     Permission::create(['name' => 'assign roles']);
@@ -26,7 +27,7 @@ class RolesAndPermissionsSeeder extends Seeder
     // Tạo vai trò (roles)
     $roleSuperAdmin = Role::create(['name' => 'super-admin']);
     $roleAdmin = Role::create(['name' => 'admin']);
-    
+
     // Gán quyền cho vai trò
     $roleSuperAdmin->givePermissionTo(Permission::all()); // Super Admin có tất cả quyền
     $roleAdmin->givePermissionTo(['edit users', 'create users']); // Admin chỉ có một số quyền

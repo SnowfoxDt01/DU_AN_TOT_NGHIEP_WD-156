@@ -24,6 +24,8 @@ Route::middleware('role:super-admin')->group(function () {
 
     Route::get('/role-permission', [RolePermissionController::class, 'index'])->name('role-permission.index');
 
+    Route::post('/roles/store', [RolePermissionController::class, 'store'])->name('roles.store');
+
     Route::post('/role-permission/assign-role', [RolePermissionController::class, 'assignRole'])->name('role-permission.assignRole');
 
     Route::post('/role-permission/assign-permission', [RolePermissionController::class, 'assignPermission'])->name('role-permission.assignPermission');
