@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('price');
             $table->string('image')->nullable()->comment('Đường dẫn hình ảnh của sản phẩm');
             $table->integer('quantity')->unsigned()->default(0)->comment('số lượng sản phẩm có trong kho');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

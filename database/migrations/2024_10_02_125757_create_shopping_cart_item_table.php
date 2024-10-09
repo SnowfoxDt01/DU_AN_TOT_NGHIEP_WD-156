@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('shopping_cart_item', function (Blueprint $table) {
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
             $table->integer('quantity')->unsigned()->default(0)->comment('số lượng sản phẩm trong giỏ hàng');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
             $table->integer('Transaction_id_user')->unique()->comment('Mã giao dịch của người dùng');
             $table->integer('Transaction_id_merchant')->unique()->comment('Mã giao dịch của người bán');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

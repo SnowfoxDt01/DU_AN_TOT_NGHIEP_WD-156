@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('total_price');
             $table->enum('status_order', ['đã nhận', 'đang giao', 'đang chờ shipper'])->default('đang chờ shipper')->comment('Trạng thái đơn hàng: đã nhận, đang giao, đang chờ shipper');
             $table->text('address_shipping')->comment('địa chỉ giao hàng');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

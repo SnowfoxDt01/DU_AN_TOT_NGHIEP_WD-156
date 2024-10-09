@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
             $table->datetime('date_payment')->default(now())->comment('ngày giờ trả tiền đơn hàng');
             $table->enum('method_payment', ['tiền mặt', 'chuyển khoản', 'thẻ tín dụng'])->comment('Phương thức thanh toán');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

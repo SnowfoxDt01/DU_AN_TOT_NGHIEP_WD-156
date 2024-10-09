@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_categories', function (Blueprint $table) {
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
             $table->string('name_category');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

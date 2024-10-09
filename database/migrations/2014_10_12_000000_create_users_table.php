@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->integer('role')->default(2)->comment('vai trò người dùng: 1-Admin, 2-User');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
