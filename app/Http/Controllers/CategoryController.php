@@ -22,7 +22,12 @@ class CategoryController extends Controller
             $query->where('name_category', 'LIKE', "%{$keyword}%");
         }
 
-        $categories = $query->paginate(10);
+        $status = $request->input('status');
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        $categories = $query->paginate(5);
 
         return view('categories.index', compact('categories'));
     }
@@ -41,7 +46,9 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         DB::table('product_categories')->insert([
-            'name_category' => $request->name_category
+            'name_category' => $request->name_category,
+            'description' => $request->description,
+            'status' => $request ->status
         ]);
         return redirect()->route('categories.index');
     }
