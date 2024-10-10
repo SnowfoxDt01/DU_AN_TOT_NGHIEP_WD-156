@@ -2,24 +2,34 @@
 
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserControler;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', function(){
     return view('auth.login');
  });
 
 Auth::routes();
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function(){
+    Route::group([
+        'prefix' => 'products',
+        'as' => 'products.'
+    ], function(){
+        // CRUD products (list, add, update, detail, delete)
+        Route::get('/', [ProductController::class, 'listProduct'])->name('listProduct');
+    });
+});
+
 
 Route::resource('categories', CategoryController::class);
 
-route::get('list-product', [ProductController::class, 'show']);
 
-route::get('get-product/{id}', [ProductController::class, 'getProduct']);
 
-route::get('update-product', [ProductController::class, 'updateProduct']);
 
 Route::middleware('role:super-admin')->group(function () {
 
