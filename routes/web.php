@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionController;
@@ -12,7 +13,7 @@ Route::get('/', function(){
 
 Auth::routes();
 
-Route::resource('/users', UserControler::class);
+Route::resource('categories', CategoryController::class);
 
 route::get('list-product', [ProductController::class, 'show']);
 

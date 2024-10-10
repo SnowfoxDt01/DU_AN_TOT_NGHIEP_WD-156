@@ -2,15 +2,19 @@
 @section('content')
     <div class="container">
         <h1>Bảng phân quyền</h1>
-        <h3>Phân quyền cho tài khoản</h3>
+        <hr>
+        <h3>Tạo chức vụ</h3>
         <form action="{{ route('roles.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="role_name">Role Name:</label>
+                <label for="role_name">Nhập tên chức vụ:</label>
                 <input type="text" name="role_name" id="role_name" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Create Role</button>
+            <button type="submit" class="btn btn-success">Tạo</button>
         </form>
+        <hr>
+
+        <h3>Phân quyền cho tài khoản</h3>
 
         <form action="{{ route('role-permission.assignRole') }}" method="POST">
             @csrf
@@ -34,11 +38,12 @@
                 @endforeach
             </div>
 
-            <button type="submit" class="btn btn-primary">Hoàn thành</button>
+            <button type="submit" class="btn btn-success">Hoàn thành</button>
         </form>
 
-
+        <hr>
         <h3>Phân quyền cho từng chức vụ</h3>
+        <hr>
         <form action="{{ route('role-permission.assignPermission') }}" method="POST">
             @csrf
             <div class="form-group">
@@ -62,7 +67,7 @@
                 @endforeach
             </div>
 
-            <button type="submit" class="btn btn-primary">Hoàn thành</button>
+            <button type="submit" class="btn btn-success">Hoàn thành</button>
         </form>
     </div>
 @endsection
