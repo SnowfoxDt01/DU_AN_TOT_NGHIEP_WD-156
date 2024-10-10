@@ -1,14 +1,14 @@
 @extends('layout.admin.master')
 @section('content')
-        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Create</a></button>
+        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Tạo mới</a></button>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Name</th>
+                <th scope="col">Tên</th>
                 <th scope="col">Email</th>
-                <th scope="col">Password</th>
-                <th scope="col">Action</th>
+                <th scope="col">Mật khẩu</th>
+                <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>

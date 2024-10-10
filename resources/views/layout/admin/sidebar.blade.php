@@ -21,7 +21,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-bookmarks-fill"></i>
                   <p>
                       Sản phẩm
@@ -29,7 +29,7 @@
               </a>
           </li>
           <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-list-task"></i>
                   <p>
                       Danh mục

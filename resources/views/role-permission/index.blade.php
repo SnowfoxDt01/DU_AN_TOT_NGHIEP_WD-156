@@ -6,10 +6,10 @@
         <form action="{{ route('roles.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="role_name">Role Name:</label>
+                <label for="role_name">Tên quyền:</label>
                 <input type="text" name="role_name" id="role_name" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Create Role</button>
+            <button type="submit" class="btn btn-primary">Tạo quyền</button>
         </form>
 
         <form action="{{ route('role-permission.assignRole') }}" method="POST">
