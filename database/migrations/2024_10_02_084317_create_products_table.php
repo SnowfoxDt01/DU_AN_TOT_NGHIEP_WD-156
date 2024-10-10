@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id'); //mặc định sẽ tăng dần, thuộc tính int, primary
             $table->string('name', 250);
-            $table->text('desription')->nullable()->comment('Mô tả sản phẩm');
+            $table->text('description')->nullable()->comment('Mô tả sản phẩm');
             $table->bigInteger('price');
             $table->string('image')->nullable()->comment('Đường dẫn hình ảnh của sản phẩm');
             $table->integer('quantity')->unsigned()->default(0)->comment('số lượng sản phẩm có trong kho');
