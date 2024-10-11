@@ -10,9 +10,23 @@ class UserControler extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::query()->get();
+        $query = User::query();
+        
+        if ($request->has('keyword') && !empty($request->keyword)) {
+            $keyword = $request->input('keyword');
+            $query->where('name', 'LIKE', "%{$keyword}%")
+            ->orWhere('email', 'LIKE', "%{$keyword}%");
+        }
+
+        $status = $request->input('status');
+        if ($status !== null) {
+            $query->where('status', $status);
+        }
+
+        $users = $query->paginate(5);
+
         return view('users.index', compact('users'));
     }
 

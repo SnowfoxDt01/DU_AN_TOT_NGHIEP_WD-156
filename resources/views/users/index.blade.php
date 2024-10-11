@@ -1,6 +1,6 @@
 @extends('layout.admin.master')
 @section('content')
-        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Tạo mới</a></button>
+        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Create</a></button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -35,4 +35,5 @@
             @endforeach
         </tbody>
     </table>
+    {{ $users->links() }}
 @endsection
