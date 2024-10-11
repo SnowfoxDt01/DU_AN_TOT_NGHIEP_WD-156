@@ -52,7 +52,12 @@
                     <td>
                         <button class="btn btn-warning">Sửa</button>
                         <button class="btn btn-info">Chi tiết</button>
-                        <button class="btn btn-danger">xóa</button>
+                            
+                        <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Ban co muon xoa khong?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit">Xóa</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

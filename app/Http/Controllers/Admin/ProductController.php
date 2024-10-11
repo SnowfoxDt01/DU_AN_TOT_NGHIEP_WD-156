@@ -40,4 +40,10 @@ class ProductController extends Controller
         Product::create($data);
         return redirect()->route('admin.products.listProduct');
     }
+
+    public function deleteProduct($id){
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('admin.products.listProduct');
+    }
 }

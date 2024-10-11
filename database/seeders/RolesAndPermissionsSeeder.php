@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-$user = User::find(2);
+$user = User::find(1);
 $user->assignRole('super-admin');
 
 class RolesAndPermissionsSeeder extends Seeder
@@ -18,11 +18,11 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run(): void
     {
          // Tạo các quyền (permissions)
-    Permission::create(['name' => 'edit users']);
+    // Permission::create(['name' => 'edit users']);
 
-    Permission::create(['name' => 'delete users']);
-    Permission::create(['name' => 'create users']);
-    Permission::create(['name' => 'assign roles']);
+    // Permission::create(['name' => 'delete users']);
+    // Permission::create(['name' => 'create users']);
+    // Permission::create(['name' => 'assign roles']);
 
     // Tạo vai trò (roles)
     $roleSuperAdmin = Role::create(['name' => 'super-admin']);
