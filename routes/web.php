@@ -22,6 +22,11 @@ Route::group([
     ], function(){
         // CRUD products (list, add, update, detail, delete)
         Route::get('/', [ProductController::class, 'listProduct'])->name('listProduct');
+
+        Route::get('add-product', [ProductController::class, 'addProduct'])->name('addProduct');
+    
+        Route::post('add-product', [ProductController::class, 'addPostProduct'])->name('addPostProduct');
+    
     });
 });
 
