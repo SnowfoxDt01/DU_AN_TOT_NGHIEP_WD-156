@@ -1,14 +1,14 @@
 @extends('layout.admin.master')
 @section('content')
-        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Tạo mới</a></button>
+        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Create</a></button>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Tên</th>
                 <th scope="col">Email</th>
-                <th scope="col">Mật khẩu</th>
-                <th scope="col">Hành động</th>
+                <th scope="col">Password</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -18,9 +18,21 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->password }}</td>
-                    <td>{{ $user->role }}</td>
+                    <td>
+                        @if ($user->status == 0)
+                            <span class="badge bg-red">Dừng hoạt động</span>
+                        @elseif($user->status == 1)
+                            <span class="badge bg-green">Đang hoạt động</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('users.edit', $user->id) }}">
+                            <button class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
+                        </a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    {{ $users->links() }}
 @endsection
