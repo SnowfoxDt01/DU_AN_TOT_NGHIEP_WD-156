@@ -1,6 +1,40 @@
 @extends('layout.admin.master')
 @section('content')
-        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Create</a></button>
+    <section class="content-header">
+        <h1>
+            Quản lí tài khoản
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i>Trang chủ</a></li> |
+            <li class="active">Quản lí tài khoản</li>
+        </ol>
+    </section>
+    <hr>
+    <div>
+        <button class="btn btn-primary"><a href="{{ route('users.create') }}" style="color: #fff;">Create</a></button>
+
+        <div class="d-flex justify-content-end">
+            <form action="{{ route('categories.index') }}" method="GET" class="form-inline">
+                <div class="input-group">
+                    <div class="input-group mx-2">
+                        <select name="status" class="form-control">
+                            <option value="">--Lọc theo trạng thái--</option>
+                            <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Dừng hoạt động</option>
+                            <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đang hoạt động</option>
+                        </select>
+                    </div>
+                    <input type="text" name="keyword" class="form-control" placeholder="Nhập tên hoặc email..."
+                        value="{{ request('keyword') }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -35,4 +69,5 @@
             @endforeach
         </tbody>
     </table>
+    {{ $users->links() }}
 @endsection
