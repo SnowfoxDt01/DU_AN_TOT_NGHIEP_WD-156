@@ -47,7 +47,8 @@
                         <img class="img-prd" src="{{ asset($value->image) }}" alt="">
                     </td>
                     <td>{{ $value->quantity }}</td>
-                    <td>{{ $value->product_category_id }}</td>
+                    <td>{{ $value->category->name_category ?? 'No category' }}</td>
+
                     <td>
                         <button class="btn btn-warning">Sửa</button>
                         <button class="btn btn-info">Chi tiết</button>

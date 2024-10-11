@@ -9,7 +9,7 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     public function listProduct(){
-        $listProduct = Product::paginate(10);
+        $listProduct = Product::with('category')->paginate(5);
         return view('products.index')->with([
             'listProduct' => $listProduct
         ]);
