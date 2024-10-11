@@ -12,6 +12,7 @@
     <hr>
     <form action="{{ route('categories.update', $category->id) }}" method="POST" >
         @csrf
+        @method('PUT')
         <div class="form-group">
             <label for="name">Tên danh mục</label>
             <input type="text" name="name_category" value="{{$category->name_category}}" class="form-control">
