@@ -8,15 +8,40 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function listProduct(){
-        $listProduct = Product::with('category')->paginate(5);
+    public function listProduct(Request $request){
+        $query = Product::with('category');
+
+        // lọc theo tên
+        if($request->filled('name')){
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        // Lọc theo khoảng giá
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $query->whereBetween('price', [$request->min_price, $request->max_price]);
+        } elseif ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        } elseif ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // Lọc theo thể loại
+        if ($request->filled('category_id')) {
+            $query->where('product_category_id', $request->category_id);
+        }
+
+        $categories = \App\Models\Category::all();
+
+        $listProduct = $query->paginate(5);
         return view('products.index')->with([
-            'listProduct' => $listProduct
+            'listProduct' => $listProduct,
+            'categories' => $categories 
         ]);
     }
 
     public function addProduct(){
-        return view('products.add-product');
+        $categories = \App\Models\Category::all();
+        return view('products.add-product', compact('categories'));
     }
 
     public function addPostProduct(Request $req){ 
@@ -38,6 +63,18 @@ class ProductController extends Controller
             'product_category_id' => $req->product_category_idSP
         ];
         Product::create($data);
+        return redirect()->route('admin.products.listProduct');
+    }
+
+    public function deleteProduct($id){
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('admin.products.listProduct');
+    }
+
+    public function hardDeleteProduct($id){
+        $product = Product::withTrashed()->findOrFail($id);
+        $product->forceDelete(); // Xóa cứng sản phẩm
         return redirect()->route('admin.products.listProduct');
     }
 }
