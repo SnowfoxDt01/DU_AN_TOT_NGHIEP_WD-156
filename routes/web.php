@@ -30,6 +30,12 @@ Route::group([
         Route::delete('delete/{id}', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
         // xóa cứng
         Route::delete('hard-delete/{id}', [ProductController::class, 'hardDeleteProduct'])->name('hardDeleteProduct');
+        
+        Route::get('edit/{id}', [ProductController::class, 'editProduct'])->name('editProduct');
+
+        Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('updateProduct');
+         
+        Route::get('detail/{id}', [ProductController::class, 'detailProduct'])->name('detailProduct');
 
     });
 });
