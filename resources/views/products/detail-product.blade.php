@@ -28,6 +28,6 @@
         </div>
     </div>
 
-    <a href="{{ route('admin.products.listProduct') }}" class="btn btn-primary mt-4">Back</a>
+    <a href="{{ route('admin.products.listProduct') }}" class="btn btn-success">Back</a>
 </div>
 @endsection

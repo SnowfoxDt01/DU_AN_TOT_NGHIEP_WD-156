@@ -57,7 +57,7 @@
         <img src="{{ asset($product->image) }}" alt="Product Image" class="img-preview mt-3">
     </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-success">Update</button>
     <a href="{{ route('admin.products.listProduct') }}" class="btn btn-primary">Back</a>
 </form>
 @endsection
