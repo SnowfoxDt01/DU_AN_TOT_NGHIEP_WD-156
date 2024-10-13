@@ -51,13 +51,12 @@
 
                     <td>
                     <a href="{{ route('admin.products.editProduct', $value->id) }}" class="btn btn-warning">Sửa</a>
-                    <a href="{{ route('admin.products.detailProduct', $value->id) }}" class="btn btn-info">Chi tiết</a>
-                            
-                        <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Ban co muon xoa khong?')">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger" type="submit">Xóa</button>
-                        </form>
+                    <a href="{{ route('admin.products.detailProduct', $value->id) }}" class="btn btn-info">Chi tiết</a>      
+                    <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn chắc chắn muốn xóa?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger" type="submit">Xóa</button>
+                    </form>
                     </td>
                 </tr>
             @endforeach
