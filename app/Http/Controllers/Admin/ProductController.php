@@ -80,4 +80,13 @@ class ProductController extends Controller
         $product->delete(); 
         return redirect()->route('admin.products.listProduct');
     }
+    
+    public function detailProduct($id) {
+        // Lấy thông tin sản phẩm dựa trên ID
+        $product = Product::with('category')->findOrFail($id);
+        
+        // Trả về view chi tiết sản phẩm
+        return view('products.detail-product')->with('product', $product);
+    }
+    
 }

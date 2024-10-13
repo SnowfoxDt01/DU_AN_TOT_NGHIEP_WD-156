@@ -32,6 +32,9 @@ Route::group([
         Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('updateProduct');
          
         Route::delete('delete/{id}', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
+
+        Route::get('detail/{id}', [ProductController::class, 'detailProduct'])->name('detailProduct');
+
     });
 });
 
