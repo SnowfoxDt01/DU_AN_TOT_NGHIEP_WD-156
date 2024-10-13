@@ -26,6 +26,10 @@ Route::group([
         Route::get('add-product', [ProductController::class, 'addProduct'])->name('addProduct');
     
         Route::post('add-product', [ProductController::class, 'addPostProduct'])->name('addPostProduct');
+        
+        Route::get('edit/{id}', [ProductController::class, 'editProduct'])->name('editProduct');
+
+        Route::put('update/{id}', [ProductController::class, 'updateProduct'])->name('updateProduct');
          
         Route::delete('delete/{id}', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
     });

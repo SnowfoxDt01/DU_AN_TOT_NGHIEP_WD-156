@@ -41,9 +41,43 @@ class ProductController extends Controller
         return redirect()->route('admin.products.listProduct');
     }
 
+    public function editProduct($id){
+        $product = Product::findOrFail($id);
+        return view('products.edit-product')->with('product', $product);
+    }
+    
+    public function updateProduct(Request $req, $id){
+        $product = Product::findOrFail($id);
+    
+        $linkImage = $product->image;
+        if($req->hasFile('imageSP')){
+            $image = $req->file('imageSP');
+            $newName = time() . '.' . $image->getClientOriginalExtension();
+            $linkStorage = 'imageProducts/';
+            $image->move(public_path($linkStorage), $newName);
+    
+            $linkImage = $linkStorage . $newName;
+        }
+    
+        // Cập nhật dữ liệu sản phẩm
+        $data = [
+            'name' => $req->nameSP,
+            'description' => $req->descriptionSP,
+            'price' => $req->priceSP,
+            'image' => $linkImage,
+            'quantity' => $req->quantitySP,
+            'product_category_id' => $req->product_category_idSP
+        ];
+        
+        $product->update($data);
+    
+        return redirect()->route('admin.products.listProduct');
+    }
+    
+
     public function deleteProduct($id){
         $product = Product::findOrFail($id);
-        $product->delete();
+        $product->delete(); 
         return redirect()->route('admin.products.listProduct');
     }
 }

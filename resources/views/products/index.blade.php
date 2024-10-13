@@ -50,7 +50,7 @@
                     <td>{{ $value->category->name_category ?? 'No category' }}</td>
 
                     <td>
-                        <button class="btn btn-warning">Sửa</button>
+                    <a href="{{ route('admin.products.editProduct', $value->id) }}" class="btn btn-warning">Sửa</a>
                         <button class="btn btn-info">Chi tiết</button>
                             
                         <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Ban co muon xoa khong?')">
