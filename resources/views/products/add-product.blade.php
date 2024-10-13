@@ -6,7 +6,7 @@
             Tạo mới sản phẩm
         </h1>
         <ol class="breadcrumb">
-            <li><a href=""><i class="fa fa-dashboard"></i>Trang chủ</a></li> |
+            {{-- <li><a href=""><i class="fa fa-dashboard"></i>Trang chủ</a></li> | --}}
             <li class="active">Tạo mới sản phẩm</li>
         </ol>
     </section>
@@ -34,8 +34,13 @@
             <input type="text" name="quantitySP" class="form-control">
         </div>
         <div class="form-group">
-            <label for="status">Thể loại</label>
-            <input type="text" name="product_category_idSP" class="form-control">
+            <label for="product_category_id">Thể loại</label>
+            <select name="product_category_idSP" class="form-control">
+                <option value="">Chọn thể loại</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name_category }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group">

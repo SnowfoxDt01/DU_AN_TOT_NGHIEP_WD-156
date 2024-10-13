@@ -26,7 +26,11 @@ Route::group([
         Route::get('add-product', [ProductController::class, 'addProduct'])->name('addProduct');
     
         Route::post('add-product', [ProductController::class, 'addPostProduct'])->name('addPostProduct');
-    
+        // xóa mền
+        Route::delete('delete/{id}', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
+        // xóa cứng
+        Route::delete('hard-delete/{id}', [ProductController::class, 'hardDeleteProduct'])->name('hardDeleteProduct');
+
     });
 });
 
