@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label for="" class="form-label">Trạng thái</label>
                 <select name="status" id="" class="form-select">
-                    <option {{$user->status==1?'selected':''}} value="1">ĐANG Hoạt động</option>
+                    <option {{$user->status==1?'selected':''}} value="1">Đang hoạt động</option>
                     <option {{$user->status==0?'selected':''}} value="0">Dừng hoạt động</option>
                 </select>
             </div>
