@@ -62,15 +62,17 @@ class UserControler extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user= User::find($id);
+        return view('users.update',compact('user'));
     }
-
-    /**
+gff
+jff    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        User::where('id',$id)->update(['status'=> $request->status]);
+        return redirect()->route('users.index');
     }
 
     /**
