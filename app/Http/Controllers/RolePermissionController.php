@@ -21,10 +21,10 @@ class RolePermissionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'role_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
 
-        Role::create(['name' => $request->role_name]);
+        Role::create(['name' => $request->name]);
 
         return redirect()->back()->with('success', 'Role created successfully.');
     }

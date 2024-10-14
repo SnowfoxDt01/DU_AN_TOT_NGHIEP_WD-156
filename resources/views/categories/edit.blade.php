@@ -10,16 +10,22 @@
         </ol>
     </section>
     <hr>
-    <form action="{{ route('categories.update', $category->id) }}" method="POST" >
+    <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
             <label for="name">Tên danh mục</label>
-            <input type="text" name="name_category" value="{{$category->name_category}}" class="form-control">
+            <input type="text" name="name_category" value="{{ $category->name_category }}" class="form-control">
+            @error('name_category')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
         <div class="form-group">
             <label for="description">Mô tả</label>
-            <input type="text" name="description" value="{{$category->description}}" class="form-control">
+            <input type="text" name="description" value="{{ $category->description }}" class="form-control">
+            @error('description')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
         <div class="form-group">
             <label for="status">Status</label>
@@ -27,7 +33,7 @@
                 <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>Dừng hoạt động</option>
                 <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>Đang hoạt động</option>
             </select>
-        </div>        
+        </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Sửa</button>
         </div>

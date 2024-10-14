@@ -21,7 +21,7 @@
               </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('categories.index')}}" class="nav-link">
+            <a href="{{route('admin.categories.index')}}" class="nav-link">
                 <i class="nav-icon bi bi-list-task"></i>
                 <p>
                     Danh mục
@@ -36,6 +36,14 @@
                   </p>
               </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.orders.index') }}" class="nav-link">
+                <i class="bi bi-receipt"></i>
+                <p>
+                    Đơn hàng
+                </p>
+            </a>
+        </li>
           <form id="logout-form" action="" method="POST" style="display: none;">
               @csrf
           </form>
