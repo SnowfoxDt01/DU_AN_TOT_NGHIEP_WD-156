@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $query = Category::query();
-        
+
         if ($request->has('keyword') && !empty($request->keyword)) {
             $keyword = $request->input('keyword');
             $query->where('name_category', 'LIKE', "%{$keyword}%");
@@ -45,12 +45,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        DB::table('product_categories')->insert([
+        Category::create([
             'name_category' => $request->name_category,
             'description' => $request->description,
-            'status' => $request ->status
+            'status' => $request->status,
         ]);
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -75,8 +75,8 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $category -> update($request->all());
-        return redirect()->route('categories.index');
+        $category->update($request->all());
+        return redirect()->route('admin.categories.index');
     }
 
     /**

@@ -1,6 +1,16 @@
 @extends('layout.admin.master')
 @section('content')
-        <button class="btn btn-primary"><a href="{{route('users.create')}}" style="color: #fff;">Create</a></button>
+    <section class="content-header">
+        <h1>
+            Danh sách tài khoản
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i>Trang chủ</a></li> |
+            <li class="active">Danh sách tài khoản</li>
+        </ol>
+    </section>
+    <hr>
+    <button class="btn btn-primary"><a href="{{ route('users.create') }}" style="color: #fff;">Create</a></button>
     <table class="table table-striped">
         <thead>
             <tr>
