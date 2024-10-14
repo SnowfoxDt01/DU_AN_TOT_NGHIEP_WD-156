@@ -65,7 +65,6 @@ class ProductController extends Controller
         Product::create($data);
         return redirect()->route('admin.products.listProduct');
     }
-
     public function deleteProduct($id){
         $product = Product::findOrFail($id);
         $product->delete();
@@ -77,4 +76,46 @@ class ProductController extends Controller
         $product->forceDelete(); // Xóa cứng sản phẩm
         return redirect()->route('admin.products.listProduct');
     }
+    public function editProduct($id){
+        $product = Product::findOrFail($id);
+        return view('products.edit-product')->with('product', $product);
+    }
+    
+    public function updateProduct(Request $req, $id){
+        $product = Product::findOrFail($id);
+    
+        $linkImage = $product->image;
+        if($req->hasFile('imageSP')){
+            $image = $req->file('imageSP');
+            $newName = time() . '.' . $image->getClientOriginalExtension();
+            $linkStorage = 'imageProducts/';
+            $image->move(public_path($linkStorage), $newName);
+    
+            $linkImage = $linkStorage . $newName;
+        }
+    
+        // Cập nhật dữ liệu sản phẩm
+        $data = [
+            'name' => $req->nameSP,
+            'description' => $req->descriptionSP,
+            'price' => $req->priceSP,
+            'image' => $linkImage,
+            'quantity' => $req->quantitySP,
+            'product_category_id' => $req->product_category_idSP
+        ];
+        
+        $product->update($data);
+    
+        return redirect()->route('admin.products.listProduct');
+    }
+    
+
+    public function detailProduct($id) {
+        // Lấy thông tin sản phẩm dựa trên ID
+        $product = Product::with('category')->findOrFail($id);
+        
+        // Trả về view chi tiết sản phẩm
+        return view('products.detail-product')->with('product', $product);
+    }
+    
 }
