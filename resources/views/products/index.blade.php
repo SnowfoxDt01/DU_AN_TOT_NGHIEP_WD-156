@@ -84,24 +84,32 @@
             <td>{{ $value->category->name_category ?? 'No category' }}</td>
 
             <td>
-                <button class="btn btn-success"><a href="{{ route('admin.products.editProduct', $value->id) }}" class="bi bi-pencil-square"></a></button>
-                <button class="btn btn-info"><a href="{{ route('admin.products.detailProduct', $value->id) }}" class="fa-solid fa-circle-info"></a></button>
-                {{-- xóa mềm --}}
-                <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
-                </form>
-                {{-- xóa cứng --}}
-                <form action="{{ route('admin.products.hardDeleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa cứng không?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-skull-crossbones"></i></button>
-                </form>
-                
-                
-
+                <div style="display: flex; gap: 5px;">
+                    <a href="{{ route('admin.products.editProduct', $value->id) }}" class="btn btn-success">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a href="{{ route('admin.products.detailProduct', $value->id) }}" class="btn btn-info">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                    {{-- xóa mềm --}}
+                    <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
+                    {{-- xóa cứng --}}
+                    <form action="{{ route('admin.products.hardDeleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa cứng không?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-skull-crossbones"></i>
+                        </button>
+                    </form>
+                </div>
             </td>
+
         </tr>
         @endforeach
     </tbody>
