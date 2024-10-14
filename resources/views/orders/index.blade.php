@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{ $order->id }}</td>
                     <td>{{ $order->customer->name }}</td>
-                    <td>{{ $order->total_price }}</td>
+                    <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
                     <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>
                     <td>
                         <a href="{{ route('admin.orders.show', $order->id) }}"><button class="btn btn-primary">
