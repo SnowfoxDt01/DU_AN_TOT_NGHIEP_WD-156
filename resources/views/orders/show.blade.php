@@ -1,33 +1,48 @@
 @extends('layout.admin.master')
 
 @section('content')
-    <h1>Chi tiết đơn hàng #{{ $order->id }}</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Chi tiết đơn hàng #{{ $order->id }}</h1>
 
-    <p>Khách hàng: {{ $order->customer->name }}</p>
-    <p>Tổng tiền: {{ $order->total_price }}</p>
-    <p>Phương thức thanh toán:<td>{{ ucfirst(App\Enums\PaymentMethod::getDescription($order->payment_method)) }}</td>
-    </p>
-    <p>Trạng thái: {{ App\Enums\OrderStatus::getDescription($order->order_status) }}</p>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3>Thông tin khách hàng</h3>
+                <hr>
+                <p class="card-text"><strong>Khách hàng:</strong> {{ $order->customer->name }}</p>
+                <p class="card-text"><strong>Tổng tiền:</strong> {{ number_format($order->total_price, 0, ',', '.') }} VNĐ
+                </p>
+                <p class="card-text"><strong>Phương thức thanh toán:</strong>
+                    {{ ucfirst(App\Enums\PaymentMethod::getDescription($order->payment_method)) }}</p>
+                <p class="card-text"><strong>Trạng thái:</strong>
+                    {{ App\Enums\OrderStatus::getDescription($order->order_status) }}</p>
+            </div>
+        </div>
 
-    <h2>Sản phẩm trong đơn hàng</h2>
-    <ul>
-        @foreach($order->items as $item)
-            <li>{{ $item->product->name }} - Số lượng: {{ $item->quantity }} - Giá: {{ $item->price }}</li>
-        @endforeach
-    </ul>
+        <h2 class="mb-4">Sản phẩm trong đơn hàng</h2>
+        <ul class="list-group mb-4">
+            @foreach ($order->items as $item)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ $item->product->name }}</span>
+                    <span>Số lượng: {{ $item->quantity }}</span>
+                    <span>Giá: {{ number_format($item->price, 0, ',', '.') }} VNĐ</span>
+                </li>
+            @endforeach
+        </ul>
 
-    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <label for="order_status">Cập nhật trạng thái:</label>
-        <select name="order_status">
-            @foreach (App\Enums\OrderStatus::getValues() as $value)
-            <option value="{{ $value }}" {{ $order->order_status == $value ? 'selected' : '' }}>
-                {{ App\Enums\OrderStatus::getDescription($value) }}
-            </option>
-        @endforeach
-        </select>
-        <button type="submit">Cập nhật</button>
-    </form>
-    
+        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="mb-4">
+            @csrf
+            @method('PUT')
+            <div class="form-group">
+                <label for="order_status">Cập nhật trạng thái:</label>
+                <select name="order_status" id="order_status" class="form-control">
+                    @foreach (App\Enums\OrderStatus::getValues() as $value)
+                        <option value="{{ $value }}" {{ $order->order_status == $value ? 'selected' : '' }}>
+                            {{ App\Enums\OrderStatus::getDescription($value) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </form>
+    </div>
 @endsection
