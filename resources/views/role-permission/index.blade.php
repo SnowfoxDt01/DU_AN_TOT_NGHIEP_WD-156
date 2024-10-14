@@ -1,14 +1,25 @@
 @extends('layout.admin.master')
 @section('content')
     <div class="container">
-        <h1>Bảng phân quyền</h1>
+        <section class="content-header">
+            <h1>
+                Bảng phân quyền
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href=""><i class="fa fa-dashboard"></i>Trang chủ</a></li> |
+                <li class="active">Bảng phân quyền</li>
+            </ol>
+        </section>
         <hr>
         <h3>Tạo chức vụ</h3>
         <form action="{{ route('roles.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="role_name">Nhập tên chức vụ:</label>
-                <input type="text" name="role_name" id="role_name" class="form-control" required>
+                <input type="text" name="role_name" id="role_name" class="form-control">
+                @error('name')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
             <button type="submit" class="btn btn-success">Tạo</button>
 

@@ -10,15 +10,21 @@
         </ol>
     </section>
     <hr>
-    <form action="{{ route('categories.store') }}" method="POST">
+    <form action="{{ route('admin.categories.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="name">Tên danh mục</label>
+            <label for="name_category">Tên danh mục</label>
             <input type="text" name="name_category" class="form-control">
+            @error('name_category')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
         <div class="form-group">
             <label for="description">Mô tả</label>
             <input type="text" name="description" class="form-control">
+            @error('description')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
         <div class="form-group">
             <label for="status">Status</label>

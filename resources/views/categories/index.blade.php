@@ -2,20 +2,20 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Category
-            <small>Control panel</small>
+            Danh sách danh mục
         </h1>
         <ol class="breadcrumb">
-            {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
-            <li class="active">Categories</li>
+            <li><a href=""><i class="fa fa-dashboard"></i>Trang chủ</a></li> |
+            <li class="active">Danh sách danh mục</li>
         </ol>
     </section>
     <hr>
     <div>
-        <button class="btn btn-primary"><a href="{{ route('categories.create') }}" style="color: #fff;">Create</a></button>
+        <button class="btn btn-primary"><a href="{{ route('admin.categories.create') }}"
+                style="color: #fff;">Create</a></button>
 
         <div class="d-flex justify-content-end">
-            <form action="{{ route('categories.index') }}" method="GET" class="form-inline">
+            <form action="{{ route('admin.categories.index') }}" method="GET" class="form-inline">
                 <div class="input-group">
                     <div class="input-group mx-2">
                         <select name="status" class="form-control">
@@ -61,10 +61,10 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('categories.edit', $category->id) }}">
+                        <a href="{{ route('admin.categories.edit', $category->id) }}">
                             <button class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
                         </a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
