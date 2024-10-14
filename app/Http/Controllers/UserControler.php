@@ -63,8 +63,8 @@ class UserControler extends Controller
         $user= User::find($id);
         return view('users.update',compact('user'));
     }
-
-    /**
+gff
+jff    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
