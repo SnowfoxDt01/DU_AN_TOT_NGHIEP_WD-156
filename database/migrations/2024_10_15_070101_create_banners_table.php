@@ -16,9 +16,6 @@ return new class extends Migration
             $table->string('title'); // Tiêu đề của banner
             $table->string('image_url'); // Đường dẫn tới hình ảnh của banner
             $table->text('description')->nullable(); // Mô tả chi tiết của banner (có thể để trống)
-            $table->string('link_url')->nullable(); // Liên kết của banner khi click vào (có thể để trống)
-            $table->date('start_date')->nullable(); // Ngày bắt đầu hiển thị banner
-            $table->date('end_date')->nullable(); // Ngày kết thúc hiển thị banner
             $table->enum('status', ['active', 'inactive'])->default('inactive'); // Trạng thái của banner
             $table->integer('position')->default(0); // Vị trí hiển thị của banner
             $table->timestamps();

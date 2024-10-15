@@ -28,11 +28,10 @@ return new class extends Migration
             $table->string('color'); // Màu sắc
             $table->string('image_url'); // Đường dẫn hình ảnh
             $table->string('sku')->unique()->comment('mã sản phẩm biến thể'); // Mã sản phẩm
-            $table->string('brand'); // Thương hiệu
+            
             $table->enum('status', ['active', 'inactive'])->default('active')->comment('active: hoạt động, inactive: không hoạt động'); // Trạng thái
 
             $table->timestamps(); // Ngày tạo và cập nhật
-            
         });
     }
 
