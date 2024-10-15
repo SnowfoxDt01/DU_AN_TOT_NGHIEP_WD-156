@@ -1,6 +1,17 @@
 @extends('layout.admin.master')
 
 @section('content')
+    <section class="content-header">
+        <h1>
+            Chi tiết đơn hàng
+            <small>Trang chủ</small>
+        </h1>
+        <ol class="breadcrumb">
+            {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
+            <li class="active">Đơn hàng</li>
+        </ol>
+    </section>
+    <hr>
     <div class="container mt-5">
         <h1 class="mb-4">Chi tiết đơn hàng #{{ $order->id }}</h1>
 
@@ -23,6 +34,8 @@
             @foreach ($order->items as $item)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span>{{ $item->product->name }}</span>
+                    <img src="{{ asset('assets/public/imageProducts/') }}"
+                        style="width: 50px; height: auto; margin-right: 10px;">
                     <span>Số lượng: {{ $item->quantity }}</span>
                     <span>Giá: {{ number_format($item->price, 0, ',', '.') }} VNĐ</span>
                 </li>
