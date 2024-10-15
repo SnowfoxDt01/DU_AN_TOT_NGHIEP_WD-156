@@ -18,7 +18,7 @@
                 <th scope="col">Tên khách hàng</th>
                 <th scope="col">Tổng tiền</th>
                 <th scope="col">Trạng thái đơn hàng</th>
-                <th scope="col">Hành động</th>
+                <th scope="col">Chi tiết đơn hàng</th>
             </tr>
         </thead>
         <tbody>
