@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolePermissionController;
@@ -16,7 +17,8 @@ Auth::routes();
 
 Route::group([
     'prefix' => 'admin',
-    'as' => 'admin.'
+    'as' => 'admin.',
+    'middleware' => 'auth'
 ], function () {
 
     Route::group([
@@ -52,7 +54,11 @@ Route::group([
         Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete'); // Xóa đơn hàng cứng
     });
 
+    Route::resource('users', UserControler::class);
+
     Route::resource('categories', CategoryController::class);
+
+    Route::resource('customers', CustomerController::class);
 });
 
 
@@ -66,5 +72,4 @@ Route::middleware('role:super-admin')->group(function () {
 
     Route::post('/role-permission/assign-permission', [RolePermissionController::class, 'assignPermission'])->name('role-permission.assignPermission');
 
-    Route::resource('users', UserControler::class);
 });

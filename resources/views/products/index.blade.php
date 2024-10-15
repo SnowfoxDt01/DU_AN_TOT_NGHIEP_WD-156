@@ -23,7 +23,7 @@
 </section>
 <hr>
 
-<button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Create</a></button>
+<button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Thêm</a></button>
 <br>
 <br>
 <div class="text-end">
@@ -61,13 +61,13 @@
     <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Image</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Category</th>
-            <th scope="col">Action</th>
+            <th scope="col">Tên</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Hình ảnh</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Danh mục</th>
+            <th scope="col">Hành động</th>
         </tr>
     </thead>
     <tbody>
