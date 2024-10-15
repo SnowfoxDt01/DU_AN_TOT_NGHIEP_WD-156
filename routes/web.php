@@ -8,6 +8,7 @@ use App\Http\Controllers\UserControler;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
+use App\Http\Controllers\Admin\PaymentController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -52,6 +53,15 @@ Route::group([
         Route::put('update-status/{id}', [ShopOrderController::class, 'updateStatus'])->name('updateStatus'); // Cập nhật trạng thái đơn hàng
         Route::delete('delete/{id}', [ShopOrderController::class, 'deleteOrder'])->name('delete'); // Xóa đơn hàng mềm
         Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete'); // Xóa đơn hàng cứng
+    });
+    
+    Route::group([
+        'prefix' => 'payments',
+        'as' => 'payments.'
+    ], function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        Route::get('show/{id}', [PaymentController::class, 'show'])->name('show'); // Xem chi tiết
+        Route::get('export/{id}', [PaymentController::class, 'exportPDF'])->name('export'); // Xuất PDF
     });
 
     Route::resource('users', UserControler::class);

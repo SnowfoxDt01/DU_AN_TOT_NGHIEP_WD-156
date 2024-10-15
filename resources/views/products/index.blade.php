@@ -20,7 +20,21 @@
         {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
         <li class="active">Sản phẩm</li>
     </ol>
-</section>
+</section><br>
+<h4>Chú thích:</h4>
+<div>
+    <button class="btn btn-danger">
+    <i class="bi bi-trash3-fill"></i>
+</button><p>xóa mềm</p>
+</div>
+<div>
+    <button class="btn btn-danger">
+        <i class="fa-solid fa-skull-crossbones"></i>
+    </button>
+    <p>xóa cứng</p>
+</div>
+
+
 <hr>
 
 <button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Thêm</a></button>

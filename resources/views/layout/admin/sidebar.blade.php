@@ -14,7 +14,7 @@
             </li>
             <li class="nav">
                 <a href="{{ route('admin.customers.index') }}" class="nav-link">
-                    <i class="bi bi-person-vcard-fill"></i>
+                    <i class="nav-icon bi bi-person-vcard-fill"></i>
                     <p>
                         Quản lí khách hàng
                     </p>
@@ -23,7 +23,7 @@
             @role('super-admin')
             <li class="nav">
                 <a href="{{ route('role-permission.index') }}" class="nav-link">
-                    <i class="bi bi-grid-3x3"></i>
+                    <i class="nav-icon bi bi-grid-3x3"></i>
                     <p>
                         Bảng phân quyền
                     </p>
@@ -48,9 +48,17 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('admin.orders.index') }}" class="nav-link">
-                    <i class="bi bi-receipt"></i>
+                    <i class="nav-icon bi bi-receipt"></i>
                     <p>
                         Đơn hàng
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.payments.index') }}" class="nav-link">
+                    <i class="nav-icon fa-solid fa-wallet"></i>
+                    <p>
+                        Hóa Đơn
                     </p>
                 </a>
             </li>
