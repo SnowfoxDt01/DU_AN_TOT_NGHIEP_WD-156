@@ -22,7 +22,13 @@
         <ul class="list-group mb-4">
             @foreach ($order->items as $item)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
+<<<<<<< Updated upstream
                     <span>{{ $item->product->name }}</span>
+=======
+                    <span>{{ $item->product ? $item->product->name : 'Chưa có tên sản phẩm' }}</span>
+                    <img src="{{ asset('assets/public/imageProducts/') }}"
+                        style="width: 50px; height: auto; margin-right: 10px;">
+>>>>>>> Stashed changes
                     <span>Số lượng: {{ $item->quantity }}</span>
                     <span>Giá: {{ number_format($item->price, 0, ',', '.') }} VNĐ</span>
                 </li>
