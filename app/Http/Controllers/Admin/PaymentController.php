@@ -55,4 +55,14 @@ class PaymentController extends Controller
 
     }
 
+    // Phương thức tạo hóa đơn
+    public static function createPayment($data)
+    {
+        // Tạo hóa đơn thanh toán
+        Payment::create([
+            'order_id' => $data['order_id'],
+            'user_id' => $data['user_id'], // Dùng user_id từ ShopOrder
+        ]);
+    }
+
 }
