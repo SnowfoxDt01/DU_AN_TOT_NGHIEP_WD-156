@@ -46,7 +46,7 @@ class UserControler extends Controller
     {
         User::create($request->all());
 
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -71,7 +71,7 @@ class UserControler extends Controller
     public function update(Request $request, string $id)
     {
         User::where('id',$id)->update(['status'=> $request->status]);
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     /**

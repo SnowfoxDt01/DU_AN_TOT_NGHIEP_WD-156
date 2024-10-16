@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Trang chủ</title>
+    <title>VSNK SHOP | Trang chủ</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Font: Source Sans Pro -->
@@ -40,22 +40,21 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
-            height="60" width="60">
+        <img class="animation__shake" src="{{ asset('assets/dist/img/logo.webp') }}" alt="AdminLTELogo" height="80"
+            width="80" style="border-radius: 50%;">
     </div>
-
+    
     <!-- Navbar -->
     @include('layout.admin.navbar')
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="{{route('users.index')}}" class="brand-link">
-            <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+        <a href="{{ route('admin.users.index') }}" class="brand-link">
+            <img src="{{ asset('assets/dist/img/logo.webp') }}" alt="logo"
                 class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
+            <span class="brand-text font-weight-light">VSNK SHOP</span>
         </a>
-
         @include('layout.admin.sidebar')
     </aside>
 

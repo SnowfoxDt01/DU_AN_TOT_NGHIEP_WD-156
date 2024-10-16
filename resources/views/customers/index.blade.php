@@ -2,12 +2,12 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Đơn hàng
+            Danh sách khách hàng
             <small>Trang chủ</small>
         </h1>
         <ol class="breadcrumb">
             {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
-            <li class="active">Đơn hàng</li>
+            <li class="active">Khách hàng</li>
         </ol>
     </section>
     <hr>
@@ -16,20 +16,22 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Tên khách hàng</th>
-                <th scope="col">Tổng tiền</th>
-                <th scope="col">Trạng thái đơn hàng</th>
-                <th scope="col">Chi tiết đơn hàng</th>
+                <th scope="col">Email</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Chi tiết khách hàng</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($orders as $order)
+            @foreach ($customers as $customer)
                 <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->customer->name }}</td>
-                    <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
-                    <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>
+                    <td>{{ $customer->id }}</td>
+                    <td>{{ $customer->name }}</td>
+                    <td>{{$customer->email}}</td>
+                    <td>{{$customer->phone}}</td>
+                    <td>{{$customer->address}}</td>
                     <td>
-                        <a href="{{ route('admin.orders.show', $order->id) }}"><button class="btn btn-primary">
+                        <a href=""><button class="btn btn-primary">
                             <i class="fa-solid fa-circle-info"></i>    
                         </button></a>
                         
@@ -38,5 +40,5 @@
             @endforeach
         </tbody>
     </table>
-    {{ $orders->links() }}
+    {{ $customers->links() }}
 @endsection
