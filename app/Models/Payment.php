@@ -11,10 +11,8 @@ class Payment extends Model
     protected $table = 'payment';
     public $primaryKey = 'id';
     public $fillable = [
-        'date_payment',
         'user_id',
         'order_id',
-        'customer_id'
     ];
     protected $dates = ['date_payment'];
 
