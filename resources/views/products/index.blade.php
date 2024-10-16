@@ -20,20 +20,7 @@
         {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
         <li class="active">Sản phẩm</li>
     </ol>
-</section><br>
-<h4>Chú thích:</h4>
-<div>
-    <button class="btn btn-danger">
-    <i class="bi bi-trash3-fill"></i>
-</button><p>xóa mềm</p>
-</div>
-<div>
-    <button class="btn btn-danger">
-        <i class="fa-solid fa-skull-crossbones"></i>
-    </button>
-    <p>xóa cứng</p>
-</div>
-
+</section>
 
 <hr>
 
@@ -110,7 +97,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash3-fill"></i>
+                            <i class="fa-solid fa-eye-slash"></i>
                         </button>
                     </form>
                     {{-- xóa cứng --}}
@@ -118,7 +105,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
-                            <i class="fa-solid fa-skull-crossbones"></i>
+                            <i class="bi bi-trash3-fill"></i>
                         </button>
                     </form>
                 </div>
