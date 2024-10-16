@@ -16,6 +16,7 @@
         </div>
         <div class="card-footer">
             <a href="{{ route('admin.payments.export', $payment->id) }}" class="btn btn-primary">Xuất PDF</a>
+            <a href="{{ route('admin.payments.sendEmail', $payment->id) }}" class="btn btn-success">Gửi hóa đơn qua Email</a>
             <a href="{{ route('admin.payments.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
         </div>
     </div>

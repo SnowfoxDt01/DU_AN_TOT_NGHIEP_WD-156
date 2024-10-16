@@ -21,7 +21,11 @@
                     <td>{{ number_format($payment->order->total_price, 0, ',', '.') }} VNĐ</td>
                     <td>{{ $payment->created_at->format('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ route('admin.payments.show', $payment->id) }}">Xem Chi Tiết</a>
+                        <a href="{{ route('admin.payments.show', $payment->id) }}">
+                            <button class="btn btn-primary">
+                                <i class="fa-solid fa-circle-info"></i>    
+                            </button>
+                        </a>
                     </td>
                 </tr>
             @endforeach

@@ -62,6 +62,7 @@ Route::group([
         Route::get('/', [PaymentController::class, 'index'])->name('index');
         Route::get('show/{id}', [PaymentController::class, 'show'])->name('show'); // Xem chi tiết
         Route::get('export/{id}', [PaymentController::class, 'exportPDF'])->name('export'); // Xuất PDF
+        Route::get('send-email/{id}', [PaymentController::class, 'sendInvoiceByEmail'])->name('sendEmail'); // Xem chi tiết
     });
 
     Route::resource('users', UserControler::class);
