@@ -3,8 +3,8 @@
 @push('styles')
 <style>
     .img-prd {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
     }
 </style>
