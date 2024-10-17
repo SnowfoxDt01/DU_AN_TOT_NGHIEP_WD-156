@@ -58,6 +58,17 @@
             </a>
         </li>
 
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="#" id="orderNotificationDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-bell"></i>
+                <span class="badge badge-danger" id="orderNotificationCount" style="display: none;"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderNotificationDropdown">
+                <div id="newOrdersList"></div>
+            </div>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="#" role="button">
                 {{ Auth::user()->name }}

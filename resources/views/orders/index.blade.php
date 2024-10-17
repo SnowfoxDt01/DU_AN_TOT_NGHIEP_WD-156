@@ -11,6 +11,9 @@
         </ol>
     </section>
     <hr>
+    <div id="newOrderAlert" style="display: none;">
+        <p>Bạn có <span id="newOrderCount"></span> đơn hàng mới!</p>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -30,9 +33,9 @@
                     <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>
                     <td>
                         <a href="{{ route('admin.orders.show', $order->id) }}"><button class="btn btn-primary">
-                            <i class="fa-solid fa-circle-info"></i>    
-                        </button></a>
-                        
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button></a>
+
                     </td>
                 </tr>
             @endforeach
@@ -40,3 +43,38 @@
     </table>
     {{ $orders->links() }}
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        function checkNewOrders() {
+            $.ajax({
+                url: 'orders/check-new-orders',
+                method: 'GET',
+                success: function(response) {
+                    var newOrders = response.newOrders;
+                    var newOrdersList = $('#newOrdersList');
+                    
+                    if (newOrders > 0) {
+                        $('#orderNotificationCount').text(newOrders)
+                    .show();
+                        newOrdersList.empty();
+                        response.orders.forEach(function(order) {
+                            var orderItem = '<a class="dropdown-item" href="/admin/orders/' + order.id +
+                                '">' +
+                                'Đơn hàng #' + order.id + ' từ ' + order.customer.name + '</a>';
+                            newOrdersList.append(orderItem);
+                        });
+                    } else {
+                        $('#orderNotificationCount').hide();
+                        newOrdersList.html('<p class="dropdown-item">Không có đơn hàng mới</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        setInterval(checkNewOrders, 5000);
+    </script>
+@endpush

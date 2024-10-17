@@ -16,16 +16,6 @@ class ShopOrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    public function store(Request $request)
-    {
-        $order = ShopOrder::create($request->all());
-
-        // Phát sự kiện khi tạo đơn hàng mới
-        event(new NewOrderCreated($order));
-
-        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được tạo.');
-    }
-
     public function show($id)
     {
         $order = ShopOrder::with('items.product')->findOrFail($id);
@@ -56,5 +46,15 @@ class ShopOrderController extends Controller
         }
 
         return redirect()->route('admin.orders.index')->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
+    }
+
+    public function checkNewOrders()
+    {
+        $newOrders = ShopOrder::with('customer')->where('order_status', OrderStatus::CONFIRMING)->get();
+
+        return response()->json([
+            'newOrders' => $newOrders->count(),
+            'orders' => $newOrders
+        ]);
     }
 }
