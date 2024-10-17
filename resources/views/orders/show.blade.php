@@ -35,8 +35,8 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span>{{ $item->product->name }}</span>
                     <span>{{ $item->product ? $item->product->name : 'Chưa có tên sản phẩm' }}</span>
-                    <img src="{{ asset('assets/public/imageProducts/') }}"
-                        style="width: 50px; height: auto; margin-right: 10px;">
+                    <img src="{{ asset($item->product->image) }}"
+                        style="width: 100px; height: auto; margin-right: 10px;">
                     <span>Số lượng: {{ $item->quantity }}</span>
                     <span>Giá: {{ number_format($item->price, 0, ',', '.') }} VNĐ</span>
                 </li>
