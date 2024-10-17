@@ -57,6 +57,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Back</a>
         </form>
     </div>
 @endsection

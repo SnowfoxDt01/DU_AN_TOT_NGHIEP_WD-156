@@ -59,9 +59,9 @@
                     .show();
                         newOrdersList.empty();
                         response.orders.forEach(function(order) {
-                            var orderItem = '<a class="dropdown-item" href="/admin/orders/' + order.id +
+                            var orderItem = '<a class="dropdown-item" href="/admin/orders/detail/' + order.id +
                                 '">' +
-                                'Đơn hàng #' + order.id + ' từ ' + order.customer.name + '</a>';
+                                'Đơn hàng # ' + order.id + '  từ  ' + order.customer.name + '</a>';
                             newOrdersList.append(orderItem);
                         });
                     } else {

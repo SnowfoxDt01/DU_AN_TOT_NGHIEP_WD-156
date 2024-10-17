@@ -64,10 +64,10 @@
                 <a href="{{ route('admin.categories.edit', $category->id) }}">
                     <button class="btn btn-success" style="display: inline-block;"><i class="bi bi-pencil-square"></i></button>
                 </a>
-                <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display: inline-block;">
+                <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
+                    <button type="submit" class="btn btn-danger" ><i class="bi bi-trash3-fill"></i></button>
                 </form>
             </td>
 
