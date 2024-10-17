@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
+use App\Events\NewOrderCreated;
 use App\Models\ShopOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\PaymentController;
@@ -15,6 +16,16 @@ class ShopOrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
+    public function store(Request $request)
+    {
+        $order = ShopOrder::create($request->all());
+
+        // Phát sự kiện khi tạo đơn hàng mới
+        event(new NewOrderCreated($order));
+
+        return redirect()->route('orders.index')->with('success', 'Đơn hàng đã được tạo.');
+    }
+
     public function show($id)
     {
         $order = ShopOrder::with('items.product')->findOrFail($id);
@@ -24,11 +35,11 @@ class ShopOrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $order = ShopOrder::findOrFail($id);
-    
+
         $validated = $request->validate([
             'order_status' => ['required', 'in:' . implode(',', OrderStatus::getValues())],
         ]);
-    
+
         $order->update([
             'order_status' => $validated['order_status'],
         ]);
@@ -43,8 +54,7 @@ class ShopOrderController extends Controller
             }
             return redirect()->route('admin.payments.index')->with('success', 'Đơn hàng đã hoàn thành, chuyển sang trang hóa đơn.');
         }
-    
+
         return redirect()->route('admin.orders.index')->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
     }
-    
 }

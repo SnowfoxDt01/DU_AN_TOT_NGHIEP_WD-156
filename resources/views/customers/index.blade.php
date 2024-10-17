@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($customers as $customer)
+            @foreach ($customers as $customer)  
                 <tr>
                     <td>{{ $customer->id }}</td>
                     <td>{{ $customer->name }}</td>
