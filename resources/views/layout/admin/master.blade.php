@@ -43,7 +43,7 @@
         <img class="animation__shake" src="{{ asset('assets/dist/img/logo.webp') }}" alt="AdminLTELogo" height="80"
             width="80" style="border-radius: 50%;">
     </div>
-    
+
     <!-- Navbar -->
     @include('layout.admin.navbar')
     <!-- /.navbar -->

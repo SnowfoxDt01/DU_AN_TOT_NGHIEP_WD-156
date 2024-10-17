@@ -48,11 +48,17 @@ Route::group([
         'prefix' => 'orders',
         'as' => 'orders.'
     ], function () {
-        Route::get('/', [ShopOrderController::class, 'index'])->name('index'); // Hiển thị danh sách đơn hàng
-        Route::get('detail/{id}', [ShopOrderController::class, 'show'])->name('show'); // Hiển thị chi tiết đơn hàng
-        Route::put('update-status/{id}', [ShopOrderController::class, 'updateStatus'])->name('updateStatus'); // Cập nhật trạng thái đơn hàng
-        Route::delete('delete/{id}', [ShopOrderController::class, 'deleteOrder'])->name('delete'); // Xóa đơn hàng mềm
-        Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete'); // Xóa đơn hàng cứng
+        Route::get('/', [ShopOrderController::class, 'index'])->name('index');
+
+        Route::get('detail/{id}', [ShopOrderController::class, 'show'])->name('show');
+
+        Route::put('update-status/{id}', [ShopOrderController::class, 'updateStatus'])->name('updateStatus');
+
+        Route::delete('delete/{id}', [ShopOrderController::class, 'deleteOrder'])->name('delete');
+
+        Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete');
+
+        Route::get('check-new-orders', [ShopOrderController::class, 'checkNewOrders']);
     });
     
     Route::group([
