@@ -11,6 +11,7 @@ use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\VariantProductController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -94,6 +95,18 @@ Route::group([
         Route::put('/{color}', [ColorController::class, 'update'])->name('update'); // Cập nhật màu
         Route::delete('/{color}', [ColorController::class, 'destroy'])->name('destroy'); // Xóa màu
     });
+
+    Route::group([
+        'prefix' => 'variant-products',
+        'as' => 'variant-products.'
+    ], function () {
+
+        Route::get('/statistics', [VariantProductController::class, 'statistics'])->name('statistics');
+
+
+    });
+
+    Route::resource('variant-products', VariantProductController::class);
 
     Route::resource('sizes', SizeController::class);
 
