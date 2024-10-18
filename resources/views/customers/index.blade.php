@@ -19,22 +19,30 @@
                 <th scope="col">Email</th>
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Địa chỉ</th>
+                <th scope="col">Trạng thái</th>
                 <th scope="col">Chi tiết khách hàng</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($customers as $customer)  
+            @foreach ($customers as $customer)
                 <tr>
                     <td>{{ $customer->id }}</td>
                     <td>{{ $customer->name }}</td>
-                    <td>{{$customer->email}}</td>
-                    <td>{{$customer->phone}}</td>
-                    <td>{{$customer->address}}</td>
+                    <td>{{ $customer->email }}</td>
+                    <td>{{ $customer->phone }}</td>
+                    <td>{{ $customer->address }}</td>
                     <td>
-                        <a href=""><button class="btn btn-primary">
-                            <i class="fa-solid fa-circle-info"></i>    
-                        </button></a>
-                        
+                        @if ($customer->status == 0)
+                            <span class="badge bg-red">Dừng hoạt động</span>
+                        @elseif($customer->status == 1)
+                            <span class="badge bg-green">Đang hoạt động</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('admin.customers.show', $customer->id) }}"><button class="btn btn-primary">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button></a>
+
                     </td>
                 </tr>
             @endforeach

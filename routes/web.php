@@ -60,7 +60,7 @@ Route::group([
 
         Route::get('check-new-orders', [ShopOrderController::class, 'checkNewOrders']);
     });
-    
+
     Route::group([
         'prefix' => 'payments',
         'as' => 'payments.'
@@ -69,6 +69,15 @@ Route::group([
         Route::get('show/{id}', [PaymentController::class, 'show'])->name('show'); // Xem chi tiết
         Route::get('export/{id}', [PaymentController::class, 'exportPDF'])->name('export'); // Xuất PDF
         Route::get('send-email/{id}', [PaymentController::class, 'sendInvoiceByEmail'])->name('sendEmail'); // Xem chi tiết
+    });
+
+    Route::group([
+        'prefix' => 'customers',
+        'as' => 'customers.'
+    ], function () {
+
+        Route::get('/customer/{id}/history', [CustomerController::class, 'show'])->name('customers.show');
+
     });
 
     Route::resource('users', UserControler::class);
@@ -88,5 +97,4 @@ Route::middleware('role:super-admin')->group(function () {
     Route::post('/role-permission/assign-role', [RolePermissionController::class, 'assignRole'])->name('role-permission.assignRole');
 
     Route::post('/role-permission/assign-permission', [RolePermissionController::class, 'assignPermission'])->name('role-permission.assignPermission');
-
 });
