@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\SizeController;
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
 Auth::routes();
-
+// http://127.0.0.1:8000/
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
@@ -79,6 +81,21 @@ Route::group([
         Route::get('/customer/{id}/history', [CustomerController::class, 'show'])->name('customers.show');
 
     });
+
+    Route::group([
+        'prefix' => 'colors',
+        'as' => 'colors.'
+    ], function () {
+
+        Route::get('/', [ColorController::class, 'index'])->name('index'); // Danh sách màu sắc
+        Route::get('/create', [ColorController::class, 'create'])->name('create'); // Tạo màu mới
+        Route::post('/', [ColorController::class, 'store'])->name('store'); // Lưu màu mới
+        Route::get('/{color}/edit', [ColorController::class, 'edit'])->name('edit'); // Sửa màu
+        Route::put('/{color}', [ColorController::class, 'update'])->name('update'); // Cập nhật màu
+        Route::delete('/{color}', [ColorController::class, 'destroy'])->name('destroy'); // Xóa màu
+    });
+
+    Route::resource('sizes', SizeController::class);
 
     Route::resource('users', UserControler::class);
 

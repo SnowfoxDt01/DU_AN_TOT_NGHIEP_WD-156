@@ -46,6 +46,32 @@
                     </p>
                 </a>
             </li>
+            <!-- Quản lý sản phẩm biến thể -->
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon bi bi-gear-fill"></i>
+                    <p>
+                        Quản lý sản phẩm biến thể
+                        <i class="right bi bi-chevron-down"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <!-- Quản lý màu sắc -->
+                    <li class="nav-item">
+                        <a href="{{ route('admin.colors.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-paint-bucket"></i>
+                            <p>Quản lý màu sắc</p>
+                        </a>
+                    </li>
+                    <!-- Quản lý kích cỡ -->
+                    <li class="nav-item">
+                        <a href="{{ route('admin.sizes.index') }}" class="nav-link">
+                            <i class="nav-icon fa-solid fa-ruler"></i>
+                            <p>Quản lý kích cỡ</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('admin.orders.index') }}" class="nav-link">
                     <i class="nav-icon bi bi-receipt"></i>
