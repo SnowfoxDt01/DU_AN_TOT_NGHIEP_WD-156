@@ -11,6 +11,46 @@
         </ol>
     </section>
     <hr>
+    <form method="GET" action="{{ route('admin.customers.index') }}">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">Tên khách hàng:</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{ request('name') }}">
+                </div>
+            </div>
+    
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" id="email" class="form-control" value="{{ request('email') }}">
+                </div>
+            </div>
+    
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="phone">Số điện thoại:</label>
+                    <input type="text" name="phone" id="phone" class="form-control" value="{{ request('phone') }}">
+                </div>
+            </div>
+    
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="status">Trạng thái:</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="">-- Tất cả --</option>
+                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đang hoạt động</option>
+                        <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Dừng hoạt động</option>
+                    </select>
+                </div>
+            </div>
+    
+            <div>
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+    <hr>
     <table class="table table-striped">
         <thead>
             <tr>

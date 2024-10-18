@@ -12,12 +12,31 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $customers = Customer::paginate(5);
+    public function index(Request $request){
+    $query = Customer::query();
 
-        return view('customers.index', compact('customers'));
+    
+    if ($request->filled('name')) {
+        $query->where('name', 'like', '%' . $request->name . '%');
     }
+
+    if ($request->filled('email')) {
+        $query->where('email', 'like', '%' . $request->email . '%');
+    }
+
+    if ($request->filled('phone')) {
+        $query->where('phone', 'like', '%' . $request->phone . '%');
+    }
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $customers = $query->paginate(5);
+
+    return view('customers.index', compact('customers'));
+}
+
 
     /**
      * Show the form for creating a new resource.
