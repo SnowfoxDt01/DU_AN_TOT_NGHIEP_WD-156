@@ -30,7 +30,10 @@ class ShopOrder extends Model
 
     protected $casts = [
         'order_status' => OrderStatus::class,
-        'payment_method'=>PaymentMethod::class
+        'payment_method'=>PaymentMethod::class,
+        'date_order' => 'datetime',
+        'shipped_at' => 'datetime',
+        'delivered_at' => 'datetime',
     ];
 
     public function customer()

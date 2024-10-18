@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\ShopOrder;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -11,7 +12,7 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $customers = Customer::paginate(5);
 
@@ -39,7 +40,13 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        $orders = ShopOrder::where('customer_id', $id)
+            ->with('items.product')
+            ->orderBy('date_order', 'desc')
+            ->paginate(10);
+
+        return view('customers.show', compact('customer', 'orders'));
     }
 
     /**
