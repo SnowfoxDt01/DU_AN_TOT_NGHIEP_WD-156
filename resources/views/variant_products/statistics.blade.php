@@ -4,16 +4,16 @@
 <div class="container">
     <h1>Thống kê sản phẩm</h1>
     <div>
-        <p>Tổng số sản phẩm: {{ $totalProducts }}</p>
-        <p>Tổng số danh mục: {{ $totalCategories }}</p>
+        <p>Tổng số sản phẩm: {{ $totalVariantProducts }}</p>
+        <p>Tổng số danh mục: {{ $totalProducts }}</p>
         <p>Tổng số kích cỡ: {{ $totalSizes }}</p>
         <p>Tổng số màu sắc: {{ $totalColors }}</p>
     </div>
 
     <h2>Số lượng sản phẩm theo danh mục</h2>
     <ul>
-        @foreach($productsByCategory as $product)
-            <li>{{ $product->category->name_category }}: {{ $product->count }}</li>
+        @foreach($productsByProduct as $product)
+            <li>{{ $product->product->name }}: {{ $product->count }}</li>
         @endforeach
     </ul>
 

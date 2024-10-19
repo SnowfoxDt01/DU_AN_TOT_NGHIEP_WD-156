@@ -39,11 +39,11 @@
             </div>
 
             <div class="form-group">
-                <label for="category_id">Danh mục</label>
-                <select name="category_id" class="form-control" required>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ $category->id == $variantProduct->category_id ? 'selected' : '' }}>
-                            {{ $category->name_category }}
+                <label for="product_id">Sản phẩm chính</label>
+                <select name="product_id" class="form-control" required>
+                    @foreach($products as $product)
+                        <option value="{{ $product->id }}" {{ $product->id == $variantProduct->product_id ? 'selected' : '' }}>
+                            {{ $product->name }}
                         </option>
                     @endforeach
                 </select>

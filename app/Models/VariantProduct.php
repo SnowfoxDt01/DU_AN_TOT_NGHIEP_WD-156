@@ -15,7 +15,7 @@ class VariantProduct extends Model
         'description', 
         'price', 
         'quantity', 
-        'category_id', 
+        'product_id', 
         'size_id', 
         'color_id', 
         'image_url', 
@@ -24,9 +24,9 @@ class VariantProduct extends Model
         'updated_at'
     ];
 
-    public function category()
+    public function product()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function size()

@@ -40,10 +40,10 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select name="category_id" class="form-control">
-                        <option value="">Chọn danh mục</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name_category }}</option>
+                    <select name="product_id" class="form-control">
+                        <option value="">Chọn sản phẩm chính</option>
+                        @foreach($products as $product)
+                            <option value="{{ $product->id }}" {{ request('product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -61,7 +61,7 @@
                     <th>Mô tả</th>
                     <th>Giá</th>
                     <th>Số lượng</th>
-                    <th>Danh mục</th>
+                    <th>Sản phẩm chính</th>
                     <th>Hình ảnh</th>
                     <th>Kích cỡ</th>
                     <th>Màu sắc</th>
@@ -75,9 +75,9 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->description }}</td>
-                        <td>{{ $product->price }}</td>
+                        <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>
                         <td>{{ $product->quantity }}</td>
-                        <td>{{ $product->category->name_category }}</td>
+                        <td>{{ $product->product->name }}</td>
                         <td>
                             <img class="img-prd" src="{{ asset($product->image_url) }}" alt="">
                         </td>
@@ -85,12 +85,12 @@
                         <td>{{ $product->color->name }}</td>
                         <td>{{ $product->status }}</td>
                         <td>
-                            <a href="{{ route('admin.variant-products.show', $product->id) }}" class="btn btn-info">Chi tiết</a>
-                            <a href="{{ route('admin.variant-products.edit', $product->id) }}" class="btn btn-warning">Sửa</a>
+                            <a href="{{ route('admin.variant-products.show', $product->id) }}" class="btn btn-info"><i class="fa-solid fa-circle-info"></i></a>
+                            <a href="{{ route('admin.variant-products.edit', $product->id) }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
                             <form action="{{ route('admin.variant-products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('bạn có chắc muốn xóa không?') ">Xóa</button>
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('bạn có chắc muốn xóa không?') "><i class="bi bi-trash3-fill"></i></button>
                             </form>
                         </td>                        
                     </tr>

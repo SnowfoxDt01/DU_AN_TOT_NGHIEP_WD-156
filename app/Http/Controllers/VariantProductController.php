@@ -7,6 +7,7 @@ use App\Models\VariantProduct;
 use App\Models\Category;
 use App\Models\Size;
 use App\Models\Color;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +16,7 @@ class VariantProductController extends Controller
 {
     public function index(Request $request){
         
-        $query = VariantProduct::with('category', 'size', 'color');
+        $query = VariantProduct::with('product', 'size', 'color');
 
         // Lọc theo tên
         if ($request->filled('name')) {
@@ -32,26 +33,26 @@ class VariantProductController extends Controller
             $query->where('size_id', $request->size_id);
         }
     
-        // Lọc theo danh mục
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
+        // Lọc theo sản phẩm chính
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
         }
     
         $variantProducts = $query->get();
     
-        $categories = Category::all();
+        $products = Product::all();
         $sizes = Size::all();
         $colors = Color::all();
     
-        return view('variant_products.index', compact('variantProducts', 'categories', 'sizes', 'colors'));
+        return view('variant_products.index', compact('variantProducts', 'products', 'sizes', 'colors'));
     }
 
     public function create()
     {
-        $categories = Category::all();
+        $products = Product::all();
         $sizes = Size::all();
         $colors = Color::all();
-        return view('variant_products.create', compact('categories', 'sizes', 'colors'));
+        return view('variant_products.create', compact('products', 'sizes', 'colors'));
     }
 
     public function store(Request $request)
@@ -70,7 +71,7 @@ class VariantProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'category_id' => $request->category_id,
+            'product_id' => $request->product_id,
             'size_id' => $request->size_id,
             'color_id' => $request->color_id,
             'image_url' => $linkImage,
@@ -85,10 +86,10 @@ class VariantProductController extends Controller
     public function edit($id)
     {
         $variantProduct = VariantProduct::findOrFail($id);
-        $categories = Category::all();
+        $products = Product::all();
         $sizes = Size::all();
         $colors = Color::all();
-        return view('variant_products.edit', compact('variantProduct', 'categories', 'sizes', 'colors'));
+        return view('variant_products.edit', compact('variantProduct', 'products', 'sizes', 'colors'));
     }
 
     public function update(Request $request, $id)
@@ -110,7 +111,7 @@ class VariantProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'category_id' => $request->category_id,
+            'product_id' => $request->product_id,
             'size_id' => $request->size_id,
             'color_id' => $request->color_id,
             'image_url' => $linkImage,
@@ -130,20 +131,20 @@ class VariantProductController extends Controller
     }
     public function show($id)
     {
-        $variantProduct = VariantProduct::with('category', 'size', 'color')->findOrFail($id);
+        $variantProduct = VariantProduct::with('product', 'size', 'color')->findOrFail($id);
         return view('variant_products.show', compact('variantProduct'));
     }
 
     public function statistics(){
-        $totalProducts = VariantProduct::count(); // Tổng số sản phẩm
-        $totalCategories = Category::count(); // Tổng số danh mục
+        $totalVariantProducts = VariantProduct::count(); // Tổng số sản phẩm biến thể
+        $totalProducts = Category::count(); // Tổng số sản phẩm chính
         $totalSizes = Size::count(); // Tổng số kích cỡ
         $totalColors = Color::count(); // Tổng số màu sắc
 
         // Tính số lượng sản phẩm theo từng danh mục
-        $productsByCategory = VariantProduct::select('category_id', DB::raw('count(*) as count'))
-            ->groupBy('category_id')
-            ->with('category')
+        $productsByProduct = VariantProduct::select('product_id', DB::raw('count(*) as count'))
+            ->groupBy('product_id')
+            ->with('product')
             ->get();
 
         // Tính số lượng sản phẩm theo từng màu
@@ -158,7 +159,7 @@ class VariantProductController extends Controller
             ->with('size')
             ->get();
 
-        return view('variant_products.statistics', compact('totalProducts', 'totalCategories', 'totalSizes', 'totalColors', 'productsByCategory', 'productsByColor', 'productsBySize'));
+        return view('variant_products.statistics', compact('totalVariantProducts', 'totalProducts', 'totalSizes', 'totalColors', 'productsByProduct', 'productsByColor', 'productsBySize'));
     }
 
 

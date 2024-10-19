@@ -27,10 +27,10 @@
             </div>
 
             <div class="form-group">
-                <label for="category_id">Danh mục</label>
-                <select name="category_id" id="category_id" class="form-control" required>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name_category }}</option>
+                <label for="product_id">Sản phẩm chính</label>
+                <select name="product_id" id="product_id" class="form-control" required>
+                    @foreach($products as $product)
+                        <option value="{{ $product->id }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
             </div>
