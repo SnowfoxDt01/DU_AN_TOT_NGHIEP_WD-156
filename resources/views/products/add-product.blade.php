@@ -13,40 +13,145 @@
     <hr>
     <form action="{{ route('admin.products.addPostProduct') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <h3>Thông tin sản phẩm chính</h3>
         <div class="form-group">
             <label for="nameSP">Tên sản phẩm</label>
-            <input type="text" name="nameSP" class="form-control">
+            <input type="text" class="form-control" name="nameSP" placeholder="Tên sản phẩm" required>
         </div>
         <div class="form-group">
-            <label for="descriptionSP">Mô tả sản phẩm</label>
-            <input type="text" name="descriptionSP" class="form-control">
+            <label for="descriptionSP">Mô tả</label>
+            <textarea name="descriptionSP" class="form-control" placeholder="Mô tả sản phẩm"></textarea>
         </div>
         <div class="form-group">
             <label for="priceSP">Giá</label>
-            <input type="text" name="priceSP" class="form-control">
+            <input type="number" class="form-control" name="priceSP" placeholder="Giá sản phẩm" required>
         </div>
         <div class="form-group">
-            <label for="imageSP">Ảnh</label>
-            <input type="file" name="imageSP" class="form-control">
+            <label for="imageSP">Ảnh sản phẩm</label>
+            <input type="file" class="form-control" name="imageSP" placeholder="Hình ảnh sản phẩm" required>
         </div>
         <div class="form-group">
             <label for="quantitySP">Số lượng</label>
-            <input type="text" name="quantitySP" class="form-control">
+            <input type="number" class="form-control" name="quantitySP" placeholder="Số lượng sản phẩm" required>
         </div>
         <div class="form-group">
-            <label for="product_category_id">Thể loại</label>
-            <select name="product_category_idSP" class="form-control">
-                <option value="">Chọn thể loại</option>
-                @foreach ($categories as $category)
+            <label for="quantitySP">Danh mục</label>
+            <select name="product_category_idSP"  class="form-control">
+                @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name_category }}</option>
                 @endforeach
             </select>
         </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Thêm</button>
+        
+        <h3>Thông tin sản phẩm biến thể</h3>
+        <div id="variant-container">
+            <div class="variant">
+                <div class="form-group">
+                    <label for="nameSP">Tên sản phẩm biến thể</label>
+                    <input type="text" class="form-control" name="variant_name[]" placeholder="Tên biến thể" required>
+                </div>
+                <div class="form-group">
+                    <label for="descriptionSP">Mô tả</label>
+                    <textarea name="variant_description[]" class="form-control" placeholder="Mô tả biến thể"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="priceSP">Giá</label>
+                    <input type="number" class="form-control" name="variant_price[]" placeholder="Giá biến thể" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantitySP">Số lượng</label>
+                    <input type="number" class="form-control" name="variant_quantity[]" placeholder="Số lượng biến thể" required>
+                </div>
+                <div class="form-group">
+                    <label for="variant_size[]">Kích cỡ</label>
+                    <select name="variant_size[]" class="form-control">
+                        @foreach($sizes as $size)
+                            <option value="{{ $size->id }}">{{ $size->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group" >
+                    <label for="variant_color[]">Màu</label>
+                    <select name="variant_color[]" class="form-control">
+                        @foreach($colors as $color)
+                            <option value="{{ $color->id }}">{{ $color->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="variant_image">Ảnh biến thể</label>
+                    <input type="file" class="form-control" name="variant_image[]" class="form-control">
+                </div>
+                <div class="form-group" >
+                    <label for="variant_status[]">Trạng thái</label>
+                    <select name="variant_status[]" class="form-control">
+                        <option value="active">Hoạt động</option>
+                        <option value="inactive">Không hoạt động</option>
+                    </select>
+                </div>  
+                <hr>                            
+            </div>
         </div>
+        <button type="button" id="add-variant" class="btn btn-primary">Thêm biến thể</button>
+        
+        <button type="submit" class="btn btn-success">Tạo sản phẩm</button>
     </form>
+    
+    <script>
+        document.getElementById('add-variant').addEventListener('click', function() {
+            var container = document.getElementById('variant-container');
+            var newVariant = document.createElement('div');
+            newVariant.classList.add('variant');
+            newVariant.innerHTML = `
+                <div class="form-group">
+                    <label for="nameSP">Tên sản phẩm biến thể</label>
+                    <input type="text" class="form-control" name="variant_name[]" placeholder="Tên biến thể" required>
+                </div>
+                <div class="form-group">
+                    <label for="descriptionSP">Mô tả</label>
+                    <textarea name="variant_description[]" class="form-control" placeholder="Mô tả biến thể"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="priceSP">Giá</label>
+                    <input type="number" class="form-control" name="variant_price[]" placeholder="Giá biến thể" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantitySP">Số lượng</label>
+                    <input type="number" class="form-control" name="variant_quantity[]" placeholder="Số lượng biến thể" required>
+                </div>
+                <div class="form-group">
+                    <label for="variant_size[]">Kích cỡ</label>
+                    <select name="variant_size[]" class="form-control">
+                        @foreach($sizes as $size)
+                            <option value="{{ $size->id }}">{{ $size->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group" >
+                    <label for="variant_color[]">Màu</label>
+                    <select name="variant_color[]" class="form-control">
+                        @foreach($colors as $color)
+                            <option value="{{ $color->id }}">{{ $color->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="variant_image">Ảnh biến thể</label>
+                    <input type="file" class="form-control" name="variant_image[]" class="form-control">
+                </div>
+                <div class="form-group" >
+                    <label for="variant_status[]">Trạng thái</label>
+                    <select name="variant_status[]" class="form-control">
+                        <option value="active">Hoạt động</option>
+                        <option value="inactive">Không hoạt động</option>
+                    </select>
+                </div> 
+                <hr>
+            `;
+            container.appendChild(newVariant);
+        });
+    </script>
+    
 </div>
     
 @endsection

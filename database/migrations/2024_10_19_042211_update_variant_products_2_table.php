@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::table('variant_products', function (Blueprint $table) {
             // Thêm cột product_id và xóa cột category_id
-            // $table->unsignedInteger('product_id')->after('id'); // Thêm cột product_id
+            $table->unsignedInteger('product_id')->after('id'); // Thêm cột product_id
             
-            // // Xóa cột category_id và khóa ngoại của nó
-            // $table->dropForeign(['category_id']);
-            // $table->dropColumn('category_id');
+            // Xóa cột category_id và khóa ngoại của nó
+            $table->dropForeign(['category_id']);
+            $table->dropColumn('category_id');
             
             // Thêm khóa ngoại cho product_id
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

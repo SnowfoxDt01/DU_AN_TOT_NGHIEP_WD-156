@@ -13,8 +13,6 @@
     <div class="container">
         <h1>Danh sách sản phẩm biến thể</h1>
         
-
-        <a href="{{ route('admin.variant-products.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
         <hr>
         <a href="{{ route('admin.variant-products.statistics') }}" class="btn btn-primary mb-3">Thống kê sản phẩm</a>
         <hr>
@@ -83,7 +81,13 @@
                         </td>
                         <td>{{ $product->size->name }}</td>
                         <td>{{ $product->color->name }}</td>
-                        <td>{{ $product->status }}</td>
+                        <td>
+                            @if ($product->status == 'active')
+                                <span class="badge bg-success">Hoạt động</span>
+                            @else
+                                <span class="badge bg-danger">Không hoạt động</span>
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('admin.variant-products.show', $product->id) }}" class="btn btn-info"><i class="fa-solid fa-circle-info"></i></a>
                             <a href="{{ route('admin.variant-products.edit', $product->id) }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>

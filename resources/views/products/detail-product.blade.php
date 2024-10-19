@@ -22,7 +22,7 @@
                     style="width: 100%; height: auto; object-fit: cover;border: 2px solid black;">
             </div>
             <div class="col-md-6">
-                <h4>Price: {{ number_format($product->price, 0, ',', '.') }} VND</h4>
+                <h4>Price: {{ number_format($product->base_price, 0, ',', '.') }} VND</h4>
                 <p><strong>Description:</strong> {{ $product->description }}</p>
                 <p><strong>Quantity:</strong> {{ $product->quantity }}</p>
                 <p><strong>Category:</strong> {{ $product->category->name_category ?? 'No category' }}</p>

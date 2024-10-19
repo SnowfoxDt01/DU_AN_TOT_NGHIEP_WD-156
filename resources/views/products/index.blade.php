@@ -77,7 +77,7 @@
             <td>{{ $value->id }}</td>
             <td>{{ $value->name }}</td>
             <td>{{ $value->description }}</td>
-            <td>{{ $value->price }}</td>
+            <td>{{ number_format($value->base_price, 0, ',', '.') }} VND</td>
             <td>
                 <img class="img-prd" src="{{ asset($value->image) }}" alt="">
             </td>
