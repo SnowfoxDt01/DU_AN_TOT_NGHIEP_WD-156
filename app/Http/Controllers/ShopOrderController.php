@@ -10,9 +10,16 @@ use App\Http\Controllers\Admin\PaymentController;
 
 class ShopOrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = ShopOrder::with('customer')->paginate(5);
+        $query = ShopOrder::with('customer');
+
+        if ($request->has('order_status') && $request->order_status != '') {
+            $query->where('order_status', $request->order_status);
+        }
+
+        $orders = $query->paginate(5);
+
         return view('orders.index', compact('orders'));
     }
 
