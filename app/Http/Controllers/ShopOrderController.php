@@ -14,12 +14,10 @@ class ShopOrderController extends Controller
 {
     $query = ShopOrder::with('customer');
 
-    // Lọc theo trạng thái đơn hàng nếu có
     if ($request->has('order_status') && $request->order_status != '') {
         $query->where('order_status', $request->order_status);
     }
 
-    // Lọc theo khoảng thời gian (Từ ngày - Đến ngày)
     if ($request->has('start_date') && $request->start_date != '') {
         $query->whereDate('created_at', '>=', $request->start_date);
     }
@@ -28,11 +26,29 @@ class ShopOrderController extends Controller
         $query->whereDate('created_at', '<=', $request->end_date);
     }
 
-    // Paginate kết quả
+    if ($request->has('phone') && $request->phone != '') {
+        $query->whereHas('customer', function ($q) use ($request) {
+            $q->where('phone', 'like', '%' . $request->phone . '%');
+        });
+    }
+
+    if ($request->has('email') && $request->email != '') {
+        $query->whereHas('customer', function ($q) use ($request) {
+            $q->where('email', 'like', '%' . $request->email . '%');
+        });
+    }
+
+    if ($request->has('customer_name') && $request->customer_name != '') {
+        $query->whereHas('customer', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->customer_name . '%');
+        });
+    }
+
     $orders = $query->paginate(5);
 
     return view('orders.index', compact('orders'));
 }
+
 
 
     public function show($id)
@@ -53,12 +69,11 @@ class ShopOrderController extends Controller
             'order_status' => $validated['order_status'],
         ]);
 
-        // Kiểm tra nếu đơn hàng đã hoàn thành, thì tạo bản ghi thanh toán
         if ($validated['order_status'] == OrderStatus::COMPLETED) {
             if (!$order->payment) {
                 PaymentController::createPayment([
                     'order_id' => $order->id,
-                    'user_id' => $order->user_id, // Use user_id from ShopOrder
+                    'user_id' => $order->user_id,
                 ]);
             }
             return redirect()->route('admin.payments.index')->with('success', 'Đơn hàng đã hoàn thành, chuyển sang trang hóa đơn.');

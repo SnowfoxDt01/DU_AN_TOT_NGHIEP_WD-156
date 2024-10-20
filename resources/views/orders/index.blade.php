@@ -28,6 +28,21 @@
     </div>
 
     <div class="form-group">
+        <label for="customer_name">Lọc theo tên khách hàng:</label>
+        <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ request('customer_name') }}">
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Lọc theo số điện thoại:</label>
+        <input type="text" name="phone" id="phone" class="form-control" value="{{ request('phone') }}">
+    </div>
+
+    <div class="form-group">
+        <label for="email">Lọc theo email:</label>
+        <input type="email" name="email" id="email" class="form-control" value="{{ request('email') }}">
+    </div>
+
+    <div class="form-group">
         <label for="start_date">Từ ngày:</label>
         <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
     </div>
@@ -40,16 +55,15 @@
     <button type="submit" class="btn btn-primary">Lọc</button>
     <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Reset</a>
 </form>
-
-
 <hr>
 <table class="table table-striped">
     <thead>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Tên khách hàng</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Email</th>
             <th scope="col">Tổng tiền</th>
-            <th scope="col">Thời gian đặt hàng</th> <!-- Thêm cột thời gian -->
             <th scope="col">Trạng thái đơn hàng</th>
             <th scope="col">Chi tiết đơn hàng</th>
         </tr>
@@ -59,20 +73,21 @@
         <tr>
             <td>{{ $order->id }}</td>
             <td>{{ $order->customer->name }}</td>
+            <td>{{ $order->customer->phone }}</td> 
+            <td>{{ $order->customer->email }}</td> 
             <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
-            <td>{{ $order->created_at->format('d/m/Y H:i') }}</td> <!-- Hiển thị thời gian -->
             <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>
             <td>
-                <a href="{{ route('admin.orders.show', $order->id) }}"><button class="btn btn-primary">
+                <a href="{{ route('admin.orders.show', $order->id) }}">
+                    <button class="btn btn-primary">
                         <i class="fa-solid fa-circle-info"></i>
-                    </button></a>
-
+                    </button>
+                </a>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
-
 {{ $orders->links() }}
 @endsection
 
