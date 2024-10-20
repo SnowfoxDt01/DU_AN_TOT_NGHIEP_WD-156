@@ -35,6 +35,7 @@
             <th scope="col">ID</th>
             <th scope="col">Tên khách hàng</th>
             <th scope="col">Tổng tiền</th>
+            <th scope="col">Thời gian đặt hàng</th> <!-- Thêm cột thời gian -->
             <th scope="col">Trạng thái đơn hàng</th>
             <th scope="col">Chi tiết đơn hàng</th>
         </tr>
@@ -45,6 +46,7 @@
             <td>{{ $order->id }}</td>
             <td>{{ $order->customer->name }}</td>
             <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
+            <td>{{ $order->created_at->format('d/m/Y H:i') }}</td> <!-- Hiển thị thời gian -->
             <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>
             <td>
                 <a href="{{ route('admin.orders.show', $order->id) }}"><button class="btn btn-primary">
@@ -56,6 +58,7 @@
         @endforeach
     </tbody>
 </table>
+
 {{ $orders->links() }}
 @endsection
 
