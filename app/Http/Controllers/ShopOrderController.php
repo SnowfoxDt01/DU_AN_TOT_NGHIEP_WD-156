@@ -11,17 +11,29 @@ use App\Http\Controllers\Admin\PaymentController;
 class ShopOrderController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = ShopOrder::with('customer');
+{
+    $query = ShopOrder::with('customer');
 
-        if ($request->has('order_status') && $request->order_status != '') {
-            $query->where('order_status', $request->order_status);
-        }
-
-        $orders = $query->paginate(5);
-
-        return view('orders.index', compact('orders'));
+    // Lọc theo trạng thái đơn hàng nếu có
+    if ($request->has('order_status') && $request->order_status != '') {
+        $query->where('order_status', $request->order_status);
     }
+
+    // Lọc theo khoảng thời gian (Từ ngày - Đến ngày)
+    if ($request->has('start_date') && $request->start_date != '') {
+        $query->whereDate('created_at', '>=', $request->start_date);
+    }
+
+    if ($request->has('end_date') && $request->end_date != '') {
+        $query->whereDate('created_at', '<=', $request->end_date);
+    }
+
+    // Paginate kết quả
+    $orders = $query->paginate(5);
+
+    return view('orders.index', compact('orders'));
+}
+
 
     public function show($id)
     {

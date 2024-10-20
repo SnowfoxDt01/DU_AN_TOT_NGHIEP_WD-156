@@ -26,8 +26,22 @@
             @endforeach
         </select>
     </div>
+
+    <div class="form-group">
+        <label for="start_date">Từ ngày:</label>
+        <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
+    </div>
+
+    <div class="form-group">
+        <label for="end_date">Đến ngày:</label>
+        <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
+    </div>
+
     <button type="submit" class="btn btn-primary">Lọc</button>
+    <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Reset</a>
 </form>
+
+
 <hr>
 <table class="table table-striped">
     <thead>
