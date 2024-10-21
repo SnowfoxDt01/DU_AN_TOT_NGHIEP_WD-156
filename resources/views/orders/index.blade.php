@@ -15,45 +15,51 @@
     <p>Bạn có <span id="newOrderCount"></span> đơn hàng mới!</p>
 </div>
 <form action="{{ route('admin.orders.index') }}" method="GET">
-    <div class="form-group">
-        <label for="order_status">Lọc theo trạng thái đơn hàng:</label>
-        <select name="order_status" id="order_status" class="form-control">
-            <option value="">Tất cả</option>
-            @foreach (App\Enums\OrderStatus::getValues() as $status)
-            <option value="{{ $status }}" {{ request('order_status') == $status ? 'selected' : '' }}>
-                {{ App\Enums\OrderStatus::getDescription($status) }}
-            </option>
-            @endforeach
-        </select>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label for="order_status">Trạng thái đơn hàng:</label>
+            <select name="order_status" id="order_status" class="form-control">
+                <option value="">Tất cả</option>
+                @foreach (App\Enums\OrderStatus::getValues() as $status)
+                <option value="{{ $status }}" {{ request('order_status') == $status ? 'selected' : '' }}>
+                    {{ App\Enums\OrderStatus::getDescription($status) }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="customer_name">Tên khách hàng:</label>
+            <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ request('customer_name') }}">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" name="phone" id="phone" class="form-control" value="{{ request('phone') }}">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ request('email') }}">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="start_date">Từ ngày:</label>
+            <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="end_date">Đến ngày:</label>
+            <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="customer_name">Lọc theo tên khách hàng:</label>
-        <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ request('customer_name') }}">
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-primary">Lọc</button>
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Reset</a>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="phone">Lọc theo số điện thoại:</label>
-        <input type="text" name="phone" id="phone" class="form-control" value="{{ request('phone') }}">
-    </div>
-
-    <div class="form-group">
-        <label for="email">Lọc theo email:</label>
-        <input type="email" name="email" id="email" class="form-control" value="{{ request('email') }}">
-    </div>
-
-    <div class="form-group">
-        <label for="start_date">Từ ngày:</label>
-        <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
-    </div>
-
-    <div class="form-group">
-        <label for="end_date">Đến ngày:</label>
-        <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Lọc</button>
-    <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Reset</a>
 </form>
 <hr>
 <table class="table table-striped">
