@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolePermissionController;
@@ -7,16 +8,21 @@ use App\Http\Controllers\UserControler;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\VariantProductController;
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
 Auth::routes();
-
+// http://127.0.0.1:8000/
 Route::group([
     'prefix' => 'admin',
-    'as' => 'admin.'
+    'as' => 'admin.',
+    'middleware' => 'auth'
 ], function () {
 
     Route::group([
@@ -45,14 +51,69 @@ Route::group([
         'prefix' => 'orders',
         'as' => 'orders.'
     ], function () {
-        Route::get('/', [ShopOrderController::class, 'index'])->name('index'); // Hiển thị danh sách đơn hàng
-        Route::get('detail/{id}', [ShopOrderController::class, 'show'])->name('show'); // Hiển thị chi tiết đơn hàng
-        Route::put('update-status/{id}', [ShopOrderController::class, 'updateStatus'])->name('updateStatus'); // Cập nhật trạng thái đơn hàng
-        Route::delete('delete/{id}', [ShopOrderController::class, 'deleteOrder'])->name('delete'); // Xóa đơn hàng mềm
-        Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete'); // Xóa đơn hàng cứng
+        Route::get('/', [ShopOrderController::class, 'index'])->name('index');
+
+        Route::get('detail/{id}', [ShopOrderController::class, 'show'])->name('show');
+
+        Route::put('update-status/{id}', [ShopOrderController::class, 'updateStatus'])->name('updateStatus');
+
+        Route::delete('delete/{id}', [ShopOrderController::class, 'deleteOrder'])->name('delete');
+
+        Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete');
+
+        Route::get('check-new-orders', [ShopOrderController::class, 'checkNewOrders']);
+
+        Route::get('statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
+
+        Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
+
     });
 
+    Route::group([
+        'prefix' => 'payments',
+        'as' => 'payments.'
+    ], function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+
+        Route::get('show/{id}', [PaymentController::class, 'show'])->name('show'); // Xem chi tiết
+
+        Route::get('export/{id}', [PaymentController::class, 'exportPDF'])->name('export'); // Xuất PDF
+
+        Route::get('send-email/{id}', [PaymentController::class, 'sendInvoiceByEmail'])->name('sendEmail'); // Xem chi tiết
+    });
+
+    Route::group([
+        'prefix' => 'colors',
+        'as' => 'colors.'
+    ], function () {
+
+        Route::get('/', [ColorController::class, 'index'])->name('index'); // Danh sách màu sắc
+        Route::get('/create', [ColorController::class, 'create'])->name('create'); // Tạo màu mới
+        Route::post('/', [ColorController::class, 'store'])->name('store'); // Lưu màu mới
+        Route::get('/{color}/edit', [ColorController::class, 'edit'])->name('edit'); // Sửa màu
+        Route::put('/{color}', [ColorController::class, 'update'])->name('update'); // Cập nhật màu
+        Route::delete('/{color}', [ColorController::class, 'destroy'])->name('destroy'); // Xóa màu
+    });
+
+    Route::group([
+        'prefix' => 'variant-products',
+        'as' => 'variant-products.'
+    ], function () {
+
+        Route::get('/statistics', [VariantProductController::class, 'statistics'])->name('statistics');
+
+
+    });
+
+    Route::resource('variant-products', VariantProductController::class);
+
+    Route::resource('sizes', SizeController::class);
+
+    Route::resource('users', UserControler::class);
+
     Route::resource('categories', CategoryController::class);
+
+    Route::resource('customers', CustomerController::class);
 });
 
 
@@ -65,6 +126,4 @@ Route::middleware('role:super-admin')->group(function () {
     Route::post('/role-permission/assign-role', [RolePermissionController::class, 'assignRole'])->name('role-permission.assignRole');
 
     Route::post('/role-permission/assign-permission', [RolePermissionController::class, 'assignPermission'])->name('role-permission.assignPermission');
-
-    Route::resource('users', UserControler::class);
 });

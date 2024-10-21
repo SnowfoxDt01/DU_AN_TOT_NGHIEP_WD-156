@@ -44,7 +44,8 @@ class UserControler extends Controller
     public function store(Request $request)
     {
         User::create($request->all());
-        return redirect()->route('users.index');
+
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -63,14 +64,13 @@ class UserControler extends Controller
         $user= User::find($id);
         return view('users.update',compact('user'));
     }
-
-    /**
+     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
         User::where('id',$id)->update(['status'=> $request->status]);
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     /**

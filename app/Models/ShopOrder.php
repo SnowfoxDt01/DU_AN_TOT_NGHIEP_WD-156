@@ -30,7 +30,10 @@ class ShopOrder extends Model
 
     protected $casts = [
         'order_status' => OrderStatus::class,
-        'payment_method'=>PaymentMethod::class
+        'payment_method'=>PaymentMethod::class,
+        'date_order' => 'datetime',
+        'shipped_at' => 'datetime',
+        'delivered_at' => 'datetime',
     ];
 
     public function customer()
@@ -46,5 +49,9 @@ class ShopOrder extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'shop_order_items', 'order_id', 'product_id');
+    }
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id');
     }
 }

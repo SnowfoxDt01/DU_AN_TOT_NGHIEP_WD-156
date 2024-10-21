@@ -3,8 +3,8 @@
 @push('styles')
 <style>
     .img-prd {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
     }
 </style>
@@ -21,9 +21,10 @@
         <li class="active">Sản phẩm</li>
     </ol>
 </section>
+
 <hr>
 
-<button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Create</a></button>
+<button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Thêm</a></button>
 <br>
 <br>
 <div class="text-end">
@@ -61,13 +62,13 @@
     <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Image</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Category</th>
-            <th scope="col">Action</th>
+            <th scope="col">Tên</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Hình ảnh</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Danh mục</th>
+            <th scope="col">Hành động</th>
         </tr>
     </thead>
     <tbody>
@@ -76,7 +77,7 @@
             <td>{{ $value->id }}</td>
             <td>{{ $value->name }}</td>
             <td>{{ $value->description }}</td>
-            <td>{{ $value->price }}</td>
+            <td>{{ number_format($value->base_price, 0, ',', '.') }} VND</td>
             <td>
                 <img class="img-prd" src="{{ asset($value->image) }}" alt="">
             </td>
@@ -84,23 +85,30 @@
             <td>{{ $value->category->name_category ?? 'No category' }}</td>
 
             <td>
-                <button class="btn btn-success"><a href="{{ route('admin.products.editProduct', $value->id) }}" class="bi bi-pencil-square"></a></button>
-                <button class="btn btn-info"><a href="{{ route('admin.products.detailProduct', $value->id) }}" class="fa-solid fa-circle-info"></a></button>
-                {{-- xóa mềm --}}
-                <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
-                </form>
-                {{-- xóa cứng --}}
-                <form action="{{ route('admin.products.hardDeleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa cứng không?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-skull-crossbones"></i></button>
-                </form>
-                
-                
-
+                <div style="display: flex; gap: 5px;">
+                    <a href="{{ route('admin.products.editProduct', $value->id) }}" class="btn btn-success">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a href="{{ route('admin.products.detailProduct', $value->id) }}" class="btn btn-info">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                    {{-- xóa mềm --}}
+                    <form action="{{ route('admin.products.deleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </button>
+                    </form>
+                    {{-- xóa cứng --}}
+                    <form action="{{ route('admin.products.hardDeleteProduct', $value->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa cứng không?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
+                </div>
             </td>
         </tr>
         @endforeach
