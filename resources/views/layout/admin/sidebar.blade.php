@@ -44,6 +44,14 @@
                 </p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.products.listProduct') }}" class="nav-link">
+                <i class="nav-icon bi bi-bookmarks-fill"></i>
+                <p>
+                    Thống kê
+                </p>
+            </a>
+        </li>
           <form id="logout-form" action="" method="POST" style="display: none;">
               @csrf
           </form>
