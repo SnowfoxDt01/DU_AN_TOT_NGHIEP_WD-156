@@ -73,6 +73,7 @@
             <th scope="col">Số điện thoại</th>
             <th scope="col">Email</th>
             <th scope="col">Tổng tiền</th>
+            <th scope="col">Ngày đặt hàng</th>
             <th scope="col">Trạng thái đơn hàng</th>
             <th scope="col">Chi tiết đơn hàng</th>
         </tr>
@@ -85,6 +86,7 @@
             <td>{{ $order->customer->phone }}</td> 
             <td>{{ $order->customer->email }}</td> 
             <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
+            <td>{{ $order->date_order}}</td> 
             <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>
             <td>
                 <a href="{{ route('admin.orders.show', $order->id) }}">
