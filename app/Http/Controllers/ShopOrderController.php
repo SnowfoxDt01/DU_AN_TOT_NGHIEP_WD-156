@@ -7,6 +7,8 @@ use App\Events\NewOrderCreated;
 use App\Models\ShopOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Exports\ShopOrderExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ShopOrderController extends Controller
 {
@@ -90,5 +92,10 @@ class ShopOrderController extends Controller
             'newOrders' => $newOrders->count(),
             'orders' => $newOrders
         ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new ShopOrderExport, 'shop_orders.xlsx');
     }
 }

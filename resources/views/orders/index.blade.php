@@ -27,7 +27,7 @@
                 @endforeach
             </select>
         </div>
-
+        {{-- lọc --}}
         <div class="form-group col-md-2">
             <label for="customer_name">Tên khách hàng:</label>
             <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ request('customer_name') }}">
@@ -61,6 +61,9 @@
         </div>
     </div>
 </form>
+<hr>
+{{-- xuất excel --}}
+<a href="{{ route('admin.orders.export') }}" class="btn btn-success">Xuất Excel</a>
 <hr>
 <table class="table table-striped">
     <thead>

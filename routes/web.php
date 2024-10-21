@@ -62,6 +62,9 @@ Route::group([
         Route::delete('hard-delete/{id}', [ShopOrderController::class, 'hardDeleteOrder'])->name('hardDelete');
 
         Route::get('check-new-orders', [ShopOrderController::class, 'checkNewOrders']);
+
+        Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
+
     });
 
     Route::group([
