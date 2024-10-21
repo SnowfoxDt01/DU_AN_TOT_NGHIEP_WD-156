@@ -56,7 +56,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
-            <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Back</a>
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
         </form>
     </div>
 @endsection
