@@ -1,31 +1,65 @@
 @extends('layout.admin.master')
-
 @section('content')
-<div class="container">
-    <h1>Thống Kê Đơn Hàng</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Thống kê đơn hàng</h1>
 
-    <h2>Doanh Thu</h2>
-    <p>Tổng doanh thu: {{ number_format($revenue, 0, ',', '.') }} VNĐ</p>
+    <!-- Doanh thu -->
+    <div class="mb-4">
+        <h2 class="text-primary">Doanh thu</h2>
+        <div class="list-group">
+            <div class="list-group-item">
+                <p class="mb-0">Tổng doanh thu: <strong>{{ number_format($revenue, 0, ',', '.') }} VNĐ</strong></p>
+            </div>
+        </div>
+    </div>
 
-    <h2>Top Người Dùng Đặt Hàng Nhiều Nhất</h2>
-    <ul>
-        @foreach($topUsers as $user)
-            <li>Tên người dùng: {{ $user->name }} - Số đơn hàng: {{ $user->order_count }}</li>
-        @endforeach
-    </ul>
+    <!-- Top người dùng đặt hàng nhiều nhất -->
+    <div class="mb-4">
+        <h2 class="text-primary">Top người dùng đặt hàng nhiều nhất</h2>
+        <ul class="list-group">
+            @foreach ($topUsers as $user)
+                <li class="list-group-item">
+                    {{$user->name}} - Số đơn hàng: {{$user->order_count}}
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
-    <h2>Top Sản Phẩm Bán Chạy Nhất</h2>
-    <ul>
-        @foreach($topSellingProducts as $product)
-            <li>Product ID: {{ $product->product_id }} - Tổng số bán: {{ $product->total_sales }}</li>
-        @endforeach
-    </ul>
+    <!-- Top sản phẩm bán chạy nhất -->
+    <div class="mb-4">
+        <h2 class="text-primary">Top sản phẩm bán chạy nhất</h2>
+        <ul class="list-group">
+            @foreach ($topSellingProducts as $product)
+                <li class="list-group-item">
+                    Product ID: {{$product->product_id}} - Tổng số bán: {{$product->total_sales}}
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
-    <h2>Tổng Số Đơn Hàng</h2>
-    <p>Số lượng đơn hàng: {{ $orderCount }}</p>
+    <!-- Tổng số đơn hàng -->
+    <div class="mb-4">
+        <h2 class="text-primary">Tổng số đơn hàng</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <p class="mb-0">Số lượng đơn hàng: <strong>{{$orderCount}}</strong></p>
+            </li>
+        </ul>
+    </div>
 
-    <h2>Tỉ Lệ Thành Công Đơn Hàng</h2>
-    <p>Tỉ lệ thành công: {{ number_format($successRate, 2) }}%</p>
+    <!-- Tỉ lệ thành công -->
+    <div class="mb-4">
+        <h2 class="text-primary">Tỉ lệ thành công</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <p class="mb-0">Tỉ lệ thành công: <strong>{{ number_format($successRate, 2) }}%</strong></p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Nút quay lại -->
+    <div>
+        <a href="{{ route('admin.orders.index') }}" class="btn btn-success">Quay lại danh sách</a>
+    </div>
 </div>
-<a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
 @endsection

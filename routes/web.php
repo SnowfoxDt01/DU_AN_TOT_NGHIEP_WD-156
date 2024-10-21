@@ -63,6 +63,8 @@ Route::group([
 
         Route::get('check-new-orders', [ShopOrderController::class, 'checkNewOrders']);
 
+        Route::get('statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
+
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
 
         // thống kê đơn hàng
