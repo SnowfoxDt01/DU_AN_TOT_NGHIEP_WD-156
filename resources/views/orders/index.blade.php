@@ -65,8 +65,6 @@
 <hr>
 {{-- xuất excel --}}
 <a href="{{ route('admin.orders.export') }}" class="btn btn-success">Xuất Excel</a>
-{{-- thống kê --}}
-<a href="{{ route('admin.orders.statistics') }}" class="btn btn-info">Thống kê đơn hàng</a>
 <hr>
 <table class="table table-striped">
     <thead>
