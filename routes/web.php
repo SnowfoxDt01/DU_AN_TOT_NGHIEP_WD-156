@@ -69,18 +69,12 @@ Route::group([
         'as' => 'payments.'
     ], function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
+
         Route::get('show/{id}', [PaymentController::class, 'show'])->name('show'); // Xem chi tiết
+
         Route::get('export/{id}', [PaymentController::class, 'exportPDF'])->name('export'); // Xuất PDF
+
         Route::get('send-email/{id}', [PaymentController::class, 'sendInvoiceByEmail'])->name('sendEmail'); // Xem chi tiết
-    });
-
-    Route::group([
-        'prefix' => 'customers',
-        'as' => 'customers.'
-    ], function () {
-
-        Route::get('/customer/{id}/history', [CustomerController::class, 'show'])->name('customers.show');
-
     });
 
     Route::group([
