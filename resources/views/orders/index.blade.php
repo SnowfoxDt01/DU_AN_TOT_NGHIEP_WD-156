@@ -58,6 +58,7 @@
         <div class="col-md-6">
             <button type="submit" class="btn btn-primary">Lọc</button>
             <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Reset</a>
+            <a href="{{ route('admin.orders.statistics') }}" class="btn btn-info">Xem thống kê</a>
         </div>
     </div>
 </form>

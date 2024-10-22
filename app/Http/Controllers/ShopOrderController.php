@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
-use App\Events\NewOrderCreated;
+use App\Models\User;
 use App\Models\ShopOrder;
+use App\Models\ShopOrderItem;
+use App\Models\TotalOrders;
+use App\Enums\OrderStatus;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Admin\PaymentController;
+use App\Events\NewOrderCreated;
 use App\Exports\ShopOrderExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Admin\PaymentController;
+use Illuminate\Support\Facades\DB;
 
 class ShopOrderController extends Controller
 {
@@ -93,9 +97,55 @@ class ShopOrderController extends Controller
             'orders' => $newOrders
         ]);
     }
-
+    //Thống Kê Đơn DH
+    public function statistics( Request $request)
+    {
+        // Lấy dữ liệu thống kê tổng số đơn hàng, theo trạng thái đơn hàng
+        $revenue = $this-> getRevenue($request);
+        $topUsers = $this->getTopUsers($request);
+        $topSellingProducts = $this->getTopSellingProducts($request);
+        $orderCount = $this->getOrderCount($request);
+        $successRate = $this->getOrderSuccessRate($request);
+       
+        // Trả về view với dữ liệu thống kê
+        return view('orders.statistics', compact('revenue', 'topUsers', 'topSellingProducts','orderCount','successRate'));
+    }
+    private function getRevenue(Request $request){
+        return ShopOrder::sum('total_price');
+    }
+    private function getTopUsers(Request $request){
+        return ShopOrder::select('users.name','shop_order.user_id', DB::raw('count(*) as order_count'))
+        ->join('users', 'shop_order.user_id', '=','users.id')
+        ->groupBy('shop_order.user_id','users.name')
+        ->orderBy('order_count','desc')
+        ->take(10)
+        ->get();
+    }
+    private function getTopSellingProducts(Request $request){
+        return ShopOrderItem::select('product_id', DB::raw('sum(quantity) as total_sales'))
+        ->groupBy('product_id')
+        ->orderBy('total_sales', 'desc')
+        ->take(10)
+        ->get();
+    }
+    private function getOrderCount(Request $request){
+        return ShopOrder::count();
+    }
+    private function getOrderSuccessRate(Request $request) {
+        $totalOrders = ShopOrder::count();
+        $successfulOrders = ShopOrder::where('order_status', 'completed')->count();
+        if ($totalOrders > 0) {
+            $successRate = ($successfulOrders / $totalOrders) * 100;
+        } else {
+            $successRate = 0;
+        }
+    
+        // Trả về tỷ lệ thành công
+        return $successRate;
+    }
     public function export()
     {
         return Excel::download(new ShopOrderExport, 'shop_orders.xlsx');
     }
+
 }
