@@ -122,6 +122,15 @@ Route::group([
     Route::resource('customers', CustomerController::class);
 });
 
+Route::group([
+    'prefix' => 'client',
+    'as' => 'client.',
+    'middleware' => 'auth'
+], function () {
+
+    Route::get('/index', [ClientController::class, 'index'])->name('index');
+});
+
 
 Route::middleware('role:super-admin')->group(function () {
 

@@ -23,7 +23,7 @@
         <div class="form-group">
             <label for="image_url">Ảnh banner</label>
             <img src="{{ asset($banner->image_url) }}" alt="{{ $banner->title }}" width="200">
-            <input type="file" name="image_url" class="form-control" value="{{ old('image_url', $banner->image_url) }}" required>
+            <input type="file" name="image_url" class="form-control" value="{{ old('image_url', $banner->image_url) }}">
             
         </div>
 

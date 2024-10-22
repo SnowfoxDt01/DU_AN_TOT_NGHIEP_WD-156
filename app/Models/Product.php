@@ -15,8 +15,10 @@ class Product extends Model
         'name',
         'description',
         'base_price',
+        'sale_price',
         'image',
         'quantity',
+        'new',
         'product_category_id'
     ];
 
