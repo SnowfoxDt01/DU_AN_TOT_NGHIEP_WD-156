@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\VariantProductController;
+use App\Http\Controllers\BannerController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -108,6 +109,7 @@ Route::group([
 
     });
 
+    Route::resource('banners', BannerController::class);
 
     Route::resource('variant-products', VariantProductController::class);
 

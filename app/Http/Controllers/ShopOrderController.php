@@ -118,14 +118,15 @@ class ShopOrderController extends Controller
         ->join('users', 'shop_order.user_id', '=','users.id')
         ->groupBy('shop_order.user_id','users.name')
         ->orderBy('order_count','desc')
-        ->take(10)
+        ->take(5)
         ->get();
     }
     private function getTopSellingProducts(Request $request){
-        return ShopOrderItem::select('product_id', DB::raw('sum(quantity) as total_sales'))
-        ->groupBy('product_id')
+        return ShopOrderItem::select('products.name as product_name', DB::raw('sum(shop_order_items.quantity) as total_sales'))
+        ->join('products', 'shop_order_items.product_id', '=', 'products.id')
+        ->groupBy('products.id', 'products.name')
         ->orderBy('total_sales', 'desc')
-        ->take(10)
+        ->take(5)
         ->get();
     }
     private function getOrderCount(Request $request){

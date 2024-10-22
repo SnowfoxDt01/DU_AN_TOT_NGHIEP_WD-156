@@ -19,7 +19,7 @@
         <ul class="list-group">
             @foreach ($topUsers as $user)
                 <li class="list-group-item">
-                    {{$user->name}} - Số đơn hàng: {{$user->order_count}}
+                    Tên người dùng : {{$user->name}} - Số đơn hàng: {{$user->order_count}}
                 </li>
             @endforeach
         </ul>
@@ -31,7 +31,7 @@
         <ul class="list-group">
             @foreach ($topSellingProducts as $product)
                 <li class="list-group-item">
-                    Product ID: {{$product->product_id}} - Tổng số bán: {{$product->total_sales}}
+                    Tên sản phẩm: {{$product->product_name}} - Tổng số bán: {{$product->total_sales}}
                 </li>
             @endforeach
         </ul>
