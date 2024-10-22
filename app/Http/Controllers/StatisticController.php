@@ -37,7 +37,7 @@ class StatisticController extends Controller
     public function topProducts(Request $request)
     {
         // Thống kê 5 hoặc 10 sản phẩm bán chạy nhất
-        $topProducts = Order::with('products') // Giả sử có quan hệ với bảng sản phẩm
+        $topProducts = ShopOrder::with('products') // Giả sử có quan hệ với bảng sản phẩm
             ->select('product_id', DB::raw('count(*) as total_sales'))
             ->groupBy('product_id')
             ->orderBy('total_sales', 'desc')

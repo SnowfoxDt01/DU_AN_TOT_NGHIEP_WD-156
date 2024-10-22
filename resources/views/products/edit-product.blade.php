@@ -42,6 +42,11 @@
     </div>
 
     <div class="form-group">
+        <label for="priceSP">Giá khuyến mãi</label>
+        <input type="number" class="form-control" id="sale_price" name="sale_price" value="{{ $product->sale_price }}">
+    </div>
+
+    <div class="form-group">
         <label for="quantitySP">Số lượng</label>
         <input type="number" class="form-control" id="quantitySP" name="quantitySP" value="{{ $product->quantity }}">
     </div>
