@@ -4,10 +4,11 @@
     <section class="banner-two">
         {{-- <div class="banner-two__shape-left d-none d-lg-block wow bounceInLeft" data-wow-duration="1s" data-wow-delay=".5s">
             <img src="client_ui/assets/images/shape/vape1.png" alt="shape">
-        </div>
-        <div class="banner-two__shape-right d-none d-lg-block wow bounceInRight" data-wow-duration="1s" data-wow-delay=".1s">
-            <img class="sway_Y__animation " src="client_ui/assets/images/shape/vape2.png" alt="shape">
         </div> --}}
+        <div class="banner-two__shape-right d-none d-lg-block wow bounceInRight" data-wow-duration="1s" data-wow-delay=".1s">
+            <img class="sway_Y__animation" src="client_ui/assets/images/logo/mainlogo.png" alt="shape" style="margin-right: 100px;"> <!-- Thay đổi giá trị -20px tùy ý -->
+        </div>
+        
         <div class="swiper banner-two__slider">
             <div class="swiper-wrapper">
                 @foreach ($banners as $banner)
