@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\VariantProduct;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -128,7 +129,10 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $linkImage = $product->image;
-        if ($req->hasFile('imageSP')) {
+
+        if($req->hasFile('imageSP')){
+            File::delete(public_path($product->image));
+          
             $image = $req->file('imageSP');
             $newName = time() . '.' . $image->getClientOriginalExtension();
             $linkStorage = 'imageProducts/';
