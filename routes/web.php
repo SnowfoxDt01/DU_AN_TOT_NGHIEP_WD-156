@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\VariantProductController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -25,6 +27,15 @@ Route::group([
     'as' => 'admin.',
     'middleware' => 'auth'
 ], function () {
+
+    
+    Route::group([
+        'prefix' => 'reviews',
+        'as' => 'reviews.'
+    ], function () {
+
+        Route::post('/toggle-visibility/{id}', [ReviewController::class, 'toggleVisibility'])->name('toggleVisibility');
+    });
 
     Route::group([
         'prefix' => 'products',
@@ -67,10 +78,9 @@ Route::group([
         Route::get('statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
 
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
-
+      
         // thống kê đơn hàng
         Route::get('/statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
-
     });
 
     Route::group([
@@ -105,8 +115,6 @@ Route::group([
     ], function () {
 
         Route::get('/statistics', [VariantProductController::class, 'statistics'])->name('statistics');
-
-
     });
 
     Route::resource('banners', BannerController::class);

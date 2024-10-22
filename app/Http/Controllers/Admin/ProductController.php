@@ -166,5 +166,11 @@ class ProductController extends Controller
         // Trả về view chi tiết sản phẩm
         return view('products.detail-product')->with('product', $product);
     }
-    
+
+    public function showReviews($id){
+        $product = Product::findOrFail($id);
+        $reviews = $product->reviews()->where('is_visible', true)->get(); // Chỉ lấy đánh giá hiển thị
+        return view('products.detail-product', compact('product', 'reviews'));
+    }
+
 }
