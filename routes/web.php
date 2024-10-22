@@ -14,6 +14,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\VariantProductController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -26,6 +27,15 @@ Route::group([
     'as' => 'admin.',
     'middleware' => 'auth'
 ], function () {
+
+    
+    Route::group([
+        'prefix' => 'reviews',
+        'as' => 'reviews.'
+    ], function () {
+
+        Route::post('/toggle-visibility/{id}', [ReviewController::class, 'toggleVisibility'])->name('toggleVisibility');
+    });
 
     Route::group([
         'prefix' => 'products',
