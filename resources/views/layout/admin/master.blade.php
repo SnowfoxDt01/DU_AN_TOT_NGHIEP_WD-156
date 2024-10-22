@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VSNK SHOP</title>
+    <base href="{{asset('')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Font: Source Sans Pro -->
@@ -18,6 +19,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="shortcut icon" href="{{ asset('assets/dist/img/favicon.png') }}">
     <link rel="stylesheet"
         href="{{ asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <!-- iCheck -->
@@ -40,7 +42,7 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="{{ asset('assets/dist/img/logo.webp') }}" alt="AdminLTELogo" height="80"
+        <img class="animation__shake" src="{{ asset('assets/dist/img/favicon.jpg') }}" alt="AdminLTELogo" height="80"
             width="80" style="border-radius: 50%;">
     </div>
 
@@ -51,8 +53,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="{{ route('admin.users.index') }}" class="brand-link">
-            <img src="{{ asset('assets/dist/img/logo.webp') }}" alt="logo"
-                class="brand-image img-circle elevation-3" style="opacity: .8">
+            <img src="{{ asset('assets/dist/img/mainlogo.png') }}" alt="logo"
+                class="brand-image" style="opacity: .8">
             <span class="brand-text font-weight-light">VSNK SHOP</span>
         </a>
         @include('layout.admin.sidebar')

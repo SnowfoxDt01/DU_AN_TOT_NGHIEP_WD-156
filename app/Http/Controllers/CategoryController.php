@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -45,13 +46,26 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            if ($request->file('image')->isValid()) {
+                $fileName = $request->file('image')->getClientOriginalName();
+                $request->file('image')->move(public_path('public/client_ui/assets/images/category'), $fileName);
+                $imagePath = 'client_ui/assets/images/category/' . $fileName;
+            }
+        }
+
         Category::create([
             'name_category' => $request->name_category,
+            'image' => $imagePath,
             'description' => $request->description,
             'status' => $request->status,
         ]);
-        return redirect()->route('admin.categories.index');
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -73,11 +87,37 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(StoreCategoryRequest $request, $id)
     {
-        $category->update($request->all());
-        return redirect()->route('admin.categories.index');
+        $category = Category::findOrFail($id);
+
+        // Xử lý upload ảnh nếu có ảnh mới
+        if ($request->hasFile('image')) {
+            // Xóa ảnh cũ nếu tồn tại
+            if ($category->image) {
+                Storage::delete(public_path($category->image));
+            }
+
+            // Di chuyển file đến thư mục client_ui/assets/images/category
+            $fileName = $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path('client_ui/assets/images/category'), $fileName);
+            $imagePath = 'client_ui/assets/images/category/' . $fileName;
+        } else {
+            // Nếu không có ảnh mới, giữ nguyên ảnh cũ
+            $imagePath = $category->image;
+        }
+
+        // Cập nhật thông tin danh mục
+        $category->update([
+            'name_category' => $request->name_category,
+            'image' => $imagePath,
+            'description' => $request->description,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.categories.index')->with('success', 'Danh mục được cập nhật thành công.');
     }
+
 
     /**
      * Remove the specified resource from storage.
