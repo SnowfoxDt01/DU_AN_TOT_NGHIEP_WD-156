@@ -13,6 +13,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\VariantProductController;
+use App\Http\Controllers\BannerController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -106,6 +107,7 @@ Route::group([
         Route::get('/statistics', [VariantProductController::class, 'statistics'])->name('statistics');
     });
 
+    Route::resource('banners', BannerController::class);
 
     Route::resource('variant-products', VariantProductController::class);
 

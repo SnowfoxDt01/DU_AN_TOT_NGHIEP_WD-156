@@ -87,6 +87,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.banners.index') }}" class="nav-link">
+                    <i class="nav-icon fa-regular fa-image"></i>
+                    <p>
+                        Banner 
+                    </p>
+                </a>
+            </li>
             <form id="logout-form" action="" method="POST" style="display: none;">
                 @csrf
             </form>
