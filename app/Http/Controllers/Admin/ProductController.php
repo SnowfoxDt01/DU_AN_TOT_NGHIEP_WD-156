@@ -132,7 +132,6 @@ class ProductController extends Controller
 
         if($req->hasFile('imageSP')){
             File::delete(public_path($product->image));
-            
             $image = $req->file('imageSP');
             $newName = time() . '.' . $image->getClientOriginalExtension();
             $linkStorage = 'imageProducts/';
