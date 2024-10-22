@@ -41,10 +41,11 @@
     <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
+            <th scope="col">Tên</th>
+            <th scope="col">Ảnh</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Hành động</th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +53,9 @@
         <tr>
             <td>{{ $category->id }}</td>
             <td>{{ $category->name_category }}</td>
+            <td>
+                <img src="{{$category->image}}" alt="">
+            </td>
             <td>{{ $category->description }}</td>
             <td>
                 @if ($category->status == 0)
