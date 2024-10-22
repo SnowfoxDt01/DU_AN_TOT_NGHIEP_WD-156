@@ -27,6 +27,10 @@
             <input type="number" class="form-control" name="priceSP" placeholder="Giá sản phẩm" required>
         </div>
         <div class="form-group">
+            <label for="priceSP">Giá khuyến mãi</label>
+            <input type="number" class="form-control" name="sale_price" placeholder="Giá sản phẩm" required>
+        </div>
+        <div class="form-group">
             <label for="imageSP">Ảnh sản phẩm</label>
             <input type="file" class="form-control" name="imageSP" placeholder="Hình ảnh sản phẩm" required>
         </div>

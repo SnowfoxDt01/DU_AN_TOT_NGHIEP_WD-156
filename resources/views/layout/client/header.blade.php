@@ -3,7 +3,8 @@
         <div class="container">
             <div class="top__wrapper">
                 <a href="#" class="main__logo">
-                    <img src="client_ui/assets/images/logo/mainlogo.png" style="max-width: 100%;height: auto; max-height: 100px; padding-bottom: 30px" alt="logo__image">
+                    <img src="client_ui/assets/images/logo/mainlogo.png"
+                        style="max-width: 100%;height: auto; max-height: 100px; padding-bottom: 30px" alt="logo__image">
                 </a>
                 <div class="search__wrp">
                     <input placeholder="Search for" aria-label="Search">
@@ -68,32 +69,21 @@
                 </div>
                 <ul class="main-menu">
                     <li>
-                        <a href="#0">Home <i class="fa-regular fa-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li class="subtwohober">
-                                <a href="index-2.html">
-                                    Home One
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="index-light.html">
-                                    Home One Light
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="index-3.html">
-                                    Home Two
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="index-2-light.html">
-                                    Home Two Light
-                                </a>
-                            </li>
-                        </ul>
+                        <a href="{{route('client.index')}}">Trang chủ</a>
                     </li>
                     <li>
-                        <a href="about.html">About Us</a>
+                        <a href="">Danh mục <i class="fa-regular fa-angle-down"></i></a>
+                        <ul class="sub-menu">
+                            @foreach ($categories as $category)
+                                <li class="subtwohober">
+                                    <a href="#">
+                                        {{ $category->name_category }}
+                                    </a>
+                                </li>
+                            @endforeach
+
+                        </ul>
+
                     </li>
                     <li>
                         <a href="#0">Pages <i class="fa-regular fa-angle-down"></i></a>
@@ -166,7 +156,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="contact.html">Contact Us</a>
+                        <a href="#">Giới thiệu</a>
                     </li>
                 </ul>
                 <div class="shipping__item d-none d-sm-flex align-items-center">
