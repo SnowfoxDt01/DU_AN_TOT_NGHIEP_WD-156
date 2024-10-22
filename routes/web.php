@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\VariantProductController;
@@ -64,7 +65,6 @@ Route::group([
         Route::get('check-new-orders', [ShopOrderController::class, 'checkNewOrders']);
 
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
-
     });
 
     Route::group([
@@ -99,8 +99,6 @@ Route::group([
     ], function () {
 
         Route::get('/statistics', [VariantProductController::class, 'statistics'])->name('statistics');
-
-
     });
 
     Route::resource('variant-products', VariantProductController::class);
@@ -112,6 +110,15 @@ Route::group([
     Route::resource('categories', CategoryController::class);
 
     Route::resource('customers', CustomerController::class);
+});
+
+Route::group([
+    'prefix' => 'client',
+    'as' => 'client.',
+    'middleware' => 'auth'
+], function () {
+
+    Route::get('/index', [ClientController::class, 'index'])->name('client.index');
 });
 
 
