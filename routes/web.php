@@ -136,7 +136,7 @@ Route::group([
     'middleware' => 'auth'
 ], function () {
 
-    Route::get('/index', [ClientController::class, 'index'])->name('client.index');
+    Route::get('/index', [ClientController::class, 'index'])->name('index');
 });
 
 

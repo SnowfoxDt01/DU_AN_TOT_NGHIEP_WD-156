@@ -65,6 +65,7 @@
             <th scope="col">Tên</th>
             <th scope="col">Mô tả</th>
             <th scope="col">Giá</th>
+            <th scope="col">Giá khuyến mãi</th>
             <th scope="col">Hình ảnh</th>
             <th scope="col">Số lượng</th>
             <th scope="col">Danh mục</th>
@@ -77,7 +78,8 @@
             <td>{{ $value->id }}</td>
             <td>{{ $value->name }}</td>
             <td>{{ $value->description }}</td>
-            <td>{{ number_format($value->base_price, 0, ',', '.') }} VND</td>
+            <td>{{ number_format($value->base_price) }}.đ</td>
+            <td>{{ number_format($value->sale_price) }}.đ</td>
             <td>
                 <img class="img-prd" src="{{ asset($value->image) }}" alt="">
             </td>
