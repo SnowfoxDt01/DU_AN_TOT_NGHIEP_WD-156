@@ -2,94 +2,32 @@
 @section('content')
     <!-- Banner area start here -->
     <section class="banner-two">
-        <div class="banner-two__shape-left d-none d-lg-block wow bounceInLeft" data-wow-duration="1s" data-wow-delay=".5s">
+        {{-- <div class="banner-two__shape-left d-none d-lg-block wow bounceInLeft" data-wow-duration="1s" data-wow-delay=".5s">
             <img src="client_ui/assets/images/shape/vape1.png" alt="shape">
         </div>
         <div class="banner-two__shape-right d-none d-lg-block wow bounceInRight" data-wow-duration="1s" data-wow-delay=".1s">
             <img class="sway_Y__animation " src="client_ui/assets/images/shape/vape2.png" alt="shape">
-        </div>
+        </div> --}}
         <div class="swiper banner-two__slider">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="slide-bg" data-background="client_ui/assets/images/banner/banner-two-image1.jpg"></div>
-                    <div class="container">
-                        <div class="banner-two__content">
-                            <h4 data-animation="fadeInUp" data-delay="1s"><img src="client_ui/assets/images/icon/fire.svg"
-                                    alt="icon"> GET <span class="primary-color">25% OFF</span> NOW</h4>
-                            <h1 data-animation="fadeInUp" data-delay="1.3s">Find everything <br>
-                                for <span class="primary-color">vaping</span></h1>
-                            <p class="mt-40" data-animation="fadeInUp" data-delay="1.5s">Sell globally in minutes
-                                with localized currencies languages, and <br> experie in
-                                every
-                                market. only a variety of vaping
-                                products</p>
-                            <div class="banner-two__info mt-30" data-animation="fadeInUp" data-delay="1.7s">
-                                <span class="mb-10">Starting Price</span>
-                                <h3>$99.00</h3>
-                            </div>
-                            <div class="btn-wrp mt-65">
-                                <a href="shop.html" class="btn-one" data-animation="fadeInUp" data-delay="1.8s"><span>Shop
-                                        Now</span></a>
-                                <a class="btn-one-light ml-20" href="shop-single.html" data-animation="fadeInUp"
-                                    data-delay="1.9s"><span>View Details</span></a>
+                @foreach ($banners as $banner)
+                    <div class="swiper-slide">
+                        <div class="slide-bg" data-background="{{$banner->image_url}}"></div>
+                        <div class="container">
+                            <div class="banner-two__content">
+                                <h4 data-animation="fadeInUp" data-delay="1s"><img
+                                        src="client_ui/assets/images/icon/fire.svg" alt="icon"> NHẬN <span
+                                        class="primary-color">KHUYẾN MÃI </span> NGAY</h4>
+                                <h1 data-animation="fadeInUp" data-delay="1.3s">{{$banner->title}}<br></h1>
+                                <p class="mt-40" data-animation="fadeInUp" data-delay="1.5s">{!! nl2br($banner->description) !!}</p>
+                                <div class="btn-wrp mt-65">
+                                    <a class="btn-one-light ml-20" href="shop-single.html" data-animation="fadeInUp"
+                                        data-delay="1.9s"><span>Xem chi tiết</span></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="slide-bg" data-background="client_ui/assets/images/banner/banner-two-image2.jpg"></div>
-                    <div class="container">
-                        <div class="banner-two__content">
-                            <h4 data-animation="fadeInUp" data-delay="1s"><img src="client_ui/assets/images/icon/fire.svg"
-                                    alt="icon"> GET <span class="primary-color">25% OFF</span> NOW</h4>
-                            <h1 data-animation="fadeInUp" data-delay="1.3s">Find everything <br>
-                                for <span class="primary-color">vaping</span></h1>
-                            <p class="mt-40" data-animation="fadeInUp" data-delay="1.5s">Sell globally in minutes
-                                with localized currencies languages, and <br> experie in
-                                every
-                                market. only a variety of vaping
-                                products</p>
-                            <div class="banner-two__info mt-30" data-animation="fadeInUp" data-delay="1.7s">
-                                <span class="mb-10">Starting Price</span>
-                                <h3>$99.00</h3>
-                            </div>
-                            <div class="btn-wrp mt-65">
-                                <a href="shop.html" class="btn-one" data-animation="fadeInUp" data-delay="1.8s"><span>Shop
-                                        Now</span></a>
-                                <a class="btn-one-light ml-20" href="shop-single.html" data-animation="fadeInUp"
-                                    data-delay="1.9s"><span>View
-                                        Details</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="slide-bg" data-background="client_ui/assets/images/banner/banner-two-image3.jpg"></div>
-                    <div class="container">
-                        <div class="banner-two__content">
-                            <h4 data-animation="fadeInUp" data-delay="1s"><img src="client_ui/assets/images/icon/fire.svg"
-                                    alt="icon"> GET <span class="primary-color">25% OFF</span> NOW</h4>
-                            <h1 data-animation="fadeInUp" data-delay="1.3s">Find everything <br>
-                                for <span class="primary-color">vaping</span></h1>
-                            <p class="mt-40" data-animation="fadeInUp" data-delay="1.5s">Sell globally in minutes
-                                with localized currencies languages, and <br> experie in
-                                every
-                                market. only a variety of vaping
-                                products</p>
-                            <div class="banner-two__info mt-30" data-animation="fadeInUp" data-delay="1.7s">
-                                <span class="mb-10">Starting Price</span>
-                                <h3>$99.00</h3>
-                            </div>
-                            <div class="btn-wrp mt-65">
-                                <a href="shop.html" class="btn-one" data-animation="fadeInUp" data-delay="1.8s"><span>Shop
-                                        Now</span></a>
-                                <a class="btn-one-light ml-20" href="shop-single.html" data-animation="fadeInUp"
-                                    data-delay="1.9s"><span>View
-                                        Details</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="banner-two__arry-btn">
@@ -256,8 +194,10 @@
                                 <div class="product__item bor">
                                     <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
                                     <a href="#" class="product__image pt-20 d-block">
-                                        <img class="font-image" src="{{ $top->product->image }}" alt="image" height="320px">
-                                        <img class="back-image" src="{{ $top->product->image }}" alt="image" height="320px">
+                                        <img class="font-image" src="{{ $top->product->image }}" alt="image"
+                                            height="320px">
+                                        <img class="back-image" src="{{ $top->product->image }}" alt="image"
+                                            height="320px">
                                     </a>
                                     <div class="product__content">
                                         <h4 class="mb-15"><a class="primary-hover"
@@ -477,13 +417,13 @@
                         <div class="gallery__item">
                             <div class="off-tag">SALE<br>
                                 OFF</div>
-                                <br>
+                            <br>
                             <div class="gallery__image image">
-                                <img src="{{$sale->image}}" alt="image" height="320px">
+                                <img src="{{ $sale->image }}" alt="image" height="320px">
                             </div>
                             <div class="gallery__content">
-                                <h3 class="mb-10"><a href="#">{{$sale->name}}</a></h3>
-                                <p>{{$sale->description}}</p>
+                                <h3 class="mb-10"><a href="#">{{ $sale->name }}</a></h3>
+                                <p>{{ $sale->description }}</p>
                                 <a href="#" class="btn-two mt-25"><span>Mua ngay</span></a>
                             </div>
                         </div>
