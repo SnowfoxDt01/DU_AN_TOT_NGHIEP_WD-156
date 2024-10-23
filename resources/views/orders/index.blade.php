@@ -1,38 +1,49 @@
 @extends('layout.admin.master')
 @section('content')
-    <section class="content-header">
-        <h1>
-            Đơn hàng
-            <small>Trang chủ</small>
-        </h1>
-        <ol class="breadcrumb">
-            {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
-            <li class="active">Đơn hàng</li>
-        </ol>
-    </section>
-    <hr>
-    <div id="newOrderAlert" style="display: none;">
-        <p>Bạn có <span id="newOrderCount"></span> đơn hàng mới!</p>
+<section class="content-header">
+    <h1>
+        Đơn hàng
+        <small>Trang chủ</small>
+    </h1>
+    <ol class="breadcrumb">
+        {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
+        <li class="active">Đơn hàng</li>
+    </ol>
+</section>
+<hr>
+<div id="newOrderAlert" style="display: none;">
+    <p>Bạn có <span id="newOrderCount"></span> đơn hàng mới!</p>
+</div>
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
     </div>
-    <form action="{{ route('admin.orders.index') }}" method="GET">
-        <div class="row">
-            <div class="form-group col-md-2">
-                <label for="order_status">Trạng thái đơn hàng:</label>
-                <select name="order_status" id="order_status" class="form-control">
-                    <option value="">Tất cả</option>
-                    @foreach (App\Enums\OrderStatus::getValues() as $status)
-                        <option value="{{ $status }}" {{ request('order_status') == $status ? 'selected' : '' }}>
-                            {{ App\Enums\OrderStatus::getDescription($status) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            {{-- lọc --}}
-            <div class="form-group col-md-2">
-                <label for="customer_name">Tên khách hàng:</label>
-                <input type="text" name="customer_name" id="customer_name" class="form-control"
-                    value="{{ request('customer_name') }}">
-            </div>
+@endif
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+<form action="{{ route('admin.orders.index') }}" method="GET">
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label for="order_status">Trạng thái đơn hàng:</label>
+            <select name="order_status" id="order_status" class="form-control">
+                <option value="">Tất cả</option>
+                @foreach (App\Enums\OrderStatus::getValues() as $status)
+                <option value="{{ $status }}" {{ request('order_status') == $status ? 'selected' : '' }}>
+                    {{ App\Enums\OrderStatus::getDescription($status) }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+        {{-- lọc --}}
+        <div class="form-group col-md-2">
+            <label for="customer_name">Tên khách hàng:</label>
+            <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ request('customer_name') }}">
+        </div>
 
             <div class="form-group col-md-2">
                 <label for="phone">Số điện thoại:</label>
