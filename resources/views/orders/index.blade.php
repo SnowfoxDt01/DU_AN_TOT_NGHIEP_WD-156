@@ -14,6 +14,18 @@
 <div id="newOrderAlert" style="display: none;">
     <p>Bạn có <span id="newOrderCount"></span> đơn hàng mới!</p>
 </div>
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <form action="{{ route('admin.orders.index') }}" method="GET">
     <div class="row">
         <div class="form-group col-md-2">

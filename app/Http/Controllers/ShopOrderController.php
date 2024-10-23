@@ -67,6 +67,11 @@ class ShopOrderController extends Controller
     {
         $order = ShopOrder::findOrFail($id);
 
+        // Kiểm tra nếu trạng thái đơn hàng đã hoàn thành thì không cho sửa đổi nữa
+        if ($order->order_status == OrderStatus::COMPLETED) {
+            return redirect()->route('admin.orders.index')->with('error', 'Không thể sửa đổi đơn hàng đã hoàn thành.');
+        }
+
         $validated = $request->validate([
             'order_status' => ['required', 'in:' . implode(',', OrderStatus::getValues())],
         ]);
