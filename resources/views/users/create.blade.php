@@ -10,9 +10,9 @@
         </ol>
     </section>
     <hr>
-    <form action="{{ route('admin.users.store') }}" method="POST">
+    <form action="{{ route('admin.users.store') }}" class="row g-3" method="POST">
         @csrf
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label for="name">Tên</label>
             <input type="text" name="name" class="form-control">
             @error('name')
@@ -20,7 +20,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label for="email">Email</label>
             <input type="email" name="email" class="form-control">
             @error('email')
@@ -28,7 +28,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label for="password">Mật khẩu</label>
             <input type="password" name="password" class="form-control">
             @error('password')
@@ -36,6 +36,6 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-success">Thêm</button>
+        <button type="submit" class="btn btn-success col-md-1">Thêm</button>
     </form>
 @endsection

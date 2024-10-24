@@ -12,7 +12,7 @@
 <hr>
 <div>
     <button class="btn btn-primary"><a href="{{ route('admin.categories.create') }}"
-            style="color: #fff;">Create</a></button>
+            style="color: #fff;">Thêm</a></button>
 
     <div class="d-flex justify-content-end">
         <form action="{{ route('admin.categories.index') }}" method="GET" class="form-inline">

@@ -10,9 +10,9 @@
         </ol>
     </section>
     <hr>
-    <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.categories.store') }}" class="row g-3" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label for="name_category">Tên danh mục</label>
             <input type="text" name="name_category" class="form-control" value="{{ old('name_category') }}">
             @error('name_category')
@@ -20,7 +20,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label for="description">Mô tả</label>
             <input type="text" name="description" class="form-control" value="{{ old('description') }}">
             @error('description')
@@ -28,7 +28,7 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label for="status">Status</label>
             <select name="status" id="status" class="form-control">
                 <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Dừng hoạt động</option>
