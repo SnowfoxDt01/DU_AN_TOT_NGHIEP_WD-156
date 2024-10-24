@@ -10,7 +10,7 @@
     <title>VSNK SHOP</title>
     <base href="{{asset('')}}">
     <!-- Favicon img -->
-    <link rel="shortcut icon" href="client_ui/assets/images/favicon.png">
+    <link rel="shortcut icon" href="client_ui/assets/images/logo/favicon.png">
     <!-- Bootstarp min css -->
     <link rel="stylesheet" href="client_ui/assets/css/bootstrap.min.css">
     <!-- All min css -->

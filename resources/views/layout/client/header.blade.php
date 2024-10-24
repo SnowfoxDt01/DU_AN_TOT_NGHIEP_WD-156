@@ -11,18 +11,25 @@
                     <button><i class="fa-solid fa-search"></i></button>
                 </div>
                 <div class="account__wrap">
-                    <div class="account d-flex align-items-center">
-                        <div class="user__icon">
-                            <a href="#0">
-                                <i class="fa-regular fa-user"></i>
+                    @if (Auth::check())
+                        <span style="color: orangered">
+                            {{ Auth::user()->name }}  |
+                        </span>
+                        <li><a href="{{ route('client.logout') }}" style="color: orangered"> Đăng Xuất</a></li>
+                    @else
+                        <div class="account d-flex align-items-center">
+                            <div class="user__icon">
+                                <a href="#0">
+                                    <i class="fa-regular fa-user"></i>
+                                </a>
+                            </div>
+                            <a href="{{ route('client.login') }}" class="acc__cont">
+                                <span>
+                                    Đăng nhập
+                                </span>
                             </a>
                         </div>
-                        <a href="#0" class="acc__cont">
-                            <span>
-                                My Account
-                            </span>
-                        </a>
-                    </div>
+                    @endif
                     <div class="cart d-flex align-items-center">
                         <span class="cart__icon">
                             <i class="fa-regular fa-cart-shopping"></i>
@@ -69,7 +76,7 @@
                 </div>
                 <ul class="main-menu">
                     <li>
-                        <a href="{{route('client.index')}}">Trang chủ</a>
+                        <a href="{{ route('client.index') }}">Trang chủ</a>
                     </li>
                     <li>
                         <a href="">Danh mục <i class="fa-regular fa-angle-down"></i></a>

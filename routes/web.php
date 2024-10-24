@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Auth\Client\LoginController;
+use App\Http\Controllers\Auth\Client\RegisterController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
@@ -28,7 +30,7 @@ Route::group([
     'middleware' => 'auth'
 ], function () {
 
-    
+
     Route::group([
         'prefix' => 'reviews',
         'as' => 'reviews.'
@@ -78,7 +80,7 @@ Route::group([
         Route::get('statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
 
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
-      
+
         // thống kê đơn hàng
         Route::get('/statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
     });
@@ -133,8 +135,16 @@ Route::group([
 Route::group([
     'prefix' => 'client',
     'as' => 'client.',
-    'middleware' => 'auth'
 ], function () {
+    Route::get('/register', [RegisterController::class, 'index'])->name('register');
+
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/index', [ClientController::class, 'index'])->name('index');
 });
