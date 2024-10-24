@@ -11,9 +11,22 @@
                     <button><i class="fa-solid fa-search"></i></button>
                 </div>
                 <div class="account__wrap">
+                    <div class="cart d-flex align-items-center">
+                        <span class="cart__icon">
+                            <i class="fa-regular fa-cart-shopping"></i>
+                        </span>
+                        <a href="#0" class="c__one">
+                            <span>
+                                $0.00
+                            </span>
+                        </a>
+                        <span class="one">
+                            0
+                        </span>
+                    </div>
                     @if (Auth::check())
                         <span style="color: orangered">
-                            {{ Auth::user()->name }}  |
+                            {{ Auth::user()->name }} |
                         </span>
                         <li><a href="{{ route('client.logout') }}" style="color: orangered"> Đăng Xuất</a></li>
                     @else
@@ -30,38 +43,6 @@
                             </a>
                         </div>
                     @endif
-                    <div class="cart d-flex align-items-center">
-                        <span class="cart__icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                        </span>
-                        <a href="#0" class="c__one">
-                            <span>
-                                $0.00
-                            </span>
-                        </a>
-                        <span class="one">
-                            0
-                        </span>
-                    </div>
-                    <div class="flag__wrap">
-                        <div class="flag">
-                            <img src="client_ui/assets/images/flag/us.png" alt="flag">
-                        </div>
-                        <select name="flag">
-                            <option value="0">
-                                Usa
-                            </option>
-                            <option value="1">
-                                Canada
-                            </option>
-                            <option value="2">
-                                Australia
-                            </option>
-                            <option value="3">
-                                Germany
-                            </option>
-                        </select>
-                    </div>
                 </div>
             </div>
         </div>

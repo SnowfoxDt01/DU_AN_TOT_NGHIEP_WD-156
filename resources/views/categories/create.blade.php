@@ -10,42 +10,44 @@
         </ol>
     </section>
     <hr>
-    <form action="{{ route('admin.categories.store') }}" class="row g-3" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group col-md-4">
-            <label for="name_category">Tên danh mục</label>
-            <input type="text" name="name_category" class="form-control" value="{{ old('name_category') }}">
-            @error('name_category')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+    <div class="border border-3 p-4 rounded">
+        <form action="{{ route('admin.categories.store') }}" class="row g-3" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group col-md-4">
+                <label for="name_category">Tên danh mục</label>
+                <input type="text" name="name_category" class="form-control" value="{{ old('name_category') }}">
+                @error('name_category')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
 
-        <div class="form-group col-md-4">
-            <label for="description">Mô tả</label>
-            <input type="text" name="description" class="form-control" value="{{ old('description') }}">
-            @error('description')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+            <div class="form-group col-md-4">
+                <label for="description">Mô tả</label>
+                <input type="text" name="description" class="form-control" value="{{ old('description') }}">
+                @error('description')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
 
-        <div class="form-group col-md-4">
-            <label for="status">Status</label>
-            <select name="status" id="status" class="form-control">
-                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Dừng hoạt động</option>
-                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Hoạt động</option>
-            </select>
-        </div>
+            <div class="form-group col-md-4">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Dừng hoạt động</option>
+                    <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Hoạt động</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="image">Ảnh danh mục</label>
-            <input type="file" name="image" class="form-control">
-            @error('image')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
-        </div>
+            <div class="form-group">
+                <label for="image">Ảnh danh mục</label>
+                <input type="file" name="image" class="form-control">
+                @error('image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Thêm</button>
-        </div>
-    </form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Thêm</button>
+            </div>
+        </form>
+    </div>
 @endsection
