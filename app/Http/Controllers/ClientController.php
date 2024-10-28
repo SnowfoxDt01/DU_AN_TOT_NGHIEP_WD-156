@@ -26,5 +26,11 @@ class ClientController extends Controller
         $sale_products = Product::where('sale_price','<>',0)->get();
         return view('client.index', compact('categories','newProducts','topProducts','sale_products', 'banners'));
     }
+    public function detailProduct(string $id){
+        $categories = Category::all();
+        $detailProduct = Product::where('id',$id)->first();
+        // dd($detailProduct);
+        return view('client.detail-product', compact('categories', 'detailProduct'));
+    }
 
 }
