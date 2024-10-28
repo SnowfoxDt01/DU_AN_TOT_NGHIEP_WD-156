@@ -24,7 +24,7 @@
 
 <hr>
 
-<button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Thêm</a></button>
+<button class="btn btn-primary"><a href="{{  route('admin.products.addProduct') }}" style="color: #fff;">Thêm sản phẩm</a></button>
 <br>
 <br>
 <div class="text-end">

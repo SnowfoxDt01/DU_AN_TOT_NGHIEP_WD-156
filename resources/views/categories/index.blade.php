@@ -1,4 +1,14 @@
 @extends('layout.admin.master')
+
+@push('styles')
+    <style>
+        .category-image {
+            background-color: #7b7b7b; /* Màu xám nhạt */
+            padding: 10px; /* Khoảng cách giữa ảnh và viền */   
+        }
+    </style>
+@endpush
+
 @section('content')
 <section class="content-header">
     <h1>
@@ -53,8 +63,8 @@
         <tr>
             <td>{{ $category->id }}</td>
             <td>{{ $category->name_category }}</td>
-            <td>
-                <img src="{{$category->image}}" alt="">
+            <td >
+                <img class="category-image" src="{{$category->image}}" alt="">
             </td>
             <td>{{ $category->description }}</td>
             <td>
