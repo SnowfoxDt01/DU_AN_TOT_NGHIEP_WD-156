@@ -1,64 +1,40 @@
 @extends('layout.admin.master')
 
-@push('styles')
-    <style>
-        .img-preview {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-        }
-    </style>
-@endpush
-
 @section('content')
+    <section class="content-header">
+        <h1>
+            Chi tiết sản phẩm
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">Chi tiết sản phẩm</li>
+        </ol>
+    </section>
+
+    <hr>
+
     <div class="container">
-        <h1>Chi tiết sản phẩm biến thể</h1>
+        <h2>{{ $variantProduct->name }}</h2>
 
-        <div class="form-group">
-            <label for="name">Tên sản phẩm</label>
-            <p>{{ $variantProduct->name }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ asset($variantProduct->image_url) }}" alt="{{ $variantProduct->name }}"
+                    style="width: 100%; height: 100%; max-width: 500px; max-height: 500px; object-fit: cover; aspect-ratio: 1/1; border: 2px solid black;">
+            </div>            
+            <div class="col-md-6">
+                <h4>Giá: {{ number_format($variantProduct->price, 0, ',', '.') }} VND</h4>
+                <p><strong>Mô tả:</strong> {{ $variantProduct->description }}</p>
+                <p><strong>Số lượng:</strong> {{ $variantProduct->quantity }}</p>
+                <p><strong>Nhãn hàng:</strong> {{ $variantProduct->product->category->name_category ?? 'Không có nhãn hàng' }} </p>
+                <p><strong>Kích thước:</strong> {{ $variantProduct->sizes->name ?? 'Không có size' }} </p>
+                <p><strong>Màu sắc:</strong> {{ $variantProduct->colors->name ?? 'Không có màu' }} </p>
+                <p><strong>Ngày tạo:</strong> {{ $variantProduct->description }}</p>
+                <p><strong>Ngày cập nhật:</strong> {{ $variantProduct->description }}</p>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="description">Mô tả</label>
-            <p>{{ $variantProduct->description }}</p>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Giá</label>
-            <p>{{ number_format($variantProduct->price, 0, ',', '.') }} VNĐ</p>
-        </div>
-
-        <div class="form-group">
-            <label for="quantity">Số lượng</label>
-            <p>{{ $variantProduct->quantity }}</p>
-        </div>
-
-        <div class="form-group">
-            <label for="product_id">Sản phẩm chính</label>
-            <p>{{ $variantProduct->product->name }}</p>
-        </div>
-
-        <div class="form-group">
-            <label for="imageSP">Hình ảnh</label>
-            <img src="{{ asset($variantProduct->image_url) }}" alt="Variant Product Image" class="img-preview mt-3">
-        </div>
-
-        <div class="form-group">
-            <label for="size_id">Kích cỡ</label>
-            <p>{{ $variantProduct->size->name }}</p>
-        </div>
-
-        <div class="form-group">
-            <label for="color_id">Màu sắc</label>
-            <p>{{ $variantProduct->color->name }}</p>
-        </div>
-
-        <div class="form-group">
-            <label for="status">Trạng thái</label>
-            <p>{{ $variantProduct->status == 'active' ? 'Hoạt động' : 'Không hoạt động' }}</p>
-        </div>
-
-        <a href="{{ route('admin.variant-products.index') }}" class="btn btn-secondary">Quay lại</a>
+        <hr>
+        
+        <a href="{{ route('admin.variant-products.index') }}" class="btn btn-success">Quay lại</a>
     </div>
+    
 @endsection

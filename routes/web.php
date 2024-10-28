@@ -81,8 +81,6 @@ Route::group([
 
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
 
-        // thống kê đơn hàng
-        Route::get('/statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
     });
 
     Route::group([
