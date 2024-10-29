@@ -140,6 +140,9 @@
                                     </div>
                                     <hr>
                                 @endforeach
+                            @else
+                                <p>Chưa có đánh giá cho sản phẩm này !</p>
+                                <hr>
                             @endif
                             <div class="section-title mt-5 py-15 mb-30">
                                 <h2 class="text-capitalize primary-color mb-10">Thêm đánh giá của bạn</h2>
