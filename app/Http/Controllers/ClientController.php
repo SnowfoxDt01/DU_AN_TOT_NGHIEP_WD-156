@@ -28,7 +28,7 @@ class ClientController extends Controller
     }
     public function detailProduct(string $id){
         $categories = Category::all();
-        $detailProduct = Product::where('id',$id)->first();
+        $detailProduct = Product::with('variantProducts')->findOrFail($id);
         // dd($detailProduct);
         $totalReviews = $detailProduct->reviews->count();
 
