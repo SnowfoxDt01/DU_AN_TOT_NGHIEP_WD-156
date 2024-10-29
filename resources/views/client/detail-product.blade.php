@@ -1,13 +1,15 @@
 @extends('layout.client.master')
 @section('content')
     <!-- Page banner area start here -->
-    <section class="page-banner bg-image pt-130 pb-130" data-background="client_ui/assets/images/banner/detailbanner.jpg">
+    <section class="page-banner bg-image pt-130 pb-130" data-background="">
         <div class="container">
-            <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s" style="color: orangered">Chi tiết sản phẩm</h2>
+            <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Chi tiết sản
+                phẩm</h2>
             <div class="breadcrumb-list wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".3s">
-                <a href="{{ route('client.index') }}" style="color: orangered" class="primary-hover"><i class="fa-solid fa-house me-1" ></i>Trang chủ<i
+                <a href="{{ route('client.index') }}" class="primary-hover"><i
+                        class="fa-solid fa-house me-1"></i>Trang chủ<i
                         class="fa-regular text-orangered fa-angle-right"></i></a>
-                <span style="color: orangered">Shop Details</span>
+                <span>Shop Details</span>
             </div>
         </div>
     </section>
@@ -41,11 +43,16 @@
                         <div class="content h24">
                             <h3 class="pb-2 primary-color">{{ $detailProduct->name }}</h3>
                             <div class="star primary-color pb-2">
-                                <span><i class="fa-solid fa-star sm-font"></i></span>
-                                <span><i class="fa-solid fa-star sm-font"></i></span>
-                                <span><i class="fa-solid fa-star sm-font"></i></span>
-                                <span><i class="fa-solid fa-star sm-font"></i></span>
-                                <span><i class="fa-solid fa-star-half-stroke sm-font"></i></span>
+                                @for ($i = 0; $i < 5; $i++)
+                                    @if ($i < floor($averageRating))
+                                        <i class="fas fa-star"></i>
+                                    @elseif ($i < ceil($averageRating) && $averageRating - $i > 0)
+                                        <i class="fas fa-star-half-alt"></i>
+                                    @else
+                                        <i class="far fa-star"></i>
+                                    @endif
+                                @endfor
+
                             </div>
                             @if ($detailProduct->sale_price == 0)
                                 <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
@@ -108,42 +115,37 @@
                     </div>
                     <div id="review" class="tab-pane fade">
                         <div class="review-wrp">
-                            <div class="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
-                                <div class="img pb-4 pb-md-0 me-4">
-                                    <img src="assets/images/about/comment3.png" alt="image">
-                                </div>
-                                <div class="content position-relative p-4 bor">
-                                    <div class="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                                        <a href="#0">
-                                            <h4 class="text-capitalize primary-color">Janaton Doe <span
-                                                    class="sm-font ms-2 fw-normal">27
-                                                    March 2023
-                                                    at
-                                                    3.44
-                                                    pm</span>
-                                            </h4>
-                                        </a>
-                                        <div class="star primary-color">
-                                            <span><i class="fa-solid fa-star sm-font"></i></span>
-                                            <span><i class="fa-solid fa-star sm-font"></i></span>
-                                            <span><i class="fa-solid fa-star sm-font"></i></span>
-                                            <span><i class="fa-solid fa-star sm-font"></i></span>
-                                            <span><i class="fa-solid fa-star-half-stroke sm-font"></i></span>
+                            @if ($detailProduct->reviews->count() > 0)
+                                @foreach ($detailProduct->reviews->take(3) as $review)
+                                    <div class="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
+                                        <div class="content p-4 bor">
+                                            <div class="head-wrp pb-1 d-flex flex-wrap justify-content-between">
+                                                <a href="#0">
+                                                    <h4 class="text-capitalize primary-color">
+                                                        {{ $review->user->name }}<span
+                                                            class="sm-font ms-2 fw-normal">{{ $review->created_at }}</span>
+                                                    </h4>
+                                                </a>
+                                                <div class="star primary-color ms-md-3">
+                                                    @for ($i = 0; $i < 5; $i++)
+                                                        @if ($i < $review->rating)
+                                                            <i class="fas fa-star"></i> <!-- Sao đầy -->
+                                                        @else
+                                                            <i class="far fa-star"></i> <!-- Sao rỗng -->
+                                                        @endif
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <p class="text-justify">{{ $review->comment }} </p>
                                         </div>
                                     </div>
-                                    <p class="text-justify">Globally leverage existing sticky testing procedures
-                                        whereas
-                                        timely
-                                        alignments. Appropriately leverage existing cross unit human a capital
-                                        Globally
-                                        distributed
-                                        process improvements and empowered
-                                        internal or sources. </p>
-                                </div>
-                            </div>
+                                    <hr>
+                                @endforeach
+                            @endif
                             <div class="section-title mt-5 py-15 mb-30">
                                 <h2 class="text-capitalize primary-color mb-10">Thêm đánh giá của bạn</h2>
-                                <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ trống.
+                                <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
+                                    trống.
                                 </p>
                                 <div class="shop-single__rate-now">
                                     <p>Chất lượng sản phẩm?</p>
