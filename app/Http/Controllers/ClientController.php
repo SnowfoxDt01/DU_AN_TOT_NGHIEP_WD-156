@@ -30,7 +30,10 @@ class ClientController extends Controller
         $categories = Category::all();
         $detailProduct = Product::where('id',$id)->first();
         // dd($detailProduct);
-        return view('client.detail-product', compact('categories', 'detailProduct'));
+        $totalReviews = $detailProduct->reviews->count();
+
+        $averageRating = $totalReviews > 0 ? $detailProduct->reviews->avg('rating') : 0;
+        return view('client.detail-product', compact('categories', 'detailProduct','totalReviews','averageRating'));
     }
 
 }
