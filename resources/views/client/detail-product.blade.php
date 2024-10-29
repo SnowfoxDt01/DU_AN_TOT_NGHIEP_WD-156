@@ -8,7 +8,7 @@
             <div class="breadcrumb-list wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".3s">
                 <a href="{{ route('client.index') }}" class="primary-hover"><i class="fa-solid fa-house me-1"></i>Trang chủ<i
                         class="fa-regular text-orangered fa-angle-right"></i></a>
-                <span>Shop Details</span>
+                <span>Chi tiết sản phẩm</span>
             </div>
         </div>
     </section>
@@ -60,19 +60,27 @@
                                 <h2 class="pb-3">{{ number_format($detailProduct->sale_price) }}.đ</h2>
                             @endif
                             <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
-                            <p class="text-justify mb-10">{{ $detailProduct->description }}</p>
+                            <p class="text-justify mb-10" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                {{ $detailProduct->description }}
+                            </p>
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="details-area">
                                     <div class="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
-                                        <h4 class="pe-3">Categories :</h4>
+                                        <h4 class="pe-3">Danh mục :</h4>
                                         <a href="#0"
                                             class="primary-hover">{{ $detailProduct->category->name_category }}</a>
                                     </div>
                                     <div class="d-flex flex-wrap py-3 bor-bottom">
-                                        <h4 class="pe-3">Tags :</h4>
-                                        <a href="#0" class="primary-hover">Fashion</a>
+                                        <h4 class="pe-3">Lựa chọn :</h4>
+                                        <div class="variant-images d-flex gap-2">
+                                            @foreach ($detailProduct->variantProducts as $variant)
+                                                <img src="{{ $variant->image_url }}" alt="variant-{{ $variant->name }}"
+                                                    class="variant-thumb" style="width: 50px; cursor: pointer;"
+                                                    onclick="showVariant({{ $variant->id }})">
+                                            @endforeach
+                                        </div>
                                     </div>
                                     <div class="cart-wrp py-4">
                                         <div class="cart-quantity">
@@ -110,7 +118,7 @@
                 </ul>
                 <div class="tab-content">
                     <div id="description" class="tab-pane fade show active">
-                        <p class="pb-4 text-justify">{{ $detailProduct->description }}</p>
+                        <p class="pb-4 text-justify">{!! nl2br($detailProduct->description )!!}</p>
                     </div>
                     <div id="review" class="tab-pane fade">
                         <div class="review-wrp">
