@@ -3,12 +3,9 @@
 @section('content')
     <div class="container">
         <h1>Quản lý Kích Thước</h1>
+        <hr>
         <a href="{{ route('admin.sizes.create') }}" class="btn btn-primary">Thêm Kích Thước</a>
-
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
+        <hr>
         <table class="table">
             <thead>
                 <tr>

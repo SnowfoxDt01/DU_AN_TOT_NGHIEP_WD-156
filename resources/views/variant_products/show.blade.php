@@ -28,7 +28,7 @@
                 <p><strong>Nhãn hàng:</strong> {{ $variantProduct->product->category->name_category ?? 'Không có nhãn hàng' }} </p>
                 <p><strong>Kích thước:</strong> {{ $variantProduct->sizes->name ?? 'Không có size' }} </p>
                 <p><strong>Màu sắc:</strong> {{ $variantProduct->colors->name ?? 'Không có màu' }} </p>
-                <p><strong>Ngày tạo:</strong> {{ $variantProduct->description }}</p>
+                <p><strong>Ngày tạo:</strong> {{ $variantProduct->created_at }}</p>
                 <p><strong>Ngày cập nhật:</strong> {{ $variantProduct->description }}</p>
             </div>
         </div>
