@@ -77,7 +77,7 @@
         <tr>
             <td>{{ $value->id }}</td>
             <td>{{ $value->name }}</td>
-            <td>{{ $value->description }}</td>
+            <td>{{ Str::limit($value->description, 300, '...') }}</td>
             <td>{{ number_format($value->base_price) }}.đ</td>
             <td>{{ number_format($value->sale_price) }}.đ</td>
             <td>

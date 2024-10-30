@@ -108,10 +108,7 @@
                                         <label for="variant_quantity">Số lượng</label>
                                         <input type="number" class="form-control" name="variant_quantity[]" value="{{ $variant->quantity }}" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="variant_description">Mô tả</label>
-                                        <textarea name="variant_description[]" class="form-control">{{ $variant->description }}</textarea>
-                                    </div>
+                                    
                                     <div class="form-group col-md-3">
                                         <label for="variant_size">Kích cỡ</label>
                                         <select name="variant_size[]" class="form-control">
@@ -225,10 +222,7 @@ $(document).ready(function() {
                             <label for="variant_quantity">Số lượng</label>
                             <input type="number" class="form-control" name="variant_quantity[]" required>
                         </div>
-                        <div class="form-group">
-                            <label for="variant_description">Mô tả</label>
-                            <textarea name="variant_description[]" class="form-control"></textarea>
-                        </div>
+                        
                         <div class="form-group col-md-3">
                             <label for="variant_size">Kích cỡ</label>
                             <select name="variant_size[]" class="form-control">

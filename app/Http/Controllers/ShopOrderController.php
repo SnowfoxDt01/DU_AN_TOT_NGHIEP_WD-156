@@ -111,9 +111,10 @@ class ShopOrderController extends Controller
         $topSellingProducts = $this->getTopSellingProducts($request);
         $orderCount = $this->getOrderCount($request);
         $successRate = $this->getOrderSuccessRate($request);
-       
+        $ordersByStatus = $this->getOrdersByStatus($request);
+        $revenueTrend = $this->getRevenueTrend($request);
         // Trả về view với dữ liệu thống kê
-        return view('orders.statistics', compact('revenue', 'topUsers', 'topSellingProducts','orderCount','successRate'));
+        return view('orders.statistics', compact('revenue', 'topUsers', 'topSellingProducts','orderCount','successRate', 'ordersByStatus', 'revenueTrend'));
     }
     private function getRevenue(Request $request){
         return ShopOrder::sum('total_price');
@@ -148,6 +149,18 @@ class ShopOrderController extends Controller
     
         // Trả về tỷ lệ thành công
         return $successRate;
+    }
+    private function getOrdersByStatus(Request $request) {
+        return ShopOrder::select('order_status', DB::raw('count(*) as count'))
+            ->groupBy('order_status')
+            ->get();
+    }
+    private function getRevenueTrend(Request $request) {
+        // Lấy doanh thu theo tháng
+        return ShopOrder::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('SUM(total_price) as total_revenue'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
     }
     public function export()
     {

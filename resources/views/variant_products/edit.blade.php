@@ -24,11 +24,6 @@
             </div>
 
             <div class="form-group">
-                <label for="description">Mô tả</label>
-                <textarea name="description" class="form-control" required>{{ $variantProduct->description }}</textarea>
-            </div>
-
-            <div class="form-group">
                 <label for="price">Giá</label>
                 <input type="number" name="price" class="form-control" value="{{ $variantProduct->price }}" required>
             </div>
@@ -79,8 +74,8 @@
             <div class="form-group">
                 <label for="status">Trạng thái</label>
                 <select name="status" class="form-control" required>
-                    <option value="active" {{ $variantProduct->status == 'active' ? 'selected' : '' }}>Hoạt động</option>
-                    <option value="inactive" {{ $variantProduct->status == 'inactive' ? 'selected' : '' }}>Không hoạt động</option>
+                    <option value="active" {{ $variantProduct->status == 'active' ? 'selected' : '' }}>Còn hàng</option>
+                    <option value="inactive" {{ $variantProduct->status == 'inactive' ? 'selected' : '' }}>Không còn hàng</option>
                 </select>
             </div>
 

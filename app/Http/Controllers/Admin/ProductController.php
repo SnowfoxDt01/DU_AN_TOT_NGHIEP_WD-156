@@ -81,7 +81,7 @@ class ProductController extends Controller
         $product = Product::create($productData);
 
         // Thêm sản phẩm biến thể
-        if ($request->has('variant_name')) {
+        if ($request->has('variant_name') && !empty(array_filter($request->variant_name)))  {
             foreach ($request->variant_name as $key => $name) {
                 $linkImageVP = ''; // Đặt lại biến chứa đường dẫn ảnh cho từng biến thể
 
@@ -96,7 +96,6 @@ class ProductController extends Controller
 
                 VariantProduct::create([
                     'name' => $name,
-                    'description' => $request->variant_description[$key],
                     'price' => $request->variant_price[$key],
                     'quantity' => $request->variant_quantity[$key],
                     'product_id' => $product->id, // Liên kết với sản phẩm chính
@@ -194,7 +193,7 @@ class ProductController extends Controller
 
                     $variantProduct->update([
                         'name' => $name,
-                        'description' => $request->variant_description[$key],
+                        
                         'price' => $request->variant_price[$key],
                         'quantity' => $request->variant_quantity[$key],
                         'product_id' => $product->id,
@@ -218,7 +217,7 @@ class ProductController extends Controller
 
                     VariantProduct::create([
                         'name' => $name,
-                        'description' => $request->variant_description[$key],
+                        
                         'price' => $request->variant_price[$key],
                         'quantity' => $request->variant_quantity[$key],
                         'product_id' => $product->id,

@@ -56,7 +56,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
-                    <th>Mô tả</th>
                     <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Sản phẩm chính</th>
@@ -72,7 +71,6 @@
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->description }}</td>
                         <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->product->name }}</td>
@@ -83,9 +81,9 @@
                         <td>{{ $product->color->name }}</td>
                         <td>
                             @if ($product->status == 'active')
-                                <span class="badge bg-success">Hoạt động</span>
+                                <span class="badge bg-success">Còn hàng</span>
                             @else
-                                <span class="badge bg-danger">Không hoạt động</span>
+                                <span class="badge bg-danger">Không còn hàng</span>
                             @endif
                         </td>
                         <td>

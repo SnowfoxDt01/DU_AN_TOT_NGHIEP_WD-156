@@ -109,7 +109,6 @@ class VariantProductController extends Controller
 
         $data = [
             'name' => $request->name,
-            'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
             'product_id' => $request->product_id,
@@ -141,27 +140,33 @@ class VariantProductController extends Controller
         $totalProducts = Category::count(); // Tổng số sản phẩm chính
         $totalSizes = Size::count(); // Tổng số kích cỡ
         $totalColors = Color::count(); // Tổng số màu sắc
-
+    
         // Tính số lượng sản phẩm theo từng danh mục
         $productsByProduct = VariantProduct::select('product_id', DB::raw('count(*) as count'))
             ->groupBy('product_id')
             ->with('product')
             ->get();
-
+    
         // Tính số lượng sản phẩm theo từng màu
         $productsByColor = VariantProduct::select('color_id', DB::raw('count(*) as count'))
             ->groupBy('color_id')
             ->with('color')
             ->get();
-
+    
         // Tính số lượng sản phẩm theo từng kích cỡ
         $productsBySize = VariantProduct::select('size_id', DB::raw('count(*) as count'))
             ->groupBy('size_id')
             ->with('size')
             ->get();
-
-        return view('variant_products.statistics', compact('totalVariantProducts', 'totalProducts', 'totalSizes', 'totalColors', 'productsByProduct', 'productsByColor', 'productsBySize'));
+    
+        // Tính số lượng sản phẩm theo trạng thái
+        $productsByStatus = VariantProduct::select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->get();
+    
+        return view('variant_products.statistics', compact('totalVariantProducts', 'totalProducts', 'totalSizes', 'totalColors', 'productsByProduct', 'productsByColor', 'productsBySize', 'productsByStatus'));
     }
+    
 
 
 }

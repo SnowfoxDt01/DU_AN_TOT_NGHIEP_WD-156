@@ -2,31 +2,110 @@
 
 @push('styles')
 <style>
-    .review-container {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    h2, h3 {
+        color: #333;
+        font-family: Arial, sans-serif;
+        margin-bottom: 15px;
+    }
+
+    .breadcrumb {
+        background: none;
+        padding: 0;
+        font-size: 0.9em;
+    }
+
+    .breadcrumb .active {
+        color: #0073aa;
+    }
+
+    .content-header h1 {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .product-info, .review-container {
         display: flex;
-        flex-wrap: wrap; /* Cho phép các review xuống dòng nếu không đủ chỗ */
-        gap: 20px; /* Khoảng cách giữa các review */
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .product-info img {
+        max-width: 50%; 
+        height: 500px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .product-info p, .product-info h4 {
+        margin-bottom: 8px;
+        color: #555;
+        font-family: Arial, sans-serif;
+    }
+
+    .product-info h4 {
+        font-weight: bold;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #0073aa;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #005d8a;
+    }
+
+    .reviews-section {
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+
+    .review-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
     }
 
     .review {
-        border: 1px solid #ccc; /* Đường viền cho review */
-        padding: 10px; /* Padding cho review */
-        border-radius: 5px; /* Bo tròn góc */
-        width: calc(33.33% - 20px); /* Đặt chiều rộng cho mỗi review (3 review trên 1 hàng) */
-        box-sizing: border-box; /* Bao gồm padding và border vào tổng chiều rộng */
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
     }
 
-    /* Đảm bảo hiển thị tốt trên màn hình nhỏ hơn */
-    @media (max-width: 768px) {
-        .review {
-            width: calc(50% - 20px); /* 2 review trên 1 hàng */
-        }
+    .review p {
+        margin: 0 0 10px;
+        color: #555;
     }
 
-    @media (max-width: 480px) {
-        .review {
-            width: 100%; /* 1 review trên 1 hàng */
-        }
+    .btn-warning {
+        background-color: #ffb900;
+        border: none;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+    
+    .show-more-link {
+        color: #0073aa;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: underline;
     }
 
 </style>
@@ -34,131 +113,101 @@
 
 @section('content')
     <section class="content-header">
-        <h1>
-            Chi tiết sản phẩm
-            <small>Control panel</small>
-        </h1>
+        <h1>Chi tiết sản phẩm</h1>
         <ol class="breadcrumb">
             <li class="active">Chi tiết sản phẩm</li>
         </ol>
     </section>
 
-    <hr>
-
     <div class="container">
         <h2>{{ $product->name }}</h2>
-
-        <div class="row">
-            <div class="col-md-6">
-                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                    style="width: 100%; height: 100%; max-width: 500px; max-height: 500px; object-fit: cover; aspect-ratio: 1/1; border: 2px solid black;">
-            </div>            
-            <div class="col-md-6">
+        <div class="product-info">
+            <div>
+                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+            </div>
+            <div>
                 <h4>Giá: {{ number_format($product->base_price, 0, ',', '.') }} VND</h4>
-                <p>
-                    <strong>Mô tả:</strong> 
-                    <span id="product-description">
-                        {{ Str::limit($product->description, 50) }} <!-- Hiển thị tối đa 50 ký tự -->
-                    </span>
-                    @if (strlen($product->description) > 50) <!-- Kiểm tra nếu mô tả dài hơn 50 ký tự -->
-                        <span id="full-description" style="display: none;">{{ $product->description }}</span> <!-- Mô tả đầy đủ ẩn đi -->
-                        <a href="#" id="show-more-description" style="color: blue; text-decoration: underline;">Xem thêm</a> <!-- Nút Xem thêm -->
+                <p><strong>Mô tả:</strong> <span id="product-description">{{ Str::limit($product->description, 100) }}</span>
+                    @if (strlen($product->description) > 100)
+                        <span id="full-description" style="display: none;">{{ $product->description }}</span>
+                        <span class="show-more-link" id="show-more-description">Xem thêm</span>
                     @endif
-                </p>                
+                </p>
                 <p><strong>Số lượng:</strong> {{ $product->quantity }}</p>
                 <p><strong>Nhãn hàng:</strong> {{ $product->category->name_category ?? 'No category' }}</p>
-                <p><strong>Kích thước:</strong> 
-                    {{ $product->variantProducts->pluck('size.name')->unique()->implode(', ') ?? 'Không có' }}
-                </p>
-                <p><strong>Màu sắc:</strong> 
-                    {{ $product->variantProducts->pluck('color.name')->unique()->implode(', ') ?? 'Không có' }}
-                </p>
+                <p><strong>Kích thước:</strong> {{ $product->variantProducts->pluck('size.name')->unique()->implode(', ') ?? 'Không có' }}</p>
+                <p><strong>Màu sắc:</strong> {{ $product->variantProducts->pluck('color.name')->unique()->implode(', ') ?? 'Không có' }}</p>
                 <p><strong>Ngày tạo:</strong> {{ $product->created_at->format('d/m/Y') }}</p>
                 <p><strong>Ngày cập nhật:</strong> {{ $product->updated_at->format('d/m/Y') }}</p>
                 <p><strong>Lượt xem:</strong> {{ $product->views }}</p>
-                <h2>Thông tin đánh giá</h2>
-                <p><strong>Số lượng đánh giá:</strong> {{ $totalReviews }}</p>
-                <p><strong>Điểm trung bình:</strong> {{ number_format($averageRating, 1) }}</p>
-
             </div>
         </div>
-        <hr>
+
         <div class="reviews-section">
             <h3>Đánh giá sản phẩm</h3>
             
+            <!-- Hiển thị số lượng đánh giá và điểm trung bình -->
+            <p><strong>Số lượng đánh giá:</strong> {{ $product->reviews->count() }}</p>
+            <p><strong>Điểm đánh giá trung bình:</strong> 
+                {{ $product->reviews->count() > 0 ? number_format($product->reviews->avg('rating'), 1) : 'Chưa có đánh giá' }}/5
+            </p>
+        
             @if($product->reviews->count() > 0)
-                <div class="review-container"> <!-- Thêm div để chứa các bình luận -->
-                    @foreach ($product->reviews->take(3) as $review) <!-- Chỉ lấy 3 đánh giá đầu tiên -->
+                <div class="review-container">
+                    @foreach ($product->reviews->take(3) as $review)
                         <div class="review">
                             <p><strong>Người dùng:</strong> {{ $review->user->name ?? 'Ẩn danh' }}</p>
                             <p><strong>Điểm đánh giá:</strong> {{ $review->rating }}/5</p>
                             <p><strong>Bình luận:</strong> {{ $review->comment }}</p>
-                            <p>
-                                <strong>Trạng thái:</strong> 
-                                {{ $review->is_visible ? 'Đang hiển thị' : 'Không hiển thị' }}
-                            </p>
-                            
-                            <form action="{{ route('admin.reviews.toggleVisibility', $review->id) }}" method="POST" style="display:inline;">
+                            <p><strong>Trạng thái:</strong> {{ $review->is_visible ? 'Đang hiển thị' : 'Không hiển thị' }}</p>
+                            <form action="{{ route('admin.reviews.toggleVisibility', $review->id) }}" method="POST">
                                 @csrf
-                                @method('POST')
-                                <button type="submit" class="btn btn-warning">
-                                    {{ $review->is_visible ? 'Ẩn' : 'Hiện' }} đánh giá
-                                </button>
-                            </form>                        
+                                <button type="submit" class="btn btn-warning">{{ $review->is_visible ? 'Ẩn' : 'Hiện' }} đánh giá</button>
+                            </form>
                         </div>
                     @endforeach
                 </div>
-        
-                @if ($product->reviews->count() > 3) <!-- Kiểm tra nếu có nhiều hơn 3 đánh giá -->
-                <br>
-                    <p><a href="#" class="btn btn-info" id="show-more-reviews">Xem thêm đánh giá</a></p>
-                    <div id="more-reviews" style="display: none;"> <!-- Ẩn các đánh giá còn lại -->
-                        <div class="review-container"> <!-- Thêm div để chứa các bình luận -->
-                            @foreach ($product->reviews->slice(3) as $review) <!-- Hiển thị các đánh giá còn lại -->
+                @if ($product->reviews->count() > 3)
+                    <div id="more-reviews" style="display: none;">
+                        <div class="review-container">
+                            @foreach ($product->reviews->slice(3) as $review)
                                 <div class="review">
                                     <p><strong>Người dùng:</strong> {{ $review->user->name ?? 'Ẩn danh' }}</p>
                                     <p><strong>Điểm đánh giá:</strong> {{ $review->rating }}/5</p>
                                     <p><strong>Bình luận:</strong> {{ $review->comment }}</p>
-                                    <p>
-                                        <strong>Trạng thái:</strong> 
-                                        {{ $review->is_visible ? 'Đang hiển thị' : 'Không hiển thị' }}
-                                    </p>
-                                    
-                                    <form action="{{ route('admin.reviews.toggleVisibility', $review->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('admin.reviews.toggleVisibility', $review->id) }}" method="POST">
                                         @csrf
-                                        @method('POST')
-                                        <button type="submit" class="btn btn-warning">
-                                            {{ $review->is_visible ? 'Ẩn' : 'Hiện' }} đánh giá
-                                        </button>
-                                    </form>                        
-        
-                                    <hr>
+                                        <button type="submit" class="btn btn-warning">{{ $review->is_visible ? 'Ẩn' : 'Hiện' }} đánh giá</button>
+                                    </form>
                                 </div>
                             @endforeach
                         </div>
                     </div>
+                    <br>
+        
+                    <span class="btn btn-info" id="show-more-reviews">Xem thêm đánh giá</span>
                 @endif
             @else
                 <p>Chưa có đánh giá nào cho sản phẩm này.</p>
             @endif
         </div>
         
-        
-        
         <hr>
-        <a href="{{ route('admin.products.listProduct') }}" class="btn btn-success">Quay lại</a>
+        <br>
+        <a href="{{ route('admin.products.listProduct') }}" class="btn">Quay lại</a>
     </div>
+
     <script>
-        document.getElementById('show-more-reviews').addEventListener('click', function(e) {
+        document.getElementById('show-more-description')?.addEventListener('click', function (e) {
             e.preventDefault();
-            document.getElementById('more-reviews').style.display = 'block'; // Hiện các đánh giá còn lại
-            this.style.display = 'none'; // Ẩn nút "Xem thêm đánh giá"
+            document.getElementById('product-description').innerText = document.getElementById('full-description').innerText;
+            this.style.display = 'none';
         });
-        document.getElementById('show-more-description')?.addEventListener('click', function(e) {
+
+        document.getElementById('show-more-reviews')?.addEventListener('click', function (e) {
             e.preventDefault();
-            document.getElementById('product-description').innerText = document.getElementById('full-description').innerText; // Hiển thị mô tả đầy đủ
-            this.style.display = 'none'; // Ẩn nút "Xem thêm"
+            document.getElementById('more-reviews').style.display = 'block';
+            this.style.display = 'none';
         });
     </script>
-    
 @endsection

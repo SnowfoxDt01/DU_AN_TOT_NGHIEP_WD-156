@@ -96,20 +96,17 @@
                                 <input type="hidden" name="variant_id[]" value="">
                                 <div class="form-group col-md-4">
                                     <label for="variant_name">Tên sản phẩm biến thể</label>
-                                    <input type="text" class="form-control" name="variant_name[]" placeholder="Tên biến thể" required>
+                                    <input type="text" class="form-control" name="variant_name[]" placeholder="Tên biến thể">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="variant_price">Giá</label>
-                                    <input type="number" class="form-control" name="variant_price[]" placeholder="Giá biến thể" required>
+                                    <input type="number" class="form-control" name="variant_price[]" placeholder="Giá biến thể">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="variant_quantity">Số lượng</label>
-                                    <input type="number" class="form-control" name="variant_quantity[]" placeholder="Số lượng biến thể" required>
+                                    <input type="number" class="form-control" name="variant_quantity[]" placeholder="Số lượng biến thể">
                                 </div>
-                                <div class="form-group">
-                                    <label for="variant_description">Mô tả</label>
-                                    <textarea name="variant_description[]" class="form-control" placeholder="Mô tả biến thể"></textarea>
-                                </div>
+                                
                                 <div class="form-group col-md-3">
                                     <label for="variant_size">Kích cỡ</label>
                                     <select name="variant_size[]" class="form-control">
@@ -128,7 +125,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="variant_image">Ảnh biến thể</label>
-                                    <input type="file" class="form-control" name="variant_image[]" required>
+                                    <input type="file" class="form-control" name="variant_image[]">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="variant_status">Trạng thái</label>
@@ -212,10 +209,6 @@ $(document).ready(function() {
                         <div class="form-group col-md-4">
                             <label for="variant_quantity">Số lượng</label>
                             <input type="number" class="form-control" name="variant_quantity[]" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="variant_description">Mô tả</label>
-                            <textarea name="variant_description[]" class="form-control"></textarea>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="variant_size">Kích cỡ</label>
