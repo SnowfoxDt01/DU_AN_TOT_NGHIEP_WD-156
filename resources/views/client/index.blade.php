@@ -424,7 +424,7 @@
                             </div>
                             <div class="gallery__content">
                                 <h3 class="mb-10"><a href="{{route('client.detailProduct', $sale->id)}}">{{ $sale->name }}</a></h3>
-                                <p>{{ $sale->description }}</p>
+                                <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 270px;">{{ $sale->description }}</p>
                                 <a href="{{route('client.detailProduct', $sale->id)}}" class="btn-two mt-25"><span>Mua ngay</span></a>
                             </div>
                         </div>
