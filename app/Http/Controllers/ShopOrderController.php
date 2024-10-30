@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\ShopOrder;
 use App\Models\ShopOrderItem;
-use App\Models\TotalOrders;
 use App\Enums\OrderStatus;
 use Illuminate\Http\Request;
-use App\Events\NewOrderCreated;
 use App\Exports\ShopOrderExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Admin\PaymentController;
@@ -116,10 +113,10 @@ class ShopOrderController extends Controller
         // Trả về view với dữ liệu thống kê
         return view('orders.statistics', compact('revenue', 'topUsers', 'topSellingProducts','orderCount','successRate', 'ordersByStatus', 'revenueTrend'));
     }
-    private function getRevenue(Request $request){
+    private function getRevenue(){
         return ShopOrder::sum('total_price');
     }
-    private function getTopUsers(Request $request){
+    private function getTopUsers(){
         return ShopOrder::select('users.name','shop_order.user_id', DB::raw('count(*) as order_count'))
         ->join('users', 'shop_order.user_id', '=','users.id')
         ->groupBy('shop_order.user_id','users.name')
@@ -127,7 +124,7 @@ class ShopOrderController extends Controller
         ->take(5)
         ->get();
     }
-    private function getTopSellingProducts(Request $request){
+    private function getTopSellingProducts(){
         return ShopOrderItem::select('products.name as product_name', DB::raw('sum(shop_order_items.quantity) as total_sales'))
         ->join('products', 'shop_order_items.product_id', '=', 'products.id')
         ->groupBy('products.id', 'products.name')
@@ -135,10 +132,10 @@ class ShopOrderController extends Controller
         ->take(5)
         ->get();
     }
-    private function getOrderCount(Request $request){
+    private function getOrderCount(){
         return ShopOrder::count();
     }
-    private function getOrderSuccessRate(Request $request) {
+    private function getOrderSuccessRate() {
         $totalOrders = ShopOrder::count();
         $successfulOrders = ShopOrder::where('order_status', 'completed')->count();
         if ($totalOrders > 0) {
@@ -150,14 +147,14 @@ class ShopOrderController extends Controller
         // Trả về tỷ lệ thành công
         return $successRate;
     }
-    private function getOrdersByStatus(Request $request) {
+    private function getOrdersByStatus() {
         return ShopOrder::select('order_status', DB::raw('count(*) as count'))
             ->groupBy('order_status')
             ->get();
     }
-    private function getRevenueTrend(Request $request) {
+    private function getRevenueTrend() {
         // Lấy doanh thu theo tháng
-        return ShopOrder::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('SUM(total_price) as total_revenue'))
+        return ShopOrder::select(DB::raw('DATE_FORMAT(date_order, "%Y-%m") as month'), DB::raw('SUM(total_price) as total_revenue'))
             ->groupBy('month')
             ->orderBy('month')
             ->get();
