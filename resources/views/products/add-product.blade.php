@@ -55,25 +55,25 @@
                     <h3>Thông tin chung</h3>
                     <div class="form-group">
                         <label for="nameSP">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="nameSP" name="nameSP" placeholder="Tên sản phẩm" required>
+                        <input type="text" class="form-control" id="nameSP" name="nameSP" placeholder="Tên sản phẩm" value="{{ old('nameSP') }}" required>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="priceSP">Giá</label>
-                            <input type="number" class="form-control" id="priceSP" name="priceSP" placeholder="Giá sản phẩm" required>
+                            <input type="number" class="form-control" id="priceSP" name="priceSP" placeholder="Giá sản phẩm" value="{{ old('priceSP') }}" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="sale_price">Giá khuyến mãi</label>
-                            <input type="number" class="form-control" id="sale_price" name="sale_price" placeholder="Giá khuyến mãi">
+                            <input type="number" class="form-control" id="sale_price" name="sale_price" value="{{ old('sale_price') }}" placeholder="Giá khuyến mãi">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="descriptionSP">Mô tả</label>
-                        <textarea class="form-control" id="descriptionSP" name="descriptionSP" placeholder="Mô tả sản phẩm"></textarea>
+                        <textarea class="form-control" id="descriptionSP" name="descriptionSP" value="{{ old('descriptionSP') }}" placeholder="Mô tả sản phẩm"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="quantitySP">Số lượng</label>
-                        <input type="number" class="form-control" id="quantitySP" name="quantitySP" placeholder="Tên sản phẩm" required>
+                        <input type="number" class="form-control" id="quantitySP" name="quantitySP" value="{{ old('quantitySP') }}" placeholder="Tên sản phẩm" required>
                     </div>
                 </div> 
     
@@ -96,15 +96,15 @@
                                 <input type="hidden" name="variant_id[]" value="">
                                 <div class="form-group col-md-4">
                                     <label for="variant_name">Tên sản phẩm biến thể</label>
-                                    <input type="text" class="form-control" name="variant_name[]" placeholder="Tên biến thể">
+                                    <input type="text" class="form-control" name="variant_name[]" value="{{ old('variant_name[]') }}" placeholder="Tên biến thể">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="variant_price">Giá</label>
-                                    <input type="number" class="form-control" name="variant_price[]" placeholder="Giá biến thể">
+                                    <input type="number" class="form-control" name="variant_price[]" value="{{ old('variant_price[]') }}" placeholder="Giá biến thể">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="variant_quantity">Số lượng</label>
-                                    <input type="number" class="form-control" name="variant_quantity[]" placeholder="Số lượng biến thể">
+                                    <input type="number" class="form-control" name="variant_quantity[]" value="{{ old('variant_quantity[]') }}" placeholder="Số lượng biến thể">
                                 </div>
                                 
                                 <div class="form-group col-md-3">
