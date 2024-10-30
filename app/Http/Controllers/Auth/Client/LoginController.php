@@ -20,7 +20,8 @@ class LoginController extends Controller
         if (Auth::attempt($user, $request->remember)) {
             return redirect()->route('client.index')->with('success', 'Đăng nhập thành công.');
         }
-        return redirect()->back()->with('error', 'Sai thông tin đăng nhập!');
+        return redirect()->back() ->withErrors(['email' => 'Email hoặc mật khẩu không đúng.'])
+        ->withInput($request->except('password'));
     }
 
     public function logout()
