@@ -16,7 +16,7 @@
                             <div class="form-area login__form">
                                 <form action="{{ route('client.login') }}" method="POST">
                                     @csrf
-                                    <input type="email" name="email" placeholder="Nhập email...">
+                                    <input type="text" name="email" placeholder="Nhập email..." value="{{ old('email') }}">
                                     @error('email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror

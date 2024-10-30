@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,14 +12,7 @@ class RegisterController extends Controller
     public function index(){
         return view('auth.client.register');
     }
-    public function register(Request $request){
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-        
+    public function register(AuthRequest $request){
         try {
             User::create($request->all());
         }catch(\Throwable $th){

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth\Client;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -13,13 +13,8 @@ class LoginController extends Controller
         return view('auth.client.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
-
         $user = ['email' => $request->email, 'password' => $request->password];
 
         if (Auth::attempt($user, $request->remember)) {
