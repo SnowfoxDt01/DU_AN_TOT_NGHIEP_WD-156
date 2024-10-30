@@ -18,16 +18,14 @@ use App\Http\Controllers\VariantProductController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ReviewController;
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::get('/', [ClientController::class, 'index'])->name('client.index');
 
 Auth::routes();
 // http://127.0.0.1:8000/
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
-    'middleware' => 'auth'
+    'middleware' => ['auth','role:super-admin|admin']
 ], function () {
 
 
@@ -143,8 +141,6 @@ Route::group([
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
-    Route::get('/index', [ClientController::class, 'index'])->name('index');
 
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
 

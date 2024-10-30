@@ -14,7 +14,8 @@ class RegisterController extends Controller
     }
     public function register(AuthRequest $request){
         try {
-            User::create($request->all());
+           $user = User::create($request->all());
+            $user->assignRole('customer');
         }catch(\Throwable $th){
             return redirect()->back()->with('error', 'Đã có lỗi xảy ra. Vui lòng thử lại.');
         }
