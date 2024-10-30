@@ -2,7 +2,7 @@
     <div class="top__header pt-30 pb-30">
         <div class="container">
             <div class="top__wrapper">
-                <a href="#" class="main__logo">
+                <a href="{{route('client.index')}}" class="main__logo">
                     <img src="client_ui/assets/images/logo/mainlogo.png"
                         style="max-width: 100%;height: auto; max-height: 100px; padding-bottom: 30px" alt="logo__image">
                 </a>
