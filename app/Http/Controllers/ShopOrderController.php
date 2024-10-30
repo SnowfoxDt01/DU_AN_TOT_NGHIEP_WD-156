@@ -157,7 +157,7 @@ class ShopOrderController extends Controller
     }
     private function getRevenueTrend(Request $request) {
         // Lấy doanh thu theo tháng
-        return ShopOrder::select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('SUM(total_price) as total_revenue'))
+        return ShopOrder::select(DB::raw('DATE_FORMAT(date_order, "%Y-%m") as month'), DB::raw('SUM(total_price) as total_revenue'))
             ->groupBy('month')
             ->orderBy('month')
             ->get();
