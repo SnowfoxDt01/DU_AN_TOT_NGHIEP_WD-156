@@ -22,7 +22,8 @@ class Product extends Model
         'product_category_id'
     ];
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class, 'product_category_id');
     }
     // Relationship with ShopOrderItems (Many to Many through ShopOrderItems)
@@ -39,10 +40,13 @@ class Product extends Model
     {
         return $this->hasMany(Review::class, 'product_id');
     }
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
     public function variantProducts()
     {
         return $this->hasMany(VariantProduct::class, 'product_id');
-    }   
-    
-
+    }
 }

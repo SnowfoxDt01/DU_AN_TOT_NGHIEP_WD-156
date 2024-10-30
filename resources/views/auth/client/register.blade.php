@@ -16,11 +16,11 @@
                             <div class="form-area login__form">
                                 <form action="{{ route('client.register') }}" method="POST">
                                     @csrf
-                                    <input type="text" name="name" placeholder="Nhập tên người dùng...">
+                                    <input type="text" name="name" placeholder="Nhập tên người dùng..." value="{{ old('name') }}">
                                     @error('name')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
-                                    <input class="mt-30" type="email" name="email" placeholder="Email">
+                                    <input class="mt-30" type="text" name="email" placeholder="Email" value="{{ old('email') }}">
                                     @error('email')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror

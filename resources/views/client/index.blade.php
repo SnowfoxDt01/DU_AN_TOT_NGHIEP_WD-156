@@ -156,13 +156,13 @@
                             <div class="col-xxl-3 col-xl-4 col-md-6">
                                 <div class="product__item bor">
                                     <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="shop-single.html" class="product__image pt-20 d-block">
+                                    <a href="{{route('client.detailProduct', $new->id)}}" class="product__image pt-20 d-block">
                                         <img class="font-image" src="{{ $new->image }}" alt="image" height="320px">
                                         <img class="back-image" src="{{ $new->image }}" alt="image" height="320px">
                                     </a>
                                     <div class="product__content">
                                         <h4 class="mb-15"><a class="primary-hover"
-                                                href="shop-single.html">{{ $new->name }}</a></h4>
+                                                href="{{route('client.detailProduct', $new->id)}}">{{ $new->name }}</a></h4>
                                         @if ($new->sale_price == 0)
                                             <span
                                                 class="primary-color ml-10">{{ number_format($new->base_price) }}.đ</span>
@@ -194,7 +194,7 @@
                             <div class="col-xxl-3 col-xl-4 col-md-6">
                                 <div class="product__item bor">
                                     <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#" class="product__image pt-20 d-block">
+                                    <a href="{{route('client.detailProduct', $top->product->id)}}" class="product__image pt-20 d-block">
                                         <img class="font-image" src="{{ $top->product->image }}" alt="image"
                                             height="320px">
                                         <img class="back-image" src="{{ $top->product->image }}" alt="image"
@@ -202,7 +202,7 @@
                                     </a>
                                     <div class="product__content">
                                         <h4 class="mb-15"><a class="primary-hover"
-                                                href="#">{{ $top->product->name }}</a></h4>
+                                                href="{{route('client.detailProduct', $top->product->id)}}">{{ $top->product->name }}</a></h4>
                                         @if ($top->product->sale_price == 0)
                                             <span
                                                 class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
@@ -423,9 +423,9 @@
                                 <img src="{{ $sale->image }}" alt="image" height="320px">
                             </div>
                             <div class="gallery__content">
-                                <h3 class="mb-10"><a href="#">{{ $sale->name }}</a></h3>
-                                <p>{{ $sale->description }}</p>
-                                <a href="#" class="btn-two mt-25"><span>Mua ngay</span></a>
+                                <h3 class="mb-10"><a href="{{route('client.detailProduct', $sale->id)}}">{{ $sale->name }}</a></h3>
+                                <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 270px;">{{ $sale->description }}</p>
+                                <a href="{{route('client.detailProduct', $sale->id)}}" class="btn-two mt-25"><span>Mua ngay</span></a>
                             </div>
                         </div>
                     </div>

@@ -19,13 +19,7 @@
         {{ session('error') }}
     </div>
 @endif
-
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
+ 
 <form action="{{ route('admin.orders.index') }}" method="GET">
     <div class="row">
         <div class="form-group col-md-2">

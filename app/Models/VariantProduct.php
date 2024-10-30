@@ -11,14 +11,14 @@ class VariantProduct extends Model
     protected $table = 'variant_products';
     public $primaryKey = 'id';
     protected $fillable = [
-        'name', 
-        'description', 
-        'price', 
-        'quantity', 
-        'product_id', 
-        'size_id', 
-        'color_id', 
-        'image_url', 
+        'name',
+        'description',
+        'price',
+        'quantity',
+        'product_id',
+        'size_id',
+        'color_id',
+        'image_url',
         'status',
         'created_at',
         'updated_at'
@@ -27,6 +27,11 @@ class VariantProduct extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
     public function size()

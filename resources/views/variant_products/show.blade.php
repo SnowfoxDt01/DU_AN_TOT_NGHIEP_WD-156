@@ -26,6 +26,7 @@
                 <p><strong>Mã sản phẩm biến thể:</strong> {{ $variantProduct->id }}</p>
                 <p><strong>Số lượng:</strong> {{ $variantProduct->quantity }}</p>
                 <p><strong>Nhãn hàng:</strong> {{ $variantProduct->product->category->name_category ?? 'Không có nhãn hàng' }} </p>
+<<<<<<< HEAD
                 <p><strong>Kích thước:</strong> {{ $variantProduct->size->name ?? 'Không có size' }} </p>
                 <p><strong>Màu sắc:</strong> {{ $variantProduct->color->name ?? 'Không có màu' }} </p>
                 <p><strong>Ngày tạo:</strong> {{ $variantProduct->created_at->format('d/m/Y') }}</p>
@@ -37,6 +38,12 @@
                         <span>Không còn hàng</span>
                     @endif
                 </p>
+=======
+                <p><strong>Kích thước:</strong> {{ $variantProduct->sizes->name ?? 'Không có size' }} </p>
+                <p><strong>Màu sắc:</strong> {{ $variantProduct->colors->name ?? 'Không có màu' }} </p>
+                <p><strong>Ngày tạo:</strong> {{ $variantProduct->created_at }}</p>
+                <p><strong>Ngày cập nhật:</strong> {{ $variantProduct->description }}</p>
+>>>>>>> master
             </div>
         </div>
         <hr>

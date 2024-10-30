@@ -36,6 +36,7 @@
                         </ul>
                     </div>
                 </div>
+                {{-- google map --}}
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-duration="1.4s" data-wow-delay=".4s">
                     <div class="footer__item newsletter">
                         <h4 class="footer-title">Địa chỉ google map : </h4>
@@ -64,12 +65,14 @@
                         </div>
                     </div>
                 </div>
+                {{-- end google map --}}
             </div>
             <div class="footer__copy-text pt-50 pb-50">
                 <a href="index-2.html" class="logo d-block">
                     <img src="client_ui/assets/images/logo/mainlogo.png" alt="logo">
                 </a>
-                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" style="padding-left: 50px" data-wow-duration="1.4s" data-wow-delay=".4s">
+                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" style="padding-left: 50px" data-wow-duration="1.4s"
+                    data-wow-delay=".4s">
                     <div class="footer__item newsletter">
                         <div class="social-icon mt-40">
                             <a href="#0"><i class="fa-brands fa-facebook-f"></i></a>

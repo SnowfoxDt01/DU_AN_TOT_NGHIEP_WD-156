@@ -145,6 +145,9 @@ Route::group([
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/index', [ClientController::class, 'index'])->name('index');
+
+    Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
+
 });
 
 

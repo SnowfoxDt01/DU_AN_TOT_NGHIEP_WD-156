@@ -81,7 +81,7 @@
             <td>{{ number_format($value->base_price) }}.đ</td>
             <td>{{ number_format($value->sale_price) }}.đ</td>
             <td>
-                <img class="img-prd" src="{{ asset($value->image) }}" alt="">
+                <img class="img-prd" src="{{$value->image}}" alt="">
             </td>
             <td>{{ $value->quantity }}</td>
             <td>{{ $value->category->name_category ?? 'No category' }}</td>
