@@ -60,7 +60,6 @@
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Địa chỉ</th>
                 <th scope="col">Trạng thái</th>
-                <th scope="col">Chi tiết khách hàng</th>
             </tr>
         </thead>
         <tbody>
@@ -77,12 +76,6 @@
                         @elseif($customer->status == 1)
                             <span class="badge bg-green">Đang hoạt động</span>
                         @endif
-                    </td>
-                    <td>
-                        <a href="{{ route('admin.customers.show', $customer->id) }}"><button class="btn btn-primary">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button></a>
-
                     </td>
                 </tr>
             @endforeach

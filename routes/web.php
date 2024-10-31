@@ -153,6 +153,8 @@ Route::middleware('role:super-admin')->group(function () {
 
     Route::post('/roles/store', [RolePermissionController::class, 'store'])->name('roles.store');
 
+    Route::post('/permissions/create', [RolePermissionController::class, 'createPermission'])->name('permissions.create');
+
     Route::post('/role-permission/assign-role', [RolePermissionController::class, 'assignRole'])->name('role-permission.assignRole');
 
     Route::post('/role-permission/assign-permission', [RolePermissionController::class, 'assignPermission'])->name('role-permission.assignPermission');

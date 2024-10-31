@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ShopOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -53,7 +54,13 @@ class UserControler extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $orders = ShopOrder::where('user_id', $id)
+            ->with('items.product')
+            ->orderBy('date_order', 'desc')
+            ->paginate(10);
+
+        return view('users.show', compact('user', 'orders'));
     }
 
     /**
