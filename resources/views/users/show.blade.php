@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="text-center">Lịch sử mua hàng của: {{ $customer->name }}</h2>
+        <h2 class="text-center">Lịch sử mua hàng của: {{ $user->name }}</h2>
 
         @if ($orders->count())
             <div class="d-flex justify-content-center">
@@ -43,7 +43,7 @@
 
             {{ $orders->links() }}
         @else
-            <p class="text-center">Khách hàng chưa có đơn hàng nào.</p>
+            <p class="text-center">Tài khoản chưa có đơn hàng nào.</p>
         @endif
     </div>
 @endsection

@@ -59,13 +59,7 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        $customer = Customer::findOrFail($id);
-        $orders = ShopOrder::where('customer_id', $id)
-            ->with('items.product')
-            ->orderBy('date_order', 'desc')
-            ->paginate(10);
 
-        return view('customers.show', compact('customer', 'orders'));
     }
 
     /**

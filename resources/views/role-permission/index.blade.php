@@ -25,7 +25,19 @@
 
         </form>
         <hr>
-
+        <h3>Tạo quyền</h3>
+        <form action="{{ route('permissions.create') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="name">Tên Quyền:</label>
+                <input type="text" class="form-control" name="name">
+                @error('name')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-success">Thêm Quyền</button>
+        </form>
+        <hr>
         <h3>Phân quyền cho tài khoản</h3>
 
         <form action="{{ route('role-permission.assignRole') }}" method="POST">
