@@ -7,7 +7,7 @@
                         style="max-width: 100%;height: auto; max-height: 100px; padding-bottom: 30px" alt="logo__image">
                 </a>
                 <div class="search__wrp">
-                    <input placeholder="Search for" aria-label="Search">
+                    <input placeholder="Tìm kiếm ..." aria-label="Search">
                     <button><i class="fa-solid fa-search"></i></button>
                 </div>
                 <div class="account__wrap">

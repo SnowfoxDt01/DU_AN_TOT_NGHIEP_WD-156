@@ -6,20 +6,21 @@
             <img src="client_ui/assets/images/shape/vape1.png" alt="shape">
         </div> --}}
         <div class="banner-two__shape-right d-none d-lg-block wow bounceInRight" data-wow-duration="1s" data-wow-delay=".1s">
-            <img class="sway_Y__animation" src="client_ui/assets/images/logo/mainlogo.png" alt="shape" style="margin-right: 100px;"> <!-- Thay đổi giá trị -20px tùy ý -->
+            <img class="sway_Y__animation" src="client_ui/assets/images/logo/mainlogo.png" alt="shape"
+                style="margin-right: 100px;"> <!-- Thay đổi giá trị -20px tùy ý -->
         </div>
-        
+
         <div class="swiper banner-two__slider">
             <div class="swiper-wrapper">
                 @foreach ($banners as $banner)
                     <div class="swiper-slide">
-                        <div class="slide-bg" data-background="{{$banner->image_url}}"></div>
+                        <div class="slide-bg" data-background="{{ $banner->image_url }}"></div>
                         <div class="container">
                             <div class="banner-two__content">
                                 <h4 data-animation="fadeInUp" data-delay="1s"><img
                                         src="client_ui/assets/images/icon/fire.svg" alt="icon"> NHẬN <span
                                         class="primary-color">KHUYẾN MÃI </span> NGAY</h4>
-                                <h1 data-animation="fadeInUp" data-delay="1.3s">{{$banner->title}}<br></h1>
+                                <h1 data-animation="fadeInUp" data-delay="1.3s">{{ $banner->title }}<br></h1>
                                 <p class="mt-40" data-animation="fadeInUp" data-delay="1.5s">{!! nl2br($banner->description) !!}</p>
                                 <div class="btn-wrp mt-65">
                                     <a class="btn-one-light ml-20" href="shop-single.html" data-animation="fadeInUp"
@@ -128,7 +129,7 @@
                 class="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
                 <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".1s">
                     <span class="title-icon mr-10"></span>
-                    <h2>HOT</h2>
+                    <h2>NỔI BẬT</h2>
                 </div>
                 <ul class="nav nav-pills mt-4 mt-xl-0">
                     <li class="nav-item wow fadeInUp" data-wow-delay=".1s">
@@ -152,79 +153,95 @@
                 {{-- Sản phẩm mới --}}
                 <div id="new-item" class="tab-pane fade show active">
                     <div class="row g-4">
+                        @php $count = 0; @endphp
                         @foreach ($newProducts as $new)
-                            <div class="col-xxl-3 col-xl-4 col-md-6">
-                                <div class="product__item bor">
-                                    <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="{{route('client.detailProduct', $new->id)}}" class="product__image pt-20 d-block">
-                                        <img class="font-image" src="{{ $new->image }}" alt="image" height="320px">
-                                        <img class="back-image" src="{{ $new->image }}" alt="image" height="320px">
-                                    </a>
-                                    <div class="product__content">
-                                        <h4 class="mb-15"><a class="primary-hover"
-                                                href="{{route('client.detailProduct', $new->id)}}">{{ $new->name }}</a></h4>
-                                        @if ($new->sale_price == 0)
-                                            <span
-                                                class="primary-color ml-10">{{ number_format($new->base_price) }}.đ</span>
-                                        @else
-                                            <del>{{ number_format($new->base_price) }}.đ</del>
-                                            <span
-                                                class="primary-color ml-10">{{ number_format($new->sale_price) }}.đ</span>
-                                        @endif
-                                        <div class="star mt-20">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
+                            @if ($count < 12)
+                                <div class="col-xxl-3 col-xl-4 col-md-6">
+                                    <div class="product__item bor">
+                                        <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
+                                        <a href="{{ route('client.detailProduct', $new->id) }}"
+                                            class="product__image pt-20 d-block">
+                                            <img class="font-image" src="{{ $new->image }}" alt="image"
+                                                height="320px">
+                                            <img class="back-image" src="{{ $new->image }}" alt="image"
+                                                height="320px">
+                                        </a>
+                                        <div class="product__content">
+                                            <h4 class="mb-15"><a class="primary-hover"
+                                                    href="{{ route('client.detailProduct', $new->id) }}"
+                                                    style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $new->name }}</a>
+                                            </h4>
+                                            @if ($new->sale_price == 0)
+                                                <span
+                                                    class="primary-color ml-10">{{ number_format($new->base_price) }}.đ</span>
+                                            @else
+                                                <del>{{ number_format($new->base_price) }}.đ</del>
+                                                <span
+                                                    class="primary-color ml-10">{{ number_format($new->sale_price) }}.đ</span>
+                                            @endif
+                                            <div class="star mt-20">
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            </div>
                                         </div>
+                                        <a class="product__cart d-block bor-top" href="#0"><i
+                                                class="fa-regular fa-cart-shopping primary-color me-1"></i>
+                                            <span>Thêm vào giỏ hàng</span></a>
                                     </div>
-                                    <a class="product__cart d-block bor-top" href="#0"><i
-                                            class="fa-regular fa-cart-shopping primary-color me-1"></i>
-                                        <span>Thêm vào giỏ hàng</span></a>
                                 </div>
-                            </div>
+                                @php $count++; @endphp
+                            @endif
                         @endforeach
                     </div>
                 </div>
                 {{-- Top 10 sản phẩm bán chạy --}}
                 <div id="hot-product" class="tab-pane fade">
                     <div class="row g-4">
+                        @php $count = 0; @endphp
                         @foreach ($topProducts as $top)
-                            <div class="col-xxl-3 col-xl-4 col-md-6">
-                                <div class="product__item bor">
-                                    <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="{{route('client.detailProduct', $top->product->id)}}" class="product__image pt-20 d-block">
-                                        <img class="font-image" src="{{ $top->product->image }}" alt="image"
-                                            height="320px">
-                                        <img class="back-image" src="{{ $top->product->image }}" alt="image"
-                                            height="320px">
-                                    </a>
-                                    <div class="product__content">
-                                        <h4 class="mb-15"><a class="primary-hover"
-                                                href="{{route('client.detailProduct', $top->product->id)}}">{{ $top->product->name }}</a></h4>
-                                        @if ($top->product->sale_price == 0)
-                                            <span
-                                                class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
-                                        @else
-                                            <del>{{ number_format($top->product->base_price) }}.đ</del>
-                                            <span
-                                                class="primary-color ml-10">{{ number_format($top->product->sale_price) }}.đ</span>
-                                        @endif
-                                        <div class="star mt-20">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                        </div>
+                            @if ($count < 12)
+                                <div class="col-xxl-3 col-xl-4 col-md-6">
+                                    <div class="product__item bor">
+                                        <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
+                                        <a href="{{ route('client.detailProduct', $top->product->id) }}"
+                                            class="product__image pt-20 d-block">
+                                            <img class="font-image" src="{{ $top->product->image }}" alt="image"
+                                                height="320px">
+                                            <img class="back-image" src="{{ $top->product->image }}" alt="image"
+                                                height="320px">
+                                        </a>
+                                        <div class="product__content">
+                                            <h4 class="mb-15"><a class="primary-hover"
+                                                    href="{{ route('client.detailProduct', $top->product->id) }}"
+                                                    style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $top->product->name }}</a>
+                                            </h4>
+                                            @if ($top->product->sale_price == 0)
+                                                <span
+                                                    class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
+                                            @else
+                                                <del>{{ number_format($top->product->base_price) }}.đ</del>
+                                                <span
+                                                    class="primary-color ml-10">{{ number_format($top->product->sale_price) }}.đ</span>
+                                            @endif
+                                            <div class="star mt-20">
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            </div>
 
+                                        </div>
+                                        <a class="product__cart d-block bor-top" href="#0"><i
+                                                class="fa-regular fa-cart-shopping primary-color me-1"></i>
+                                            <span>Thêm vào giỏ hàng</span></a>
                                     </div>
-                                    <a class="product__cart d-block bor-top" href="#0"><i
-                                            class="fa-regular fa-cart-shopping primary-color me-1"></i>
-                                        <span>Thêm vào giỏ hàng</span></a>
                                 </div>
-                            </div>
+                                @php $count++; @endphp
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -264,43 +281,6 @@
         </div>
     </section>
     <!-- Product area end here -->
-
-    <!-- Discount area start here -->
-    <section class="discount-area bg-image" data-background="client_ui/assets/images/bg/discount-bg2.jpg">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="image mb-5 mb-lg-0"><img src="client_ui/assets/images/discount/discount-image2.png"
-                            alt="image">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="discount__item ps-0 pb-5 pb-lg-0 ps-lg-5">
-                        <div class="section-header">
-                            <div class="section-title-icon wow fadeInUp" data-wow-delay=".1s">
-                                <span class="title-icon mr-10"></span>
-                                <h2>find your best favourite</h2>
-                            </div>
-                            <p class="mt-30 mb-55 wow fadeInUp" data-wow-delay=".2s">Sell globally in minutes with
-                                localized currencies languages, and
-                                <br>
-                                experie in every
-                                market. only a variety of vaping
-                                products
-                            </p>
-                            <a class="btn-one wow fadeInUp" data-wow-delay=".3s" href="shop.html"><span>Shop
-                                    Now</span></a>
-                            <a class="off-btn wow fadeInUp" data-wow-delay=".4s" href="#0"><img class="mr-10"
-                                    src="client_ui/assets/images/icon/fire.svg" alt="icon"> GET <span
-                                    class="primary-color">25%
-                                    OFF</span> NOW</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Discount area end here -->
 
     <!-- Get now area start here -->
     <section class="get-now-area pt-130 pb-130">
@@ -423,9 +403,14 @@
                                 <img src="{{ $sale->image }}" alt="image" height="320px">
                             </div>
                             <div class="gallery__content">
-                                <h3 class="mb-10"><a href="{{route('client.detailProduct', $sale->id)}}">{{ $sale->name }}</a></h3>
-                                <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 270px;">{{ $sale->description }}</p>
-                                <a href="{{route('client.detailProduct', $sale->id)}}" class="btn-two mt-25"><span>Mua ngay</span></a>
+                                <h3 class="mb-10"><a
+                                        href="{{ route('client.detailProduct', $sale->id) }}">{{ $sale->name }}</a>
+                                </h3>
+                                <p
+                                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 270px;">
+                                    {{ $sale->description }}</p>
+                                <a href="{{ route('client.detailProduct', $sale->id) }}" class="btn-two mt-25"><span>Mua
+                                        ngay</span></a>
                             </div>
                         </div>
                     </div>
