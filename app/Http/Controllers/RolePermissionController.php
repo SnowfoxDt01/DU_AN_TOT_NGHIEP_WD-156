@@ -29,6 +29,18 @@ class RolePermissionController extends Controller
         return redirect()->back()->with('success', 'Role created successfully.');
     }
 
+    public function createPermission(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Permission::create(['name' => $request->name]);
+
+        return redirect()->back()->with('success', 'Tạo quyền thành công.');
+    }
+
+
     public function assignRole(Request $request)
     {
         $user = User::find($request->user_id);
@@ -40,9 +52,11 @@ class RolePermissionController extends Controller
     public function assignPermission(Request $request)
     {
         $role = Role::find($request->role_id);
-        // Gán nhiều quyền cho vai trò
-        $role->syncPermissions($request->permissions); // sync để thay thế các quyền hiện có bằng những quyền mới
+
+        foreach ($request->permissions as $permission) {
+            $role->givePermissionTo($permission);
+        }
+        
         return redirect()->back()->with('success', 'Permissions assigned successfully.');
     }
-
 }

@@ -25,7 +25,7 @@ Auth::routes();
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
-    'middleware' => ['auth','role:super-admin|admin']
+    'middleware' => ['auth', 'role:super-admin|admin']
 ], function () {
 
 
@@ -78,7 +78,6 @@ Route::group([
         Route::get('statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
 
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
-
     });
 
     Route::group([
@@ -144,6 +143,9 @@ Route::group([
 
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
 
+    Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
+
+    Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 });
 
 
@@ -152,6 +154,8 @@ Route::middleware('role:super-admin')->group(function () {
     Route::get('/role-permission', [RolePermissionController::class, 'index'])->name('role-permission.index');
 
     Route::post('/roles/store', [RolePermissionController::class, 'store'])->name('roles.store');
+
+    Route::post('/permissions/create', [RolePermissionController::class, 'createPermission'])->name('permissions.create');
 
     Route::post('/role-permission/assign-role', [RolePermissionController::class, 'assignRole'])->name('role-permission.assignRole');
 

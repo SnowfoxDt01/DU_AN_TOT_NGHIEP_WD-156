@@ -33,13 +33,17 @@
 
     <!-- Preloader area start -->
     <div class="loading">
-        <span class="text-capitalize">L</span>
-        <span>o</span>
-        <span>a</span>
-        <span>d</span>
-        <span>i</span>
-        <span>n</span>
-        <span>g</span>
+        <span class="text-capitalize">Đ</span>
+        <span>A</span>
+        <span>N</span>
+        <span>G</span>
+        <span></span>
+        <span>T</span>
+        <span>Ả</span>
+        <span>I</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
     </div>
 
     <div id="preloader">
