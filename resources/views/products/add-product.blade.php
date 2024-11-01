@@ -90,7 +90,7 @@
                     <div id="variant-container">
                         <div class="variant">
                             <div class="meta-box-header" data-toggle="collapse" data-target="#variant-details-0">
-                                <h3>Biến thể 1 <i class="fas fa-angle-down"></i></h3> 
+                                <h3>Biến thể <i class="fas fa-angle-down"></i></h3> 
                             </div>
                             <div id="variant-details-0" class="collapse show row g-3">
                                 <input type="hidden" name="variant_id[]" value="">
