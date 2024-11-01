@@ -32,7 +32,7 @@
                         <ul class="sub-menu">
                             @foreach ($categories as $category)
                                 <li class="subtwohober">
-                                    <a href="#">
+                                    <a href="{{ route('client.category', $category->id) }}">
                                         {{ $category->name_category }}
                                     </a>
                                 </li>
@@ -40,6 +40,9 @@
 
                         </ul>
 
+                    </li>
+                    <li>
+                        <a href="{{route('client.shop')}}">Sản phẩm</a>
                     </li>
                     <li>
                         <a href="#0">Pages <i class="fa-regular fa-angle-down"></i></a>
@@ -82,31 +85,6 @@
                             <li class="subtwohober">
                                 <a href="error.html">
                                     404 Error
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#0">Blog <i class="fa-regular fa-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li class="subtwohober">
-                                <a href="blog.html">
-                                    Blog Stander
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="blog-grid.html">
-                                    Blog Grid
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="blog-list.html">
-                                    Blog List
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="blog-single.html">
-                                    Blog Single
                                 </a>
                             </li>
                         </ul>

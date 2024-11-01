@@ -78,7 +78,7 @@
                 <div class="col-lg-6 wow fadeInLeft" data-wow-delay=".1s">
                     <div class="view__left-item">
                         <div class="image">
-                            <img src="client_ui/assets/images/view/view-image1.jpg" alt="image">
+                            <img src="client_ui/assets/images/banner/test.webp" alt="image">
                         </div>
                         <div class="view__left-content sub-bg">
                             <h2><a class="primary-hover" href="shop-single.html">The best e-liqued bundles</a>
@@ -103,7 +103,7 @@
                             <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
                         </div>
                         <div class="view__image">
-                            <img src="client_ui/assets/images/view/view-image2.jpg" alt="image">
+                            <img src="client_ui/assets/images/banner/test2.png" alt="image">
                         </div>
                     </div>
                     <div class="view__item wow fadeInUp" data-wow-delay=".3s">
@@ -113,7 +113,7 @@
                             <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
                         </div>
                         <div class="view__image">
-                            <img src="client_ui/assets/images/view/view-image3.jpg" alt="image">
+                            <img src="client_ui/assets/images/banner/test3.jpg" alt="image">
                         </div>
                     </div>
                 </div>
@@ -339,18 +339,18 @@
                 <div class="col-xl-6">
                     <div class="get-now__image mt-5 mt-xl-0">
                         <div class="get-bg-image">
-                            <img src="client_ui/assets/images/shop/get-bg.png" alt="image">
+                            <img src="client_ui/assets/images/bg/nen1.png" alt="image">
                         </div>
                         <div class="swiper get__slider">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <div class="image">
-                                        <img src="client_ui/assets/images/shop/get-image.png" alt="image">
+                                        <img src="client_ui/assets/images/shop/test3.png" alt="image">
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="image">
-                                        <img src="client_ui/assets/images/shop/get-image2.png" alt="image">
+                                        <img src="client_ui/assets/images/shop/flashsale4.png" alt="image">
                                     </div>
                                 </div>
                             </div>
