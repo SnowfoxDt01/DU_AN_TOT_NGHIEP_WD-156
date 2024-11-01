@@ -25,7 +25,7 @@ Auth::routes();
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
-    'middleware' => ['auth','role:super-admin|admin']
+    'middleware' => ['auth', 'role:super-admin|admin']
 ], function () {
 
 
@@ -78,7 +78,6 @@ Route::group([
         Route::get('statistics', [ShopOrderController::class, 'statistics'])->name('statistics');
 
         Route::get('/export', [ShopOrderController::class, 'export'])->name('export');
-
     });
 
     Route::group([
@@ -144,6 +143,9 @@ Route::group([
 
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
 
+    Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
+
+    Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 });
 
 

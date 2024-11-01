@@ -68,7 +68,7 @@
                 {{-- end google map --}}
             </div>
             <div class="footer__copy-text pt-50 pb-50">
-                <a href="index-2.html" class="logo d-block">
+                <a href="{{route('client.index')}}" class="logo d-block">
                     <img src="client_ui/assets/images/logo/mainlogo.png" alt="logo">
                 </a>
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" style="padding-left: 50px" data-wow-duration="1.4s"

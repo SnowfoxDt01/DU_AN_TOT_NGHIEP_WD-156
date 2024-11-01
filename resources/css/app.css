@@ -1,0 +1,24 @@
+.pagi-wrp {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagi-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: 1px solid #007bff; /* Màu viền */
+    color: #007bff; /* Màu chữ */
+    text-decoration: none;
+    border-radius: 5px; /* Bo góc */
+}
+
+.pagi-btn.active {
+    background-color: #007bff; /* Màu nền khi đang active */
+    color: #fff; /* Màu chữ khi active */
+}
+
+.pagi-btn:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+    color: #fff; /* Màu chữ khi hover */
+}
