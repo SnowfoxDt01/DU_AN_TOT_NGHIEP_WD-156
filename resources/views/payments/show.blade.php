@@ -23,6 +23,8 @@
                     <tr>                       
                         <th>Tên sản phẩm</th>
                         <th>Ảnh sản phẩm</th>
+                        <th>Màu</th>
+                        <th>Kích cỡ</th>
                         <th>Số lượng</th>
                         <th>Đơn giá</th>
                         <th>Tổng giá</th>
@@ -36,6 +38,8 @@
                                 <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}" style="width: 100px; height: auto;">
                             </td>
                             <td>{{ $item->quantity }}</td>
+                            <td>{{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu'  }}</td>
+                            <td>{{ $item->product->variantProducts->first()?->size->name ?? 'Không có màu'  }}</td>
                             <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
                             <td>{{ number_format($item->quantity * $item->price, 0, ',', '.') }} VNĐ</td>
                         </tr>

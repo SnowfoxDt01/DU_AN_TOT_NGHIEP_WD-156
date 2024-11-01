@@ -44,6 +44,8 @@
                     <div style="width: 90%; padding-left: 15px;">
                         <p style="margin: 0; color: #333;"><strong>Mã sản phẩm:</strong> {{ $item->product_id }}</p>
                         <p style="margin: 0; color: #555;"><strong>Tên sản phẩm:</strong> {{ $item->product ? $item->product->name : 'Không có tên sản phẩm' }}</p>
+                        <p style="margin: 0; color: #555;"><strong>Màu:</strong> {{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu' }}</p>
+                        <p style="margin: 0; color: #555;"><strong>Kích cỡ:</strong> {{ $item->product->variantProducts->first()?->size->name ?? 'Không có size' }}</p>
                         <p style="margin: 0; color: #555;"><strong>Số lượng:</strong> {{ $item->quantity }}</p>
                         <p style="margin: 0; color: #555;"><strong>Giá sản phẩm:</strong> {{ number_format($item->price, 0, ',', '.') }} VNĐ</p>
                         <p style="margin: 0; color: #555;"><strong>Thành tiền:</strong> {{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</p>

@@ -40,6 +40,8 @@
             <tr>                       
                 <th>Tên sản phẩm</th>
                 <th>Số lượng</th>
+                <th>Màu</th>
+                <th>Kích cỡ</th>
                 <th>Đơn giá</th>
                 <th>Tổng giá</th>
             </tr>
@@ -49,6 +51,8 @@
                 <tr>
                     <td>{{ $item->product->name }}</td>
                     <td>{{ $item->quantity }}</td>
+                    <td>{{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu'  }}</td>
+                    <td>{{ $item->product->variantProducts->first()?->size->name ?? 'Không có màu'  }}</td>
                     <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
                     <td>{{ number_format($item->quantity * $item->price, 0, ',', '.') }} VNĐ</td>
                 </tr>
