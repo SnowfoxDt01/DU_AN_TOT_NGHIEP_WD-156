@@ -47,42 +47,6 @@ class VariantProductController extends Controller
         return view('variant_products.index', compact('variantProducts', 'products', 'sizes', 'colors'));
     }
 
-    public function create()
-    {
-        $products = Product::all();
-        $sizes = Size::all();
-        $colors = Color::all();
-        return view('variant_products.create', compact('products', 'sizes', 'colors'));
-    }
-
-    // public function store(Request $request)
-    // {
-    //     $linkImage = '';
-    //     if($request->hasFile('image_url')){
-    //         $image = $request->file('image_url');
-    //         $newName = time() . '.' . $image->getClientOriginalExtension();
-    //         $linkStorage = 'imageProducts/';
-    //         $image->move(public_path($linkStorage), $newName);
-
-    //         $linkImage = $linkStorage . $newName;
-    //     }
-    //     $data = [
-    //         'name' => $request->name,
-    //         'description' => $request->description,
-    //         'price' => $request->price,
-    //         'quantity' => $request->quantity,
-    //         'product_id' => $request->product_id,
-    //         'size_id' => $request->size_id,
-    //         'color_id' => $request->color_id,
-    //         'image_url' => $linkImage,
-    //         'status' => $request->status,
-    //         'created_at' => Carbon::now(),
-    //         'updated_at' => Carbon::now()
-    //     ];
-
-    //     VariantProduct::create($data);
-    //     return redirect()->route('admin.variant-products.index')->with('success', 'Sản phẩm biến thể đã được thêm thành công.');
-    // }
 
     public function edit($id)
     {
@@ -97,15 +61,15 @@ class VariantProductController extends Controller
     {
         $variantProduct = VariantProduct::findOrFail($id);
 
-        $linkImage = $variantProduct->image_url;
-        if($request->hasFile('image_url')){
-            $image = $request->file('image_url');
-            $newName = time() . '.' . $image->getClientOriginalExtension();
-            $linkStorage = 'imageProducts/';
-            $image->move(public_path($linkStorage), $newName);
+        // $linkImage = $variantProduct->image_url;
+        // if($request->hasFile('image_url')){
+        //     $image = $request->file('image_url');
+        //     $newName = time() . '.' . $image->getClientOriginalExtension();
+        //     $linkStorage = 'imageProducts/';
+        //     $image->move(public_path($linkStorage), $newName);
     
-            $linkImage = $linkStorage . $newName;
-        }
+        //     $linkImage = $linkStorage . $newName;
+        // }
 
         $data = [
             'name' => $request->name,
@@ -114,10 +78,25 @@ class VariantProductController extends Controller
             'product_id' => $request->product_id,
             'size_id' => $request->size_id,
             'color_id' => $request->color_id,
-            'image_url' => $linkImage,
             'status' => $request->status,
             'updated_at' => Carbon::now()
         ];
+
+        // Handle image upload and deletion
+        if ($request->hasFile('image_path')) {
+            // Delete all existing images for this variant product
+            $variantProduct->images()->delete();
+
+            // Upload new image and create a new record
+            $image = $request->file('image_path');
+            $newName = time() . '.' . $image->getClientOriginalExtension();
+            $linkStorage = 'imageProducts/';
+            $image->move(public_path($linkStorage), $newName);
+
+            $variantProduct->images()->create([
+                'image_path' => $linkStorage . $newName,
+            ]);
+        }
 
         $variantProduct->update($data);
         return redirect()->route('admin.variant-products.index')->with('success', 'Sản phẩm biến thể đã được cập nhật.');

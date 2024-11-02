@@ -18,15 +18,19 @@
 
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ asset($variantProduct->image_url) }}" alt="{{ $variantProduct->name }}"
-                    style="width: 100%; height: 100%; max-width: 500px; max-height: 500px; object-fit: cover; aspect-ratio: 1/1; border: 2px solid black;">
+                    @if ($variantProduct->images->count() > 0)
+                        @foreach ($variantProduct->images as $image)
+                            <img src="{{ asset($image->image_path) }}" alt="Ảnh biến thể" class="img-prd" width="300px">
+                        @endforeach
+                    @else
+                        <span>Không có ảnh</span>
+                    @endif
             </div>            
             <div class="col-md-6">
                 <h4>Giá: {{ number_format($variantProduct->price, 0, ',', '.') }} VND</h4>
                 <p><strong>Mã sản phẩm biến thể:</strong> {{ $variantProduct->id }}</p>
                 <p><strong>Số lượng:</strong> {{ $variantProduct->quantity }}</p>
                 <p><strong>Nhãn hàng:</strong> {{ $variantProduct->product->category->name_category ?? 'Không có nhãn hàng' }} </p>
-<<<<<<< HEAD
                 <p><strong>Kích thước:</strong> {{ $variantProduct->size->name ?? 'Không có size' }} </p>
                 <p><strong>Màu sắc:</strong> {{ $variantProduct->color->name ?? 'Không có màu' }} </p>
                 <p><strong>Ngày tạo:</strong> {{ $variantProduct->created_at->format('d/m/Y') }}</p>
@@ -38,12 +42,7 @@
                         <span>Không còn hàng</span>
                     @endif
                 </p>
-=======
-                <p><strong>Kích thước:</strong> {{ $variantProduct->sizes->name ?? 'Không có size' }} </p>
-                <p><strong>Màu sắc:</strong> {{ $variantProduct->colors->name ?? 'Không có màu' }} </p>
-                <p><strong>Ngày tạo:</strong> {{ $variantProduct->created_at }}</p>
-                <p><strong>Ngày cập nhật:</strong> {{ $variantProduct->description }}</p>
->>>>>>> master
+
             </div>
         </div>
         <hr>

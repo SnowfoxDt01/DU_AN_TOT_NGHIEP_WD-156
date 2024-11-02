@@ -81,9 +81,13 @@
             <td>{{ number_format($value->base_price) }}.đ</td>
             <td>{{ number_format($value->sale_price) }}.đ</td>
             <td>
-                <img class="img-prd" src="{{$value->image}}" alt="">
+                @if ($value->images->count() > 0)
+                    <img src="{{ asset($value->images->first()->image_path) }}" alt="{{ $value->name }}" class="img-thumbnail" width="100">
+                @else
+                    <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail" width="100">
+                @endif
             </td>
-            <td>{{ $value->quantity }}</td>
+            <td>{{ $value->getTotalQuantity() }}</td>
             <td>{{ $value->category->name_category ?? 'No category' }}</td>
 
             <td>

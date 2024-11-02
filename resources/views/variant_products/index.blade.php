@@ -80,7 +80,13 @@
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->product->name }}</td>
                         <td>
-                            <img class="img-prd" src="{{ asset($product->image_url) }}" alt="">
+                            @if ($product->images->count() > 0)
+                                @foreach ($product->images as $image)
+                                    <img src="{{ asset($image->image_path) }}" alt="Ảnh biến thể" class="img-prd">
+                                @endforeach
+                            @else
+                                <span>Không có ảnh</span>
+                            @endif
                         </td>
                         <td>{{ $product->size->name }}</td>
                         <td>{{ $product->color->name }}</td>

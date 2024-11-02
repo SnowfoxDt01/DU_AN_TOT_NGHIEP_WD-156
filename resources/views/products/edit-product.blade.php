@@ -55,12 +55,12 @@
                 <h3>Thông tin chung</h3>
                 <div class="form-group">
                     <label for="nameSP">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="nameSP" name="nameSP" value="{{ $product->name }}" required>
+                    <input type="text" class="form-control" id="nameSP" name="nameSP" value="{{ $product->name }}">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="priceSP">Giá</label>
-                        <input type="number" class="form-control" id="priceSP" name="priceSP" value="{{ $product->base_price }}" required>
+                        <input type="number" class="form-control" id="priceSP" name="priceSP" value="{{ $product->base_price }}">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="sale_price">Giá khuyến mãi</label>
@@ -72,8 +72,15 @@
                     <textarea class="form-control" id="descriptionSP" name="descriptionSP">{{ $product->description }}</textarea>
                 </div>
                 <div class="form-group">
+                    <label for="product_new">Trạng thái sản phẩm</label>
+                    <select class="form-control" id="product_new" name="product_new">
+                        <option value="0" {{ $product->new == 0 ? 'selected' : '' }}>Hàng trong kho</option>
+                        <option value="1" {{ $product->new == 1 ? 'selected' : '' }}>Hàng mới</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="quantitySP">Số lượng</label>
-                    <input type="text" class="form-control" id="quantitySP" name="quantitySP" value="{{ $product->quantity }}" required>
+                    <input type="text" class="form-control" id="quantitySP" name="quantitySP" value="{{ $product->getTotalQuantity() }}" readonly>
                 </div>
             </div> 
 
@@ -81,10 +88,20 @@
                 <h3>Hình ảnh</h3>
                 <div class="form-group">
                     <label for="imageSP">Hình ảnh</label>
-                    <input type="file" class="form-control" id="imageSP" name="imageSP">
-                    <img src="{{ asset($product->image) }}" alt="Product Image" class="img-preview mt-3">
+                    <input type="file" class="form-control" id="imageSP" name="imageSP[]" multiple>
+            
+                    <!-- Hiển thị các ảnh từ bảng images -->
+                    @if ($product->images->count() > 0)
+                        @foreach ($product->images as $image)
+                            <img src="{{ asset($image->image_path) }}" alt="Product Image" class="img-preview mt-3" width="300">
+                        @endforeach
+                    @else
+                        <span>Không có ảnh</span>
+                    @endif
                 </div>
             </div>
+            
+
             <h3>Biến thể</h3>
             <div class="meta-box">
                 <div id="variant-container">
@@ -131,9 +148,15 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="variant_image">Ảnh biến thể</label>
-                                        <input type="file" class="form-control" name="variant_image[]">
-                                        @if($variant->image_url)
-                                            <img src="{{ asset($variant->image_url) }}" alt="Variant Image" class="img-preview mt-3">
+                                        <input type="file" class="form-control" name="variant_image[]" multiple>
+                                    
+                                        <!-- Hiển thị các ảnh từ bảng images -->
+                                        @if ($variant->images->count() > 0)
+                                            @foreach ($variant->images as $image)
+                                                <img src="{{ asset($image->image_path) }}" alt="Variant Image" class="img-preview mt-3" width="300">
+                                            @endforeach
+                                        @else
+                                            <span>Không có ảnh</span>
                                         @endif
                                     </div>
                                     <div class="form-group col-md-3">

@@ -18,7 +18,11 @@
                 <tr>
                     <td>{{ $payment->id }}</td>
                     <td>{{ $payment->order->customer->name ?? 'Không có' }}</td>
-                    <td>{{ number_format($payment->order->total_price, 0, ',', '.') }} VNĐ</td>
+                    <td>
+                        {{ number_format($payment->order->items->sum(function ($item) {
+                            return $item->product->sale_price * $item->quantity;
+                        }), 0, ',', '.') }} VNĐ
+                    </td>
                     <td>{{ $payment->created_at->format('d/m/Y') }}</td>
                     <td>
                         <a href="{{ route('admin.payments.show', $payment->id) }}">
