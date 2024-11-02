@@ -110,6 +110,19 @@
             font-weight: bold;
             text-decoration: underline;
         }
+        .product-images-grid {
+            display: flex;
+            overflow-x: scroll; /* Enable horizontal scroll */
+            white-space: nowrap; /* Prevent images from wrapping */
+            gap: 10px;
+        }
+
+        .product-images-grid img {
+            max-width: 100px; /* Set desired width for thumbnails */
+            height: auto; /* Maintain aspect ratio */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
     </style>
 @endpush
 
@@ -125,17 +138,37 @@
         <h2>{{ $product->name }}</h2>
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-fluid border">
+                @if ($product->images->count() > 0)
+                  <div class="product-image-main">
+                    <img src="{{ asset($product->images->first()->image_path) }}" alt="{{ $product->name }}" class="img-fluid border">
+                  </div>
+                  <br>
+                  <div class="product-images-grid">
+                    @foreach ($product->images->skip(1) as $image) <img src="{{ asset($image->image_path) }}" alt="{{ $product->name }}" class="img-fluid border">
+                    @endforeach
+                  </div>
+                @else
+                  <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-fluid border">
+                @endif
             </div>
             <div class="col-md-6" style="margin-left: 50px">
                 <div>
                     <h4>Giá: {{ number_format($product->base_price, 0, ',', '.') }} VND</h4>
-                    <p><strong>Số lượng:</strong> {{ $product->quantity }}</p>
+                    <p><strong>Số lượng:</strong> {{ $product->getTotalQuantity() }}</p>
                     <p><strong>Nhãn hàng:</strong> {{ $product->category->name_category ?? 'No category' }}</p>
                     <p><strong>Kích thước:</strong>
                         {{ $product->variantProducts->pluck('size.name')->unique()->implode(', ') ?? 'Không có' }}</p>
                     <p><strong>Màu sắc:</strong>
                         {{ $product->variantProducts->pluck('color.name')->unique()->implode(', ') ?? 'Không có' }}</p>
+                    <p><strong>Trạng thái sản phẩm:</strong>
+                        @if ($product->new === 0)
+                            Hàng trong kho
+                        @elseif ($product->new === 1)
+                            Hàng mới
+                        @else
+                            Không xác định
+                        @endif
+                    </p>
                     <p><strong>Ngày tạo:</strong> {{ $product->created_at->format('d/m/Y') }}</p>
                     <p><strong>Ngày cập nhật:</strong> {{ $product->updated_at->format('d/m/Y') }}</p>
                     <p><strong>Lượt xem:</strong> {{ $product->views }}</p>
@@ -219,5 +252,30 @@
             document.getElementById('more-reviews').style.display = 'block';
             this.style.display = 'none';
         });
+    </script>
+    <script src="path/to/owl.carousel.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.product-images-grid').owlCarousel({
+          items: 3, // Number of images to show initially
+          nav: true, // Show navigation arrows
+          dots: false, // Hide dots navigation
+          margin: 10,
+          autoplay: false, // Disable autoplay
+          autoplayTimeout: 5000, // Set autoplay timeout if enabled
+          autoplayHoverPause: true, // Pause autoplay on hover
+          responsive: {
+            0: {
+              items: 1
+            },
+            600: {
+              items: 2
+            },
+            1000: {
+              items: 3
+            }
+          }
+        });
+      });
     </script>
 @endsection

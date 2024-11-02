@@ -48,4 +48,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class, 'user_id');
     }
+
+    public function customers()
+{
+    return $this->hasMany(Customer::class, 'id_user');
+}
+
 }

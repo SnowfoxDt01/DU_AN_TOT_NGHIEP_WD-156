@@ -49,4 +49,9 @@ class Product extends Model
     {
         return $this->hasMany(VariantProduct::class, 'product_id');
     }
+
+    public function getTotalQuantity()
+    {
+        return $this->variantProducts->sum('quantity');
+    }
 }

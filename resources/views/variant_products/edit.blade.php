@@ -44,9 +44,18 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="imageSP">Hình ảnh</label>
-                <input type="file" class="form-control" id="image_url" name="image_url">
-                <img src="{{ asset($variantProduct->image_url) }}" alt="Variant Product Image" class="img-preview mt-3">
+                <label for="image_path">Hình ảnh</label>
+                <input type="file" class="form-control" id="image_path" name="image_path">
+            
+                <div class="mt-3">
+                    @if ($variantProduct->images->count() > 0)
+                        @foreach ($variantProduct->images as $image)
+                            <img src="{{ asset($image->image_path) }}" alt="Ảnh biến thể" class="img-preview">
+                        @endforeach
+                    @else
+                        <span>Không có ảnh</span>
+                    @endif
+                </div>
             </div>
 
             <div class="form-group">

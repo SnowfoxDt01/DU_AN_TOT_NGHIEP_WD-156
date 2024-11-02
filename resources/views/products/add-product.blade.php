@@ -72,8 +72,11 @@
                         <textarea class="form-control" id="descriptionSP" name="descriptionSP" value="{{ old('descriptionSP') }}" placeholder="Mô tả sản phẩm"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="quantitySP">Số lượng</label>
-                        <input type="number" class="form-control" id="quantitySP" name="quantitySP" value="{{ old('quantitySP') }}" placeholder="Tên sản phẩm" required>
+                        <label for="product_new">Trạng thái sản phẩm</label>
+                        <select class="form-control" id="product_new" name="product_new">
+                            <option value="0">Hàng trong kho</option>
+                            <option value="1">Hàng mới</option>
+                        </select>
                     </div>
                 </div> 
     
@@ -81,7 +84,8 @@
                     <h3>Hình ảnh</h3>
                     <div class="form-group">
                         <label for="imageSP">Hình ảnh</label>
-                        <input type="file" class="form-control" id="imageSP" name="imageSP" required>
+                        <!-- Thêm `multiple` và chỉnh `name` thành `images[]` -->
+                        <input type="file" class="form-control" id="imageSP" name="images[]" multiple required>
                     </div>
                 </div>
     
@@ -124,8 +128,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="variant_image">Ảnh biến thể</label>
-                                    <input type="file" class="form-control" name="variant_image[]">
+                                    <label for="variant_image">Hình ảnh biến thể</label>
+                                    <input type="file" class="form-control" id="variant_image" name="variant_image[0]" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="variant_status">Trạng thái</label>
@@ -227,8 +231,8 @@ $(document).ready(function() {
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="variant_image">Ảnh biến thể</label>
-                            <input type="file" class="form-control" name="variant_image[]">
+                            <label for="variant_image">Hình ảnh biến thể</label>
+                            <input type="file" class="form-control" id="variant_image" name="variant_image[0]" required>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="variant_status">Trạng thái</label>

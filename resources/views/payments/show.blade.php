@@ -12,7 +12,11 @@
             <p><strong>Khách hàng:</strong> {{ $payment->order->customer->name }}</p>
             <p><strong>Email:</strong> {{ $payment->order->customer->email }}</p>
             <p><strong>Số điện thoại:</strong> {{ $payment->order->customer->phone }}</p>
-            <p><strong>Tổng tiền thanh toán:</strong> {{ number_format($payment->order->total_price, 0, ',', '.') }} VNĐ</p>
+            <p><strong>Tổng tiền thanh toán:</strong>
+                {{ number_format($payment->order->items->sum(function ($item) {
+                    return $item->product->sale_price * $item->quantity;
+                }), 0, ',', '.') }} VNĐ
+              </p>
             <p><strong>Phương thức thanh toán:</strong> {{ ucfirst(App\Enums\PaymentMethod::getDescription($payment->order->payment_method)) }}</p>
             <p><strong>Ngày thanh toán:</strong> {{ $payment->created_at->format('d/m/Y') }}</p>
             <p><strong>Địa chỉ giao hàng:</strong> {{ $payment->order->shipping_address }}</p> <!-- Thêm địa chỉ giao hàng -->
@@ -23,9 +27,9 @@
                     <tr>                       
                         <th>Tên sản phẩm</th>
                         <th>Ảnh sản phẩm</th>
+                        <th>Số lượng</th>
                         <th>Màu</th>
                         <th>Kích cỡ</th>
-                        <th>Số lượng</th>
                         <th>Đơn giá</th>
                         <th>Tổng giá</th>
                     </tr>
@@ -40,8 +44,8 @@
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu'  }}</td>
                             <td>{{ $item->product->variantProducts->first()?->size->name ?? 'Không có màu'  }}</td>
-                            <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
-                            <td>{{ number_format($item->quantity * $item->price, 0, ',', '.') }} VNĐ</td>
+                            <td>{{ number_format($item->product->sale_price, 0, ',', '.') }} VNĐ</td>
+                            <td>{{ number_format($item->quantity * $item->product->sale_price, 0, ',', '.') }} VNĐ</td>
                         </tr>
                     @endforeach
                 </tbody>

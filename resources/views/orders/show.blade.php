@@ -25,13 +25,23 @@
         <div class="card mb-4" style="border: 1px solid #ccd0d4; background-color: #f9f9f9; padding: 20px;">
             <h3 style="color: #0073aa;">Thông tin khách hàng</h3>
             <hr style="border-color: #e1e1e1;">
-            <p><strong>Khách hàng:</strong> {{ $order->customer->name }}</p>
-            <p><strong>Email:</strong> {{ $order->customer->email }}</p>
-            <p><strong>Số điện thoại:</strong> {{ $order->customer->phone }}</p>
-            <p><strong>Địa chỉ:</strong> {{ $order->customer->address }}</p>
-            <p><strong>Tổng tiền:</strong> {{ number_format($order->total_price, 0, ',', '.') }} VNĐ</p>
-            <p><strong>Phương thức thanh toán:</strong> {{ ucfirst(App\Enums\PaymentMethod::getDescription($order->payment_method)) }}</p>
-            <p><strong>Trạng thái:</strong> {{ App\Enums\OrderStatus::getDescription($order->order_status) }}</p>
+            <div>
+                <p><strong>Người Gửi:</strong> {{ $order->customer->user->name }}</p>
+                <p><strong>Email:</strong> {{ $order->customer->user->email }}</p>
+                <p><strong>Số điện thoại:</strong> {{ $order->customer->phone }}</p>
+                <hr style="border-color: #e1e1e1;">
+                <p><strong>Người nhận:</strong> {{ $order->customer->name }}</p>
+                <p><strong>Email:</strong> {{ $order->customer->email }}</p>
+                <p><strong>Số điện thoại:</strong> {{ $order->customer->phone }}</p>
+                <p><strong>Địa chỉ:</strong> {{ $order->customer->address }}</p>
+                <p><strong>Tổng tiền:</strong> 
+                    {{ number_format($order->items->sum(function ($item) {
+                        return $item->product->sale_price * $item->quantity;
+                    }), 0, ',', '.') }} VNĐ
+                </p>
+                <p><strong>Phương thức thanh toán:</strong> {{ ucfirst(App\Enums\PaymentMethod::getDescription($order->payment_method)) }}</p>
+                <p><strong>Trạng thái:</strong> {{ App\Enums\OrderStatus::getDescription($order->order_status) }}</p>
+            </div>
         </div>
 
         <h2 style="font-size: 1.25rem; font-weight: 600; color: #0073aa;">Sản phẩm trong đơn hàng</h2>
@@ -47,8 +57,8 @@
                         <p style="margin: 0; color: #555;"><strong>Màu:</strong> {{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu' }}</p>
                         <p style="margin: 0; color: #555;"><strong>Kích cỡ:</strong> {{ $item->product->variantProducts->first()?->size->name ?? 'Không có size' }}</p>
                         <p style="margin: 0; color: #555;"><strong>Số lượng:</strong> {{ $item->quantity }}</p>
-                        <p style="margin: 0; color: #555;"><strong>Giá sản phẩm:</strong> {{ number_format($item->price, 0, ',', '.') }} VNĐ</p>
-                        <p style="margin: 0; color: #555;"><strong>Thành tiền:</strong> {{ number_format($item->price * $item->quantity, 0, ',', '.') }} VNĐ</p>
+                        <p style="margin: 0; color: #555;"><strong>Giá sản phẩm:</strong> {{ number_format($item->product->sale_price, 0, ',', '.') }} VNĐ</p>
+                        <p style="margin: 0; color: #555;"><strong>Thành tiền:</strong> {{ number_format($item->product->sale_price * $item->quantity, 0, ',', '.') }} VNĐ</p>
                     </div>
                 </li>
             @endforeach
