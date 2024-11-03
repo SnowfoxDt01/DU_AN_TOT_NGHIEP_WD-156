@@ -45,7 +45,7 @@
                         <a href="{{route('client.shop')}}">Sản phẩm</a>
                     </li>
                     <li>
-                        <a href="#0">Pages <i class="fa-regular fa-angle-down"></i></a>
+                        <a href="#0">Trang <i class="fa-regular fa-angle-down"></i></a>
                         <ul class="sub-menu">
                             <li class="subtwohober">
                                 <a href="shop.html">
@@ -64,22 +64,22 @@
                             </li>
                             <li class="subtwohober">
                                 <a href="cart.html">
-                                    Cart Page
+                                    Giỏ Hàng
                                 </a>
                             </li>
                             <li class="subtwohober">
                                 <a href="checkout.html">
-                                    Checkout Page
+                                    Thanh Toán
                                 </a>
                             </li>
                             <li class="subtwohober">
                                 <a href="register.html">
-                                    Register
+                                    Đăng Kí
                                 </a>
                             </li>
                             <li class="subtwohober">
                                 <a href="login.html">
-                                    Login
+                                    Đăng Nhập
                                 </a>
                             </li>
                             <li class="subtwohober">
