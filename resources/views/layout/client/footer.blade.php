@@ -14,32 +14,32 @@
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
                     <div class="footer__item">
-                        <h4 class="footer-title">Get to Know Us</h4>
+                        <h4 class="footer-title">Liên hệ</h4>
                         <ul>
-                            <li><a href="about.html"><span></span>About Us</a></li>
-                            <li><a href="blog-grid.html"><span></span>News & Blog</a></li>
-                            <li><a href="error.html"><span></span>Careers</a></li>
-                            <li><a href="error.html"><span></span>Investors</a></li>
-                            <li><a href="contact.html"><span></span>Contact Us</a></li>
+                            <li><a href="about.html"><span></span>Hotline</a></li>
+                            <li><a href="blog-grid.html"><span></span>Email</a></li>
+                            <li><a href="live.html"><span></span>Live Chat</a></li>
+                            <li><a href="error.html"><span></span>Messenger</a></li>
+                            <li><a href="contact.html"><span></span>Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-duration="1.2s" data-wow-delay=".2s">
                     <div class="footer__item">
-                        <h4 class="footer-title">Get to Know Us</h4>
+                        <h4 class="footer-title">HỖ TRỢ KHÁCH HÀNG</h4>
                         <ul>
-                            <li><a href="about.html"><span></span>About Us</a></li>
-                            <li><a href="blog-grid.html"><span></span>News & Blog</a></li>
-                            <li><a href="error.html"><span></span>Careers</a></li>
-                            <li><a href="error.html"><span></span>Investors</a></li>
-                            <li><a href="contact.html"><span></span>Contact Us</a></li>
+                            <li><a href="about.html"><span></span>Hướng dẫn đặt hàng</a></li>
+                            <li><a href="blog-grid.html"><span></span>Hướng dẫn chọn size</a></li>
+                            <li><a href="cart.html"><span></span>Thanh toán - Giao hàng</a></li>
+                            <li><a href="error.html"><span></span>Chính sách bảo mật</a></li>
+                            <li><a href="contact.html"><span></span>Câu hỏi thường gặp</a></li>
                         </ul>
                     </div>
                 </div>
                 {{-- google map --}}
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-duration="1.4s" data-wow-delay=".4s">
                     <div class="footer__item newsletter">
-                        <h4 class="footer-title">Địa chỉ google map : </h4>
+                        <h4 class="footer-title">HỆ THỐNG CỬA HÀNG: </h4>
                         <div class="mapouter">
                             <div class="gmap_canvas"><iframe width="350" height="300" id="gmap_canvas"
                                     src="https://maps.google.com/maps?q=Tr%E1%BB%8Bnh%20V%C4%83n%20B%C3%B4&t=&z=13&ie=UTF8&iwloc=&output=embed"
