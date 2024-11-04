@@ -10,6 +10,7 @@ use App\Exports\ShopOrderExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Admin\PaymentController;
 use Illuminate\Support\Facades\DB;
+use App\Enums\OrderStatusTransitions;
 
 class ShopOrderController extends Controller
 {
@@ -64,30 +65,31 @@ class ShopOrderController extends Controller
     {
         $order = ShopOrder::findOrFail($id);
 
-        // Kiểm tra nếu trạng thái đơn hàng đã hoàn thành thì không cho sửa đổi nữa
-        if ($order->order_status == OrderStatus::COMPLETED) {
-            return redirect()->route('admin.orders.index')->with('error', 'Không thể sửa đổi đơn hàng đã hoàn thành.');
-        }
+        // Lấy trạng thái hiện tại và trạng thái mới từ yêu cầu
+        $currentStatus = $order->order_status;
+        $newStatus = $request->input('order_status');
 
-        $validated = $request->validate([
-            'order_status' => ['required', 'in:' . implode(',', OrderStatus::getValues())],
-        ]);
+        // Kiểm tra xem chuyển đổi trạng thái có hợp lệ không
+        if (OrderStatusTransitions::canTransition($currentStatus, $newStatus)) {
+            // Cập nhật trạng thái đơn hàng
+            $order->update(['order_status' => $newStatus]);
 
-        $order->update([
-            'order_status' => $validated['order_status'],
-        ]);
-
-        if ($validated['order_status'] == OrderStatus::COMPLETED) {
-            if (!$order->payment) {
-                PaymentController::createPayment([
-                    'order_id' => $order->id,
-                    'user_id' => $order->user_id,
-                ]);
+            // Nếu trạng thái mới là "completed", tạo giao dịch thanh toán và chuyển hướng đến trang hóa đơn
+            if ($newStatus == 'completed') {
+                if (!$order->payment) {
+                    PaymentController::createPayment([
+                        'order_id' => $order->id,
+                        'user_id' => $order->user_id,
+                    ]);
+                }
+                return redirect()->route('admin.payments.index', $order->id)->with('success', 'Đơn hàng đã hoàn thành. Hóa đơn đã được tạo.');
             }
-            return redirect()->route('admin.payments.index')->with('success', 'Đơn hàng đã hoàn thành, chuyển sang trang hóa đơn.');
-        }
 
-        return redirect()->route('admin.orders.index')->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
+            return redirect()->route('admin.orders.index')->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
+        } else {
+            // Trạng thái không hợp lệ, chuyển hướng với thông báo lỗi
+            return redirect()->route('admin.orders.index')->with('error', 'Chuyển đổi trạng thái đơn hàng không hợp lệ.');
+        }
     }
 
     public function checkNewOrders()
