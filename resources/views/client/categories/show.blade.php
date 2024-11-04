@@ -11,7 +11,7 @@
         </div>
     </section>
     <!-- Page banner area end here -->
-
+    <hr>
     <!-- Product area start here -->
     <section class="product-area pt-130 pb-130">
         <div class="container">
