@@ -40,7 +40,8 @@ class ClientController extends Controller
     public function shopProducts() {
         $categories = Category::all();
         $products = Product::paginate(9);
-        return view('client.products.shop', compact('products','categories'));
+        $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
+        return view('client.products.shop', compact('products','categories','flash_sale_products'));
     }
 
     public function productsOfCategory($id){
