@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
+class ShoppingCartItem extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'shopping_cart_item';
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'shopping_cart_id',
+        'variant_product_id',
+        'product_id',
+        'quantity',
+        'price',
+    ];
+
+    // Mối quan hệ với ShoppingCart
+    public function shoppingCart()
+    {
+        return $this->belongsTo(ShoppingCart::class, 'shopping_cart_id');
+    }
+
+    // Mối quan hệ với VariantProduct
+    public function variantProduct()
+    {
+        return $this->belongsTo(VariantProduct::class, 'variant_product_id');
+    }
+
+    // Mối quan hệ với Product
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+}

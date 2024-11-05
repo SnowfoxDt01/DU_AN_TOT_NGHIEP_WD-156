@@ -1,4 +1,12 @@
 @extends('layout.client.master')
+@push('styles')
+<style>
+    .size-option.disabled {
+    opacity: 0.5; 
+    pointer-events: none; 
+}
+</style>
+@endpush
 @section('content')
     <!-- Page banner area start here -->
     <section class="page-banner bg-image pt-130 pb-130" data-background="">
@@ -83,28 +91,63 @@
                                         <a href="#0"
                                             class="primary-hover">{{ $detailProduct->category->name_category }}</a>
                                     </div>
-                                    <div class="d-flex flex-wrap py-3 bor-bottom">
-                                        <h4 class="pe-3">Lựa chọn :</h4>
-                                        <div class="variant-images d-flex gap-2">
-                                            @foreach ($detailProduct->variantProducts as $variant)
-                                                <img src="{{ $variant->image_url }}" alt="variant-{{ $variant->name }}"
-                                                    class="variant-thumb" style="width: 50px; cursor: pointer;"
-                                                    onclick="showVariant({{ $variant->id }})">
-                                            @endforeach
+
+                                    <form id='myform' method='POST' action="{{ route('client.cart.add') }}"> 
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $detailProduct->id }}"> 
+                                        <input type="hidden" name="variant_id" id="variant_id" value=""> 
+                                        <input type="hidden" name="size_id" id="size_id" value="">
+                                    
+                                        <div class="d-flex flex-wrap py-3 bor-bottom">
+                                            <h4 class="pe-3">Màu sắc:</h4>
+                                            <div class="variant-colors d-flex gap-2">
+                                                @foreach ($detailProduct->variantProducts->pluck('color')->unique('id') as $color)
+                                                    @php
+                                                        $variant = $detailProduct->variantProducts->where('color_id', $color->id)->first();
+                                                    @endphp
+                                                    @if ($variant)
+                                                        <div class="color-option" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; display: flex; align-items: center; position: relative;" 
+                                                             onclick="selectVariant('{{ $color->id }}', {{ $variant->id }}, '{{ $variant->name }}')"
+                                                             tabindex="0"> 
+                                                            @if ($variant->images->count() > 0)
+                                                                <img src="{{ $variant->images->first()->image_path }}" alt="variant-{{ $variant->name }}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 5px;"> 
+                                                            @endif
+                                                            <span>{{ $variant->name }}</span>
+                                                            <span class="selected-mark" style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span> 
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="cart-wrp py-4">
-                                        <div class="cart-quantity">
-                                            <form id='myform' method='POST' class='quantity' action='#'>
+                                        
+                                        <div class="d-flex flex-wrap py-3 bor-bottom">
+                                            <h4 class="pe-3">Kích thước:</h4>
+                                            <div class="variant-sizes d-flex gap-2">
+                                                @foreach ($detailProduct->variantProducts->pluck('size')->unique('id')->sortBy('name') as $size)
+                                                    @php
+                                                        $variant = $detailProduct->variantProducts->where('size_id', $size->id)->first(); 
+                                                    @endphp
+                                                    <div class="size-option {{ $variant ? '' : 'disabled' }}" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; position: relative;" 
+                                                         onclick="selectSize('{{ $size->id }}', '{{ $size->name }}')"
+                                                         tabindex="0"> 
+                                                        {{ $size->name }}
+                                                        <span class="selected-mark" style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span> 
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="cart-wrp py-4">
+                                            <div class="cart-quantity">
                                                 <input type='button' value='-' class='qtyminus minus'>
-                                                <input type='text' name='quantity' value='0' class='qty'>
+                                                <input type='text' name='quantity' value='1' class='qty'> 
                                                 <input type='button' value='+' class='qtyplus plus'>
-                                            </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <a href="#0" class="d-block text-center btn-two mt-40"><span><i
-                                                class="fa-solid fa-basket-shopping pe-2"></i>
-                                            Thêm vào giỏ hàng</span></a>
+                                        <button type="submit" class="d-block text-center btn-two mt-40">
+                                            <span><i class="fa-solid fa-basket-shopping pe-2"></i> Thêm vào giỏ hàng</span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -205,4 +248,67 @@
         <!-- description review area end here -->
     </section>
     <!-- Shop single area end here -->
+    <script>
+        function selectVariant(colorId, variantId, variantName) {
+        // Cập nhật variant_id
+        document.getElementById('variant_id').value = variantId;
+
+        // Hiển thị dấu tích cho màu đã chọn
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            const mark = option.querySelector('.selected-mark');
+            if (option.onclick.toString().includes(`(${colorId}, ${variantId}, '${variantName}')`)) {
+                mark.style.display = 'block';
+            } else {
+                mark.style.display = 'none';
+            }
+        });
+
+        // Kiểm tra kích thước còn hàng (bạn đã thêm đoạn này)
+        const sizeOptions = document.querySelectorAll('.size-option');
+        sizeOptions.forEach(option => {
+            const sizeId = option.onclick.toString().split(',')[0].split('(')[1].trim(); 
+            const variant = @json($detailProduct->variantProducts); 
+            const isAvailable = variant.some(v => v.color_id == colorId && v.size_id == sizeId); 
+
+            if (isAvailable) {
+                option.classList.remove('disabled');
+            } else {
+                option.classList.add('disabled');
+            }
+        });
+
+        console.log(`Chọn màu ID: ${colorId}, Tên biến thể: ${variantName}`);
+    }
+
+    function selectSize(sizeId, sizeName) {
+        // Cập nhật size_id
+        document.getElementById('size_id').value = sizeId;
+
+        // Hiển thị dấu tích cho kích thước đã chọn
+        const sizeOptions = document.querySelectorAll('.size-option');
+        sizeOptions.forEach(option => {
+            const mark = option.querySelector('.selected-mark');
+            if (option.onclick.toString().includes(`'${sizeId}'`)) {
+                mark.style.display = 'block';
+            } else {
+                mark.style.display = 'none';
+            }
+        });
+
+        console.log(`Chọn kích thước ID: ${sizeId}, Tên: ${sizeName}`);
+    }
+
+    // Thêm sự kiện submit cho form
+    const form = document.getElementById('myform');
+    form.addEventListener('submit', function(event) {
+        const variantId = document.getElementById('variant_id').value;
+        const sizeId = document.getElementById('size_id').value;
+        
+        if (variantId === "" || sizeId === "") {
+            event.preventDefault(); // Ngăn chặn submit form nếu chưa chọn màu hoặc kích thước
+            alert("Vui lòng chọn màu sắc và kích thước.");
+        }
+    });
+</script>
 @endsection
