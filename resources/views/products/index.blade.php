@@ -63,7 +63,6 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Tên</th>
-            <th scope="col">Mô tả</th>
             <th scope="col">Giá</th>
             <th scope="col">Giá khuyến mãi</th>
             <th scope="col">Hình ảnh</th>
@@ -77,7 +76,6 @@
         <tr>
             <td>{{ $value->id }}</td>
             <td>{{ $value->name }}</td>
-            <td>{{ Str::limit($value->description, 300, '...') }}</td>
             <td>{{ number_format($value->base_price) }}.đ</td>
             <td>{{ number_format($value->sale_price) }}.đ</td>
             <td>
