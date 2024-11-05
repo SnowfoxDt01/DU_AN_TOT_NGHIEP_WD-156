@@ -26,7 +26,7 @@
             <h3 style="color: #0073aa;">Thông tin khách hàng</h3>
             <hr style="border-color: #e1e1e1;">
             <div>
-                <p><strong>Người Gửi:</strong> {{ $order->customer->user->name }}</p>
+                <p><strong>Người Đặt Hàng:</strong> {{ $order->customer->user->name }}</p>
                 <p><strong>Email:</strong> {{ $order->customer->user->email }}</p>
                 <p><strong>Số điện thoại:</strong> {{ $order->customer->phone }}</p>
                 <hr style="border-color: #e1e1e1;">

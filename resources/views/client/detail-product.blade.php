@@ -22,25 +22,35 @@
                 <div class="row g-4">
                     <div class="col-lg-5">
                         <div class="image img">
-                            <div class="swiper shop-single-slide">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="{{ $detailProduct->image }}" alt="">
+                            @if ($detailProduct->images->count() > 0)
+                                <div class="swiper shop-single-slide">
+                                    <div class="swiper-wrapper">
+                                        @foreach ($detailProduct->images as $image)
+                                            <div class="swiper-slide slide-smoll">
+                                                <img src="{{ $image->image_path }}" alt="image">
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mt-3 swiper shop-slider-thumb">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide slide-smoll">
-                                        <img src="{{ $detailProduct->image }}" alt="image">
+                                @if ($detailProduct->images->count() > 1)
+                                    <div class="mt-3 swiper shop-slider-thumb">
+                                        <div class="swiper-wrapper">
+                                            @foreach ($detailProduct->images as $image)
+                                                <div class="swiper-slide slide-smoll">
+                                                    <img src="{{ $image->image_path }}" alt="image">
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                @endif
+                            @endif
+                        </div>                        
                     </div>
                     <div class="col-lg-7">
                         <div class="content h24">
-                            <h3 class="pb-2 primary-color">{{ $detailProduct->name }}</h3>
+                            <h3 class="pb-2 primary-color"
+                                style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                {{ $detailProduct->name }}</h3>
                             <div class="star primary-color pb-2">
                                 @for ($i = 0; $i < 5; $i++)
                                     @if ($i < floor($averageRating))
@@ -60,7 +70,8 @@
                                 <h2 class="pb-3">{{ number_format($detailProduct->sale_price) }}.đ</h2>
                             @endif
                             <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
-                            <p class="text-justify mb-10" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                            <p class="text-justify mb-10"
+                                style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
                                 {{ $detailProduct->description }}
                             </p>
                         </div>
@@ -118,7 +129,7 @@
                 </ul>
                 <div class="tab-content">
                     <div id="description" class="tab-pane fade show active">
-                        <p class="pb-4 text-justify">{!! nl2br($detailProduct->description )!!}</p>
+                        <p class="pb-4 text-justify">{!! nl2br($detailProduct->description) !!}</p>
                     </div>
                     <div id="review" class="tab-pane fade">
                         <div class="review-wrp">

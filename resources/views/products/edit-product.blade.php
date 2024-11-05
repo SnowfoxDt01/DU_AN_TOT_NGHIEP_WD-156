@@ -78,10 +78,6 @@
                         <option value="1" {{ $product->new == 1 ? 'selected' : '' }}>Hàng mới</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="quantitySP">Số lượng</label>
-                    <input type="text" class="form-control" id="quantitySP" name="quantitySP" value="{{ $product->getTotalQuantity() }}" readonly>
-                </div>
             </div> 
 
             <div class="meta-box">

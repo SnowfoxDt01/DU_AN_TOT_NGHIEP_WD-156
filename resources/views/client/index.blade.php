@@ -51,13 +51,14 @@
                         @foreach ($categories as $category)
                             <div class="swiper-slide">
                                 <div class="category__item category-two__item text-center">
-                                    <a href="#" class="category__image d-block">
+                                    <a href="{{ route('client.category', $category->id) }}" class="category__image d-block">
                                         <div class="category-icon">
                                             <img src="{{ $category->image }}" alt="{{ $category->name }}">
                                         </div>
                                     </a>
                                     <h4 class="mt-30">
-                                        <a href="#">{{ $category->name_category }}</a>
+                                        <a
+                                            href="{{ route('client.category', $category->id) }}">{{ $category->name_category }}</a>
                                     </h4>
                                 </div>
                             </div>
@@ -161,10 +162,16 @@
                                         <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
                                         <a href="{{ route('client.detailProduct', $new->id) }}"
                                             class="product__image pt-20 d-block">
-                                            <img class="font-image" src="{{ $new->image }}" alt="image"
-                                                height="320px">
-                                            <img class="back-image" src="{{ $new->image }}" alt="image"
-                                                height="320px">
+                                            @if ($new->images->count() > 0)
+                                                <img class="font-image" src="{{ $new->images->first()->image_path }}"
+                                                    alt="image" height="320px">
+                                                <img class="back-image" src="{{ $new->images->first()->image_path }}"
+                                                    alt="image" height="320px">
+                                            @else
+                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
+                                                    class="img-thumbnail" width="100">
+                                            @endif
+
                                         </a>
                                         <div class="product__content">
                                             <h4 class="mb-15"><a class="primary-hover"
