@@ -171,7 +171,6 @@
                                                 <img src="{{ asset('default_image.jpg') }}" alt="No Image"
                                                     class="img-thumbnail" width="100">
                                             @endif
-
                                         </a>
                                         <div class="product__content">
                                             <h4 class="mb-15"><a class="primary-hover"
@@ -215,10 +214,15 @@
                                         <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
                                         <a href="{{ route('client.detailProduct', $top->product->id) }}"
                                             class="product__image pt-20 d-block">
-                                            <img class="font-image" src="{{ $top->product->image }}" alt="image"
-                                                height="320px">
-                                            <img class="back-image" src="{{ $top->product->image }}" alt="image"
-                                                height="320px">
+                                            @if ($top->product->images->count() > 0)
+                                                <img class="font-image" src="{{ $top->product->images->first()->image_path }}"
+                                                    alt="image" height="320px">
+                                                <img class="back-image" src="{{ $top->product->images->first()->image_path }}"
+                                                    alt="image" height="320px">
+                                            @else
+                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
+                                                    class="img-thumbnail" width="100">
+                                            @endif
                                         </a>
                                         <div class="product__content">
                                             <h4 class="mb-15"><a class="primary-hover"
@@ -407,7 +411,12 @@
                                 OFF</div>
                             <br>
                             <div class="gallery__image image">
-                                <img src="{{ $sale->image }}" alt="image" height="320px">
+                                @if ($sale->images->count() > 0)
+                                <img src="{{ $sale->images->first()->image_path }}" alt="image" height="320px">
+                            @else
+                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
+                                    class="img-thumbnail" width="100">
+                            @endif
                             </div>
                             <div class="gallery__content">
                                 <h3 class="mb-10"><a

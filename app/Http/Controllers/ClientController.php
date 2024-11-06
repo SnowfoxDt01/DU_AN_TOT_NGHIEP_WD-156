@@ -26,6 +26,11 @@ class ClientController extends Controller
         return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'banners'));
     }
 
+    public function myAccount(){
+        $categories = Category::all();
+        return view('client.account.myaccount', compact('categories'));
+    }
+
     public function detailProduct(string $id)
     {
         $categories = Category::all();

@@ -34,7 +34,12 @@
                         <h4 class="mb-30 left-title">Deal chớp nhoáng!</h4>
                         @foreach ($flash_sale_products as $flash)
                             <div class="image pt-40 mb-30 bor-top mt-40">
-                                <img src="{{ $flash->image }}" alt="image">
+                                @if ($flash->images->count() > 0)
+                                    <img src="{{ $flash->image }}" alt="image">
+                                @else
+                                    <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail"
+                                        width="100">
+                                @endif
                             </div>
                             <div class="product__content p-0">
                                 <h4 class="mb-15"><a class="primary-hover" href="shop-single.html">
@@ -42,8 +47,11 @@
                                 @if ($flash->flash_sale_price == 0)
                                     <span class="primary-color ml-10">{{ number_format($flash->base_price) }}.đ</span>
                                 @else
-                                    <del>{{ number_format($flash->base_price) }}.đ</del>
-                                    <span class="primary-color ml-10">{{ number_format($flash->flash_sale_price) }}.đ</span>
+                                    <div style="display: inline-flex; align-items: center; white-space: nowrap;">
+                                        <del>{{ number_format($flash->base_price) }}.đ</del>
+                                        <span
+                                            class="primary-color ml-10">{{ number_format($flash->flash_sale_price) }}.đ</span>
+                                    </div>
                                 @endif
                                 <div class="star mt-20">
                                     <i class="fa-solid fa-star"></i>
@@ -86,8 +94,15 @@
                                     <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
                                     <a href="{{ route('client.detailProduct', $product->id) }}"
                                         class="product__image pt-20 d-block">
-                                        <img class="font-image" src="{{ $product->image }}" alt="image" height="320px">
-                                        <img class="back-image" src="{{ $product->image }}" height="320px" alt="image">
+                                        @if ($product->images->count() > 0)
+                                            <img class="font-image" src="{{ $product->images->first()->image_path }}"
+                                                alt="image" height="320px">
+                                            <img class="back-image" src="{{ $product->images->first()->image_path }}"
+                                                alt="image" height="320px">
+                                        @else
+                                            <img src="{{ asset('default_image.jpg') }}" alt="No Image"
+                                                class="img-thumbnail" width="100">
+                                        @endif
                                     </a>
                                     <div class="product__content">
                                         <h4 class="mb-15"><a class="primary-hover"
