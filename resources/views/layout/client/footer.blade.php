@@ -7,7 +7,7 @@
                         <h4 class="footer-title">Danh mục</h4>
                         <ul>
                             @foreach ($categories as $category)
-                                <li><a href="#"><span></span>{{ $category->name_category }}</a></li>
+                                <li><a href="{{ route('client.category', $category->id) }}"><span></span>{{ $category->name_category }}</a></li>
                             @endforeach
                         </ul>
                     </div>

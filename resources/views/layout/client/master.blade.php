@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VSNK SHOP</title>
-    <base href="{{asset('')}}">
+    <base href="{{ asset('') }}">
     <!-- Favicon img -->
     <link rel="shortcut icon" href="client_ui/assets/images/logo/favicon.png">
     <!-- Bootstarp min css -->
@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="client_ui/assets/css/nice-select.css">
     <!-- Style css -->
     <link rel="stylesheet" href="client_ui/assets/css/style.css">
+    {{-- Bootstrap icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 </head>
 
 <body>

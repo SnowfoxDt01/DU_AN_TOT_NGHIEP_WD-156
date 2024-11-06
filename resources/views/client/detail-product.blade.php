@@ -27,7 +27,7 @@
                                     <div class="swiper-wrapper">
                                         @foreach ($detailProduct->images as $image)
                                             <div class="swiper-slide slide-smoll">
-                                                <img src="{{ $image->image_path }}" alt="image">
+                                                <img src="{{ $image->image_path }}" style="height:650px;" alt="image">
                                             </div>
                                         @endforeach
                                     </div>
@@ -37,7 +37,7 @@
                                         <div class="swiper-wrapper">
                                             @foreach ($detailProduct->images as $image)
                                                 <div class="swiper-slide slide-smoll">
-                                                    <img src="{{ $image->image_path }}" alt="image">
+                                                    <img src="{{ $image->image_path }}" style="height: 100px; object-fit: cover;" alt="image">
                                                 </div>
                                             @endforeach
                                         </div>

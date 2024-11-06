@@ -109,9 +109,9 @@
                     </div>
                     @if (Auth::check())
                         <div class="d-flex align-items-center">
-                            <span style="color: orangered; margin-right: 10px;">
-                                {{ Auth::user()->name }} |
-                            </span>
+                            <a href="{{route('client.myAccount')}}" style="color: orangered; margin-right: 10px;">
+                                <i class="bi bi-person-fill-check"></i>
+                                {{ Auth::user()->name }} |</a>
                             <a href="{{ route('client.logout') }}" style="color: orangered">Đăng Xuất</a>
                         </div>
                     @else

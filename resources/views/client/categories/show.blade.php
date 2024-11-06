@@ -47,10 +47,15 @@
                                         <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
                                         <a href="{{ route('client.detailProduct', $product->id) }}"
                                             class="product__image pt-20 d-block">
-                                            <img class="font-image" src="{{ $product->image }}" alt="image"
-                                                height="320px">
-                                            <img class="back-image" src="{{ $product->image }}" height="320px"
-                                                alt="image">
+                                            @if ($product->images->count() > 0)
+                                                <img class="font-image" src="{{ $product->images->first()->image_path }}"
+                                                    alt="image" height="320px">
+                                                <img class="back-image" src="{{ $product->images->first()->image_path }}"
+                                                    alt="image" height="320px">
+                                            @else
+                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
+                                                    class="img-thumbnail" width="100">
+                                            @endif
                                         </a>
                                         <div class="product__content">
                                             <h4 class="mb-15"><a class="primary-hover"
