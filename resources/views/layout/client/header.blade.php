@@ -95,10 +95,10 @@
                 </ul>
                 <div class="shipping__item d-none d-sm-flex align-items-center">
                     <div class="cart d-flex align-items-center">
-                        <span class="cart__icon" style="margin-right: 10px">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                        </span>
-                        <a href="#0" class="c__one">
+                        <a href="{{route('client.cart.index')}}" class="c__one">
+                            <span class="cart__icon" style="margin-right: 10px">
+                                <i class="fa-regular fa-cart-shopping"></i>
+                            </span>
                             <span>
                                 $0.00
                             </span>

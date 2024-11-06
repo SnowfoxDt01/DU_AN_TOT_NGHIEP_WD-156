@@ -17,6 +17,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\VariantProductController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ShoppingCartController;
 
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 
@@ -148,6 +149,14 @@ Route::group([
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
+
+    Route::group([
+        'prefix' => 'cart',
+        'as' => 'cart.', 
+    ], function () {
+        Route::get('/', [ShoppingCartController::class, 'index'])->name('index'); 
+        Route::post('/add', [ShoppingCartController::class, 'add'])->name('add'); 
+    });
 });
 
 
