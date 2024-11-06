@@ -24,11 +24,13 @@
                 @endif
 
                 <div class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
-                    <label class="product-details">Product</label>
-                    <label class="product-price">Price</label>
-                    <label class="product-quantity">Quantity</label>
-                    <label class="product-line-price">Total</label>
-                    <label class="product-removal">Edit</label>
+                    <label class="product-details">Sản phẩm</label>
+                    <label class="product-color">Màu</label>
+                    <label class="product-size">Kích cỡ</label>
+                    <label class="product-price">Giá</label>
+                    <label class="product-quantity">Số lượng</label>
+                    <label class="product-line-price">Tổng giá</label>
+                    <label class="product-removal">Xóa</label>
                 </div>
 
                 @if (isset($shoppingCart) && $shoppingCart->items->count() > 0)
@@ -37,6 +39,12 @@
                             <div class="product-details d-flex align-items-center">
                                 <img src="{{ $item->variantProduct->images->first()->image_path }}" alt="image">
                                 <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->name }}</h4>
+                            </div>
+                            <div class="product-color">
+                                <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->color->name }}</h4>
+                            </div>
+                            <div class="product-size">
+                                <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->size->name }}</h4>
                             </div>
                             <div class="product-price">{{ number_format($item->price, 0, ',', '.') }}</div>
                             <div class="product-quantity">
@@ -53,8 +61,10 @@
 
                     <div class="totals">
                         <div class="totals-item theme-color float-end mt-20">
-                            <span class="fw-bold text-uppercase py-2">cart total =</span>
-                            <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">{{ number_format($shoppingCart->items->sum('price' * 'quantity'), 0, ',', '.') }}</div>
+                            <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
+                            <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
+                                {{ number_format($shoppingCart->items->sum('subtotal'), 0, ',', '.') }} 
+                            </div>
                         </div>
                     </div>
 

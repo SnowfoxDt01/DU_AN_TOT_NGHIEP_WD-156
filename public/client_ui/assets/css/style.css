@@ -3491,6 +3491,10 @@ input {
 .product-details {
   width: 40%;
 }
+.product-color, .product-size {
+  width: 10%; /* Điều chỉnh độ rộng cho phù hợp */
+  text-align: center; /* Căn giữa nội dung trong cột */
+}
 .product-details img {
   width: 80px;
 }

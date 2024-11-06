@@ -1,11 +1,13 @@
 @extends('layout.client.master')
 @push('styles')
+@push('styles')
 <style>
-    .size-option.disabled {
-    opacity: 0.5; 
-    pointer-events: none; 
+    .size-option.disabled, .color-option.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 </style>
+@endpush
 @endpush
 @section('content')
     <!-- Page banner area start here -->
@@ -106,7 +108,7 @@
                                                         $variant = $detailProduct->variantProducts->where('color_id', $color->id)->first();
                                                     @endphp
                                                     @if ($variant)
-                                                        <div class="color-option" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; display: flex; align-items: center; position: relative;" 
+                                                        <div class="color-option" data-color-id="{{ $color->id }}" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; display: flex; align-items: center; position: relative;" 
                                                              onclick="selectVariant('{{ $color->id }}', {{ $variant->id }}, '{{ $variant->name }}')"
                                                              tabindex="0"> 
                                                             @if ($variant->images->count() > 0)
@@ -127,7 +129,7 @@
                                                     @php
                                                         $variant = $detailProduct->variantProducts->where('size_id', $size->id)->first(); 
                                                     @endphp
-                                                    <div class="size-option {{ $variant ? '' : 'disabled' }}" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; position: relative;" 
+                                                    <div class="size-option {{ $variant ? '' : 'disabled' }}" data-size-id="{{ $size->id }}" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; position: relative;" 
                                                          onclick="selectSize('{{ $size->id }}', '{{ $size->name }}')"
                                                          tabindex="0"> 
                                                         {{ $size->name }}
@@ -249,66 +251,59 @@
     </section>
     <!-- Shop single area end here -->
     <script>
-        function selectVariant(colorId, variantId, variantName) {
-        // Cập nhật variant_id
+    const variantData = @json($detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
+        return $variants->groupBy('size_id')->map(function ($groupedVariants) {
+            return $groupedVariants->first();
+        });
+    }));
+
+    function updateOptions(selectedColorId, selectedSizeId) {
+        document.querySelectorAll('.color-option').forEach(el => {
+            const colorId = el.getAttribute('data-color-id');
+            const hasAvailableSize = Object.keys(variantData[colorId] || {}).some(sizeId => {
+                return variantData[colorId][sizeId].quantity > 0;
+            });
+            el.classList.toggle('disabled', !hasAvailableSize);
+        });
+
+        document.querySelectorAll('.size-option').forEach(el => {
+            const sizeId = el.getAttribute('data-size-id');
+            const hasAvailableColor = Object.keys(variantData).some(colorId => {
+                return (variantData[colorId][sizeId] || {}).quantity > 0;
+            });
+            el.classList.toggle('disabled', !hasAvailableColor);
+        });
+    }
+
+    function selectVariant(colorId, variantId, variantName) {
+        // Xử lý logic khi người dùng chọn một màu
         document.getElementById('variant_id').value = variantId;
 
-        // Hiển thị dấu tích cho màu đã chọn
-        const colorOptions = document.querySelectorAll('.color-option');
-        colorOptions.forEach(option => {
-            const mark = option.querySelector('.selected-mark');
-            if (option.onclick.toString().includes(`(${colorId}, ${variantId}, '${variantName}')`)) {
-                mark.style.display = 'block';
-            } else {
-                mark.style.display = 'none';
-            }
+        // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
+        document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
+            mark.style.display = 'none';
         });
-
-        // Kiểm tra kích thước còn hàng (bạn đã thêm đoạn này)
-        const sizeOptions = document.querySelectorAll('.size-option');
-        sizeOptions.forEach(option => {
-            const sizeId = option.onclick.toString().split(',')[0].split('(')[1].trim(); 
-            const variant = @json($detailProduct->variantProducts); 
-            const isAvailable = variant.some(v => v.color_id == colorId && v.size_id == sizeId); 
-
-            if (isAvailable) {
-                option.classList.remove('disabled');
-            } else {
-                option.classList.add('disabled');
-            }
-        });
-
-        console.log(`Chọn màu ID: ${colorId}, Tên biến thể: ${variantName}`);
+        document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
+        // Thêm đoạn code sau để cập nhật lại danh sách size
+        updateOptions(colorId, null); 
     }
 
     function selectSize(sizeId, sizeName) {
-        // Cập nhật size_id
+        // Xử lý logic khi người dùng chọn kích thước
         document.getElementById('size_id').value = sizeId;
 
-        // Hiển thị dấu tích cho kích thước đã chọn
-        const sizeOptions = document.querySelectorAll('.size-option');
-        sizeOptions.forEach(option => {
-            const mark = option.querySelector('.selected-mark');
-            if (option.onclick.toString().includes(`'${sizeId}'`)) {
-                mark.style.display = 'block';
-            } else {
-                mark.style.display = 'none';
-            }
+        // Cập nhật UI: hiển thị dấu tích ở kích thước đã chọn
+        document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
+            mark.style.display = 'none';
         });
-
-        console.log(`Chọn kích thước ID: ${sizeId}, Tên: ${sizeName}`);
+        document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
     }
 
-    // Thêm sự kiện submit cho form
-    const form = document.getElementById('myform');
-    form.addEventListener('submit', function(event) {
-        const variantId = document.getElementById('variant_id').value;
-        const sizeId = document.getElementById('size_id').value;
-        
-        if (variantId === "" || sizeId === "") {
-            event.preventDefault(); // Ngăn chặn submit form nếu chưa chọn màu hoặc kích thước
-            alert("Vui lòng chọn màu sắc và kích thước.");
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateOptions(null, null);
     });
 </script>
 @endsection
+@push('scripts')
+
+@endpush

@@ -16,16 +16,15 @@ class ShoppingCart extends Model
 
     // Định nghĩa các thuộc tính có thể gán hàng loạt
     protected $fillable = [
-        'Transaction_id_user',
-        'Transaction_id_merchant',
-        'customer_id', // Thêm customer_id
         'user_id', // Thêm user_id
+        'total_price',
+        'deleted_at'
     ];
 
     // Mối quan hệ với ShoppingCartItem
     public function items()
     {
-        return $this->hasMany(ShoppingCartItem::class, 'shopping_cart_id');
+        return $this->hasMany(ShoppingCartItem::class, 'cart_id');
     }
 
     // Mối quan hệ với Customer

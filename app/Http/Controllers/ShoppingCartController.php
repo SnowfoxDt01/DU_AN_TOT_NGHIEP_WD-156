@@ -39,7 +39,7 @@ class ShoppingCartController extends Controller
         $shoppingCart = ShoppingCart::firstOrCreate(['user_id' => $userId]);
 
         // 4. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        $existingItem = $shoppingCart->items()->where('variant_product_id', $variantId)->first();
+        $existingItem = $shoppingCart->items()->where('variant_id', $variantId)->first();
 
         if ($existingItem) {
             // 4.1. Nếu sản phẩm đã tồn tại, cập nhật số lượng
@@ -49,11 +49,12 @@ class ShoppingCartController extends Controller
         } else {
             // 4.2. Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
             ShoppingCartItem::create([
-                'shopping_cart_id' => $shoppingCart->id,
-                'variant_product_id' => $variantId,
+                'cart_id' => $shoppingCart->id,
+                'variant_id' => $variantId,
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $variantProduct->price,
+                'subtotal' => $quantity * $variantProduct->price
             ]);
         }
 

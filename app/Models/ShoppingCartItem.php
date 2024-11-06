@@ -15,23 +15,25 @@ class ShoppingCartItem extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'shopping_cart_id',
-        'variant_product_id',
+        'cart_id',
+        'variant_id',
         'product_id',
         'quantity',
         'price',
+        'subtotal',
+        'deleted_at'
     ];
 
     // Mối quan hệ với ShoppingCart
     public function shoppingCart()
     {
-        return $this->belongsTo(ShoppingCart::class, 'shopping_cart_id');
+        return $this->belongsTo(ShoppingCart::class, 'cart_id');
     }
 
     // Mối quan hệ với VariantProduct
     public function variantProduct()
     {
-        return $this->belongsTo(VariantProduct::class, 'variant_product_id');
+        return $this->belongsTo(VariantProduct::class, 'variant_id');
     }
 
     // Mối quan hệ với Product
