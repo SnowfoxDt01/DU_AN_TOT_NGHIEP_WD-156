@@ -41,6 +41,11 @@ class ShopOrder extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function items()
     {
         return $this->hasMany(ShopOrderItem::class, 'order_id');

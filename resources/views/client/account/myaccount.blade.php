@@ -1,7 +1,10 @@
 @extends('layout.client.master')
 @section('content')
     <section class="page-banner bg-image pt pb">
+        <hr>
+        <h2>Tài khoản của tôi</h2>
     </section>
+    <hr>
     <section class="cart-page pt-130 pb-130">
         <div class="container">
             <div class="row g-4">
@@ -9,37 +12,43 @@
                     <div class="product__left-item sub-bg">
                         <ul class="nav flex-column" id="accountTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" style="color: #fff" id="account-tab" data-bs-toggle="tab" href="#account"
-                                    role="tab" aria-controls="account" aria-selected="true">
-                                    <i class="bi bi-person-vcard"> </i> Tài khoản</a>
+                                <a class="nav-link active" style="color: #fff" id="account-tab" data-bs-toggle="tab"
+                                    href="#account" role="tab" aria-controls="account" aria-selected="true">
+                                    <i class="bi bi-person-vcard" style="font-size: 20px;"> </i> Tài khoản</a>
                             </li>
+                            <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff;" id="warranty-tab" data-bs-toggle="tab" href="#warranty" role="tab"
-                                    aria-controls="warranty" aria-selected="false">
-                                    <i class="bi bi-shield-check"> </i> Tra cứu bảo hành
+                                <a class="nav-link" style="color: #fff;" id="warranty-tab" data-bs-toggle="tab"
+                                    href="#warranty" role="tab" aria-controls="warranty" aria-selected="false">
+                                    <i class="bi bi-shield-check" style="font-size: 20px;"> </i> Tra cứu bảo hành
                                 </a>
                             </li>
+                            <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff" id="order-history-tab" data-bs-toggle="tab" href="#order-history"
-                                    role="tab" aria-controls="order-history" aria-selected="false">
-                                    <i class="bi bi-receipt"> </i> Lịch sử mua hàng
+                                <a class="nav-link" style="color: #fff" id="order-history-tab" data-bs-toggle="tab"
+                                    href="#order-history" role="tab" aria-controls="order-history"
+                                    aria-selected="false">
+                                    <i class="bi bi-receipt" style="font-size: 20px;"> </i> Lịch sử mua hàng
                                 </a>
                             </li>
+                            <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff" id="update-info-tab" data-bs-toggle="tab" href="#update-info"
-                                    role="tab" aria-controls="update-info" aria-selected="false">
-                                    <i class="bi bi-person-gear"> </i> Thay đổi thông tin
+                                <a class="nav-link" style="color: #fff" id="update-info-tab" data-bs-toggle="tab"
+                                    href="#update-info" role="tab" aria-controls="update-info" aria-selected="false">
+                                    <i class="bi bi-person-gear" style="font-size: 20px;"> </i> Thay đổi thông tin
                                 </a>
                             </li>
+                            <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
-                                    aria-controls="support" aria-selected="false">
-                                    <i class="bi bi-headset"> </i> Hỗ trợ
+                                <a class="nav-link" style="color: #fff" id="support-tab" data-bs-toggle="tab"
+                                    href="#support" role="tab" aria-controls="support" aria-selected="false">
+                                    <i class="bi bi-headset" style="font-size: 20px;"> </i> Hỗ trợ
                                 </a>
                             </li>
+                            <hr>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" href="{{ route('client.logout') }}" style="color: #fff">
-                                    <i class="bi bi-box-arrow-left"> </i> Đăng xuất
+                                    <i class="bi bi-box-arrow-left" style="font-size: 20px;"> </i> Đăng xuất
                                 </a>
                             </li>
                         </ul>
@@ -49,8 +58,40 @@
                     <div class="tab-content" id="accountTabsContent">
                         <!-- Account Tab Content -->
                         <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
-                            <h4>Tài Khoản</h4>
-                            <p>Thông tin tài khoản của bạn sẽ hiển thị tại đây.</p>
+                            <p style="text-align: center;">
+                                <i class="bi bi-person-circle" style="font-size: 50px;"></i>
+                            </p>
+                            <p style="text-align: center;">
+                                {{ Auth::user()->name }}
+                            </p>
+                            <hr>
+                            <div class="row">
+                                <div>
+                                    <p><strong>Họ và Tên : </strong> {{ Auth::user()->customers->first()->name }}</p>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p><strong>Email : </strong> {{ Auth::user()->customers->first()->email }}</p>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p><strong>Số điện thoại :</strong> {{ Auth::user()->customers->first()->phone }}</p>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p><strong>Địa chỉ : </strong> {{ Auth::user()->customers->first()->address }}</p>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p> <strong>Ngày tham gia : </strong> {{ Auth::user()->created_at->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p><strong>Tổng số đơn hàng đã đặt: </strong> {{ Auth::user()->orders()->count() }}</p>
+                                </div>
+                                <hr>
+                            </div>
                         </div>
                         <!-- Warranty Tab Content -->
                         <div class="tab-pane fade" id="warranty" role="tabpanel" aria-labelledby="warranty-tab">
@@ -60,9 +101,9 @@
                         <!-- Order History Tab Content -->
                         <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
                             <h4>Lịch Sử Mua Hàng</h4>
+                            <hr>
                             <!-- Order History Content -->
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="mb-0">Lịch Sử Mua Hàng</h5>
                                 <span>1 Đơn Hàng | 3M Tổng Tiền Tích Lũy</span>
                             </div>
 
@@ -102,8 +143,65 @@
                         </div>
                         <!-- Update Info Tab Content -->
                         <div class="tab-pane fade" id="update-info" role="tabpanel" aria-labelledby="update-info-tab">
-                            <h4>Thay Đổi Thông Tin</h4>
-                            <p>Cập nhật thông tin cá nhân của bạn tại đây.</p>
+                            <div class="col-lg-12">
+
+                                <div class="checkout__item-left sub-bg">
+                                    <h3 class="mb-40">Thay đổi thông tin</h3>
+                                    <form action="">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="mb-10" for="name">Họ *</label>
+                                                <input class="mb-20" id="name" type="text">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="mb-10" for="name">Tên *</label>
+                                                <input class="mb-20" id="name" type="text">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="mb-10" for="email">Email *</label>
+                                                <input class="mb-20" id="email" type="email">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="mb-10" for="phone">Số điện thoại *</label>
+                                                <input class="mb-20" id="phone" type="text">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5 class="mb-10">Chọn tỉnh / Thành phố *</h5>
+                                                <select class="mb-20" name="subject">
+                                                    <option value="0">United state america</option>
+                                                    <option value="1">United Kingdom</option>
+                                                    <option value="2">Australia</option>
+                                                    <option value="3">Germany</option>
+                                                    <option value="4">France</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5 class="mb-10">Chọn Quận / Huyện *</h5>
+                                                <select class="mb-20" name="subject">
+                                                    <option value="0">United state america</option>
+                                                    <option value="1">United Kingdom</option>
+                                                    <option value="2">Australia</option>
+                                                    <option value="3">Germany</option>
+                                                    <option value="4">France</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5 class="mb-10">Chọn Phường / Xã *</h5>
+                                                <select class="mb-20" name="subject">
+                                                    <option value="0">United state america</option>
+                                                    <option value="1">United Kingdom</option>
+                                                    <option value="2">Australia</option>
+                                                    <option value="3">Germany</option>
+                                                    <option value="4">France</option>
+                                                </select>
+                                            </div>
+                                            <label class="mb-10" for="streetAddress">Địa chỉ cụ thể *</label>
+                                            <input class="mb-20" id="streetAddress2" type="text">
+                                        </div>
+                                        <button type="submit"  class="btn-one mt-35">Xác nhận thay đổi</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <!-- Support Tab Content -->
                         <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
