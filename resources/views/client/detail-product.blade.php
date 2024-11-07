@@ -1,5 +1,5 @@
 @extends('layout.client.master')
-@push('styles')
+
 @push('styles')
 <style>
     .size-option.disabled, .color-option.disabled {
@@ -7,7 +7,7 @@
     pointer-events: none;
 }
 </style>
-@endpush
+
 @endpush
 @section('content')
     <!-- Page banner area start here -->
@@ -250,59 +250,80 @@
         <!-- description review area end here -->
     </section>
     <!-- Shop single area end here -->
-    <script>
-    const variantData = @json($detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
-        return $variants->groupBy('size_id')->map(function ($groupedVariants) {
-            return $groupedVariants->first();
-        });
-    }));
+    <script>  
+        // Lấy dữ liệu biến thể sản phẩm từ server và nhóm theo color_id và size_id  
+        const variantData = @json($detailProduct->variantProducts->groupBy(['color_id', 'size_id'])->map(function ($group) {
+            return $group->first();
+        }));
+            
+        // Khởi tạo biến để lưu trữ lựa chọn màu sắc và kích thước  
+        let selectedColorId = null;  
+        let selectedSizeId = null;  
+    
+        
+        // Hàm cập nhật trạng thái kích hoạt/vô hiệu hoá cho các tuỳ chọn  
+        function updateOptions() {
+            document.querySelectorAll('.color-option').forEach(colorOption => {
+                const colorId = colorOption.getAttribute('data-color-id');
+                let hasAvailableSize = false;
 
-    function updateOptions(selectedColorId, selectedSizeId) {
-        document.querySelectorAll('.color-option').forEach(el => {
-            const colorId = el.getAttribute('data-color-id');
-            const hasAvailableSize = Object.keys(variantData[colorId] || {}).some(sizeId => {
-                return variantData[colorId][sizeId].quantity > 0;
+                if (selectedSizeId) {
+                    hasAvailableSize = variantData[colorId] && variantData[colorId][selectedSizeId] && variantData[colorId][selectedSizeId].quantity > 0;
+                } else {
+                    hasAvailableSize = Object.keys(variantData[colorId] || {}).some(sizeId => variantData[colorId][sizeId] && variantData[colorId][sizeId].quantity > 0);
+                }
+
+                colorOption.classList.toggle('disabled', !hasAvailableSize);
             });
-            el.classList.toggle('disabled', !hasAvailableSize);
-        });
 
-        document.querySelectorAll('.size-option').forEach(el => {
-            const sizeId = el.getAttribute('data-size-id');
-            const hasAvailableColor = Object.keys(variantData).some(colorId => {
-                return (variantData[colorId][sizeId] || {}).quantity > 0;
+            document.querySelectorAll('.size-option').forEach(sizeOption => {
+                const sizeId = sizeOption.getAttribute('data-size-id');
+                let hasAvailableColor = false;
+
+                if (selectedColorId) {
+                    hasAvailableColor = variantData[selectedColorId] && variantData[selectedColorId][sizeId] && variantData[selectedColorId][sizeId].quantity > 0;
+                } else {
+                    hasAvailableColor = Object.keys(variantData).some(colorId => variantData[colorId] && variantData[colorId][sizeId] && variantData[colorId][sizeId].quantity > 0);
+                }
+
+                sizeOption.classList.toggle('disabled', !hasAvailableColor);
             });
-            el.classList.toggle('disabled', !hasAvailableColor);
-        });
-    }
+        }
+    
+        function selectVariant(colorId) {
+            selectedColorId = colorId;
+            let variantId = null; 
 
-    function selectVariant(colorId, variantId, variantName) {
-        // Xử lý logic khi người dùng chọn một màu
-        document.getElementById('variant_id').value = variantId;
+            // Tìm kiếm biến thể có sẵn dựa trên màu đã chọn
+            for (let sizeId in variantData[colorId]) {
+                if (variantData[colorId][sizeId].quantity > 0) {
+                    variantId = variantData[colorId][sizeId].id;
+                    break; 
+                }
+            }
 
-        // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
-        document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
-            mark.style.display = 'none';
-        });
-        document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
-        // Thêm đoạn code sau để cập nhật lại danh sách size
-        updateOptions(colorId, null); 
-    }
+            document.getElementById('variant_id').value = variantId;
+            updateOptions();
+        }
 
-    function selectSize(sizeId, sizeName) {
-        // Xử lý logic khi người dùng chọn kích thước
-        document.getElementById('size_id').value = sizeId;
+        function selectSize(sizeId) {
+            selectedSizeId = sizeId;
+            
+            if (selectedColorId && variantData[selectedColorId] && variantData[selectedColorId][sizeId]) {
+                document.getElementById('variant_id').value = variantData[selectedColorId][sizeId].id;
+            }
 
-        // Cập nhật UI: hiển thị dấu tích ở kích thước đã chọn
-        document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
-            mark.style.display = 'none';
-        });
-        document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        updateOptions(null, null);
-    });
-</script>
+            updateOptions();
+        }
+    
+        // Khi trang đã tải xong, thiết lập trạng thái ban đầu cho các tuỳ chọn  
+        document.addEventListener('DOMContentLoaded', function() {  
+            updateOptions();  
+        });  
+        console.log('variantData:', variantData);
+        console.log('selectedColorId:', selectedColorId);
+        console.log('selectedSizeId:', selectedSizeId);
+    </script>
 @endsection
 @push('scripts')
 
