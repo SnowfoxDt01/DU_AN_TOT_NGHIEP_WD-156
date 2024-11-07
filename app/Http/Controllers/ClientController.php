@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ShopOrderItem;
+use App\Models\Size;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -36,11 +37,12 @@ class ClientController extends Controller
     {
         $categories = Category::all();
         $detailProduct = Product::with('variantProducts')->findOrFail($id);
+        $sizes = Size::orderBy('name')->get();
 
         $totalReviews = $detailProduct->reviews->count();
 
         $averageRating = $totalReviews > 0 ? $detailProduct->reviews->avg('rating') : 0;
-        return view('client.detail-product', compact('categories', 'detailProduct', 'totalReviews', 'averageRating'));
+        return view('client.detail-product', compact('categories', 'detailProduct', 'totalReviews','sizes', 'averageRating'));
     }
 
     public function shopProducts() {

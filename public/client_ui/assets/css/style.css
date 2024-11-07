@@ -5509,3 +5509,21 @@ input {
 .star span.selected i {
   color: #ff6f00;
 }
+/* Làm mờ các phần tử disabled */
+.size-option.disabled {
+  background-color: #f0f0f0;  /* Màu nền nhạt */
+  color: #ccc; /* Màu chữ nhạt */
+  cursor: not-allowed;  /* Thay đổi con trỏ thành not-allowed */
+  opacity: 0.5; /* Làm mờ phần tử */
+}
+
+/* Khi phần tử không bị disabled, con trỏ sẽ là pointer (có thể nhấp được) */
+.size-option {
+  cursor: pointer;
+}
+
+/* Nếu bạn muốn thay đổi màu sắc khi phần tử bị disabled, có thể thêm như sau */
+.size-option.disabled:hover {
+  background-color: #e0e0e0;  /* Màu nền khi hover */
+}
+  
