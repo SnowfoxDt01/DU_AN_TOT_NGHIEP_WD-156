@@ -29,6 +29,8 @@
     {{-- Bootstrap icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    @stack('styles')
+    
 </head>
 
 <body>
@@ -96,6 +98,9 @@
     <script src="client_ui/assets/js/jquery.waypoints.js"></script>
     <!-- Script Js -->
     <script src="client_ui/assets/js/script.js"></script>
+
+    @stack('scripts')
+
 </body>
 
 
