@@ -35,6 +35,8 @@ Route::group([
     ], function () {
 
         Route::post('/toggle-visibility/{id}', [ReviewController::class, 'toggleVisibility'])->name('toggleVisibility');
+
+        Route::post('/products/review', [ReviewController::class, 'store'])->name('comment');
     });
 
     Route::group([

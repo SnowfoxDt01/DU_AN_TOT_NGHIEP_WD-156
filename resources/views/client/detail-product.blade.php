@@ -37,14 +37,15 @@
                                         <div class="swiper-wrapper">
                                             @foreach ($detailProduct->images as $image)
                                                 <div class="swiper-slide slide-smoll">
-                                                    <img src="{{ $image->image_path }}" style="height: 100px; object-fit: cover;" alt="image">
+                                                    <img src="{{ $image->image_path }}"
+                                                        style="height: 100px; object-fit: cover;" alt="image">
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 @endif
                             @endif
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="content h24">
@@ -134,14 +135,17 @@
                     <div id="review" class="tab-pane fade">
                         <div class="review-wrp">
                             @if ($detailProduct->reviews->count() > 0)
-                                @foreach ($detailProduct->reviews->take(3) as $review)
+                                @php
+                                    $reviews = $detailProduct->reviews()->paginate(4);
+                                @endphp
+                                @foreach ($reviews as $review)
                                     <div class="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
                                         <div class="content p-4 bor">
                                             <div class="head-wrp pb-1 d-flex flex-wrap justify-content-between">
                                                 <a href="#0">
                                                     <h4 class="text-capitalize primary-color">
                                                         {{ $review->user->name }}<span
-                                                            class="sm-font ms-2 fw-normal">{{ $review->created_at }}</span>
+                                                            class="sm-font ms-2 fw-normal">{{ $review->created_at->format('d/m/Y') }}</span>
                                                     </h4>
                                                 </a>
                                                 <div class="star primary-color ms-md-3">
@@ -159,6 +163,7 @@
                                     </div>
                                     <hr>
                                 @endforeach
+                                {{ $reviews->links('pagination::custom') }}
                             @else
                                 <p>Chưa có đánh giá cho sản phẩm này !</p>
                                 <hr>
@@ -168,35 +173,46 @@
                                 <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
                                     trống.
                                 </p>
-                                <div class="shop-single__rate-now">
-                                    <p>Chất lượng sản phẩm?</p>
-                                    <div class="star">
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment-form">
-                                <form action="#">
-                                    <div class="row g-4">
-                                        <div class="col-md-6">
-                                            <input type="text" class="w-100 mb-4 bor px-4 py-2"
-                                                placeholder="Tên của bạn">
+                                <form action="{{ route('admin.reviews.comment') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
+                                    <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                    <div class="shop-single__rate-now">
+                                        <p>Chất lượng sản phẩm?</p>
+                                        <div class="star">
+                                            <span data-value="1"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="2"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="3"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="4"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="5"><i class="fa-regular fa-star"></i></span>
                                         </div>
-                                        <div class="col-md-6">
-                                            <input type="email" class="w-100 mb-4 bor px-4 py-2"
-                                                placeholder="Email của bạn">
+                                        <input type="hidden" id="rating-value" name="rating" value="0">
+                                        @error('rating')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="comment-form">
+                                        <div class="row g-4">
+                                            <div class="col-md-6">
+                                                <input type="text" value="{{ Auth::user()->name }}"
+                                                    class="w-100 mb-4 bor px-4 py-2" placeholder="Tên của bạn">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="email" value="{{ Auth::user()->email }}"
+                                                    class="w-100 mb-4 bor px-4 py-2" placeholder="Email của bạn">
+                                            </div>
+                                        </div>
+                                        <textarea class="w-100 mb-4 bor p-4" name="comment" id="comment" placeholder="Đánh giá"></textarea>
+                                        @error('comment')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                        <div class="btn-wrp">
+                                            <button class="btn-one" type="submit"><span>Gửi</span></button>
                                         </div>
                                     </div>
-                                    <textarea class="w-100 mb-4 bor p-4" placeholder="Đánh giá"></textarea>
                                 </form>
-                                <div class="btn-wrp">
-                                    <button class="btn-one"><span>Gửi</span></button>
-                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -206,3 +222,28 @@
     </section>
     <!-- Shop single area end here -->
 @endsection
+@push('scripts')
+    <script>
+        const stars = document.querySelectorAll('.star span');
+        const ratingInput = document.getElementById('rating-value');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const selectedRating = this.getAttribute('data-value');
+                ratingInput.value = selectedRating; // Gán giá trị cho input ẩn
+
+                // Đổi lớp cho các ngôi sao theo rating đã chọn
+                stars.forEach((s, index) => {
+                    const icon = s.querySelector('i');
+                    if (index < selectedRating) {
+                        icon.classList.remove('fa-regular');
+                        icon.classList.add('fa-solid');
+                    } else {
+                        icon.classList.remove('fa-solid');
+                        icon.classList.add('fa-regular');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
