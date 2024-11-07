@@ -380,8 +380,6 @@ INSERT INTO `shipping` (`id`, `name`, `status`, `created_at`, `updated_at`) VALU
 
 CREATE TABLE `shopping_cart` (
   `id` int UNSIGNED NOT NULL,
-  `Transaction_id_user` int NOT NULL COMMENT 'Mã giao dịch của người dùng',
-  `Transaction_id_merchant` int NOT NULL COMMENT 'Mã giao dịch của người bán',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `shop_order_id` int UNSIGNED NOT NULL,
