@@ -16,7 +16,7 @@ class ClientController extends Controller
     {
         $categories = Category::all();
         $banners = Banner::where('status', Banner::STATUS_ACTIVE)->get();
-        $newProducts = Product::where('new', 1)->take(10)->get();
+        $newProducts = Product::where('new', 1)->paginate(8);
         $topProducts = ShopOrderItem::with('product')
             ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
             ->groupBy('product_id')
@@ -36,7 +36,7 @@ class ClientController extends Controller
     {
         $categories = Category::all();
         $detailProduct = Product::with('variantProducts')->findOrFail($id);
-        // dd($detailProduct);
+
         $totalReviews = $detailProduct->reviews->count();
 
         $averageRating = $totalReviews > 0 ? $detailProduct->reviews->avg('rating') : 0;
