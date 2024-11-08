@@ -6,8 +6,11 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ShopOrderItem;
+use App\Models\ShoppingCart;
+use App\Models\ShoppingCartItem;
 use App\Models\Size;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
