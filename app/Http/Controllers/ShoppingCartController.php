@@ -65,12 +65,39 @@ class ShoppingCartController extends Controller
     public function update(Request $request, $itemId)
     {
         $cartItem = ShoppingCartItem::findOrFail($itemId);
+        $quantity = $request->quantity ?? 1;
+    
         $cartItem->update([
-            'quantity' => $request->quantity,
-            'subtotal' => $request->quantity * $cartItem->price,
+            'quantity' => $quantity, 
         ]);
-
-        return redirect()->back()->with('success', 'Số lượng sản phẩm đã được cập nhật');
+    
+        // Tính tổng giá cho sản phẩm này
+        $productPrice = $cartItem->product->sale_price > 0 ? $cartItem->product->sale_price : $cartItem->product->base_price;
+        $lineTotal = number_format($productPrice * $quantity, 0, ',', '.');
+    
+        // Tính tổng giá của toàn bộ giỏ hàng
+        $cartTotal = ShoppingCartItem::where('cart_id', $cartItem->cart_id)
+            ->get()
+            ->sum(function($item) {
+                $price = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
+                return $price * $item->quantity;
+            });
+        $cartTotalFormatted = number_format($cartTotal, 0, ',', '.');
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Số lượng sản phẩm đã được cập nhật',
+            'lineTotal' => $lineTotal,
+            'cartTotal' => $cartTotalFormatted,
+        ]);
     }
     
+    public function remove(Request $request, $itemId)
+    {
+        $cartItem = ShoppingCartItem::findOrFail($itemId);
+        $cartItem->delete();
+
+        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng!'); 
+    }
+
 }

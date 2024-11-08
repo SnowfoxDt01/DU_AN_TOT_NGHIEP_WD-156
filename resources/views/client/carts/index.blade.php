@@ -59,7 +59,7 @@
                     $cartTotal = 0; // Khởi tạo tổng giá trị giỏ hàng
                     ?>
                     @foreach ($shoppingCart->items as $item)
-                        <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center">
+                        <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center" data-item-id="{{ $item->id }}">
                             <div class="product-details d-flex align-items-center">
                                 <img src="{{ $item->variantProduct->images->first()->image_path }}" alt="image">
                                 <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->name }}</h4>
@@ -93,11 +93,15 @@
                                 $cartTotal += $totalPrice; // Cộng dồn vào tổng giá trị giỏ hàng
                                 ?>
                                 {{ number_format($totalPrice, 0, ',', '.') }}
-                              </div>
+                            </div>
                             <div class="product-removal">
-                                <button class="remove-product">
-                                    <i class="fa-solid fa-x heading-color"></i>
-                                </button>
+                                <form action="{{ route('client.cart.remove', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE') 
+                                    <button type="submit">
+                                        <i class="fa-solid fa-x heading-color"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     @endforeach
@@ -109,10 +113,16 @@
                             {{ number_format($cartTotal, 0, ',', '.') }}  </div>
                         </div>
                     </div>
-
+                    
                 @else
                     <p>Chưa có sản phẩm nào trong giỏ hàng.</p>
                 @endif
+                
+            </div>
+            <div class="cart-actions">
+                <button type="submit" class="d-block text-center btn-two mt-40">
+                    <span>Thanh toán</span>
+                </button>
             </div>
         </div>
     </section>
@@ -122,19 +132,53 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.decrease-quantity').click(function() {
-            var input = $(this).next('input');
+        $('.decrease-quantity, .increase-quantity').click(function(event) {
+            event.preventDefault(); // Ngăn không cho trang tải lại
+            
+            var input = $(this).siblings('input');
             var currentVal = parseInt(input.val());
-            if (currentVal > 1) {
+            if ($(this).hasClass('decrease-quantity') && currentVal > 1) {
                 input.val(currentVal - 1);
+            } else if ($(this).hasClass('increase-quantity')) {
+                input.val(currentVal + 1);
             }
-        });
-    
-        $('.increase-quantity').click(function() {
-            var input = $(this).prev('input');
-            input.val(parseInt(input.val()) + 1);
+
+            // Lấy id của item từ thuộc tính data
+            var itemId = $(this).closest('.product').data('item-id'); 
+
+            // Gửi AJAX request
+            $.ajax({
+                url: "{{ route('client.cart.update', ':itemId') }}".replace(':itemId', itemId),
+                type: 'POST',
+                data: { 
+                    _token: "{{ csrf_token() }}",
+                    quantity: input.val() 
+                },
+                success: function(response) {
+                    // Cập nhật tổng giá của sản phẩm cụ thể
+                    if (response.lineTotal) {
+                        $(input).closest('.product').find('.product-line-price').text(response.lineTotal);
+                    }
+                    
+                    // Cập nhật tổng tiền giỏ hàng nếu có
+                    if (response.cartTotal) {
+                        $('#cart-subtotal').text(response.cartTotal);
+                    }
+
+                    console.log('Line Total:', response.lineTotal);
+                    console.log('Cart Total:', response.cartTotal);
+                    // Thông báo cho người dùng rằng số lượng đã được cập nhật
+                    alert('Số lượng sản phẩm đã được cập nhật');
+                    console.log(response);
+                }
+,
+                error: function(error) {
+                    console.error(error); 
+                }
+            });
         });
     });
 </script>
+
 
 @endsection

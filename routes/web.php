@@ -159,6 +159,7 @@ Route::group([
         Route::get('/', [ShoppingCartController::class, 'index'])->name('index'); 
         Route::post('/add', [ShoppingCartController::class, 'add'])->name('add'); 
         Route::post('/{item}/update', [ShoppingCartController::class, 'update'])->name('update');
+        Route::delete('/{item}/remove', [ShoppingCartController::class, 'remove'])->name('remove');
     });
 });
 
