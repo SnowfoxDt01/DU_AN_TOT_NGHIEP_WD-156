@@ -3793,10 +3793,15 @@ input {
 .product-details {
   width: 40%;
 }
-.product-color, .product-size {
-  width: 10%; /* Điều chỉnh độ rộng cho phù hợp */
-  text-align: center; /* Căn giữa nội dung trong cột */
+
+.product-color,
+.product-size {
+  width: 10%;
+  /* Điều chỉnh độ rộng cho phù hợp */
+  text-align: center;
+  /* Căn giữa nội dung trong cột */
 }
+
 .product-details img {
   width: 80px;
 }
@@ -5502,19 +5507,26 @@ input {
   color: #d3d3d3;
   transition: color 0.3s;
 }
+
 .star span:hover i,
 .star span.hover i {
   color: #ff6f00;
 }
+
 .star span.selected i {
   color: #ff6f00;
 }
+
 /* Làm mờ các phần tử disabled */
 .size-option.disabled {
-  background-color: #f0f0f0;  /* Màu nền nhạt */
-  color: #ccc; /* Màu chữ nhạt */
-  cursor: not-allowed;  /* Thay đổi con trỏ thành not-allowed */
-  opacity: 0.5; /* Làm mờ phần tử */
+  background-color: #f0f0f0;
+  /* Màu nền nhạt */
+  color: #ccc;
+  /* Màu chữ nhạt */
+  cursor: not-allowed;
+  /* Thay đổi con trỏ thành not-allowed */
+  opacity: 0.5;
+  /* Làm mờ phần tử */
 }
 
 /* Khi phần tử không bị disabled, con trỏ sẽ là pointer (có thể nhấp được) */
@@ -5524,6 +5536,35 @@ input {
 
 /* Nếu bạn muốn thay đổi màu sắc khi phần tử bị disabled, có thể thêm như sau */
 .size-option.disabled:hover {
-  background-color: #e0e0e0;  /* Màu nền khi hover */
+  background-color: #e0e0e0;
+  /* Màu nền khi hover */
 }
-  
+
+.position-relative {
+  position: relative;
+}
+
+/* Style cho số lượng giỏ hàng */
+.cart-count {
+  font-size: 12px;
+  /* Kích thước chữ nhỏ */
+  font-weight: bold;
+  /* Chữ đậm hơn */
+  color: white;
+  /* Màu chữ */
+  background-color: orangered;
+  /* Màu nền cam */
+  width: 20px;
+  /* Kích thước vòng tròn */
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 18px;
+  /* Đẩy lên trên */
+  right: 300px;
+  /* Đẩy sang phải */
+  border-radius: 50%;
+  /* Hình tròn */
+}
