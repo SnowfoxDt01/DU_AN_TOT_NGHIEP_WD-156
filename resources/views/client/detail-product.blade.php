@@ -282,7 +282,8 @@
                 return $variants->groupBy('size_id')->map(function ($groupedVariants) {
                     return $groupedVariants->first();
                 });
-            }));
+            })
+        );
 
         // Hàm cập nhật kích thước dựa trên màu đã chọn
         function updateOptions(selectedColorId) {
@@ -303,11 +304,11 @@
             // Gán biến thể đã chọn
             document.getElementById('variant_id').value = variantId;
 
-            // Đánh dấu màu sắc được chọn
-            document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
-                mark.style.display = 'none';
+            // Đánh dấu màu sắc được chọn (thay đổi ở đây)
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.style.border = '1px solid #ccc'; // Reset border về mặc định
             });
-            document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
+            document.querySelector(`.color-option[data-color-id="${colorId}"]`).style.border = '2px solid red';
 
             // Cập nhật lại các kích thước khả dụng
             updateOptions(colorId, null);
@@ -329,16 +330,23 @@
 
 
         function selectSize(sizeId, sizeName) {
-            document.getElementById('size_id').value = sizeId;
-            document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
-                mark.style.display = 'none';
-            });
+            // Lấy màu đã chọn (thêm dòng này)
+            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]').dataset.colorId;
 
-            document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
+            // Tìm variantId dựa trên màu và size đã chọn (thay đổi ở đây)
+            const variant = variantData[selectedColorId][sizeId];
+            const variantId = variant ? variant.id : null; 
+
+            document.getElementById('variant_id').value = variantId;
+            document.getElementById('size_id').value = sizeId;
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.style.border = '1px solid #ccc'; // Reset border về mặc định
+            });
+            document.querySelector(`.size-option[data-size-id="${sizeId}"]`).style.border = '2px solid red';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            updateOptions(null);
+            updateOptions(null, null);
         });
 
         document.addEventListener('DOMContentLoaded', function() {
