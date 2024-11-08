@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
-
     public function index()
     {
         $categories = Category::all();
@@ -29,33 +28,29 @@ class ClientController extends Controller
     }
 
     public function myAccount(){
-        $categories = Category::all();
-        return view('client.account.myaccount', compact('categories'));
+        return view('client.account.myaccount');
     }
 
     public function detailProduct(string $id)
     {
-        $categories = Category::all();
         $detailProduct = Product::with('variantProducts')->findOrFail($id);
         $sizes = Size::orderBy('name')->get();
 
         $totalReviews = $detailProduct->reviews->count();
 
         $averageRating = $totalReviews > 0 ? $detailProduct->reviews->avg('rating') : 0;
-        return view('client.detail-product', compact('categories', 'detailProduct', 'totalReviews','sizes', 'averageRating'));
+        return view('client.detail-product', compact('detailProduct', 'totalReviews','sizes', 'averageRating'));
     }
 
     public function shopProducts() {
-        $categories = Category::all();
         $products = Product::paginate(9);
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
-        return view('client.products.shop', compact('products','categories','flash_sale_products'));
+        return view('client.products.shop', compact('products','flash_sale_products'));
     }
 
     public function productsOfCategory($id){
-        $categories = Category::all();
         $category = Category::where('id',$id)->first();
         $productsOfCategory = Product::where('product_category_id',$id)->paginate(9);
-        return view('client.categories.show', compact('productsOfCategory','categories','category'));
+        return view('client.categories.show', compact('productsOfCategory','category'));
     }
 }

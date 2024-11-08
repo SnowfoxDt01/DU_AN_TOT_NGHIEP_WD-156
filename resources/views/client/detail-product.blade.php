@@ -275,9 +275,7 @@
                 </div>
             </div>
         </div>
-        <!-- description review area end here -->
     </section>
-    <!-- Shop single area end here -->
     <script>
         const variantData = @json(
             $detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
@@ -286,50 +284,62 @@
                 });
             }));
 
-        function updateOptions(selectedColorId, selectedSizeId) {
-            document.querySelectorAll('.color-option').forEach(el => {
-                const colorId = el.getAttribute('data-color-id');
-                const hasAvailableSize = Object.keys(variantData[colorId] || {}).some(sizeId => {
-                    return variantData[colorId][sizeId].quantity > 0;
-                });
-                el.classList.toggle('disabled', !hasAvailableSize);
-            });
-
+        // Hàm cập nhật kích thước dựa trên màu đã chọn
+        function updateOptions(selectedColorId) {
             document.querySelectorAll('.size-option').forEach(el => {
                 const sizeId = el.getAttribute('data-size-id');
-                const hasAvailableColor = Object.keys(variantData).some(colorId => {
-                    return (variantData[colorId][sizeId] || {}).quantity > 0;
-                });
-                el.classList.toggle('disabled', !hasAvailableColor);
+                // Đặt tất cả các kích thước ở trạng thái disabled trước
+                el.classList.add('disabled');
+
+                // Chỉ enable kích thước nếu có trong màu đã chọn và có số lượng > 0
+                if (selectedColorId && variantData[selectedColorId] && variantData[selectedColorId][sizeId] &&
+                    variantData[selectedColorId][sizeId].quantity > 0) {
+                    el.classList.remove('disabled');
+                }
             });
         }
 
         function selectVariant(colorId, variantId, variantName) {
-            // Xử lý logic khi người dùng chọn một màu
+            // Gán biến thể đã chọn
             document.getElementById('variant_id').value = variantId;
 
-            // Cập nhật giá sản phẩm trên giao diện
-            const productPriceElement = document.getElementById('product-price');
-            productPriceElement.textContent = `${{{ $detailProduct->sale_price ?? $detailProduct->base_price }}}.đ`;
-            // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
+            // Đánh dấu màu sắc được chọn
             document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
                 mark.style.display = 'none';
             });
             document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
-            // Thêm đoạn code sau để cập nhật lại danh sách size
+
+            // Cập nhật lại các kích thước khả dụng
             updateOptions(colorId, null);
+
+            // Kiểm tra xem người dùng đã chọn kích thước nào chưa
+            const selectedSizeId = document.getElementById('size_id').value;
+
+            // Nếu có kích thước đã chọn, kiểm tra xem kích thước đó có hợp lệ cho màu hiện tại không
+            if (selectedSizeId && (!variantData[colorId] || !variantData[colorId][selectedSizeId] || variantData[colorId][
+                    selectedSizeId
+                ].quantity <= 0)) {
+                // Nếu kích thước không khả dụng, xóa kích thước đã chọn
+                document.getElementById('size_id').value = '';
+                document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
+                    mark.style.display = 'none';
+                });
+            }
         }
 
-        function selectSize(sizeId, sizeName) {
-            // Xử lý logic khi người dùng chọn kích thước
-            document.getElementById('size_id').value = sizeId;
 
-            // Cập nhật UI: hiển thị dấu tích ở kích thước đã chọn
+        function selectSize(sizeId, sizeName) {
+            document.getElementById('size_id').value = sizeId;
             document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
                 mark.style.display = 'none';
             });
+
             document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOptions(null);
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             updateOptions(null, null);

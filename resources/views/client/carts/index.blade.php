@@ -20,37 +20,39 @@
 @endpush
 
 @section('content')
-<main>
-    <section class="page-banner bg-image pt-130 pb-130" data-background="">
-        <div class="container">
-            <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Trang giỏ hàng</h2>
-            <div class="breadcrumb-list wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".3s">
-                <a href="{{route('client.index')}}" class="primary-hover"><i class="fa-solid fa-house me-1"></i> Trang chủ <i class="fa-regular text-white fa-angle-right"></i></a>
-                <span>Giỏ hàng</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="cart-page pt-130 pb-130">
-        <div class="container">
-            <div class="shopping-cart radius-10 bor sub-bg">
-
-                @if (isset($shoppingCart))
-                    <div class="user-info p-4">
-                        <h3>Thông tin người dùng</h3>
-                        <p><strong>Người dùng:</strong> {{ $shoppingCart->user->name }}</p> 
-                    </div>
-                @endif
-
-                <div class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
-                    <label class="product-details">Sản phẩm</label>
-                    <label class="product-color">Màu</label>
-                    <label class="product-size">Kích cỡ</label>
-                    <label class="product-price">Giá</label>
-                    <label class="product-quantity">Số lượng</label>
-                    <label class="product-line-price">Tổng giá</label>
-                    <label class="product-removal">Xóa</label>
+    <main>
+        <section class="page-banner bg-image pt-130 pb-130" data-background="">
+            <div class="container">
+                <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Trang giỏ hàng</h2>
+                <div class="breadcrumb-list wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".3s">
+                    <a href="{{ route('client.index') }}" class="primary-hover"><i class="fa-solid fa-house me-1"></i> Trang
+                        chủ <i class="fa-regular text-white fa-angle-right"></i></a>
+                    <span>Giỏ hàng</span>
                 </div>
+            </div>
+        </section>
+
+        <section class="cart-page pt-130 pb-130">
+            <div class="container">
+                <div class="shopping-cart radius-10 bor sub-bg">
+
+                    @if (isset($shoppingCart))
+                        <div class="user-info p-4">
+                            <h3>Thông tin người dùng</h3>
+                            <p><strong>Người dùng:</strong> {{ $shoppingCart->user->name }}</p>
+                        </div>
+                    @endif
+                    <hr>
+                    <div
+                        class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
+                        <label class="product-details">Sản phẩm</label>
+                        <label class="product-color">Màu</label>
+                        <label class="product-size">Kích cỡ</label>
+                        <label class="product-price">Giá</label>
+                        <label class="product-quantity">Số lượng</label>
+                        <label class="product-line-price">Tổng giá</label>
+                        <label class="product-removal">Xóa</label>
+                    </div>
 
                 @if (isset($shoppingCart) && $shoppingCart->items->count() > 0)
                     <?php
