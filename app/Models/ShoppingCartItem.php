@@ -20,7 +20,6 @@ class ShoppingCartItem extends Model
         'product_id',
         'quantity',
         'price',
-        'subtotal',
         'deleted_at'
     ];
 

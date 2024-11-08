@@ -158,7 +158,7 @@
                                                 <input type='text' name='quantity' value='1' class='qty'>
                                                 <input type='button' value='+' class='qtyplus plus'>
                                             </div>
-                                        </div>
+                                            <h2 class="product-price" id="product-price" style="display: none;">{{ number_format($detailProduct->sale_price ?? $detailProduct->base_price) }}.đ</h2>                                        </div>
                                         <button type="submit" class="d-block text-center btn-two mt-40">
                                             <span><i class="fa-solid fa-basket-shopping pe-2"></i> Thêm vào giỏ hàng</span>
                                         </button>
