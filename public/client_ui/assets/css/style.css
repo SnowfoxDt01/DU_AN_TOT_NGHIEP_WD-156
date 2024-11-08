@@ -5583,3 +5583,16 @@ input {
 .nav-item {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.product-quantity {
+  display: flex;
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+}
+.increase-quantity {
+  margin-right: 30px;
+  margin-left: 5px;
+}
+.decrease-quantity{
+  margin-right: 5px;
+}
