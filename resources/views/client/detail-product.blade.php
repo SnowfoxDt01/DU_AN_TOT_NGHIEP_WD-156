@@ -279,6 +279,7 @@
     </section>
     <!-- Shop single area end here -->
     <script>
+        // Dữ liệu biến thể sản phẩm từ PHP
         const variantData = @json(
             $detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
                 return $variants->groupBy('size_id')->map(function ($groupedVariants) {
@@ -286,26 +287,23 @@
                 });
             }));
 
-        function updateOptions(selectedColorId, selectedSizeId) {
-            document.querySelectorAll('.color-option').forEach(el => {
-                const colorId = el.getAttribute('data-color-id');
-                const hasAvailableSize = Object.keys(variantData[colorId] || {}).some(sizeId => {
-                    return variantData[colorId][sizeId].quantity > 0;
-                });
-                el.classList.toggle('disabled', !hasAvailableSize);
-            });
-
+        // Hàm cập nhật kích thước dựa trên màu đã chọn
+        function updateOptions(selectedColorId) {
             document.querySelectorAll('.size-option').forEach(el => {
                 const sizeId = el.getAttribute('data-size-id');
-                const hasAvailableColor = Object.keys(variantData).some(colorId => {
-                    return (variantData[colorId][sizeId] || {}).quantity > 0;
-                });
-                el.classList.toggle('disabled', !hasAvailableColor);
+                // Đặt tất cả các kích thước ở trạng thái disabled trước
+                el.classList.add('disabled');
+
+                // Chỉ enable kích thước nếu có trong màu đã chọn và có số lượng > 0
+                if (selectedColorId && variantData[selectedColorId] && variantData[selectedColorId][sizeId] &&
+                    variantData[selectedColorId][sizeId].quantity > 0) {
+                    el.classList.remove('disabled');
+                }
             });
         }
 
         function selectVariant(colorId, variantId, variantName) {
-            // Xử lý logic khi người dùng chọn một màu
+            // Lưu ID biến thể đã chọn
             document.getElementById('variant_id').value = variantId;
 
             // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
@@ -313,12 +311,13 @@
                 mark.style.display = 'none';
             });
             document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
-            // Thêm đoạn code sau để cập nhật lại danh sách size
-            updateOptions(colorId, null);
+
+            // Cập nhật kích thước dựa trên màu đã chọn
+            updateOptions(colorId);
         }
 
         function selectSize(sizeId, sizeName) {
-            // Xử lý logic khi người dùng chọn kích thước
+            // Lưu ID kích thước đã chọn
             document.getElementById('size_id').value = sizeId;
 
             // Cập nhật UI: hiển thị dấu tích ở kích thước đã chọn
@@ -327,6 +326,11 @@
             });
             document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
         }
+
+        // Khi trang được tải, disable tất cả các kích thước
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOptions(null);
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             updateOptions(null, null);
