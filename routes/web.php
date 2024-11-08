@@ -18,6 +18,8 @@ use App\Http\Controllers\VariantProductController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Controllers\CheckoutController;
+
 
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 
@@ -154,12 +156,24 @@ Route::group([
 
     Route::group([
         'prefix' => 'cart',
-        'as' => 'cart.', 
+        'as' => 'cart.',
     ], function () {
-        Route::get('/', [ShoppingCartController::class, 'index'])->name('index'); 
-        Route::post('/add', [ShoppingCartController::class, 'add'])->name('add'); 
+        Route::get('/', [ShoppingCartController::class, 'index'])->name('index');
+
+        Route::post('/add', [ShoppingCartController::class, 'add'])->name('add');
+
         Route::post('/{item}/update', [ShoppingCartController::class, 'update'])->name('update');
+
         Route::delete('/{item}/remove', [ShoppingCartController::class, 'remove'])->name('remove');
+    });
+
+    Route::group([
+        'prefix' => 'checkout',
+        'as' => 'checkout.',
+    ], function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('index');
+        
+        Route::post('/process', [CheckoutController::class, 'process'])->name('process');
     });
 });
 
