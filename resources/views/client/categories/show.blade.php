@@ -79,9 +79,10 @@
                                             </div>
 
                                         </div>
-                                        <a class="product__cart d-block bor-top" href="#0"><i
-                                                class="fa-regular fa-cart-shopping primary-color me-1"></i> <span>Add to
-                                                cart</span></a>
+                                        <a class="product__cart d-block bor-top"
+                                            href="{{ route('client.detailProduct', $product->id) }}"><i
+                                                class="fa-regular fa-cart-shopping primary-color me-1"></i>
+                                            <span>Chi tiết sản phẩm</span></a>
                                     </div>
                                 </div>
                             @endforeach

@@ -1,13 +1,14 @@
 @extends('layout.client.master')
 @push('styles')
-@push('styles')
-<style>
-    .size-option.disabled, .color-option.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-}
-</style>
-@endpush
+    @push('styles')
+        <style>
+            .size-option.disabled,
+            .color-option.disabled {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+        </style>
+    @endpush
 @endpush
 @section('content')
     <!-- Page banner area start here -->
@@ -47,14 +48,15 @@
                                         <div class="swiper-wrapper">
                                             @foreach ($detailProduct->images as $image)
                                                 <div class="swiper-slide slide-smoll">
-                                                    <img src="{{ $image->image_path }}" style="height: 100px; object-fit: cover;" alt="image">
+                                                    <img src="{{ $image->image_path }}"
+                                                        style="height: 100px; object-fit: cover;" alt="image">
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 @endif
                             @endif
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="content h24">
@@ -94,58 +96,69 @@
                                             class="primary-hover">{{ $detailProduct->category->name_category }}</a>
                                     </div>
 
-                                    <form id='myform' method='POST' action="{{ route('client.cart.add') }}"> 
+                                    <form id='myform' method='POST' action="{{ route('client.cart.add') }}">
                                         @csrf
-                                        <input type="hidden" name="product_id" value="{{ $detailProduct->id }}"> 
-                                        <input type="hidden" name="variant_id" id="variant_id" value=""> 
+                                        <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
+                                        <input type="hidden" name="variant_id" id="variant_id" value="">
                                         <input type="hidden" name="size_id" id="size_id" value="">
-                                    
+
                                         <div class="d-flex flex-wrap py-3 bor-bottom">
                                             <h4 class="pe-3">Màu sắc:</h4>
                                             <div class="variant-colors d-flex gap-2">
                                                 @foreach ($detailProduct->variantProducts->pluck('color')->unique('id') as $color)
                                                     @php
-                                                        $variant = $detailProduct->variantProducts->where('color_id', $color->id)->first();
+                                                        $variant = $detailProduct->variantProducts
+                                                            ->where('color_id', $color->id)
+                                                            ->first();
                                                     @endphp
                                                     @if ($variant)
-                                                        <div class="color-option" data-color-id="{{ $color->id }}" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; display: flex; align-items: center; position: relative;" 
-                                                             onclick="selectVariant('{{ $color->id }}', {{ $variant->id }}, '{{ $variant->name }}')"
-                                                             tabindex="0"> 
+                                                        <div class="color-option" data-color-id="{{ $color->id }}"
+                                                            style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; display: flex; align-items: center; position: relative;"
+                                                            onclick="selectVariant('{{ $color->id }}', {{ $variant->id }}, '{{ $variant->name }}')"
+                                                            tabindex="0">
                                                             @if ($variant->images->count() > 0)
-                                                                <img src="{{ $variant->images->first()->image_path }}" alt="variant-{{ $variant->name }}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 5px;"> 
+                                                                <img src="{{ $variant->images->first()->image_path }}"
+                                                                    alt="variant-{{ $variant->name }}"
+                                                                    style="width: 50px; height: 50px; object-fit: cover; margin-right: 5px;">
                                                             @endif
                                                             <span>{{ $variant->name }}</span>
-                                                            <span class="selected-mark" style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span> 
+                                                            <span class="selected-mark"
+                                                                style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span>
                                                         </div>
                                                     @endif
                                                 @endforeach
                                             </div>
                                         </div>
-                                        
+
                                         <div class="d-flex flex-wrap py-3 bor-bottom">
                                             <h4 class="pe-3">Kích thước:</h4>
                                             <div class="variant-sizes d-flex gap-2">
-                                                @foreach ($detailProduct->variantProducts->pluck('size')->unique('id')->sortBy('name') as $size)
+                                                @foreach ($sizes as $size)
                                                     @php
-                                                        $variant = $detailProduct->variantProducts->where('size_id', $size->id)->first(); 
+                                                        $variant = $detailProduct->variantProducts
+                                                            ->where('size_id', $size->id)
+                                                            ->first();
                                                     @endphp
-                                                    <div class="size-option {{ $variant ? '' : 'disabled' }}" data-size-id="{{ $size->id }}" style="padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; position: relative;" 
-                                                         onclick="selectSize('{{ $size->id }}', '{{ $size->name }}')"
-                                                         tabindex="0"> 
+                                                    <div class="size-option {{ $variant ? '' : 'disabled' }}"
+                                                        data-size-id="{{ $size->id }}"
+                                                        style="padding: 5px 10px; border: 1px solid #ccc; cursor: {{ $variant ? 'pointer' : 'not-allowed' }}; position: relative;"
+                                                        onclick="selectSize('{{ $size->id }}', '{{ $size->name }}')"
+                                                        tabindex="0">
                                                         {{ $size->name }}
-                                                        <span class="selected-mark" style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span> 
+                                                        <span class="selected-mark"
+                                                            style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span>
                                                     </div>
                                                 @endforeach
                                             </div>
                                         </div>
-                                    
+
                                         <div class="cart-wrp py-4">
                                             <div class="cart-quantity">
                                                 <input type='button' value='-' class='qtyminus minus'>
-                                                <input type='text' name='quantity' value='1' class='qty'> 
+                                                <input type='text' name='quantity' value='1' class='qty'>
                                                 <input type='button' value='+' class='qtyplus plus'>
                                             </div>
-                                        </div>
+                                            <h2 class="product-price" id="product-price" style="display: none;">{{ number_format($detailProduct->sale_price ?? $detailProduct->base_price) }}.đ</h2>                                        </div>
                                         <button type="submit" class="d-block text-center btn-two mt-40">
                                             <span><i class="fa-solid fa-basket-shopping pe-2"></i> Thêm vào giỏ hàng</span>
                                         </button>
@@ -179,14 +192,17 @@
                     <div id="review" class="tab-pane fade">
                         <div class="review-wrp">
                             @if ($detailProduct->reviews->count() > 0)
-                                @foreach ($detailProduct->reviews->take(3) as $review)
+                                @php
+                                    $reviews = $detailProduct->reviews()->paginate(4);
+                                @endphp
+                                @foreach ($reviews as $review)
                                     <div class="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
                                         <div class="content p-4 bor">
                                             <div class="head-wrp pb-1 d-flex flex-wrap justify-content-between">
                                                 <a href="#0">
                                                     <h4 class="text-capitalize primary-color">
                                                         {{ $review->user->name }}<span
-                                                            class="sm-font ms-2 fw-normal">{{ $review->created_at }}</span>
+                                                            class="sm-font ms-2 fw-normal">{{ $review->created_at->format('d/m/Y') }}</span>
                                                     </h4>
                                                 </a>
                                                 <div class="star primary-color ms-md-3">
@@ -204,6 +220,7 @@
                                     </div>
                                     <hr>
                                 @endforeach
+                                {{ $reviews->links('pagination::custom') }}
                             @else
                                 <p>Chưa có đánh giá cho sản phẩm này !</p>
                                 <hr>
@@ -213,97 +230,144 @@
                                 <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
                                     trống.
                                 </p>
-                                <div class="shop-single__rate-now">
-                                    <p>Chất lượng sản phẩm?</p>
-                                    <div class="star">
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                        <span><i class="fa-solid fa-star"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment-form">
-                                <form action="#">
-                                    <div class="row g-4">
-                                        <div class="col-md-6">
-                                            <input type="text" class="w-100 mb-4 bor px-4 py-2"
-                                                placeholder="Tên của bạn">
+                                <form action="{{ route('admin.reviews.comment') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
+                                    <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                    <div class="shop-single__rate-now">
+                                        <p>Chất lượng sản phẩm?</p>
+                                        <div class="star">
+                                            <span data-value="1"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="2"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="3"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="4"><i class="fa-regular fa-star"></i></span>
+                                            <span data-value="5"><i class="fa-regular fa-star"></i></span>
                                         </div>
-                                        <div class="col-md-6">
-                                            <input type="email" class="w-100 mb-4 bor px-4 py-2"
-                                                placeholder="Email của bạn">
+                                        <input type="hidden" id="rating-value" name="rating" value="0">
+                                        @error('rating')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="comment-form">
+                                        <div class="row g-4">
+                                            <div class="col-md-6">
+                                                <input type="text" value="{{ Auth::user()->name }}"
+                                                    class="w-100 mb-4 bor px-4 py-2" placeholder="Tên của bạn">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="email" value="{{ Auth::user()->email }}"
+                                                    class="w-100 mb-4 bor px-4 py-2" placeholder="Email của bạn">
+                                            </div>
+                                        </div>
+                                        <textarea class="w-100 mb-4 bor p-4" name="comment" id="comment" placeholder="Đánh giá"></textarea>
+                                        @error('comment')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                        <div class="btn-wrp">
+                                            <button class="btn-one" type="submit"><span>Gửi</span></button>
                                         </div>
                                     </div>
-                                    <textarea class="w-100 mb-4 bor p-4" placeholder="Đánh giá"></textarea>
                                 </form>
-                                <div class="btn-wrp">
-                                    <button class="btn-one"><span>Gửi</span></button>
-                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- description review area end here -->
     </section>
-    <!-- Shop single area end here -->
     <script>
-    const variantData = @json($detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
-        return $variants->groupBy('size_id')->map(function ($groupedVariants) {
-            return $groupedVariants->first();
-        });
-    }));
+        const variantData = @json(
+            $detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
+                return $variants->groupBy('size_id')->map(function ($groupedVariants) {
+                    return $groupedVariants->first();
+                });
+            }));
 
-    function updateOptions(selectedColorId, selectedSizeId) {
-        document.querySelectorAll('.color-option').forEach(el => {
-            const colorId = el.getAttribute('data-color-id');
-            const hasAvailableSize = Object.keys(variantData[colorId] || {}).some(sizeId => {
-                return variantData[colorId][sizeId].quantity > 0;
+        // Hàm cập nhật kích thước dựa trên màu đã chọn
+        function updateOptions(selectedColorId) {
+            document.querySelectorAll('.size-option').forEach(el => {
+                const sizeId = el.getAttribute('data-size-id');
+                // Đặt tất cả các kích thước ở trạng thái disabled trước
+                el.classList.add('disabled');
+
+                // Chỉ enable kích thước nếu có trong màu đã chọn và có số lượng > 0
+                if (selectedColorId && variantData[selectedColorId] && variantData[selectedColorId][sizeId] &&
+                    variantData[selectedColorId][sizeId].quantity > 0) {
+                    el.classList.remove('disabled');
+                }
             });
-            el.classList.toggle('disabled', !hasAvailableSize);
-        });
+        }
 
-        document.querySelectorAll('.size-option').forEach(el => {
-            const sizeId = el.getAttribute('data-size-id');
-            const hasAvailableColor = Object.keys(variantData).some(colorId => {
-                return (variantData[colorId][sizeId] || {}).quantity > 0;
+        function selectVariant(colorId, variantId, variantName) {
+            // Gán biến thể đã chọn
+            document.getElementById('variant_id').value = variantId;
+
+            // Đánh dấu màu sắc được chọn
+            document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
+                mark.style.display = 'none';
             });
-            el.classList.toggle('disabled', !hasAvailableColor);
+            document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
+
+            // Cập nhật lại các kích thước khả dụng
+            updateOptions(colorId, null);
+
+            // Kiểm tra xem người dùng đã chọn kích thước nào chưa
+            const selectedSizeId = document.getElementById('size_id').value;
+
+            // Nếu có kích thước đã chọn, kiểm tra xem kích thước đó có hợp lệ cho màu hiện tại không
+            if (selectedSizeId && (!variantData[colorId] || !variantData[colorId][selectedSizeId] || variantData[colorId][
+                    selectedSizeId
+                ].quantity <= 0)) {
+                // Nếu kích thước không khả dụng, xóa kích thước đã chọn
+                document.getElementById('size_id').value = '';
+                document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
+                    mark.style.display = 'none';
+                });
+            }
+        }
+
+
+        function selectSize(sizeId, sizeName) {
+            document.getElementById('size_id').value = sizeId;
+            document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
+                mark.style.display = 'none';
+            });
+
+            document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOptions(null);
         });
-    }
 
-    function selectVariant(colorId, variantId, variantName) {
-        // Xử lý logic khi người dùng chọn một màu
-        document.getElementById('variant_id').value = variantId;
-
-        // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
-        document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
-            mark.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOptions(null, null);
         });
-        document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
-        // Thêm đoạn code sau để cập nhật lại danh sách size
-        updateOptions(colorId, null); 
-    }
-
-    function selectSize(sizeId, sizeName) {
-        // Xử lý logic khi người dùng chọn kích thước
-        document.getElementById('size_id').value = sizeId;
-
-        // Cập nhật UI: hiển thị dấu tích ở kích thước đã chọn
-        document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
-            mark.style.display = 'none';
-        });
-        document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        updateOptions(null, null);
-    });
-</script>
+    </script>
 @endsection
 @push('scripts')
+    <script>
+        const stars = document.querySelectorAll('.star span');
+        const ratingInput = document.getElementById('rating-value');
 
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const selectedRating = this.getAttribute('data-value');
+                ratingInput.value = selectedRating; // Gán giá trị cho input ẩn
+
+                // Đổi lớp cho các ngôi sao theo rating đã chọn
+                stars.forEach((s, index) => {
+                    const icon = s.querySelector('i');
+                    if (index < selectedRating) {
+                        icon.classList.remove('fa-regular');
+                        icon.classList.add('fa-solid');
+                    } else {
+                        icon.classList.remove('fa-solid');
+                        icon.classList.add('fa-regular');
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

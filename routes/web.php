@@ -36,6 +36,8 @@ Route::group([
     ], function () {
 
         Route::post('/toggle-visibility/{id}', [ReviewController::class, 'toggleVisibility'])->name('toggleVisibility');
+
+        Route::post('/products/review', [ReviewController::class, 'store'])->name('comment');
     });
 
     Route::group([
@@ -156,6 +158,8 @@ Route::group([
     ], function () {
         Route::get('/', [ShoppingCartController::class, 'index'])->name('index'); 
         Route::post('/add', [ShoppingCartController::class, 'add'])->name('add'); 
+        Route::post('/{item}/update', [ShoppingCartController::class, 'update'])->name('update');
+        Route::delete('/{item}/remove', [ShoppingCartController::class, 'remove'])->name('remove');
     });
 });
 

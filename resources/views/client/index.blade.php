@@ -159,7 +159,8 @@
                             @if ($count < 12)
                                 <div class="col-xxl-3 col-xl-4 col-md-6">
                                     <div class="product__item bor">
-                                        <a href="{{ route('client.detailProduct', $new->id) }}" class="wishlist"><i class="fa-regular fa-heart"></i></a>
+                                        <a href="{{ route('client.detailProduct', $new->id) }}" class="wishlist"><i
+                                                class="fa-regular fa-heart"></i></a>
                                         <a href="{{ route('client.detailProduct', $new->id) }}"
                                             class="product__image pt-20 d-block">
                                             @if ($new->images->count() > 0)
@@ -193,7 +194,8 @@
                                                 <i class="fa-solid fa-star"></i>
                                             </div>
                                         </div>
-                                        <a class="product__cart d-block bor-top" href="{{ route('client.detailProduct', $new->id) }}"><i
+                                        <a class="product__cart d-block bor-top"
+                                            href="{{ route('client.detailProduct', $new->id) }}"><i
                                                 class="fa-regular fa-cart-shopping primary-color me-1"></i>
                                             <span>Chi tiết sản phẩm</span></a>
                                     </div>
@@ -215,10 +217,12 @@
                                         <a href="{{ route('client.detailProduct', $top->product->id) }}"
                                             class="product__image pt-20 d-block">
                                             @if ($top->product->images->count() > 0)
-                                                <img class="font-image" src="{{ $top->product->images->first()->image_path }}"
-                                                    alt="image" height="320px">
-                                                <img class="back-image" src="{{ $top->product->images->first()->image_path }}"
-                                                    alt="image" height="320px">
+                                                <img class="font-image"
+                                                    src="{{ $top->product->images->first()->image_path }}" alt="image"
+                                                    height="320px">
+                                                <img class="back-image"
+                                                    src="{{ $top->product->images->first()->image_path }}" alt="image"
+                                                    height="320px">
                                             @else
                                                 <img src="{{ asset('default_image.jpg') }}" alt="No Image"
                                                     class="img-thumbnail" width="100">
@@ -246,9 +250,10 @@
                                             </div>
 
                                         </div>
-                                        <a class="product__cart d-block bor-top" href="#0"><i
+                                        <a class="product__cart d-block bor-top"
+                                            href="{{ route('client.detailProduct', $top->product->id) }}"><i
                                                 class="fa-regular fa-cart-shopping primary-color me-1"></i>
-                                            <span>Thêm vào giỏ hàng</span></a>
+                                            <span>Chi tiết sản phẩm</span></a>
                                     </div>
                                 </div>
                                 @php $count++; @endphp
@@ -281,9 +286,10 @@
                                     </div>
 
                                 </div>
-                                <a class="product__cart d-block bor-top" href="#0"><i
+                                <a class="product__cart d-block bor-top"
+                                    href="{{ route('client.detailProduct', $new->id) }}"><i
                                         class="fa-regular fa-cart-shopping primary-color me-1"></i>
-                                    <span>Thêm vào giỏ hàng</span></a>
+                                    <span>Chi tiết sản phẩm</span></a>
                             </div>
                         </div>
                     </div>
@@ -412,11 +418,11 @@
                             <br>
                             <div class="gallery__image image">
                                 @if ($sale->images->count() > 0)
-                                <img src="{{ $sale->images->first()->image_path }}" alt="image" height="320px">
-                            @else
-                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
-                                    class="img-thumbnail" width="100">
-                            @endif
+                                    <img src="{{ $sale->images->first()->image_path }}" alt="image" height="320px">
+                                @else
+                                    <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail"
+                                        width="100">
+                                @endif
                             </div>
                             <div class="gallery__content">
                                 <h3 class="mb-10"><a

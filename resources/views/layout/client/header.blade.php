@@ -2,7 +2,7 @@
     <div class="top__header pt-30 pb-30">
         <div class="container">
             <div class="top__wrapper">
-                <a href="{{route('client.index')}}" class="main__logo">
+                <a href="{{ route('client.index') }}" class="main__logo">
                     <img src="client_ui/assets/images/logo/mainlogo.png"
                         style="max-width: 100%;height: auto; max-height: 100px; padding-bottom: 30px" alt="logo__image">
                 </a>
@@ -42,7 +42,7 @@
 
                     </li>
                     <li>
-                        <a href="{{route('client.shop')}}">Sản phẩm</a>
+                        <a href="{{ route('client.shop') }}">Sản phẩm</a>
                     </li>
                     <li>
                         <a href="#0">Trang <i class="fa-regular fa-angle-down"></i></a>
@@ -94,23 +94,18 @@
                     </li>
                 </ul>
                 <div class="shipping__item d-none d-sm-flex align-items-center">
-                    <div class="cart d-flex align-items-center">
-                        <a href="{{route('client.cart.index')}}" class="c__one">
-                            <span class="cart__icon" style="margin-right: 10px">
-                                <i class="fa-regular fa-cart-shopping"></i>
-                            </span>
-                            <span>
-                                $0.00
+                    <div class=" d-flex align-items-center">
+                        <a href="{{ route('client.cart.index') }}" class="c__one">
+                            <i class="fa-regular fa-cart-shopping"></i>
+                            <span class="cart-count">
+                                {{$cartQuantity}}
                             </span>
                         </a>
-                        <span class="one">
-                            0
-                        </span>
                     </div>
                     @if (Auth::check())
                         <div class="d-flex align-items-center">
-                            <a href="{{route('client.myAccount')}}" style="color: orangered; margin-right: 10px;">
-                                <i class="bi bi-person-fill-check"></i>
+                            <a href="{{ route('client.myAccount') }}" style="color: orangered; margin-right: 10px;">
+                                <i class="bi bi-person-fill-check" style="font-size: 25px"></i>
                                 {{ Auth::user()->name }} |</a>
                             <a href="{{ route('client.logout') }}" style="color: orangered">Đăng Xuất</a>
                         </div>
@@ -118,7 +113,7 @@
                         <div class="account d-flex align-items-center">
                             <div class="user__icon" style="margin-right: 10px">
                                 <a href="#0">
-                                    <i class="fa-regular fa-user"></i>
+                                    <i class="fa-regular fa-user" style="font-size: 25px"></i>
                                 </a>
                             </div>
                             <a href="{{ route('client.login') }}" class="acc__cont">
@@ -126,7 +121,6 @@
                             </a>
                         </div>
                     @endif
-
                 </div>
             </div>
         </div>
