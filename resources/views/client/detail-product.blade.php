@@ -322,6 +322,9 @@
                 ].quantity <= 0)) {
                 // Nếu kích thước không khả dụng, xóa kích thước đã chọn
                 document.getElementById('size_id').value = '';
+                document.querySelectorAll('.size-option').forEach(option => {
+                    option.style.border = '1px solid #ccc'; // Reset border về mặc định
+                });
                 document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
                     mark.style.display = 'none';
                 });
