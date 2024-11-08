@@ -275,11 +275,8 @@
                 </div>
             </div>
         </div>
-        <!-- description review area end here -->
     </section>
-    <!-- Shop single area end here -->
     <script>
-        // Dữ liệu biến thể sản phẩm từ PHP
         const variantData = @json(
             $detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
                 return $variants->groupBy('size_id')->map(function ($groupedVariants) {
@@ -303,31 +300,43 @@
         }
 
         function selectVariant(colorId, variantId, variantName) {
-            // Lưu ID biến thể đã chọn
+            // Gán biến thể đã chọn
             document.getElementById('variant_id').value = variantId;
 
-            // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
+            // Đánh dấu màu sắc được chọn
             document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
                 mark.style.display = 'none';
             });
             document.querySelector(`.color-option[data-color-id="${colorId}"] .selected-mark`).style.display = 'inline';
 
-            // Cập nhật kích thước dựa trên màu đã chọn
-            updateOptions(colorId);
+            // Cập nhật lại các kích thước khả dụng
+            updateOptions(colorId, null);
+
+            // Kiểm tra xem người dùng đã chọn kích thước nào chưa
+            const selectedSizeId = document.getElementById('size_id').value;
+
+            // Nếu có kích thước đã chọn, kiểm tra xem kích thước đó có hợp lệ cho màu hiện tại không
+            if (selectedSizeId && (!variantData[colorId] || !variantData[colorId][selectedSizeId] || variantData[colorId][
+                    selectedSizeId
+                ].quantity <= 0)) {
+                // Nếu kích thước không khả dụng, xóa kích thước đã chọn
+                document.getElementById('size_id').value = '';
+                document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
+                    mark.style.display = 'none';
+                });
+            }
         }
 
-        function selectSize(sizeId, sizeName) {
-            // Lưu ID kích thước đã chọn
-            document.getElementById('size_id').value = sizeId;
 
-            // Cập nhật UI: hiển thị dấu tích ở kích thước đã chọn
+        function selectSize(sizeId, sizeName) {
+            document.getElementById('size_id').value = sizeId;
             document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
                 mark.style.display = 'none';
             });
+
             document.querySelector(`.size-option[data-size-id="${sizeId}"] .selected-mark`).style.display = 'inline';
         }
 
-        // Khi trang được tải, disable tất cả các kích thước
         document.addEventListener('DOMContentLoaded', function() {
             updateOptions(null);
         });
