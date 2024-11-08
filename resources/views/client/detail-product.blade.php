@@ -145,8 +145,6 @@
                                                         onclick="selectSize('{{ $size->id }}', '{{ $size->name }}')"
                                                         tabindex="0">
                                                         {{ $size->name }}
-                                                        <span class="selected-mark"
-                                                            style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span>
                                                     </div>
                                                 @endforeach
                                             </div>
