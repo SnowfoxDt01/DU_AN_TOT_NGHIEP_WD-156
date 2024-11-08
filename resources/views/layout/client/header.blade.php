@@ -100,12 +100,10 @@
                                 <i class="fa-regular fa-cart-shopping"></i>
                             </span>
                             <span>
-                                $0.00
+                                Giỏ hàng
                             </span>
                         </a>
-                        <span class="one">
-                            0
-                        </span>
+                        
                     </div>
                     @if (Auth::check())
                         <div class="d-flex align-items-center">

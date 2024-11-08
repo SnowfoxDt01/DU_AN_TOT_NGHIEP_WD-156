@@ -54,12 +54,23 @@ class ShoppingCartController extends Controller
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $variantProduct->price,
-                'subtotal' => $quantity * $variantProduct->price
+                
             ]);
         }
 
         // 5. Chuyển hướng về trang giỏ hàng 
         return redirect()->route('client.cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
+    }
+
+    public function update(Request $request, $itemId)
+    {
+        $cartItem = ShoppingCartItem::findOrFail($itemId);
+        $cartItem->update([
+            'quantity' => $request->quantity,
+            'subtotal' => $request->quantity * $cartItem->price,
+        ]);
+
+        return redirect()->back()->with('success', 'Số lượng sản phẩm đã được cập nhật');
     }
     
 }

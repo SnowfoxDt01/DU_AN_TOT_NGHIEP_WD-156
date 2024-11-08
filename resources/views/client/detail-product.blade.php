@@ -158,7 +158,7 @@
                                                 <input type='text' name='quantity' value='1' class='qty'>
                                                 <input type='button' value='+' class='qtyplus plus'>
                                             </div>
-                                        </div>
+                                            <h2 class="product-price" id="product-price" style="display: none;">{{ number_format($detailProduct->sale_price ?? $detailProduct->base_price) }}.đ</h2>                                        </div>
                                         <button type="submit" class="d-block text-center btn-two mt-40">
                                             <span><i class="fa-solid fa-basket-shopping pe-2"></i> Thêm vào giỏ hàng</span>
                                         </button>
@@ -308,6 +308,9 @@
             // Xử lý logic khi người dùng chọn một màu
             document.getElementById('variant_id').value = variantId;
 
+            // Cập nhật giá sản phẩm trên giao diện
+            const productPriceElement = document.getElementById('product-price');
+            productPriceElement.textContent = `${{{ $detailProduct->sale_price ?? $detailProduct->base_price }}}.đ`;
             // Cập nhật UI: hiển thị dấu tích ở màu đã chọn
             document.querySelectorAll('.color-option .selected-mark').forEach(mark => {
                 mark.style.display = 'none';

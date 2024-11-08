@@ -1,4 +1,23 @@
 @extends('layout.client.master')
+@push('styles')
+    <style>
+
+.decrease-quantity, .increase-quantity {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.decrease-quantity:hover, .increase-quantity:hover {
+    background-color: #555;
+}
+
+
+    </style>
+@endpush
 
 @section('content')
 <main>
@@ -34,6 +53,9 @@
                 </div>
 
                 @if (isset($shoppingCart) && $shoppingCart->items->count() > 0)
+                    <?php
+                    $cartTotal = 0; // Khởi tạo tổng giá trị giỏ hàng
+                    ?>
                     @foreach ($shoppingCart->items as $item)
                         <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center">
                             <div class="product-details d-flex align-items-center">
@@ -46,11 +68,30 @@
                             <div class="product-size">
                                 <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->size->name }}</h4>
                             </div>
-                            <div class="product-price">{{ number_format($item->price, 0, ',', '.') }}</div>
-                            <div class="product-quantity">
-                                <input type="number" value="{{ $item->quantity }}" min="1">
+                            <div class="product-price">
+                                @if ($item->product->sale_price > 0)
+                                    {{ number_format($item->product->sale_price, 0, ',', '.') }}
+                                @else
+                                    {{ number_format($item->product->base_price, 0, ',', '.') }}
+                                @endif
                             </div>
-                            <div class="product-line-price">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}</div>
+                            <form action="{{ route('client.cart.update', $item->id) }}" method="POST">
+                                @csrf
+                                <div class="product-quantity">
+                                    <button class="decrease-quantity"><i class="fas fa-minus"></i></button>
+                                    <input type="number" value="{{ $item->quantity }}" min="1">
+                                    <button class="increase-quantity"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </form>
+                            <div class="product-line-price">
+                                <?php
+                                // Tính giá trị cho từng sản phẩm
+                                $productPrice = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
+                                $totalPrice = $productPrice * $item->quantity;
+                                $cartTotal += $totalPrice; // Cộng dồn vào tổng giá trị giỏ hàng
+                                ?>
+                                {{ number_format($totalPrice, 0, ',', '.') }}
+                              </div>
                             <div class="product-removal">
                                 <button class="remove-product">
                                     <i class="fa-solid fa-x heading-color"></i>
@@ -61,10 +102,9 @@
 
                     <div class="totals">
                         <div class="totals-item theme-color float-end mt-20">
-                            <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
-                            <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
-                                {{ number_format($shoppingCart->items->sum('subtotal'), 0, ',', '.') }} 
-                            </div>
+                          <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
+                          <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
+                            {{ number_format($cartTotal, 0, ',', '.') }}  </div>
                         </div>
                     </div>
 
@@ -75,5 +115,24 @@
         </div>
     </section>
 </main>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.decrease-quantity').click(function() {
+            var input = $(this).next('input');
+            var currentVal = parseInt(input.val());
+            if (currentVal > 1) {
+                input.val(currentVal - 1);
+            }
+        });
+    
+        $('.increase-quantity').click(function() {
+            var input = $(this).prev('input');
+            input.val(parseInt(input.val()) + 1);
+        });
+    });
+</script>
 
 @endsection
