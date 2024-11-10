@@ -19,6 +19,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProfileController;
 
 
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
@@ -153,6 +154,10 @@ Route::group([
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');  
+
+    Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');  
 
     Route::group([
         'prefix' => 'cart',

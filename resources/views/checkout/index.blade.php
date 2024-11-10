@@ -1,5 +1,3 @@
-{{-- checkout/index.blade.php --}}
-
 @extends('layout.client.master')
 @push('styles')
 <style>
@@ -21,14 +19,11 @@
     .selected {
         font-weight: bold;
         background-color: #007bff;
-        /* Màu nền khi chọn */
         color: white;
-        /* Màu chữ khi chọn */
     }
 
     button {
         transition: all 0.3s ease;
-        /* Thêm hiệu ứng chuyển động khi thay đổi */
     }
 </style>
 @endpush
@@ -50,18 +45,41 @@
             @if($shoppingCart && $shoppingCart->items->count() > 0)
             @if ($customer)
             <div class="user-info p-4">
-                <h3>Thông tin người đặt hàng</h3>
-                <p><strong>Họ tên:</strong> {{ $customer->name }}</p>
-                <p><strong>Email:</strong> {{ $customer->email }}</p>
-                <p><strong>Số điện thoại:</strong> {{ $customer->phone }}</p>
-                <p><strong>Địa chỉ:</strong> {{ $customer->address }}</p>
+                <h3>Thông Tin Khách Hàng</h3>
+                <div id="user-info-display">
+                    <p><strong>Họ tên:</strong> <span id="user-name">{{ $customer->name }}</span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="user-phone">{{ $customer->phone }}</span></p>
+                    <p><strong>Địa chỉ:</strong> <span id="user-address">{{ $customer->address }}</span></p>
+                    <button type="button" class="d-block text-center btn-two mt-20" id="edit-info-btn">Sửa</button>
+                </div>
+
+                <div id="edit-form" style="display:none;">
+                    <h4>Sửa thông tin</h4>
+                    <form method="POST" action="{{ route('client.profile.update') }}">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group">
+                            <label for="name">Họ tên</label>
+                            <input type="text" name="name" id="name" value="{{ $customer->name }}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="text" name="phone" id="phone" value="{{ $customer->phone }}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ</label>
+                            <input type="text" name="address" id="address" value="{{ $customer->address }}" class="form-control" required>
+                        </div>
+                        <button type="submit" class="d-block text-center btn-two mt-20">Lưu thông tin</button>
+                    </form>
+                </div>
             </div>
             @else
             <p>Thông tin khách hàng không có hoặc không đầy đủ.</p>
             @endif
 
             <hr>
-
             <h3>Chi tiết đơn hàng</h3>
             <div class="order-details">
                 <div class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
@@ -71,8 +89,7 @@
                     <label class="product-line-price">Tổng giá</label>
                 </div>
 
-                <?php $cartTotal = 0;
-                ?>
+                <?php $cartTotal = 0; ?>
                 @foreach($shoppingCart->items as $item)
                 <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center">
                     <div class="product-details d-flex align-items-center">
@@ -109,7 +126,6 @@
                     </div>
                 </div>
             </div>
-
             @else
             <p>Giỏ hàng của bạn hiện tại trống.</p>
             @endif
@@ -133,13 +149,18 @@
             </div>
 
             <div class="payment-action mt-4">
-                <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
-                    Đặt hàng
-                </button>
+                <form id="order-form">
+                    @csrf
+                    <input type="hidden" name="payment_method" id="payment-method-input" value="">
+                    <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
+                        Đặt hàng
+                    </button>
+                </form>
             </div>
 
     </section>
 </main>
+
 <script>
     document.getElementById('cod-btn').addEventListener('click', function() {
         document.getElementById('cod-btn').classList.add('selected');
@@ -149,6 +170,11 @@
     document.getElementById('wallet-btn').addEventListener('click', function() {
         document.getElementById('wallet-btn').classList.add('selected');
         document.getElementById('cod-btn').classList.remove('selected');
+    });
+
+    document.getElementById('edit-info-btn').addEventListener('click', function() {
+        document.getElementById('user-info-display').style.display = 'none';
+        document.getElementById('edit-form').style.display = 'block';
     });
 </script>
 @endsection
