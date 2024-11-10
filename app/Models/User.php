@@ -39,18 +39,6 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class, 'id_user'); // Liên kết với bảng customers
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    
-=======
-
->>>>>>> nhat
-    public function orders()
-    {
-        return $this->hasMany(ShopOrder::class, 'user_id');
-    }
->>>>>>> 0272c1157409a73f9f61dbdb114f12ad6a13f53b
 
     public function shoppingCart()
     {
