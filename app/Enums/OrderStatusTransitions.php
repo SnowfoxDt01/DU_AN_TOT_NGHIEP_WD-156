@@ -15,7 +15,7 @@ final class OrderStatusTransitions extends Enum
         'confirming' => ['confirmed', 'canceled'],
         'confirmed'  => ['preparing', 'canceled'],
         'preparing'  => ['shipping'],
-        'shipping'   => ['delivered', 'canceled'],
+        'shipping'   => ['delivered'],
         'delivered'  => ['completed'],
         'completed'  => [],
         'canceled'   => [],
