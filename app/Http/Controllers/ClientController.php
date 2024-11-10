@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 
 use App\Models\Banner;
 use App\Models\Category;
@@ -56,4 +57,5 @@ class ClientController extends Controller
         $productsOfCategory = Product::where('product_category_id',$id)->paginate(9);
         return view('client.categories.show', compact('productsOfCategory','category'));
     }
+    
 }
