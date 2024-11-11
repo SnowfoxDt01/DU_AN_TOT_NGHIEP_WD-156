@@ -176,7 +176,7 @@
             </div>
         </div>
         <div class="product-info">
-            <p><strong>Mô tả:</strong> <span id="product-description">{!! nl2br(e($product->description)) !!}</span>
+            <p><strong>Mô tả:</strong> <span id="product-description">{!! nl2br($product->description) !!}</span>
             </p>
         </div>
 

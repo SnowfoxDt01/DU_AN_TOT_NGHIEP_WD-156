@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,18 @@ Route::group([
         Route::post('/toggle-visibility/{id}', [ReviewController::class, 'toggleVisibility'])->name('toggleVisibility');
 
         Route::post('/products/review', [ReviewController::class, 'store'])->name('comment');
+    });
+
+    Route::group([
+        'prefix' => 'blogs',
+        'as' => 'blogs.'
+    ], function () {
+
+        Route::get('/blog/index', [BlogController::class, 'index'])->name('index');
+
+        Route::get('/blog/create', [BlogController::class, 'create'])->name('create');
+
+        Route::post('/blog/create', [BlogController::class, 'store'])->name('store');
     });
 
     Route::group([
@@ -152,6 +165,8 @@ Route::group([
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
 
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
+
+    Route::get('/blog', [ClientController::class, 'blogList'])->name('blog');
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 

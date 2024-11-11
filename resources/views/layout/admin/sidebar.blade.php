@@ -20,6 +20,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav">
+                <a href="{{ route('admin.blogs.index') }}" class="nav-link">
+                    <i class="nav-icon bi bi-person-vcard-fill"></i>
+                    <p>
+                        Quản lí bài viết
+                    </p>
+                </a>
+            </li>
             @role('super-admin')
             <li class="nav">
                 <a href="{{ route('role-permission.index') }}" class="nav-link">

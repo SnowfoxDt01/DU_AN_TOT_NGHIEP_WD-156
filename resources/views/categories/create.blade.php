@@ -23,7 +23,7 @@
 
             <div class="form-group col-md-4">
                 <label for="description">Mô tả</label>
-                <input type="text" name="description" class="form-control" value="{{ old('description') }}">
+                <textarea name="description" id="description" class="form-control"></textarea>
                 @error('description')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -51,3 +51,12 @@
         </form>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#description'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endpush
