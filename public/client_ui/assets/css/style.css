@@ -5544,30 +5544,29 @@ input {
   position: relative;
 }
 
-/* Style cho số lượng giỏ hàng */
+.c__one {
+  position: relative;
+  /* Đặt vị trí tương đối cho toàn bộ liên kết */
+}
+
 .cart-count {
   font-size: 12px;
-  /* Kích thước chữ nhỏ */
   font-weight: bold;
-  /* Chữ đậm hơn */
   color: white;
-  /* Màu chữ */
   background-color: orangered;
-  /* Màu nền cam */
   width: 20px;
-  /* Kích thước vòng tròn */
   height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 18px;
-  /* Đẩy lên trên */
-  right: 309px;
-  /* Đẩy sang phải */
-  border-radius: 50%;
-  /* Hình tròn */
+  top: -5px;
+  /* Điều chỉnh vị trí theo biểu tượng giỏ hàng */
+  right: -10px;
+  /* Điều chỉnh vị trí để dính vào biểu tượng */
+  border-radius:50%;
 }
+
 
 /* Đặt màu hover cam cho các liên kết */
 .nav-link:hover {
@@ -5589,10 +5588,12 @@ input {
   align-items: center;
   /* Căn giữa theo chiều dọc */
 }
+
 .increase-quantity {
   margin-right: 30px;
   margin-left: 5px;
 }
-.decrease-quantity{
+
+.decrease-quantity {
   margin-right: 5px;
 }

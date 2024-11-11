@@ -67,19 +67,19 @@
                             <hr>
                             <div class="row">
                                 <div>
-                                    <p><strong>Họ và Tên : </strong> {{ Auth::user()->customers->first()->name }}</p>
+                                    <p><strong>Họ và Tên : </strong> {{ Auth::user()->customer->first()->name }}</p>
                                 </div>
                                 <hr>
                                 <div>
-                                    <p><strong>Email : </strong> {{ Auth::user()->customers->first()->email }}</p>
+                                    <p><strong>Email : </strong> {{ Auth::user()->customer->first()->email }}</p>
                                 </div>
                                 <hr>
                                 <div>
-                                    <p><strong>Số điện thoại :</strong> {{ Auth::user()->customers->first()->phone }}</p>
+                                    <p><strong>Số điện thoại :</strong> {{ Auth::user()->customer->first()->phone }}</p>
                                 </div>
                                 <hr>
                                 <div>
-                                    <p><strong>Địa chỉ : </strong> {{ Auth::user()->customers->first()->address }}</p>
+                                    <p><strong>Địa chỉ : </strong> {{ Auth::user()->customer->first()->address }}</p>
                                 </div>
                                 <hr>
                                 <div>
