@@ -45,49 +45,7 @@
                         <a href="{{ route('client.shop') }}">Sản phẩm</a>
                     </li>
                     <li>
-                        <a href="#0">Trang <i class="fa-regular fa-angle-down"></i></a>
-                        <ul class="sub-menu">
-                            <li class="subtwohober">
-                                <a href="shop.html">
-                                    Shop Leftbar
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="shop-2.html">
-                                    Shop Rightbar
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="shop-single.html">
-                                    Shop Single
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="cart.html">
-                                    Giỏ Hàng
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="checkout.html">
-                                    Thanh Toán
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="register.html">
-                                    Đăng Kí
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="login.html">
-                                    Đăng Nhập
-                                </a>
-                            </li>
-                            <li class="subtwohober">
-                                <a href="error.html">
-                                    404 Error
-                                </a>
-                            </li>
-                        </ul>
+                        <a href="{{ route('client.blog') }}">Bài Viết</a>
                     </li>
                     <li>
                         <a href="#">Giới thiệu</a>
@@ -98,7 +56,7 @@
                         <a href="{{ route('client.cart.index') }}" class="c__one">
                             <i class="fa-regular fa-cart-shopping"></i>
                             <span class="cart-count">
-                                {{$cartQuantity}}
+                                {{ $cartQuantity }}
                             </span>
                         </a>
                     </div>

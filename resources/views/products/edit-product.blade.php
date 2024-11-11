@@ -289,4 +289,11 @@ $(document).ready(function() {
     $('.variant .row.g-3').hide(); 
 });
 </script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#descriptionSP'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 @endpush

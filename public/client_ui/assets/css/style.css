@@ -5597,3 +5597,12 @@ input {
 .decrease-quantity {
   margin-right: 5px;
 }
+
+h3 a {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Số dòng bạn muốn giới hạn */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
