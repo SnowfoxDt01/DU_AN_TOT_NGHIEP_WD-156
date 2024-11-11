@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ShoppingCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -17,7 +18,7 @@ class CheckoutController extends Controller
 
         $shoppingCart = auth()->user()->shoppingCart;
 
-        $customer = auth()->user()->customer;
+        $customer = Auth::user()->customer->first();
 
         if (!$shoppingCart) {
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng của bạn hiện tại trống.');

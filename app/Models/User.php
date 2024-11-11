@@ -40,6 +40,11 @@ class User extends Authenticatable
         return $this->hasOne(Customer::class, 'id_user'); // Liên kết với bảng customers
     }
 
+    public function orders()
+    {
+        return $this->hasMany(ShopOrder::class, 'user_id');
+    }
+
     public function shoppingCart()
     {
         return $this->hasOne(ShoppingCart::class, 'user_id'); 
