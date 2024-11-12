@@ -5564,7 +5564,7 @@ input {
   /* Điều chỉnh vị trí theo biểu tượng giỏ hàng */
   right: -10px;
   /* Điều chỉnh vị trí để dính vào biểu tượng */
-  border-radius:50%;
+  border-radius: 50%;
 }
 
 
@@ -5600,9 +5600,90 @@ input {
 
 h3 a {
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Số dòng bạn muốn giới hạn */
+  -webkit-line-clamp: 2;
+  /* Số dòng bạn muốn giới hạn */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+
+.item p img {
+  max-width: 100%;
+  /* Đảm bảo ảnh không vượt quá chiều rộng khung */
+  height: auto;
+  /* Giữ tỷ lệ ảnh */
+  display: block;
+  margin: 0 auto;
+  /* Căn giữa ảnh nếu cần */
+}
+
+/* CSS cho ảnh bên ngoài nội dung CKEditor */
+.image img {
+  max-width: 100%;
+  /* Đảm bảo ảnh ngoài nội dung cũng vừa với khung */
+  height: auto;
+}
+
+/* CSS cho ảnh trong phần mô tả (#description) */
+#description img {
+  max-width: 80%;
+  /* Điều chỉnh kích thước ảnh, ví dụ: 80% chiều rộng của khung */
+  height: auto;
+  /* Giữ tỷ lệ gốc của ảnh */
+  display: block;
+  margin: 0 auto;
+  /* Căn giữa ảnh nếu cần */
+}
+
+/* Tạo bố cục hàng ngang cho các bài viết nổi bật */
+.recent-posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* Cho phép các mục xuống dòng nếu không đủ chỗ */
+  gap: 15px;
+  /* Khoảng cách giữa các bài viết */
+}
+
+/* Điều chỉnh kích thước từng bài viết */
+.recent-post {
+  width: calc(33.33% - 10px);
+  /* Chiều rộng của mỗi bài viết là 1/3 của dòng (tùy chỉnh nếu cần) */
+  box-sizing: border-box;
+}
+
+/* Giảm kích thước ảnh và các thành phần khác */
+.recent-post .img img {
+  width: 100%;
+  /* Đảm bảo ảnh vừa với khung bài viết */
+  height: auto;
+  max-height: 120px;
+  /* Giới hạn chiều cao của ảnh nếu cần */
+  object-fit: cover;
+  /* Đảm bảo ảnh không bị méo */
+}
+
+/* Điều chỉnh kích thước tiêu đề và khoảng cách trong bài viết */
+.recent-post .con h5 {
+  font-size: 1rem;
+  margin: 8px 0;
+}
+
+.recent-post .con span {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.gallery__image img {
+  height: 320px;
+  object-fit: cover;
 }

@@ -75,49 +75,24 @@
     <section class="view-area">
         <div class="bg-image view__bg" data-background="client_ui/assets/images/bg/view-bg.jpg"></div>
         <div class="container">
+            <div class="sub-title text-center mb-65 wow fadeInUp" data-wow-delay=".1s">
+                <h3><span class="title-icon"></span>Bài viết nổi bật<span class="title-icon"></span></h3>
+            </div>
             <div class="row g-4">
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay=".1s">
-                    <div class="view__left-item">
-                        <div class="image">
-                            <img src="client_ui/assets/images/banner/test.webp" alt="image">
-                        </div>
-                        <div class="view__left-content sub-bg">
-                            <h2><a class="primary-hover" href="shop-single.html">The best e-liqued bundles</a>
-                            </h2>
-                            <p class="fw-600">Sell globally in minutes with localized currencies languages, and
-                                experie
-                                in every market. only a variety of vaping
-                                products</p>
-                            <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
-                            <a class="off-btn" href="#0"><img class="mr-10"
-                                    src="client_ui/assets/images/icon/fire.svg" alt="icon"> GET
-                                <span class="primary-color">25%
-                                    OFF</span> NOW</a>
+                @foreach ($blogs as $blog)
+                    <div class="col-lg-6">
+                        <div class="view__item wow fadeInUp" data-wow-delay=".3s">
+                            <div class="view__content">
+                                <h3><a class="primary-hover" href="shop-single.html">{{ $blog->title }}</a></h3>
+                                <p>{!! $blog->description !!}</p>
+                                <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
+                            </div>
+                            <div class="view__image">
+                                <img src="{{ $blog->image }}" alt="image">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="view__item mb-25 wow fadeInDown" data-wow-delay=".2s">
-                        <div class="view__content">
-                            <h3><a class="primary-hover" href="shop-single.html">new to vapeing?</a></h3>
-                            <p>Whereas recognition of the inherent dignity</p>
-                            <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
-                        </div>
-                        <div class="view__image">
-                            <img src="client_ui/assets/images/banner/test2.png" alt="image">
-                        </div>
-                    </div>
-                    <div class="view__item wow fadeInUp" data-wow-delay=".3s">
-                        <div class="view__content">
-                            <h3><a class="primary-hover" href="shop-single.html">Vap mode</a></h3>
-                            <p>Whereas recognition of the inherent dignity</p>
-                            <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
-                        </div>
-                        <div class="view__image">
-                            <img src="client_ui/assets/images/banner/test3.jpg" alt="image">
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -428,9 +403,6 @@
                                 <h3 class="mb-10"><a
                                         href="{{ route('client.detailProduct', $sale->id) }}">{{ $sale->name }}</a>
                                 </h3>
-                                <p
-                                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 270px;">
-                                    {{ $sale->description }}</p>
                                 <a href="{{ route('client.detailProduct', $sale->id) }}" class="btn-two mt-25"><span>Mua
                                         ngay</span></a>
                             </div>
@@ -440,5 +412,6 @@
             </div>
         </div>
     </section>
+    <hr>
     <!-- Gallery area end here -->
 @endsection

@@ -22,7 +22,7 @@
             </li>
             <li class="nav">
                 <a href="{{ route('admin.blogs.index') }}" class="nav-link">
-                    <i class="nav-icon bi bi-person-vcard-fill"></i>
+                    <i class="bi bi-newspaper"></i>
                     <p>
                         Quản lí bài viết
                     </p>

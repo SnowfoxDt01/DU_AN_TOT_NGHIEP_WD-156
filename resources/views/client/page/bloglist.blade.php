@@ -17,13 +17,12 @@
                 @foreach ($blogs as $blog)
                     <div class="col-lg-4 col-md-6">
                         <div class="blog__item-right">
-                            <a href="blog-single.html" class="image d-block">
+                            <a href="{{ route('client.blog.detailBlog', $blog->id) }}" class="image d-block">
                                 <img class="radius-10" src="{{$blog->image}}" alt="image" style="height: 250px">
                             </a>
-                            <h3><a href="">{{$blog->title}}</a>
+                            <h3><a href="{{ route('client.blog.detailBlog', $blog->id) }}">{{$blog->title}}</a>
                             </h3>
                             <div class="d-flex align-items-center justify-content-between">
-                                <span class="blog__tag">vapers</span>
                                 <span>{{$blog->created_at->format('d/m/Y')}}</span>
                             </div>
                         </div>
@@ -31,10 +30,7 @@
                 @endforeach
             </div>
             <div class="mt-65">
-                <a class="blog-pegi" href="#0">01</a>
-                <a class="blog-pegi active" href="#0">02</a>
-                <a class="blog-pegi" href="#0">03</a>
-                <a href="#0"><i class="fa-solid fa-arrow-right-long"></i></a>
+                {{ $blogs->links('pagination::custom') }}
             </div>
         </div>
     </section>
