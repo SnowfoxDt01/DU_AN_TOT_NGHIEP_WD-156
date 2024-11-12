@@ -166,13 +166,20 @@ Route::group([
 
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
 
-    Route::get('/blog', [ClientController::class, 'blogList'])->name('blog');
-
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');  
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
-    Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');  
+    Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+
+    Route::group([
+        'prefix' => 'blog',
+        'as' => 'blog.',
+    ], function () {
+        Route::get('/index', [ClientController::class, 'blogList'])->name('index');
+
+        Route::get('/detail/{id}', [ClientController::class, 'detailBlog'])->name('detailBlog');
+    });
 
     Route::group([
         'prefix' => 'cart',
@@ -192,7 +199,7 @@ Route::group([
         'as' => 'checkout.',
     ], function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('index');
-        
+
         Route::post('/process', [CheckoutController::class, 'process'])->name('process');
     });
 });

@@ -24,7 +24,8 @@ class ClientController extends Controller
             ->take(10)
             ->get();
         $sale_products = Product::where('sale_price', '<>', 0)->get();
-        return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'banners'));
+        $blogs = Blog::limit(4)->get();
+        return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'banners','blogs'));
     }
 
     public function myAccount(){
@@ -57,5 +58,11 @@ class ClientController extends Controller
     public function blogList() {
         $blogs = Blog::paginate(9);
         return view('client.page.bloglist', compact('blogs'));
+    }
+
+    public function detailBlog($id){
+        $blog = Blog::findOrFail($id);
+        $blogs = Blog::limit(4)->get();
+        return view('client.page.blogDetail', compact('blog','blogs'));
     }
 }

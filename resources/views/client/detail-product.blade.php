@@ -81,11 +81,12 @@
                                 <del>{{ number_format($detailProduct->base_price) }}.đ</del>
                                 <h2 class="pb-3">{{ number_format($detailProduct->sale_price) }}.đ</h2>
                             @endif
-                            <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
-                            <p class="text-justify mb-10"
-                                style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
-                                {{ $detailProduct->description }}
-                            </p>
+                            <div class="description">
+                                <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
+                                <p class="text-justify mb-10">
+                                    {!! $detailProduct->description !!}
+                                </p>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
@@ -156,7 +157,10 @@
                                                 <input type='text' name='quantity' value='1' class='qty'>
                                                 <input type='button' value='+' class='qtyplus plus'>
                                             </div>
-                                            <h2 class="product-price" id="product-price" style="display: none;">{{ number_format($detailProduct->sale_price ?? $detailProduct->base_price) }}.đ</h2>                                        </div>
+                                            <h2 class="product-price" id="product-price" style="display: none;">
+                                                {{ number_format($detailProduct->sale_price ?? $detailProduct->base_price) }}.đ
+                                            </h2>
+                                        </div>
                                         <button type="submit" class="d-block text-center btn-two mt-40">
                                             <span><i class="fa-solid fa-basket-shopping pe-2"></i> Thêm vào giỏ hàng</span>
                                         </button>
@@ -280,8 +284,7 @@
                 return $variants->groupBy('size_id')->map(function ($groupedVariants) {
                     return $groupedVariants->first();
                 });
-            })
-        );
+            }));
 
         // Hàm cập nhật kích thước dựa trên màu đã chọn
         function updateOptions(selectedColorId) {
@@ -332,11 +335,12 @@
 
         function selectSize(sizeId, sizeName) {
             // Lấy màu đã chọn (thêm dòng này)
-            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]').dataset.colorId;
+            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]').dataset
+            .colorId;
 
             // Tìm variantId dựa trên màu và size đã chọn (thay đổi ở đây)
             const variant = variantData[selectedColorId][sizeId];
-            const variantId = variant ? variant.id : null; 
+            const variantId = variant ? variant.id : null;
 
             document.getElementById('variant_id').value = variantId;
             document.getElementById('size_id').value = sizeId;
