@@ -27,4 +27,9 @@ class ShopOrderItem extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    public function variantProducts()
+    {
+        return $this->belongsTo(VariantProduct::class, 'variant_id');
+    }
 }

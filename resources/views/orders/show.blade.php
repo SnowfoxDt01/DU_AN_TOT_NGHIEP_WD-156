@@ -36,7 +36,7 @@
                 <p><strong>Địa chỉ:</strong> {{ $order->customer->address }}</p>
                 <p><strong>Tổng tiền:</strong> 
                     {{ number_format($order->items->sum(function ($item) {
-                        return $item->product->sale_price * $item->quantity;
+                        return $item->price * $item->quantity;
                     }), 0, ',', '.') }} VNĐ
                 </p>
                 <p><strong>Phương thức thanh toán:</strong> {{ ucfirst(App\Enums\PaymentMethod::getDescription($order->payment_method)) }}</p>
@@ -49,16 +49,24 @@
             @foreach ($order->items as $item)
                 <li class="list-group-item" style="display: flex; align-items: center; padding: 15px; border: 1px solid #ccd0d4;">
                     <div style="width: 10%; text-align: center;">
-                        <img src="{{ asset($item->product->image) }}" alt="{{ $item->product ? $item->product->name : 'Không có tên sản phẩm' }}" style="width: 80px; height: auto; border: 1px solid #ddd; padding: 4px;">
+                        @if ($item->variantProducts && $item->variantProducts->images->first())
+                            <img src="{{ asset($item->variantProducts->images->first()->image_path) }}" alt="{{ $item->product->name }}" style="width: 80px; height: auto; border: 1px solid #ddd; padding: 4px;">
+                        @else
+                            <img src="{{ asset('path/to/default/image.jpg') }}" alt="Hình ảnh mặc định" style="width: 80px; height: auto; border: 1px solid #ddd; padding: 4px;"> 
+                        @endif
                     </div>
                     <div style="width: 90%; padding-left: 15px;">
                         <p style="margin: 0; color: #333;"><strong>Mã sản phẩm:</strong> {{ $item->product_id }}</p>
                         <p style="margin: 0; color: #555;"><strong>Tên sản phẩm:</strong> {{ $item->product ? $item->product->name : 'Không có tên sản phẩm' }}</p>
-                        <p style="margin: 0; color: #555;"><strong>Màu:</strong> {{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu' }}</p>
-                        <p style="margin: 0; color: #555;"><strong>Kích cỡ:</strong> {{ $item->product->variantProducts->first()?->size->name ?? 'Không có size' }}</p>
+                        <p style="margin: 0; color: #555;"><strong>Màu:</strong> {{ $item->variantProducts->color->name ?? 'Không có màu' }}</p>
+                        <p style="margin: 0; color: #555;"><strong>Kích cỡ:</strong> {{ $item->variantProducts->size->name ?? 'Không có size' }}</p>
                         <p style="margin: 0; color: #555;"><strong>Số lượng:</strong> {{ $item->quantity }}</p>
-                        <p style="margin: 0; color: #555;"><strong>Giá sản phẩm:</strong> {{ number_format($item->product->sale_price, 0, ',', '.') }} VNĐ</p>
-                        <p style="margin: 0; color: #555;"><strong>Thành tiền:</strong> {{ number_format($item->product->sale_price * $item->quantity, 0, ',', '.') }} VNĐ</p>
+
+                        @php
+                            $productPrice = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
+                        @endphp
+                        <p style="margin: 0; color: #555;"><strong>Giá sản phẩm:</strong> {{ number_format($productPrice, 0, ',', '.') }} VNĐ</p>
+                        <p style="margin: 0; color: #555;"><strong>Thành tiền:</strong> {{ number_format($productPrice * $item->quantity, 0, ',', '.') }} VNĐ</p>
                     </div>
                 </li>
             @endforeach

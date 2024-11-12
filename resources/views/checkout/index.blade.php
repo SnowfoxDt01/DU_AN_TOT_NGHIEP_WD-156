@@ -149,9 +149,9 @@
             </div>
 
             <div class="payment-action mt-4">
-                <form id="order-form">
+                <form id="order-form" action="{{ route('client.checkout.process') }}" method="POST"> 
                     @csrf
-                    <input type="hidden" name="payment_method" id="payment-method-input" value="">
+                    <input type="hidden" name="payment_method" id="payment-method-input" value=""> 
                     <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
                         Đặt hàng
                     </button>
@@ -165,11 +165,13 @@
     document.getElementById('cod-btn').addEventListener('click', function() {
         document.getElementById('cod-btn').classList.add('selected');
         document.getElementById('wallet-btn').classList.remove('selected');
+        document.getElementById('payment-method-input').value = 'cash'; // Thêm dòng này
     });
 
     document.getElementById('wallet-btn').addEventListener('click', function() {
         document.getElementById('wallet-btn').classList.add('selected');
         document.getElementById('cod-btn').classList.remove('selected');
+        document.getElementById('payment-method-input').value = 'wallet'; // Thêm dòng này
     });
 
     document.getElementById('edit-info-btn').addEventListener('click', function() {

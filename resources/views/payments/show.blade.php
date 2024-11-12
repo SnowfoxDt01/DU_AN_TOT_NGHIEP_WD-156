@@ -14,17 +14,17 @@
             <p><strong>Số điện thoại:</strong> {{ $payment->order->customer->phone }}</p>
             <p><strong>Tổng tiền thanh toán:</strong>
                 {{ number_format($payment->order->items->sum(function ($item) {
-                    return $item->product->sale_price * $item->quantity;
+                    return $item->price * $item->quantity;
                 }), 0, ',', '.') }} VNĐ
-              </p>
+             </p>
             <p><strong>Phương thức thanh toán:</strong> {{ ucfirst(App\Enums\PaymentMethod::getDescription($payment->order->payment_method)) }}</p>
             <p><strong>Ngày thanh toán:</strong> {{ $payment->created_at->format('d/m/Y') }}</p>
-            <p><strong>Địa chỉ giao hàng:</strong> {{ $payment->order->shipping_address }}</p> <!-- Thêm địa chỉ giao hàng -->
+            <p><strong>Địa chỉ giao hàng:</strong> {{ $payment->order->shipping_address }}</p> 
             
             <h4>Thông tin sản phẩm:</h4>
             <table class="table">
                 <thead>
-                    <tr>                       
+                    <tr>   
                         <th>Tên sản phẩm</th>
                         <th>Ảnh sản phẩm</th>
                         <th>Số lượng</th>
@@ -39,13 +39,17 @@
                         <tr>
                             <td>{{ $item->product->name }}</td>
                             <td>
-                                <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}" style="width: 100px; height: auto;">
+                                @if ($item->variantProducts && $item->variantProducts->images->first())
+                                    <img src="{{ asset($item->variantProducts->images->first()->image_path) }}" alt="{{ $item->product->name }}" style="width: 100px; height: auto;">
+                                @else
+                                    <img src="{{ asset('path/to/default/image.jpg') }}" alt="Hình ảnh mặc định" style="width: 100px; height: auto;"> 
+                                @endif
                             </td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ $item->product->variantProducts->first()?->color->name ?? 'Không có màu'  }}</td>
-                            <td>{{ $item->product->variantProducts->first()?->size->name ?? 'Không có màu'  }}</td>
-                            <td>{{ number_format($item->product->sale_price, 0, ',', '.') }} VNĐ</td>
-                            <td>{{ number_format($item->quantity * $item->product->sale_price, 0, ',', '.') }} VNĐ</td>
+                            <td>{{ $item->variantProducts->color->name ?? 'Không có màu' }}</td> 
+                            <td>{{ $item->variantProducts->size->name ?? 'Không có size' }}</td> 
+                            <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td> 
+                            <td>{{ number_format($item->quantity * $item->price, 0, ',', '.') }} VNĐ</td> 
                         </tr>
                     @endforeach
                 </tbody>
