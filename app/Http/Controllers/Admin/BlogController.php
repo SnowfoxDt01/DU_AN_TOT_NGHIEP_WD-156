@@ -10,7 +10,7 @@ class BlogController extends Controller
 {
     
     public function index() {
-        $blogs = Blog::paginate(5);
+        $blogs = Blog::orderBy('created_at', 'desc')->paginate(5);
         return view('blogs.index', compact('blogs'));
     }
 
@@ -39,6 +39,11 @@ class BlogController extends Controller
         ]);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Tạo mới bài viết thành công.');
+    }
+
+    public function show($id){
+        $blog = Blog::findOrFail($id);
+        return view('blogs.show', compact('blog'));
     }
 
 }
