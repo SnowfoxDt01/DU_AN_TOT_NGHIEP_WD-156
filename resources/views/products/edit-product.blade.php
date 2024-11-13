@@ -58,13 +58,17 @@
                     <input type="text" class="form-control" id="nameSP" name="nameSP" value="{{ $product->name }}">
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="priceSP">Giá</label>
                         <input type="number" class="form-control" id="priceSP" name="priceSP" value="{{ $product->base_price }}">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="sale_price">Giá khuyến mãi</label>
                         <input type="number" class="form-control" id="sale_price" name="sale_price" value="{{ $product->sale_price }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="flash_sale_price">Giá siêu khuyến mãi</label>
+                        <input type="number" class="form-control" id="flash_sale_price" name="flash_sale_price" value="{{ $product->flash_sale_price }}">
                     </div>
                 </div>
                 <div class="form-group">
