@@ -239,87 +239,87 @@
     <!-- Product area end here -->
 
     <!-- Get now area start here -->
-    <section class="get-now-area pt-130 pb-130">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-6">
-                    <h4 class="mb-30 wow fadeInUp" data-wow-delay=".1s"><img src="client_ui/assets/images/icon/fire.svg"
-                            alt="icon">
-                        Nhận <span class="primary-color"> ưu đãi </span> ngay </h4>
-                    @foreach ($flash_sale_products as $flash)
-                        <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".2s">
-                            <span class="title-icon mr-10"></span>
-                            <h2>{{ $flash->name }}</h2>
-                        </div>
-                        <div class="get-now__content">
-                            <div class="get-info py-4 wow fadeInUp" data-wow-delay=".2s">
-                                @if ($flash->flash_sale_price == 0)
-                                    <span
-                                        class="primary-color ml-10">{{ number_format($flash->base_price) }}.đ</span>
-                                @else
-                                    <del>{{ number_format($flash->base_price) }}.đ</del>
-                                    <span
-                                        class="primary-color ml-10">{{ number_format($flash->flash_sale_price) }}.đ</span>
-                                @endif
+    @if ($flash_sale_products->isNotEmpty() && $flash_sale_products->first()->images->isNotEmpty())
+        <section class="get-now-area pt-130 pb-130">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-6">
+                        <h4 class="mb-30 wow fadeInUp" data-wow-delay=".1s"><img
+                                src="client_ui/assets/images/icon/fire.svg" alt="icon">
+                            Nhận <span class="primary-color"> ưu đãi </span> ngay </h4>
+                        @foreach ($flash_sale_products as $flash)
+                            <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".2s">
+                                <span class="title-icon mr-10"></span>
+                                <h2>{{ $flash->name }}</h2>
                             </div>
-                            <p class="fw-600 wow fadeInUp" data-wow-delay=".3s">{!!$flash->description!!}</p>
-                            <div class="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
-                                data-wow-delay=".4s">
-                                <div class="info">
-                                    <h4>HUNGRY UP !</h4>
-                                    <span>Offer end in :</span>
+                            <div class="get-now__content">
+                                <div class="get-info py-4 wow fadeInUp" data-wow-delay=".2s">
+                                    @if ($flash->flash_sale_price == 0)
+                                        <span class="primary-color ml-10">{{ number_format($flash->base_price) }}.đ</span>
+                                    @else
+                                        <del>{{ number_format($flash->base_price) }}.đ</del>
+                                        <span
+                                            class="primary-color ml-10">{{ number_format($flash->flash_sale_price) }}.đ</span>
+                                    @endif
                                 </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="get-time">
-                                        <h3 id="day">00</h3>
-                                        <span>Day</span>
+                                <p class="fw-600 wow fadeInUp" data-wow-delay=".3s">{!! $flash->description !!}</p>
+                                <div class="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
+                                    data-wow-delay=".4s">
+                                    <div class="info">
+                                        <h4>HUNGRY UP !</h4>
+                                        <span>Offer end in :</span>
                                     </div>
-                                    <div class="get-time">
-                                        <h3 id="hour">00</h3>
-                                        <span>Hr</span>
-                                    </div>
-                                    <div class="get-time">
-                                        <h3 id="min">00</h3>
-                                        <span>Min</span>
-                                    </div>
-                                    <div class="get-time">
-                                        <h3 id="sec">00</h3>
-                                        <span>Sec</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="col-xl-6">
-                    <div class="get-now__image mt-5 mt-xl-0">
-                        <div class="get-bg-image">
-                            <img src="client_ui/assets/images/bg/nen1.png" alt="image">
-                        </div>
-                        <div class="swiper get__slider">
-                            <div class="swiper-wrapper">
-                                @foreach($flash->images as $flimage)
-                                <div class="swiper-slide">
-                                    <div class="image">
-                                        <img src="{{$flimage->image_path}}" alt="image">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="get-time">
+                                            <h3 id="day">00</h3>
+                                            <span>Day</span>
+                                        </div>
+                                        <div class="get-time">
+                                            <h3 id="hour">00</h3>
+                                            <span>Hr</span>
+                                        </div>
+                                        <div class="get-time">
+                                            <h3 id="min">00</h3>
+                                            <span>Min</span>
+                                        </div>
+                                        <div class="get-time">
+                                            <h3 id="sec">00</h3>
+                                            <span>Sec</span>
+                                        </div>
                                     </div>
                                 </div>
-                                @endforeach
                             </div>
+                        @endforeach
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="get-now__image mt-5 mt-xl-0">
+                            <div class="get-bg-image">
+                                <img src="client_ui/assets/images/bg/nen1.png" alt="image">
+                            </div>
+                            <div class="swiper get__slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($flash->images as $flimage)
+                                        <div class="swiper-slide">
+                                            <div class="image">
+                                                <img src="{{ $flimage->image_path }}" alt="image">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <button class="get-now-arry get-now__arry-left">
+                                <i class="fa-light fa-chevron-left"></i>
+                            </button>
+                            <button class="get-now-arry get-now__arry-right text-warning">
+                                <i class="fa-light fa-chevron-right"></i>
+                            </button>
                         </div>
-                        <button class="get-now-arry get-now__arry-left">
-                            <i class="fa-light fa-chevron-left"></i>
-                        </button>
-                        <button class="get-now-arry get-now__arry-right text-warning">
-                            <i class="fa-light fa-chevron-right"></i>
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
     <!-- Get now area end here -->
-
     <!-- Text slider area start here -->
     <div class="container">
         <div class="bor-top pb-40"></div>
