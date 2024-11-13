@@ -48,7 +48,10 @@
                         <a href="{{ route('client.blog.index') }}">Bài Viết</a>
                     </li>
                     <li>
-                        <a href="#">Giới thiệu</a>
+                        <a href="{{$gioiThieuUrl}}">Giới thiệu</a>
+                    </li>
+                    <li>
+                        <a href="{{ $huongDanSizeUrl }}">Hướng dẫn</a>
                     </li>
                 </ul>
                 <div class="shipping__item d-none d-sm-flex align-items-center">
