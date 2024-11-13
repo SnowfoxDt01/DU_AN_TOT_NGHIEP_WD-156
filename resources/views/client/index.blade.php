@@ -83,9 +83,11 @@
                     <div class="col-lg-6">
                         <div class="view__item wow fadeInUp" data-wow-delay=".3s">
                             <div class="view__content">
-                                <h3><a class="primary-hover" href="{{ route('client.blog.detailBlog', $blog->id) }}">{{ $blog->title }}</a></h3>
+                                <h3><a class="primary-hover"
+                                        href="{{ route('client.blog.detailBlog', $blog->id) }}">{{ $blog->title }}</a></h3>
                                 <p>{!! $blog->description !!}</p>
-                                <a class="btn-two" href="{{ route('client.blog.detailBlog', $blog->id) }}"><span>Xem ngay</span></a>
+                                <a class="btn-two" href="{{ route('client.blog.detailBlog', $blog->id) }}"><span>Xem
+                                        ngay</span></a>
                             </div>
                             <div class="view__image">
                                 <img src="{{ $blog->image }}" alt="image">
@@ -116,11 +118,6 @@
                     <li class="nav-item wow fadeInUp" data-wow-delay=".2s">
                         <a href="#hot-product" data-bs-toggle="tab" class="nav-link px-4 bor-left bor-right">
                             Top 10 sản phẩm bán chạy
-                        </a>
-                    </li>
-                    <li class="nav-item wow fadeInUp" data-wow-delay=".3s">
-                        <a href="#top-rating" data-bs-toggle="tab" class="nav-link ps-4">
-                            Top 10 sản phẩm đánh giá cao nhất
                         </a>
                     </li>
                 </ul>
@@ -236,39 +233,6 @@
                         @endforeach
                     </div>
                 </div>
-                {{-- Top 10 sản phẩm đánh giá cao nhất --}}
-                <div id="top-rating" class="tab-pane fade">
-                    <div class="row g-4">
-                        <div class="col-xxl-3 col-xl-4 col-md-6">
-                            <div class="product__item bor">
-                                <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
-                                <a href="shop-single.html" class="product__image pt-20 d-block">
-                                    <img class="font-image" src="client_ui/assets/images/product/product-image1.png"
-                                        alt="image">
-                                    <img class="back-image" src="client_ui/assets/images/product/product-image3.png"
-                                        alt="image">
-                                </a>
-                                <div class="product__content">
-                                    <h4 class="mb-15"><a class="primary-hover" href="shop-single.html">Menthol
-                                            E-Cigarette Kit</a></h4>
-                                    <del>$74.50</del><span class="primary-color ml-10">$49.50</span>
-                                    <div class="star mt-20">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-
-                                </div>
-                                <a class="product__cart d-block bor-top"
-                                    href="{{ route('client.detailProduct', $new->id) }}"><i
-                                        class="fa-regular fa-cart-shopping primary-color me-1"></i>
-                                    <span>Chi tiết sản phẩm</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -281,52 +245,51 @@
                 <div class="col-xl-6">
                     <h4 class="mb-30 wow fadeInUp" data-wow-delay=".1s"><img src="client_ui/assets/images/icon/fire.svg"
                             alt="icon">
-                        GET <span class="primary-color">25% OFF</span> NOW</h4>
-                    <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".2s">
-                        <span class="title-icon mr-10"></span>
-                        <h2>latest arrival products</h2>
-                    </div>
-                    <div class="get-now__content">
-                        <div class="get-info py-4 wow fadeInUp" data-wow-delay=".2s">
-                            <del>$99.00</del> <span>$49.00</span>
+                        Nhận <span class="primary-color"> ưu đãi </span> ngay </h4>
+                    @foreach ($flash_sale_products as $flash)
+                        <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".2s">
+                            <span class="title-icon mr-10"></span>
+                            <h2>{{ $flash->name }}</h2>
                         </div>
-                        <p class="fw-600 wow fadeInUp" data-wow-delay=".3s">There are many variations of passages of
-                            Lorem Ipsum available, but <br>
-                            the
-                            majority have
-                            suffered alteration in some form,
-                            by injected humour, or randomised words which</p>
-                        <ul class="pt-30 pb-30 bor-bottom wow fadeInUp" data-wow-delay=".3s">
-                            <li>100% Natural</li>
-                            <li>Coupon $61.99, Code: W2</li>
-                            <li>30 Day Refund</li>
-                        </ul>
-                        <div class="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
-                            data-wow-delay=".4s">
-                            <div class="info">
-                                <h4>HUNGRY UP !</h4>
-                                <span>Offer end in :</span>
+                        <div class="get-now__content">
+                            <div class="get-info py-4 wow fadeInUp" data-wow-delay=".2s">
+                                @if ($flash->flash_sale_price == 0)
+                                    <span
+                                        class="primary-color ml-10">{{ number_format($flash->base_price) }}.đ</span>
+                                @else
+                                    <del>{{ number_format($flash->base_price) }}.đ</del>
+                                    <span
+                                        class="primary-color ml-10">{{ number_format($flash->flash_sale_price) }}.đ</span>
+                                @endif
                             </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <div class="get-time">
-                                    <h3 id="day">00</h3>
-                                    <span>Day</span>
+                            <p class="fw-600 wow fadeInUp" data-wow-delay=".3s">{!!$flash->description!!}</p>
+                            <div class="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
+                                data-wow-delay=".4s">
+                                <div class="info">
+                                    <h4>HUNGRY UP !</h4>
+                                    <span>Offer end in :</span>
                                 </div>
-                                <div class="get-time">
-                                    <h3 id="hour">00</h3>
-                                    <span>Hr</span>
-                                </div>
-                                <div class="get-time">
-                                    <h3 id="min">00</h3>
-                                    <span>Min</span>
-                                </div>
-                                <div class="get-time">
-                                    <h3 id="sec">00</h3>
-                                    <span>Sec</span>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="get-time">
+                                        <h3 id="day">00</h3>
+                                        <span>Day</span>
+                                    </div>
+                                    <div class="get-time">
+                                        <h3 id="hour">00</h3>
+                                        <span>Hr</span>
+                                    </div>
+                                    <div class="get-time">
+                                        <h3 id="min">00</h3>
+                                        <span>Min</span>
+                                    </div>
+                                    <div class="get-time">
+                                        <h3 id="sec">00</h3>
+                                        <span>Sec</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="col-xl-6">
                     <div class="get-now__image mt-5 mt-xl-0">
@@ -335,16 +298,13 @@
                         </div>
                         <div class="swiper get__slider">
                             <div class="swiper-wrapper">
+                                @foreach($flash->images as $flimage)
                                 <div class="swiper-slide">
                                     <div class="image">
-                                        <img src="client_ui/assets/images/shop/test3.png" alt="image">
+                                        <img src="{{$flimage->image_path}}" alt="image">
                                     </div>
                                 </div>
-                                <div class="swiper-slide">
-                                    <div class="image">
-                                        <img src="client_ui/assets/images/shop/flashsale4.png" alt="image">
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                         <button class="get-now-arry get-now__arry-left">

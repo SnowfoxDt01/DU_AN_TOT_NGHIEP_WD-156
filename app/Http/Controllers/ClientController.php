@@ -24,8 +24,9 @@ class ClientController extends Controller
             ->take(10)
             ->get();
         $sale_products = Product::where('sale_price', '<>', 0)->get();
+        $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
         $blogs = Blog::limit(4)->get();
-        return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'banners','blogs'));
+        return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'flash_sale_products', 'banners','blogs'));
     }
 
     public function myAccount(){
