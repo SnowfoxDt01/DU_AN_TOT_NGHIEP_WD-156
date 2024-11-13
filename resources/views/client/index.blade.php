@@ -83,9 +83,9 @@
                     <div class="col-lg-6">
                         <div class="view__item wow fadeInUp" data-wow-delay=".3s">
                             <div class="view__content">
-                                <h3><a class="primary-hover" href="shop-single.html">{{ $blog->title }}</a></h3>
+                                <h3><a class="primary-hover" href="{{ route('client.blog.detailBlog', $blog->id) }}">{{ $blog->title }}</a></h3>
                                 <p>{!! $blog->description !!}</p>
-                                <a class="btn-two" href="shop-single.html"><span>Shop Now</span></a>
+                                <a class="btn-two" href="{{ route('client.blog.detailBlog', $blog->id) }}"><span>Xem ngay</span></a>
                             </div>
                             <div class="view__image">
                                 <img src="{{ $blog->image }}" alt="image">
