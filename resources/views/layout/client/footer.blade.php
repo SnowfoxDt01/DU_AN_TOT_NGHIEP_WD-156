@@ -29,7 +29,7 @@
                         <h4 class="footer-title">HỖ TRỢ KHÁCH HÀNG</h4>
                         <ul>
                             <li><a href="about.html"><span></span>Hướng dẫn đặt hàng</a></li>
-                            <li><a href="blog-grid.html"><span></span>Hướng dẫn chọn size</a></li>
+                            <li><a href="{{ route('client.blog.detailBlog', 16) }}"><span></span>Hướng dẫn chọn size</a></li>
                             <li><a href="cart.html"><span></span>Thanh toán - Giao hàng</a></li>
                             <li><a href="error.html"><span></span>Chính sách bảo mật</a></li>
                             <li><a href="contact.html"><span></span>Câu hỏi thường gặp</a></li>

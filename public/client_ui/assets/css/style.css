@@ -5687,3 +5687,15 @@ h3 a {
   height: 320px;
   object-fit: cover;
 }
+
+.ck-content table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.ck-content th,
+.ck-content td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}

@@ -56,7 +56,7 @@ class ClientController extends Controller
     }
     
     public function blogList() {
-        $blogs = Blog::paginate(9);
+        $blogs = Blog::orderBy('created_at', 'desc')->paginate(9);
         return view('client.page.bloglist', compact('blogs'));
     }
 
