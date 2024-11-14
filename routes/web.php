@@ -21,7 +21,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\VoucherController;
 
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 
@@ -144,6 +144,8 @@ Route::group([
     Route::resource('categories', CategoryController::class);
 
     Route::resource('customers', CustomerController::class);
+
+    Route::resource('vouchers', VoucherController::class);
 });
 
 Route::group([
@@ -201,6 +203,8 @@ Route::group([
         Route::get('/', [CheckoutController::class, 'index'])->name('index');
 
         Route::post('/process', [CheckoutController::class, 'process'])->name('process');
+
+        Route::post('/apply-voucher', [CheckoutController::class, 'applyVoucher'])->name('applyVoucher');
     });
 });
 
