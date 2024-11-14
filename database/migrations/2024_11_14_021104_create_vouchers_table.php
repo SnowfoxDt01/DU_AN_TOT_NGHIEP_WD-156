@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vouchers', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedInteger('id', true);
             $table->string('code')->unique();
             $table->decimal('discount', 8, 2);
             $table->enum('discount_type', ['fixed', 'percentage'])->default('fixed');
-            $table->date('expiry_date');
+            $table->date('expiry_date')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->integer('usage_limit')->nullable()->default(null);
+            $table->integer('usage_count')->default(0);
             $table->timestamps();
         });
     }

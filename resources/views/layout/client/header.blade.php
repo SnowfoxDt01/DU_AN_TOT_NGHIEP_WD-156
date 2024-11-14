@@ -45,6 +45,9 @@
                         <a href="{{ route('client.shop') }}">Sản phẩm</a>
                     </li>
                     <li>
+                        <a href="">Mã ưu đãi</a>
+                    </li>
+                    <li>
                         <a href="{{ route('client.blog.index') }}">Bài Viết</a>
                     </li>
                     <li>
