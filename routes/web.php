@@ -168,6 +168,8 @@ Route::group([
 
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
 
+    Route::get('/voucherList', [ClientController::class, 'voucherList'])->name('voucherList');
+
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
