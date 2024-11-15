@@ -14,22 +14,22 @@ class ProfileController extends Controller
     }
 
     public function updateProfile(Request $request)
-{
-    $customer = Auth::user()->customer; 
-    // Validate dữ liệu
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:15',
-        'address' => 'required|string|max:255',
-    ]);
+    {
+        $customer = Auth::user()->customer; 
+        // Validate dữ liệu
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+        ]);
 
 
-    $customer->update($request->only('name', 'phone', 'address'));
+        $customer->update($request->only('name', 'phone', 'address'));
 
-    return redirect()->route('client.checkout.index')->with([
-        'success' => true,
-        'customer' => $customer,
-    ]);
-}
+        return redirect()->route('client.checkout.index')->with([
+            'success' => true,
+            'customer' => $customer,
+        ]);
+    }
 
 }

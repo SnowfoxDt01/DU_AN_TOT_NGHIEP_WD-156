@@ -168,9 +168,18 @@ Route::group([
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    
 
-    Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+
+    Route::group([
+        'prefix' => 'profile',
+        'as' => 'profile.',
+    ], function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('profile');
+
+        Route::put('/update', [ProfileController::class, 'updateProfile'])->name('update'); 
+        
+    });
 
     Route::group([
         'prefix' => 'blog',
@@ -199,6 +208,8 @@ Route::group([
         'as' => 'checkout.',
     ], function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('index');
+
+        Route::post('/', [CheckoutController::class, 'index'])->name('index');
 
         Route::post('/process', [CheckoutController::class, 'process'])->name('process');
     });

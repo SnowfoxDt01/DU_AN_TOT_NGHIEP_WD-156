@@ -42,8 +42,7 @@
                 </div>
                 @endif
                 <hr>
-                <div
-                    class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
+                <div class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
                     <label class="product-details">Sản phẩm</label>
                     <label class="product-color">Màu</label>
                     <label class="product-size">Kích cỡ</label>
@@ -94,7 +93,7 @@
                         {{ number_format($totalPrice, 0, ',', '.') }}
                     </div>
                     <div class="product-removal">
-                        <form action="{{ route('client.cart.remove', $item->id) }}" method="POST">
+                        <form action="{{ route('client.cart.remove', $item->id) }}" method="POST" onsubmit="return confirmDelete()">
                             @csrf
                             @method('DELETE')
                             <button type="submit">
@@ -180,6 +179,10 @@
             });
         });
     });
+
+    function confirmDelete() {
+        return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
+    }
 </script>
 
 
