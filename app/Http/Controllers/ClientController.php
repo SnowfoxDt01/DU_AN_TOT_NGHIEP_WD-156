@@ -6,10 +6,12 @@ use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ShopOrder;
 use App\Models\ShopOrderItem;
 use App\Models\Size;
 use App\Models\Voucher;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
@@ -33,7 +35,13 @@ class ClientController extends Controller
 
     public function myAccount()
     {
-        return view('client.account.myaccount');
+        $user = Auth::user();
+        $orders = ShopOrder::where('user_id', $user->id)
+            ->with('items.product.images')
+            ->orderBy('date_order', 'desc')
+            ->paginate(5);
+
+        return view('client.account.myaccount', compact('user','orders'));
     }
 
     public function detailProduct(string $id)

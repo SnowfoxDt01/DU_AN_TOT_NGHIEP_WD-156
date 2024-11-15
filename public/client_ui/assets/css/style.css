@@ -5703,3 +5703,8 @@ h3 a {
   border: 1px solid #ddd;
   padding: 8px;
 }
+
+.nav-tabs .nav-link.active {
+  background-color: #ff4d00;
+  color: white;
+}
