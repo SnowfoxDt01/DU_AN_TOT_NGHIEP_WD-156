@@ -49,12 +49,14 @@ class CheckoutController extends Controller
             if ($userHasUsedVoucher) {
                 return response()->json(['error' => 'Bạn đã sử dụng mã này rồi.'], 400);
             }
+            //Check số lượng sử dụng tối đa của mã
             if ($voucher->usage_limit !== null && $voucher->usage_count <= $voucher->usage_limit) {
                 $voucher->increment('usage_count');
             }
             if ($voucher->usage_count > $voucher->usage_limit) {
                 return response()->json(['error' => 'Mã giảm giá đã hết lượt sử dụng.'], 400);
             }
+            //Khai báo số tiền tổng trước và sau khi áp mã và khai báo số phần atrawm được giảm
             $totalAmount = $request->total_amount;
             $finalAmount = $totalAmount;
             $discountType = $voucher->discount_type;

@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ShopOrderItem;
 use App\Models\Size;
+use App\Models\Voucher;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
@@ -26,10 +28,11 @@ class ClientController extends Controller
         $sale_products = Product::where('sale_price', '<>', 0)->get();
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
         $blogs = Blog::limit(4)->get();
-        return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'flash_sale_products', 'banners','blogs'));
+        return view('client.index', compact('categories', 'newProducts', 'topProducts', 'sale_products', 'flash_sale_products', 'banners', 'blogs'));
     }
 
-    public function myAccount(){
+    public function myAccount()
+    {
         return view('client.account.myaccount');
     }
 
@@ -41,29 +44,51 @@ class ClientController extends Controller
         $totalReviews = $detailProduct->reviews->count();
 
         $averageRating = $totalReviews > 0 ? $detailProduct->reviews->avg('rating') : 0;
-        return view('client.detail-product', compact('detailProduct', 'totalReviews','sizes', 'averageRating'));
+        return view('client.detail-product', compact('detailProduct', 'totalReviews', 'sizes', 'averageRating'));
     }
 
-    public function shopProducts() {
+    public function shopProducts()
+    {
         $products = Product::paginate(9);
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
-        return view('client.products.shop', compact('products','flash_sale_products'));
+        return view('client.products.shop', compact('products', 'flash_sale_products'));
     }
 
-    public function productsOfCategory($id){
-        $category = Category::where('id',$id)->first();
-        $productsOfCategory = Product::where('product_category_id',$id)->paginate(9);
-        return view('client.categories.show', compact('productsOfCategory','category'));
+    public function productsOfCategory($id)
+    {
+        $category = Category::where('id', $id)->first();
+        $productsOfCategory = Product::where('product_category_id', $id)->paginate(9);
+        return view('client.categories.show', compact('productsOfCategory', 'category'));
     }
-    
-    public function blogList() {
+
+    public function blogList()
+    {
         $blogs = Blog::orderBy('created_at', 'desc')->paginate(9);
         return view('client.page.bloglist', compact('blogs'));
     }
 
-    public function detailBlog($id){
+    public function detailBlog($id)
+    {
         $blog = Blog::findOrFail($id);
         $blogs = Blog::limit(4)->get();
-        return view('client.page.blogDetail', compact('blog','blogs'));
+        return view('client.page.blogDetail', compact('blog', 'blogs'));
+    }
+
+    public function voucherList()
+    {
+        $vouchers = Voucher::where(function ($query) {
+            $query->whereNull('expiry_date')
+                ->orWhere('expiry_date', '>=', Carbon::now());
+        })
+        ->where(function ($query) {
+            $query->whereNull('usage_limit')
+                ->orWhereColumn('usage_count', '<', 'usage_limit');
+        })
+        ->where(function ($query) {
+            $query->where('status','active');
+        })
+        ->paginate(9);
+        
+        return view('client.page.voucherList', compact('vouchers'));
     }
 }
