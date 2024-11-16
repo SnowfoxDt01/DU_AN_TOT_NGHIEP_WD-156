@@ -15,6 +15,7 @@ class Product extends Model
         'name',
         'description',
         'base_price',
+        'flash_sale_price',
         'sale_price',
         'image',
         'quantity',

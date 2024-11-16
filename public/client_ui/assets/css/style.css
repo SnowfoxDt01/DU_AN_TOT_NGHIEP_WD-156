@@ -1567,7 +1567,11 @@ input {
 }
 
 .fw-600 {
-  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lightPara-color {
@@ -5701,4 +5705,9 @@ h3 a {
 .ck-content td {
   border: 1px solid #ddd;
   padding: 8px;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #ff4d00;
+  color: white;
 }

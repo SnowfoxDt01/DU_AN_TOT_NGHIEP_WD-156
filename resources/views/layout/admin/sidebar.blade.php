@@ -29,14 +29,14 @@
                 </a>
             </li>
             @role('super-admin')
-            <li class="nav">
-                <a href="{{ route('role-permission.index') }}" class="nav-link">
-                    <i class="nav-icon bi bi-grid-3x3"></i>
-                    <p>
-                        Bảng phân quyền
-                    </p>
-                </a>
-            </li>
+                <li class="nav">
+                    <a href="{{ route('role-permission.index') }}" class="nav-link">
+                        <i class="nav-icon bi bi-grid-3x3"></i>
+                        <p>
+                            Bảng phân quyền
+                        </p>
+                    </a>
+                </li>
             @endrole
             <li class="nav-item">
                 <a href="{{ route('admin.categories.index') }}" class="nav-link">
@@ -77,8 +77,14 @@
                 </a>
             </li>
             </li>
-        
-            
+            <li class="nav">
+                <a href="{{route('admin.vouchers.index')}}" class="nav-link">
+                    <i class="bi bi-ticket-perforated"></i>
+                    <p>
+                        Quản lí mã giảm giá
+                    </p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('admin.orders.index') }}" class="nav-link">
                     <i class="nav-icon bi bi-receipt"></i>
@@ -99,7 +105,7 @@
                 <a href="{{ route('admin.banners.index') }}" class="nav-link">
                     <i class="nav-icon fa-regular fa-image"></i>
                     <p>
-                        Banner 
+                        Banner
                     </p>
                 </a>
             </li>

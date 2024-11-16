@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ShopOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserControler extends Controller
 {
@@ -86,5 +88,24 @@ class UserControler extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function checkChangePassWord(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'current_password' => ['required', function ($attr, $value, $fail) use ($user) {
+                if (!Hash::check($value, $user->password)) {
+                    $fail('Mật khẩu hiện tại không đúng! Vui lòng nhập lại.');
+                }
+            }],
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        $user->update(['password' => bcrypt($request->new_password)]);
+
+        return redirect()->route('client.myaccount.myAccount')->with('success', 'Mật khẩu đã được thay đổi thành công.');
     }
 }

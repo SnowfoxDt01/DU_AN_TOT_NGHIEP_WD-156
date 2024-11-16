@@ -35,7 +35,7 @@
                         @foreach ($flash_sale_products as $flash)
                             <div class="image pt-40 mb-30 bor-top mt-40">
                                 @if ($flash->images->count() > 0)
-                                    <img src="{{ $flash->image }}" alt="image">
+                                    <img src="{{ $flash->images->first()->image_path }}" alt="image">
                                 @else
                                     <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail"
                                         width="100">

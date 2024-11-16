@@ -45,6 +45,9 @@
                         <a href="{{ route('client.shop') }}">Sản phẩm</a>
                     </li>
                     <li>
+                        <a href="{{route('client.voucherList')}}">Mã ưu đãi</a>
+                    </li>
+                    <li>
                         <a href="{{ route('client.blog.index') }}">Bài Viết</a>
                     </li>
                     <li>
@@ -65,7 +68,7 @@
                     </div>
                     @if (Auth::check())
                         <div class="d-flex align-items-center">
-                            <a href="{{ route('client.myAccount') }}" style="color: orangered; margin-right: 10px;">
+                            <a href="{{ route('client.myaccount.myAccount') }}" style="color: orangered; margin-right: 10px;">
                                 <i class="bi bi-person-fill-check" style="font-size: 25px"></i>
                                 {{ Auth::user()->name }} |</a>
                             <a href="{{ route('client.logout') }}" style="color: orangered">Đăng Xuất</a>

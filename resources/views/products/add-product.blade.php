@@ -62,15 +62,20 @@
                                 placeholder="Tên sản phẩm" value="{{ old('nameSP') }}" required>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="priceSP">Giá</label>
                                 <input type="number" class="form-control" id="priceSP" name="priceSP"
                                     placeholder="Giá sản phẩm" value="{{ old('priceSP') }}" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="sale_price">Giá khuyến mãi</label>
                                 <input type="number" class="form-control" id="sale_price" name="sale_price"
                                     value="{{ old('sale_price') }}" placeholder="Giá khuyến mãi">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="flash_sale_price">Giá siêu khuyến mãi</label>
+                                <input type="number" class="form-control" id="flash_sale_price" name="flash_sale_price"
+                                    value="{{ old('flash_sale_price') }}" placeholder="Giá siêu khuyến mãi">
                             </div>
                         </div>
                         <div class="form-group">

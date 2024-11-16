@@ -21,7 +21,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\VoucherController;
 
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 
@@ -144,6 +144,8 @@ Route::group([
     Route::resource('categories', CategoryController::class);
 
     Route::resource('customers', CustomerController::class);
+
+    Route::resource('vouchers', VoucherController::class);
 });
 
 Route::group([
@@ -158,7 +160,7 @@ Route::group([
 
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-    Route::get('/myaccount', [ClientController::class, 'myAccount'])->name('myAccount');
+    
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -166,7 +168,19 @@ Route::group([
 
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
 
+    Route::get('/voucherList', [ClientController::class, 'voucherList'])->name('voucherList');
+
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
+
+    Route::group([
+        'prefix' => 'myaccount',
+        'as' => 'myaccount.',
+    ], function () {
+        Route::get('/', [ClientController::class, 'myAccount'])->name('myAccount');
+
+        Route::post('/change-password', [UserControler::class, 'checkChangePassWord'])->name('checkChangePassWord');
+    
+    });
 
     
 
@@ -179,6 +193,8 @@ Route::group([
 
         Route::put('/update', [ProfileController::class, 'updateProfile'])->name('update'); 
         
+        Route::post('/store', [ProfileController::class, 'store'])->name('store');
+
     });
 
     Route::group([
@@ -212,6 +228,8 @@ Route::group([
         Route::post('/', [CheckoutController::class, 'index'])->name('index');
 
         Route::post('/process', [CheckoutController::class, 'process'])->name('process');
+
+        Route::post('/apply-voucher', [CheckoutController::class, 'applyVoucher'])->name('applyVoucher');
     });
 });
 

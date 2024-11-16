@@ -57,6 +57,12 @@
                 <div class="col-xl-8 col-lg-8">
                     <div class="tab-content" id="accountTabsContent">
                         <!-- Account Tab Content -->
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                         <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
                             <p style="text-align: center;">
                                 <i class="bi bi-person-circle" style="font-size: 50px;"></i>
@@ -64,34 +70,41 @@
                             <p style="text-align: center;">
                                 {{ Auth::user()->name }}
                             </p>
+                            
                             <hr>
-                            <div class="row">
-                                <div>
-                                    <p><strong>Họ và Tên : </strong> {{ Auth::user()->customer->first()->name }}</p>
+                            @if (Auth::user()->customer)
+                                <div class="row">
+                                    <div>
+                                        <p><strong>Họ và Tên : </strong> {{ Auth::user()->customer->first()->name }}</p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <p><strong>Email : </strong> {{ Auth::user()->customer->first()->email }}</p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <p><strong>Số điện thoại :</strong> {{ Auth::user()->customer->first()->phone }}</p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <p><strong>Địa chỉ : </strong> {{ Auth::user()->customer->first()->address }}</p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <p> <strong>Ngày tham gia : </strong>
+                                            {{ Auth::user()->created_at->format('d/m/Y') }}
+                                        </p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <p><strong>Tổng số đơn hàng đã đặt: </strong> {{ Auth::user()->orders()->count() }}
+                                        </p>
+                                    </div>
+                                    <hr>
                                 </div>
-                                <hr>
-                                <div>
-                                    <p><strong>Email : </strong> {{ Auth::user()->customer->first()->email }}</p>
-                                </div>
-                                <hr>
-                                <div>
-                                    <p><strong>Số điện thoại :</strong> {{ Auth::user()->customer->first()->phone }}</p>
-                                </div>
-                                <hr>
-                                <div>
-                                    <p><strong>Địa chỉ : </strong> {{ Auth::user()->customer->first()->address }}</p>
-                                </div>
-                                <hr>
-                                <div>
-                                    <p> <strong>Ngày tham gia : </strong> {{ Auth::user()->created_at->format('d/m/Y') }}
-                                    </p>
-                                </div>
-                                <hr>
-                                <div>
-                                    <p><strong>Tổng số đơn hàng đã đặt: </strong> {{ Auth::user()->orders()->count() }}</p>
-                                </div>
-                                <hr>
-                            </div>
+                            @else
+                                <p>Không có thông tin.</p>
+                            @endif
                         </div>
                         <!-- Warranty Tab Content -->
                         <div class="tab-pane fade" id="warranty" role="tabpanel" aria-labelledby="warranty-tab">
@@ -100,109 +113,179 @@
                         </div>
                         <!-- Order History Tab Content -->
                         <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
-                            <h4>Lịch Sử Mua Hàng</h4>
+                            <h4>Lịch Sử Mua Hàng của: {{ Auth::user()->name }}</h4>
                             <hr>
-                            <!-- Order History Content -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <span>1 Đơn Hàng | 3M Tổng Tiền Tích Lũy</span>
-                            </div>
-
                             <div class="d-flex mb-4">
-                                <input type="date" class="form-control me-2" placeholder="Từ ngày" value="2020-12-01">
-                                <input type="date" class="form-control" placeholder="Đến ngày" value="2024-11-06">
+                                <input type="date" style="background-color: black; color: #fff" class="form-control me-2" placeholder="Từ ngày" value="2020-12-01">
+                                <input type="date" style="background-color: black; color: #fff" class="form-control" placeholder="Đến ngày" value="2024-11-06">
                             </div>
-
                             <div class="mb-4">
-                                <button class="btn btn-outline-secondary me-2">Tất cả</button>
-                                <button class="btn btn-outline-secondary me-2">Chờ xác nhận</button>
-                                <button class="btn btn-outline-secondary me-2">Đã xác nhận</button>
-                                <button class="btn btn-outline-secondary me-2">Đang vận chuyển</button>
-                                <button class="btn btn-danger me-2">Đã giao hàng</button>
-                                <button class="btn btn-outline-secondary">Đã hủy</button>
-                            </div>
+                                <!-- Tabs -->
+                                <ul class="nav nav-tabs" id="orderTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="all-tab" data-bs-toggle="tab"
+                                            data-bs-target="#all" type="button" role="tab" aria-controls="all"
+                                            aria-selected="true" style="color: #fff"><span>Tất cả</span></button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pending-tab" data-bs-toggle="tab"
+                                            data-bs-target="#pending" type="button" role="tab"
+                                            aria-controls="pending" style="color: #fff" aria-selected="false"><span>Chờ xác
+                                                nhận</span></button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" style="color: #fff" id="confirmed-tab"
+                                            data-bs-toggle="tab" data-bs-target="#confirmed" type="button"
+                                            role="tab" aria-controls="confirmed" aria-selected="false"><span>Đã xác
+                                                nhận</span></button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" style="color: #fff" id="shipping-tab"
+                                            data-bs-toggle="tab" data-bs-target="#shipping" type="button"
+                                            role="tab" aria-controls="shipping" aria-selected="false"><span>Đang vận
+                                                chuyển</span></button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" style="color: #fff" id="delivered-tab"
+                                            data-bs-toggle="tab" data-bs-target="#delivered" type="button"
+                                            role="tab" aria-controls="delivered" aria-selected="false"><span>Đã giao
+                                                hàng</span></button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" style="color: #fff" id="cancelled-tab"
+                                            data-bs-toggle="tab" data-bs-target="#cancelled" type="button"
+                                            role="tab" aria-controls="cancelled" aria-selected="false"><span>Đã
+                                                hủy</span></button>
+                                    </li>
+                                </ul>
 
-                            <!-- Order Item -->
-                            <div class="card mb-3">
-                                <div class="card-body d-flex align-items-center">
-                                    <img src="client_ui/assets/images/product-placeholder.png" alt="Hình Ảnh Sản Phẩm"
-                                        class="me-3" style="width: 80px;">
-                                    <div class="flex-grow-1">
-                                        <h5 class="mb-1">Màn Hình Gaming E-DRA EGM27F100 27 Inch</h5>
-                                        <p class="mb-0">Và 1 Sản Phẩm Khác <span class="badge bg-danger">Đã Xuất
-                                                VAT</span></p>
-                                    </div>
-                                    <div class="text-end">
-                                        <div>2,739,000₫</div>
-                                        <div class="mt-2">
-                                            <a href="#" class="text-secondary me-2">Xem Hóa Đơn</a>
-                                            <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                <!-- Tab Contents -->
+                                <div class="tab-content mt-3" id="orderTabContent">
+                                    <!-- All Orders -->
+                                    <div class="tab-pane fade show active" id="all" role="tabpanel"
+                                        aria-labelledby="all-tab">
+                                        <div class="card mb-3">
+                                            @if ($orders->isEmpty())
+                                                <p>Không có đơn hàng nào.</p>
+                                            @else
+                                                @foreach ($orders as $order)
+                                                    <div class="card-body d-flex align-items-center"
+                                                        style="background-color: black ;color: white;">
+                                                        <img src="{{$order->items->first()->product->images->first()->image_path}}"
+                                                            alt="Hình Ảnh Sản Phẩm" class="me-3" style="width: 80px;">
+                                                        <div class="flex-grow-1">
+                                                            @if ($order->items->isNotEmpty())
+                                                                <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
+                                                                <h5 class="mb-1 text-truncate" style="max-width: 300px;">
+                                                                    {{ $order->items->first()->product->name }}
+                                                                </h5>
+                                                                <!-- Hiển thị số sản phẩm còn lại trong đơn hàng -->
+                                                                @php
+                                                                    $remainingItemsCount = $order->items->count() - 1;
+                                                                @endphp
+                                                                @if ($remainingItemsCount > 0)
+                                                                <small>
+                                                                    Và {{ $remainingItemsCount }} sản
+                                                                        phẩm khác
+                                                                </small>
+                                                                @endif
+                                                                <p>
+                                                                    Trạng thái: 
+                                                                    {{ App\Enums\OrderStatus::getDescription($order->order_status) }}
+                                                                </p>
+                                                            @else
+                                                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>
+                                                                {{ number_format($order->items->sum(function ($item) { 
+                                                                    // Lấy giá từ bảng product
+                                                                    $product = $item->product;
+                                                                    $price = $product->sale_price ? $product->sale_price : $product->base_price;
+                                                                    return $item->quantity * $price;
+                                                                }), 0, ',', '.') }} VND
+                                                            </div>
+                                                            <div class="mt-4 d-flex">
+                                                                <a href="#" class="text-secondary me-2">Xem Hóa Đơn</a>
+                                                                <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         </div>
+                                    </div>
+
+                                    <!-- Pending Orders -->
+                                    <div class="tab-pane fade" id="pending" role="tabpanel"
+                                        aria-labelledby="pending-tab">
+                                        <p>Chờ xác nhận - Hiển thị các đơn hàng ở trạng thái "Chờ xác nhận".</p>
+                                    </div>
+
+                                    <!-- Confirmed Orders -->
+                                    <div class="tab-pane fade" id="confirmed" role="tabpanel"
+                                        aria-labelledby="confirmed-tab">
+                                        <p>Đã xác nhận - Hiển thị các đơn hàng ở trạng thái "Đã xác nhận".</p>
+                                    </div>
+
+                                    <!-- Shipping Orders -->
+                                    <div class="tab-pane fade" id="shipping" role="tabpanel"
+                                        aria-labelledby="shipping-tab">
+                                        <p>Đang vận chuyển - Hiển thị các đơn hàng ở trạng thái "Đang vận chuyển".</p>
+                                    </div>
+
+                                    <!-- Delivered Orders -->
+                                    <div class="tab-pane fade" id="delivered" role="tabpanel"
+                                        aria-labelledby="delivered-tab">
+                                        <p>Đã giao hàng - Hiển thị các đơn hàng ở trạng thái "Đã giao hàng".</p>
+                                    </div>
+
+                                    <!-- Cancelled Orders -->
+                                    <div class="tab-pane fade" id="cancelled" role="tabpanel"
+                                        aria-labelledby="cancelled-tab">
+                                        <p>Đã hủy - Hiển thị các đơn hàng ở trạng thái "Đã hủy".</p>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <!-- Update Info Tab Content -->
                         <div class="tab-pane fade" id="update-info" role="tabpanel" aria-labelledby="update-info-tab">
                             <div class="col-lg-12">
-
                                 <div class="checkout__item-left sub-bg">
-                                    <h3 class="mb-40">Thay đổi thông tin</h3>
-                                    <form action="">
+                                    <h3 class="mb-40">Thay đổi mật khẩu</h3>
+                                    <form action="{{ route('client.myaccount.checkChangePassWord')  }}" method="POST">
+                                        @csrf
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <label class="mb-10" for="name">Họ *</label>
-                                                <input class="mb-20" id="name" type="text">
+                                            <div class="col-md-12">
+                                                <label class="mb-10" for="current-password">Mật khẩu hiện tại *</label>
+                                                <input class="mb-20" id="current-password" name="current_password" type="password" required>
+                                                @error('current-password')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="mb-10" for="name">Tên *</label>
-                                                <input class="mb-20" id="name" type="text">
+                                            <div class="col-md-12">
+                                                <label class="mb-10" for="new-password">Mật khẩu mới *</label>
+                                                <input class="mb-20" id="new-password" name="new_password" type="password" required>
+                                                @error('new-password')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="mb-10" for="email">Email *</label>
-                                                <input class="mb-20" id="email" type="email">
+                                            <div class="col-md-12">
+                                                <label class="mb-10" for="confirm-password">Xác nhận mật khẩu mới *</label>
+                                                <input class="mb-20" id="confirm-password" name="confirm_password" type="password" required>
+                                                @error('confirm-password')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="mb-10" for="phone">Số điện thoại *</label>
-                                                <input class="mb-20" id="phone" type="text">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h5 class="mb-10">Chọn tỉnh / Thành phố *</h5>
-                                                <select class="mb-20" name="subject">
-                                                    <option value="0">United state america</option>
-                                                    <option value="1">United Kingdom</option>
-                                                    <option value="2">Australia</option>
-                                                    <option value="3">Germany</option>
-                                                    <option value="4">France</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h5 class="mb-10">Chọn Quận / Huyện *</h5>
-                                                <select class="mb-20" name="subject">
-                                                    <option value="0">United state america</option>
-                                                    <option value="1">United Kingdom</option>
-                                                    <option value="2">Australia</option>
-                                                    <option value="3">Germany</option>
-                                                    <option value="4">France</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h5 class="mb-10">Chọn Phường / Xã *</h5>
-                                                <select class="mb-20" name="subject">
-                                                    <option value="0">United state america</option>
-                                                    <option value="1">United Kingdom</option>
-                                                    <option value="2">Australia</option>
-                                                    <option value="3">Germany</option>
-                                                    <option value="4">France</option>
-                                                </select>
-                                            </div>
-                                            <label class="mb-10" for="streetAddress">Địa chỉ cụ thể *</label>
-                                            <input class="mb-20" id="streetAddress2" type="text">
                                         </div>
-                                        <button type="submit"  class="btn-one mt-35">Xác nhận thay đổi</button>
+                                        <button type="submit" class="btn-one mt-35">Xác nhận thay đổi</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Support Tab Content -->
                         <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
                             <h4>Hỗ trợ</h4>
