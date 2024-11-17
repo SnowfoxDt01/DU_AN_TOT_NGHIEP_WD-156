@@ -16,6 +16,7 @@ final class PaymentMethod extends Enum
     const CASH = 'cash';
     const CARD = 'card';
     const PAYPAL = 'paypal';
+    const VNPAY = 'vnpay';
 
     public static function getDescription($value): string
     {
@@ -26,6 +27,8 @@ final class PaymentMethod extends Enum
                 return 'Thẻ tín dụng';
             case self::PAYPAL:
                 return 'PayPal';
+                case self::VNPAY:
+                    return 'Ví VnPay';
             default:
                 return self::getKey($value);
         }

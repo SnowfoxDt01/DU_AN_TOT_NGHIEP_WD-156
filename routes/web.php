@@ -172,6 +172,9 @@ Route::group([
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
+    Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
+
+
     Route::group([
         'prefix' => 'myaccount',
         'as' => 'myaccount.',
@@ -230,6 +233,10 @@ Route::group([
         Route::post('/process', [CheckoutController::class, 'process'])->name('process');
 
         Route::post('/apply-voucher', [CheckoutController::class, 'applyVoucher'])->name('applyVoucher');
+
+        Route::post('/vnpay_payment', [CheckoutController::class, 'redirectToVnpay'])->name('redirectToVnpay');
+
+        
     });
 });
 

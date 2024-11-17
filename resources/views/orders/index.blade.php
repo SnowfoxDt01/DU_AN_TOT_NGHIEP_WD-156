@@ -94,9 +94,7 @@
                     <td>{{ $order->customer->phone }}</td>
                     <td>{{ $order->customer->email }}</td>
                     <td>
-                        {{ number_format($order->items->sum(function ($item) {
-                            return $item->product->sale_price * $item->quantity;
-                        }), 0, ',', '.') }} VNĐ
+                        {{ number_format($order->total_price, 0, ',', '.') }} VNĐ
                     </td>
                     <td>{{ $order->date_order->format('d/m/Y') }}</td>
                     <td>{{ App\Enums\OrderStatus::getDescription($order->order_status) }}</td>

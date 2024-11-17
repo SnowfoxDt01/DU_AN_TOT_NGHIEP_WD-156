@@ -193,8 +193,8 @@
                         </div>
 
                         <div class="payment-option">
-                            <button type="button" class="d-block text-center btn-two mt-10 px-2 py-2" id="wallet-btn">
-                            <span>Thanh toán bằng ví </span>
+                            <button type="button" class="d-block text-center btn-two mt-10 px-2 py-2" id="vnpay-btn">
+                            <span>Thanh toán bằng VnPay </span>
                             </button>
                         </div>
                     </div>
@@ -216,21 +216,21 @@
 <script>
     document.getElementById('cod-btn').addEventListener('click', function() {
         document.getElementById('cod-btn').classList.add('selected');
-        document.getElementById('wallet-btn').classList.remove('selected');
-        document.getElementById('payment-method-input').value = 'cash'; // Thêm dòng này
+        document.getElementById('vnpay-btn').classList.remove('selected');
+        document.getElementById('payment-method-input').value = 'cash'; 
     });
 
-    document.getElementById('wallet-btn').addEventListener('click', function() {
-        document.getElementById('wallet-btn').classList.add('selected');
+    document.getElementById('vnpay-btn').addEventListener('click', function() {
+        document.getElementById('vnpay-btn').classList.add('selected');
         document.getElementById('cod-btn').classList.remove('selected');
-        document.getElementById('payment-method-input').value = 'wallet'; // Thêm dòng này
+        document.getElementById('payment-method-input').value = 'vnpay'; 
     });
 
-        document.getElementById('edit-info-btn').addEventListener('click', function() {
-            document.getElementById('user-info-display').style.display = 'none';
-            document.getElementById('edit-form').style.display = 'block';
-        });
-    </script>
+    document.getElementById('edit-info-btn').addEventListener('click', function() {
+        document.getElementById('user-info-display').style.display = 'none';
+        document.getElementById('edit-form').style.display = 'block';
+    });
+</script>
 @endsection
 @push('scripts')
     <script>
