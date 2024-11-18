@@ -171,6 +171,8 @@ Route::group([
 
     Route::post('/order/{order}/cancel', [ClientController::class, 'cancelOrder'])->name('order.cancel');
 
+    Route::get('/orders/{order}', [ClientController::class, 'orderDetail'])->name('order.detail');
+
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
