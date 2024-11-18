@@ -94,55 +94,71 @@ class CheckoutController extends Controller
         }
     }
 
-    public function process(Request $request)
-    {
-        $paymentMethod = $request->input('payment_method');
-        // Lấy thông tin giỏ hàng
-        $shoppingCart = auth()->user()->shoppingCart;
-        // Tính tổng giá trị giỏ hàng
-        $cartTotal = $shoppingCart->items->sum(function ($item) {
-            $price = $item->product->sale_price > 0 
-                ? $item->product->sale_price 
-                : $item->product->base_price;
-            return $price * $item->quantity;
-        });
-        // Tạo đơn hàng mới
-        $order = new ShopOrder();
-        $order->user_id = Auth::id();
-        $order->customer_id = auth()->user()->customer->id;
-        $order->total_price = $cartTotal; // Sử dụng $cartTotal đã tính ở trên
-        $order->payment_method = $paymentMethod;
-        $order->shipping_address = auth()->user()->customer->first()->address;
-        $order->shipping_id = 1;
-        $order->date_order = Carbon::now();
-        $order->save();
-        // Lưu chi tiết đơn hàng
-        foreach ($shoppingCart->items as $item) {
-            $orderItem = new ShopOrderItem();
-            $orderItem->order_id = $order->id;
-            $orderItem->product_id = $item->product->id; 
-            // Lấy variant_id từ relationship variantProduct của item
-            $orderItem->variant_id = $item->variantProduct->id; 
-            $orderItem->quantity = $item->quantity;
-            $orderItem->price = $item->product->sale_price > 0 
-                ? $item->product->sale_price 
-                : $item->product->base_price;
-            $orderItem->save();
-        }
-        // Xóa giỏ hàng
-        $shoppingCart->items()->delete();
-        // Chuyển hướng người dùng
-        // dd($paymentMethod);
-        if ($paymentMethod === 'vnpay') {
-            // Chuyển hướng đến VNPay
-            return $this->redirectToVnpay($order);
-        } elseif ($paymentMethod === 'cash') {
-            // Xử lý logic cho thanh toán tiền mặt (nếu có)
-            return redirect()->route('client.cart.index')
-                ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Thanh toán khi nhận hàng.');
-        }
+    public function process(Request $request)  
+    {  
+        $paymentMethod = $request->input('payment_method');  
+        // Lấy thông tin giỏ hàng  
+        $shoppingCart = auth()->user()->shoppingCart;  
+
+        
+        // Tính tổng giá trị giỏ hàng  
+        // $cartTotal = $shoppingCart->items->sum(function ($item) {  
+        //     $price = $item->product->sale_price > 0   
+        //         ? $item->product->sale_price   
+        //         : $item->product->base_price;  
+        //     return $price * $item->quantity;  
+        // });  
+
+        // Lấy giá trị đã giảm giá từ input hidden
+        $finalAmount = $request->input('final_amount');
+        // Bắt đầu transaction  
+        DB::beginTransaction();  
+
+        try {  
+            // Tạo đơn hàng mới  
+            $order = new ShopOrder();  
+            $order->user_id = Auth::id();  
+            $order->customer_id = auth()->user()->id;  
+            $order->total_price = $finalAmount;   
+            $order->payment_method = $paymentMethod;  
+            $order->shipping_address = auth()->user()->customer->first()->address;  
+            $order->shipping_id = 1;  
+            $order->date_order = Carbon::now();  
+            $order->save();  
+            
+            // Lưu chi tiết đơn hàng  
+            foreach ($shoppingCart->items as $item) {  
+                $orderItem = new ShopOrderItem();  
+                $orderItem->order_id = $order->id;  
+                $orderItem->product_id = $item->product->id;   
+                // Lấy variant_id từ relationship variantProduct của item  
+                $orderItem->variant_id = $item->variantProduct->id;   
+                $orderItem->quantity = $item->quantity;  
+                $orderItem->price = $item->product->sale_price > 0   
+                    ? $item->product->sale_price   
+                    : $item->product->base_price;  
+                $orderItem->save();  
+            }  
+
+            // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
+            if ($paymentMethod === 'cash') {  
+                $shoppingCart->items()->delete();  
+                DB::commit(); // Commit transaction  
+                return redirect()->route('client.cart.index')  
+                    ->with('message', 'Đơn hàng của bạn đã được đặt thành công! Thanh toán khi nhận hàng.');  
+            }  
+
+            if ($paymentMethod === 'vnpay') {  
+                DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay  
+                return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay  
+            }  
     
-        return redirect()->route('client.cart.index')->with('error', 'Phương thức thanh toán không hợp lệ!');
+        } catch (\Exception $e) {  
+            DB::rollback(); // Rollback nếu có lỗi xảy ra  
+            return redirect()->route('client.cart.index')->with('error', 'Có lỗi xảy ra trong quá trình đặt hàng.');  
+        }  
+
+        return redirect()->route('client.cart.index')->with('error', 'Phương thức thanh toán không hợp lệ!');  
     }
 
     private function redirectToVnpay($order)
@@ -211,18 +227,38 @@ class CheckoutController extends Controller
     
     }
 
-    public function vnpayReturn(Request $request)
-    {
-        $vnp_ResponseCode = $request->input('vnp_ResponseCode');
-        $orderId = $request->input('vnp_TxnRef');
+    public function vnpayReturn(Request $request)  
+    {  
+        $vnp_ResponseCode = $request->input('vnp_ResponseCode');  
+        $orderId = $request->input('vnp_TxnRef');  
 
-        if ($vnp_ResponseCode === '00') {
-            return redirect()->route('client.cart.index')
-                ->with('message', 'Thanh toán thành công!');
-        }
+        $shoppingCart = auth()->user()->shoppingCart;
 
-        return redirect()->route('client.cart.index')
-            ->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');
+        // Tìm đơn hàng dựa trên orderId  
+        $order = ShopOrder::find($orderId);  
+
+        if (!$order) {  
+            return redirect()->route('client.cart.index')  
+                ->with('error', 'Không tìm thấy đơn hàng.');  
+        }  
+
+        if ($vnp_ResponseCode === '00') { // Mã phản hồi thanh toán thành công  
+            // Cập nhật trạng thái đơn hàng  
+            // $order->status = 'completed'; // Trạng thái đơn hàng  
+            $order->payment_status = 'paid'; // Trạng thái thanh toán  
+            $order->save(); // Lưu vào cơ sở dữ liệu  
+
+            $shoppingCart->items()->delete(); 
+            return redirect()->route('client.cart.index')  
+                ->with('message', 'Thanh toán thành công!');  
+        } else {   
+            // Nếu thanh toán thất bại, xóa đơn hàng
+            $order->delete(); // Xóa đơn hàng khỏi cơ sở dữ liệu 
+
+            return redirect()->route('client.cart.index')  
+                ->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');  
+        }  
     }
+
 
 }
