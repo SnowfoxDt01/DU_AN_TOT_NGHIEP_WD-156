@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
@@ -42,8 +43,58 @@ class ClientController extends Controller
             ->orderBy('date_order', 'desc')
             ->paginate(5);
 
-        return view('client.account.myaccount', compact('user','orders'));
+        $confirmOrders = ShopOrder::where('user_id', $user->id)
+            ->where('order_status', OrderStatus::CONFIRMING)
+            ->with('items.product.images')
+            ->orderBy('date_order', 'desc')
+            ->paginate(5);
+
+        $confirmedOrders = ShopOrder::where('user_id', $user->id)
+            ->where('order_status', OrderStatus::CONFIRMED)
+            ->with('items.product.images')
+            ->orderBy('date_order', 'desc')
+            ->paginate(5);
+
+        $shippingOrders = ShopOrder::where('user_id', $user->id)
+            ->where('order_status', OrderStatus::SHIPPING)
+            ->with('items.product.images')
+            ->orderBy('date_order', 'desc')
+            ->paginate(5);
+
+        $completedOrders = ShopOrder::where('user_id', $user->id)
+            ->where('order_status', OrderStatus::COMPLETED)
+            ->with('items.product.images')
+            ->orderBy('date_order', 'desc')
+            ->paginate(5);
+
+        $canceledOrders = ShopOrder::where('user_id', $user->id)
+            ->where('order_status', OrderStatus::CANCELED)
+            ->with('items.product.images')
+            ->orderBy('date_order', 'desc')
+            ->paginate(5);
+
+        return view('client.account.myaccount', compact('user', 'orders', 'confirmOrders', 'confirmedOrders', 'shippingOrders', 'completedOrders', 'canceledOrders'));
     }
+    
+    public function cancelOrder($id)
+    {
+        $order = ShopOrder::findOrFail($id);
+
+        // Kiểm tra quyền của người dùng
+        if ($order->user_id != auth()->id()) {
+            return redirect()->route('client.myaccount.myAccount')->with('error', 'Bạn không có quyền hủy đơn hàng này.');
+        }
+
+        if ($order->status == 'canceled') {
+            return redirect()->route('client.myaccount.myAccount')->with('info', 'Đơn hàng này đã bị hủy trước đó.');
+        }
+
+        $order->order_status = 'canceled';
+        $order->save();
+
+        return redirect()->route('client.myaccount.myAccount');
+    }
+
 
     public function detailProduct(string $id)
     {
@@ -89,17 +140,15 @@ class ClientController extends Controller
             $query->whereNull('expiry_date')
                 ->orWhere('expiry_date', '>=', Carbon::now());
         })
-        ->where(function ($query) {
-            $query->whereNull('usage_limit')
-                ->orWhereColumn('usage_count', '<', 'usage_limit');
-        })
-        ->where(function ($query) {
-            $query->where('status','active');
-        })
-        ->paginate(9);
-        
+            ->where(function ($query) {
+                $query->whereNull('usage_limit')
+                    ->orWhereColumn('usage_count', '<', 'usage_limit');
+            })
+            ->where(function ($query) {
+                $query->where('status', 'active');
+            })
+            ->paginate(9);
+
         return view('client.page.voucherList', compact('vouchers'));
     }
-
-    
 }
