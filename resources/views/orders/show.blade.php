@@ -10,7 +10,15 @@
             <li class="active">Đơn hàng</li>
         </ol>
     </section>
-    
+    @if ($errors->any())  
+        <div class="alert alert-danger">  
+            <ul>  
+                @foreach ($errors->all() as $error)  
+                    <li>{{ $error }}</li>  
+                @endforeach  
+            </ul>  
+        </div>  
+    @endif
     <div class="container mt-5" style="background: #fff; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
         <h1 style="font-size: 1.5rem; color: #333;">Chi tiết đơn hàng #{{ $order->id }}</h1>
 
@@ -70,21 +78,38 @@
             @endforeach
         </ul>
 
-        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" style="margin-top: 20px;">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="order_status" style="font-weight: 600;">Cập nhật trạng thái:</label>
-                <select name="order_status" id="order_status" class="form-control" style="border: 1px solid #ccd0d4; border-radius: 4px;">
-                    @foreach (App\Enums\OrderStatus::getValues() as $value)
-                        <option value="{{ $value }}" {{ $order->order_status == $value ? 'selected' : '' }}>
-                            {{ App\Enums\OrderStatus::getDescription($value) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary" style="background-color: #0073aa; border: none;">Cập nhật</button>
-            <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
-        </form>
+        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" style="margin-top: 20px;">  
+            @csrf  
+            @method('PUT')  
+            <div class="form-group">  
+                <label for="order_status" style="font-weight: 600;">Cập nhật trạng thái:</label>  
+                <select name="order_status" id="order_status" class="form-control" style="border: 1px solid #ccd0d4; border-radius: 4px;" onchange="toggleCancelReason(this.value)">  
+                    @foreach (App\Enums\OrderStatus::getValues() as $value)  
+                        <option value="{{ $value }}" {{ $order->order_status == $value ? 'selected' : '' }}>  
+                            {{ App\Enums\OrderStatus::getDescription($value) }}  
+                        </option>  
+                    @endforeach  
+                </select>  
+            </div>  
+        
+            <div class="form-group" id="cancel_reason_container" style="display: none;">  
+                <label for="cancel_reason" style="font-weight: 600;">Lý do hủy:</label>  
+                <textarea name="cancel_reason" id="cancel_reason" class="form-control" rows="3" placeholder="Nhập lý do hủy đơn hàng..."></textarea>  
+            </div>  
+        
+            <button type="submit" class="btn btn-primary" style="background-color: #0073aa; border: none;">Cập nhật</button>  
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Quay lại danh sách</a>  
+        </form>  
+        
     </div>
+    <script>  
+        function toggleCancelReason(status) {  
+            const cancelReasonContainer = document.getElementById('cancel_reason_container');  
+            if (status === 'canceled') {  
+                cancelReasonContainer.style.display = 'block';  
+            } else {  
+                cancelReasonContainer.style.display = 'none';  
+            }  
+        }  
+    </script>
 @endsection

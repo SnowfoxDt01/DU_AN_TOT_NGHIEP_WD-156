@@ -61,35 +61,48 @@ class ShopOrderController extends Controller
         return view('orders.show', compact('order'));
     }
 
-    public function updateStatus(Request $request, $id)
-    {
-        $order = ShopOrder::findOrFail($id);
+    public function updateStatus(Request $request, $id)  
+    {  
+        $order = ShopOrder::findOrFail($id);  
 
-        // Lấy trạng thái hiện tại và trạng thái mới từ yêu cầu
-        $currentStatus = $order->order_status;
-        $newStatus = $request->input('order_status');
+        // Lấy trạng thái hiện tại và trạng thái mới từ yêu cầu  
+        $currentStatus = $order->order_status;  
+        $newStatus = $request->input('order_status');  
 
-        // Kiểm tra xem chuyển đổi trạng thái có hợp lệ không
-        if (OrderStatusTransitions::canTransition($currentStatus, $newStatus)) {
-            // Cập nhật trạng thái đơn hàng
-            $order->update(['order_status' => $newStatus]);
+        // Kiểm tra xem chuyển đổi trạng thái có hợp lệ không  
+        if (OrderStatusTransitions::canTransition($currentStatus, $newStatus)) {  
+            // Tạo mảng dữ liệu cập nhật  
+            $updateData = ['order_status' => $newStatus];  
 
-            // Nếu trạng thái mới là "completed", tạo giao dịch thanh toán và chuyển hướng đến trang hóa đơn
-            if ($newStatus == 'completed') {
-                if (!$order->payment) {
-                    PaymentController::createPayment([
-                        'order_id' => $order->id,
-                        'user_id' => $order->user_id,
-                    ]);
-                }
-                return redirect()->route('admin.payments.index', $order->id)->with('success', 'Đơn hàng đã hoàn thành. Hóa đơn đã được tạo.');
-            }
+            // Nếu trạng thái mới là "canceled", thêm lý do hủy  
+            if ($newStatus == 'canceled') {  
+                $request->validate([  
+                    'cancel_reason' => 'required|string|max:255',  
+                ], [  
+                    'cancel_reason.required' => 'Vui lòng nhập lý do hủy đơn hàng.'  
+                ]);  
+                $updateData['cancel_reason'] = $request->input('cancel_reason');  
+            }  
 
-            return redirect()->route('admin.orders.index')->with('success', 'Trạng thái đơn hàng đã được cập nhật.');
-        } else {
-            // Trạng thái không hợp lệ, chuyển hướng với thông báo lỗi
-            return redirect()->route('admin.orders.index')->with('error', 'Chuyển đổi trạng thái đơn hàng không hợp lệ.');
-        }
+            // Cập nhật đơn hàng  
+            $order->update($updateData);  
+
+            // Nếu trạng thái mới là "completed", tạo giao dịch thanh toán và chuyển hướng đến trang hóa đơn  
+            if ($newStatus == 'completed') {  
+                if (!$order->payment) {  
+                    PaymentController::createPayment([  
+                        'order_id' => $order->id,  
+                        'user_id' => $order->user_id,  
+                    ]);  
+                }  
+                return redirect()->route('admin.payments.index', $order->id)->with('success', 'Đơn hàng đã hoàn thành. Hóa đơn đã được tạo.');  
+            }  
+
+            return redirect()->route('admin.orders.index')->with('success', 'Trạng thái đơn hàng đã được cập nhật.');  
+        } else {  
+            // Trạng thái không hợp lệ, chuyển hướng với thông báo lỗi  
+            return redirect()->route('admin.orders.index')->with('error', 'Chuyển đổi trạng thái đơn hàng không hợp lệ.');  
+        }  
     }
 
     public function checkNewOrders()
