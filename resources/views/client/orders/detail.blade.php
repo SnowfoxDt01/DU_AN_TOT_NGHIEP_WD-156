@@ -23,7 +23,7 @@
                         {{ App\Enums\OrderStatus::getDescription($order->order_status) }}
                     </strong>
                 </p>
-                <p><strong>Tổng tiền:</strong> {{ number_format($order->total_price, 0, ',', '.') }}đ</p>
+                <p><strong>Tổng tiền thanh toán:</strong> {{ number_format($order->total_price, 0, ',', '.') }}đ</p>
             </div>
 
             <!-- Thông tin sản phẩm -->
@@ -65,15 +65,15 @@
 
             <!-- Hành động -->
             <div class="actions d-flex gap-3">
-                @if (in_array($order->order_status, ['confirming', 'confirmed']))
+                {{-- @if (in_array($order->order_status, ['confirming', 'confirmed']))
                     <form action="{{ route('client.order.cancel', $order->id) }}" method="POST"
                         onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng?')">
                         @csrf
                         <button class="btn btn-danger">Hủy đơn hàng</button>
                     </form>
-                @endif
-                <a href="" class="btn btn-orange">In hóa đơn</a>
-                <a href="" class="btn btn-secondary">Liên hệ hỗ trợ</a>
+                @endif --}}
+                <a href="#" class="btn btn-orange">In hóa đơn</a>
+                <a href="#" class="btn btn-secondary">Liên hệ hỗ trợ</a>
             </div>
         </div>
     </div>

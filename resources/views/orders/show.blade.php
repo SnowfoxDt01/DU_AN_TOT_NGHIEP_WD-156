@@ -35,9 +35,7 @@
                 <p><strong>Số điện thoại:</strong> {{ $order->customer->phone }}</p>
                 <p><strong>Địa chỉ:</strong> {{ $order->customer->address }}</p>
                 <p><strong>Tổng tiền:</strong> 
-                    {{ number_format($order->items->sum(function ($item) {
-                        return $item->price * $item->quantity;
-                    }), 0, ',', '.') }} VNĐ
+                    {{ number_format($order->total_price, 0, ',', '.') }} VNĐ
                 </p>
                 <p><strong>Phương thức thanh toán:</strong> {{ ucfirst(App\Enums\PaymentMethod::getDescription($order->payment_method)) }}</p>
                 <p><strong>Trạng thái:</strong> {{ App\Enums\OrderStatus::getDescription($order->order_status) }}</p>

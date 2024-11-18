@@ -211,20 +211,9 @@
                                                             @endif
                                                         </div>
                                                         <div class="text-end">
-                                                            <div>
-                                                                {{ number_format(
-                                                                    $order->items->sum(function ($item) {
-                                                                        // Lấy giá từ bảng product
-                                                                        $product = $item->product;
-                                                                        $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                        return $item->quantity * $price;
-                                                                    }),
-                                                                    0,
-                                                                    ',',
-                                                                    '.',
-                                                                ) }}
-                                                                VND
-                                                            </div>
+                                                            <div>  
+                                                                {{ number_format($order->total_price, 0, ',', '.') }} VND  
+                                                            </div> 
                                                             <div class="mt-4 d-flex">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
                                                                 <a href="{{ route('client.order.detail', $order->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
@@ -281,33 +270,14 @@
                                                             @endif
                                                         </div>
                                                         <div class="text-end">
-                                                            <div>
-                                                                {{ number_format(
-                                                                    $confirm->items->sum(function ($item) {
-                                                                        // Lấy giá từ bảng product
-                                                                        $product = $item->product;
-                                                                        $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                        return $item->quantity * $price;
-                                                                    }),
-                                                                    0,
-                                                                    ',',
-                                                                    '.',
-                                                                ) }}
-                                                                VND
-                                                            </div>
+                                                            <div>  
+                                                                {{ number_format($confirm->total_price, 0, ',', '.') }} VND  
+                                                            </div> 
                                                             <div class="mt-4 d-flex justify-content-start">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
                                                                 <a href="{{ route('client.order.detail', $confirm->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if ($confirm->order_status !== 'canceled' && $confirm->user_id == auth()->id())
-                                                                    <form
-                                                                        action="{{ route('client.order.cancel', $confirm->id) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng?')">
-                                                                        @csrf
-                                                                        @method('POST')
-                                                                        <button type="submit" class="btn btn-danger">Hủy
-                                                                            đơn hàng</button>
-                                                                    </form>
+                                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal" data-order-id="{{ $confirm->id }}">Hủy đơn hàng</button>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -363,33 +333,14 @@
                                                             @endif
                                                         </div>
                                                         <div class="text-end">
-                                                            <div>
-                                                                {{ number_format(
-                                                                    $confirmed->items->sum(function ($item) {
-                                                                        // Lấy giá từ bảng product
-                                                                        $product = $item->product;
-                                                                        $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                        return $item->quantity * $price;
-                                                                    }),
-                                                                    0,
-                                                                    ',',
-                                                                    '.',
-                                                                ) }}
-                                                                VND
-                                                            </div>
+                                                            <div>  
+                                                                {{ number_format($confirmed->total_price, 0, ',', '.') }} VND  
+                                                            </div> 
                                                             <div class="mt-4 d-flex justify-content-start">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
                                                                 <a href="{{ route('client.order.detail', $confirmed->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if ($confirmed->order_status !== 'canceled' && $confirmed->user_id == auth()->id())
-                                                                    <form
-                                                                        action="{{ route('client.order.cancel', $confirmed->id) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng?')">
-                                                                        @csrf
-                                                                        @method('POST')
-                                                                        <button type="submit" class="btn btn-danger">Hủy
-                                                                            đơn hàng</button>
-                                                                    </form>
+                                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal" data-order-id="{{ $confirmed->id }}">Hủy đơn hàng</button>
                                                                 @endif
                                                             </div>
 
@@ -446,20 +397,9 @@
                                                             @endif
                                                         </div>
                                                         <div class="text-end">
-                                                            <div>
-                                                                {{ number_format(
-                                                                    $shipping->items->sum(function ($item) {
-                                                                        // Lấy giá từ bảng product
-                                                                        $product = $item->product;
-                                                                        $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                        return $item->quantity * $price;
-                                                                    }),
-                                                                    0,
-                                                                    ',',
-                                                                    '.',
-                                                                ) }}
-                                                                VND
-                                                            </div>
+                                                            <div>  
+                                                                {{ number_format($shipping->total_price, 0, ',', '.') }} VND  
+                                                            </div> 
                                                             <div class="mt-4 d-flex">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
                                                                 <a href="{{ route('client.order.detail', $shipping->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
@@ -517,20 +457,9 @@
                                                             @endif
                                                         </div>
                                                         <div class="text-end">
-                                                            <div>
-                                                                {{ number_format(
-                                                                    $completed->items->sum(function ($item) {
-                                                                        // Lấy giá từ bảng product
-                                                                        $product = $item->product;
-                                                                        $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                        return $item->quantity * $price;
-                                                                    }),
-                                                                    0,
-                                                                    ',',
-                                                                    '.',
-                                                                ) }}
-                                                                VND
-                                                            </div>
+                                                            <div>  
+                                                                {{ number_format($completed->total_price, 0, ',', '.') }} VND  
+                                                            </div> 
                                                             <div class="mt-4 d-flex">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
                                                                 <a href="{{ route('client.order.detail', $completed->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
@@ -588,20 +517,9 @@
                                                             @endif
                                                         </div>
                                                         <div class="text-end">
-                                                            <div>
-                                                                {{ number_format(
-                                                                    $canceled->items->sum(function ($item) {
-                                                                        // Lấy giá từ bảng product
-                                                                        $product = $item->product;
-                                                                        $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                        return $item->quantity * $price;
-                                                                    }),
-                                                                    0,
-                                                                    ',',
-                                                                    '.',
-                                                                ) }}
-                                                                VND
-                                                            </div>
+                                                            <div>  
+                                                                {{ number_format($canceled->total_price, 0, ',', '.') }} VND  
+                                                            </div> 
                                                             <div class="mt-4 d-flex">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
                                                                 <a href="{{ route('client.order.detail', $canceled->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
@@ -671,4 +589,42 @@
             </div>
         </div>
     </section>
+    <!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: black; color: white;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelOrderModalLabel">Lý do hủy đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="cancelOrderForm" name="cancelOrderForm" method="POST">
+                @csrf
+                @method('POST')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="cancel_reason" class="form-label">Lý do hủy</label>
+                        <textarea class="form-control" id="cancel_reason" name="cancel_reason" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-danger">Hủy đơn hàng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- hết modal --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cancelOrderModal = document.getElementById('cancelOrderModal');
+        cancelOrderModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var orderId = button.getAttribute('data-order-id');
+            var form = document.getElementById('cancelOrderForm');
+            form.action = '/client/order/' + orderId + '/cancel';
+        });
+    });
+</script>
+
 @endsection
