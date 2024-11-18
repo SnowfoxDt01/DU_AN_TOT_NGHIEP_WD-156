@@ -204,6 +204,7 @@
                 <form id="order-form" action="{{ route('client.checkout.process') }}" method="POST"> 
                     @csrf
                     <input type="hidden" name="payment_method" id="payment-method-input" value=""> 
+                    <input type="hidden" name="final_amount" id="final-amount-input" value="">
                     <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
                         Đặt hàng
                     </button>
@@ -247,6 +248,7 @@
                         'text-danger').addClass('text-success');
                     // Thay đổi $cartTotal = formattedAmount
                     $('#cart-subtotal').text(formattedAmount + ".VND");
+                    $('#final-amount-input').val(response.final_amount);
                 },
                 error: function(xhr) {
                     // Khi có lỗi, hiển thị thông báo lỗi
