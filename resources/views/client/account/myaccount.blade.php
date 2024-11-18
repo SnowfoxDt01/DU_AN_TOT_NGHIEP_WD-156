@@ -226,16 +226,14 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="text-secondary me-2">Xem Hóa
-                                                                    Đơn</a>
-                                                                <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             @endif
                                         </div>
-                                        {{ $orders->links('pagination::custom') }}
                                     </div>
 
                                     <!-- Pending Orders -->
@@ -298,10 +296,8 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex justify-content-start">
-                                                                <a href="#" class="btn btn-orange me-2">Xem Hóa
-                                                                    Đơn</a>
-                                                                <a href="#" class="btn btn-orange me-2">Xem Chi
-                                                                    Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
+                                                                <a href="{{ route('client.order.detail', $confirm->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if ($confirm->order_status !== 'canceled' && $confirm->user_id == auth()->id())
                                                                     <form
                                                                         action="{{ route('client.order.cancel', $confirm->id) }}"
@@ -319,7 +315,6 @@
                                                 @endforeach
                                             @endif
                                         </div>
-                                        {{ $confirmOrders->links('pagination::custom') }}
                                     </div>
 
                                     <!-- Confirmed Orders -->
@@ -383,10 +378,8 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex justify-content-start">
-                                                                <a href="#" class="btn btn-orange me-2">Xem Hóa
-                                                                    Đơn</a>
-                                                                <a href="#" class="btn btn-orange me-2">Xem Chi
-                                                                    Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
+                                                                <a href="{{ route('client.order.detail', $confirmed->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if ($confirmed->order_status !== 'canceled' && $confirmed->user_id == auth()->id())
                                                                     <form
                                                                         action="{{ route('client.order.cancel', $confirmed->id) }}"
@@ -405,7 +398,6 @@
                                                 @endforeach
                                             @endif
                                         </div>
-                                        {{ $confirmedOrders->links('pagination::custom') }}
                                     </div>
 
                                     <!-- Shipping Orders -->
@@ -469,16 +461,14 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="text-secondary me-2">Xem Hóa
-                                                                    Đơn</a>
-                                                                <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
+                                                                <a href="{{ route('client.order.detail', $shipping->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             @endif
                                         </div>
-                                        {{ $shippingOrders->links('pagination::custom') }}
                                     </div>
 
                                     <!-- Completed Orders -->
@@ -542,16 +532,14 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="text-secondary me-2">Xem Hóa
-                                                                    Đơn</a>
-                                                                <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
+                                                                <a href="{{ route('client.order.detail', $completed->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             @endif
                                         </div>
-                                        {{ $completedOrders->links('pagination::custom') }}
                                     </div>
 
                                     <!-- Cancelled Orders -->
@@ -615,16 +603,14 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="text-secondary me-2">Xem Hóa
-                                                                    Đơn</a>
-                                                                <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
+                                                                <a href="{{ route('client.order.detail', $canceled->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             @endif
                                         </div>
-                                        {{ $canceledOrders->links('pagination::custom') }}
                                     </div>
                                 </div>
                             </div>

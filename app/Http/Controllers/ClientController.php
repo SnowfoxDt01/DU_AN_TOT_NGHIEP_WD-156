@@ -41,41 +41,41 @@ class ClientController extends Controller
         $orders = ShopOrder::where('user_id', $user->id)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
-            ->paginate(5);
+            ->get();
 
         $confirmOrders = ShopOrder::where('user_id', $user->id)
             ->where('order_status', OrderStatus::CONFIRMING)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
-            ->paginate(5);
+            ->get();
 
         $confirmedOrders = ShopOrder::where('user_id', $user->id)
             ->where('order_status', OrderStatus::CONFIRMED)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
-            ->paginate(5);
+            ->get();
 
         $shippingOrders = ShopOrder::where('user_id', $user->id)
             ->where('order_status', OrderStatus::SHIPPING)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
-            ->paginate(5);
+            ->get();
 
         $completedOrders = ShopOrder::where('user_id', $user->id)
             ->where('order_status', OrderStatus::COMPLETED)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
-            ->paginate(5);
+            ->get();
 
         $canceledOrders = ShopOrder::where('user_id', $user->id)
             ->where('order_status', OrderStatus::CANCELED)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
-            ->paginate(5);
+            ->get();
 
         return view('client.account.myaccount', compact('user', 'orders', 'confirmOrders', 'confirmedOrders', 'shippingOrders', 'completedOrders', 'canceledOrders'));
     }
-    
+
     public function cancelOrder($id)
     {
         $order = ShopOrder::findOrFail($id);
@@ -93,6 +93,16 @@ class ClientController extends Controller
         $order->save();
 
         return redirect()->route('client.myaccount.myAccount');
+    }
+
+    public function orderDetail(ShopOrder $order)
+    {
+        if ($order->user_id !== auth()->id()) {
+            abort(403, 'Bạn không có quyền truy cập đơn hàng này.');
+        }
+
+        $order->load(['items.product.images', 'user']);
+        return view('client.orders.detail', compact('order'));
     }
 
 
