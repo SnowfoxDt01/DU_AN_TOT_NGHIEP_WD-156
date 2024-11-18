@@ -227,7 +227,7 @@
                                                             </div>
                                                             <div class="mt-4 d-flex">
                                                                 <a href="#" class="btn btn-orange me-2">Xem hóa đơn</a>
-                                                                <a href="#" class="btn btn-orange me-2">Xem chi tiết</a>
+                                                                <a href="{{ route('client.order.detail', $order->id) }}" class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
                                                         </div>
                                                     </div>
