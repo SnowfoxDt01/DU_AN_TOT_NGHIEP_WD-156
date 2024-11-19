@@ -105,7 +105,11 @@ class ClientController extends Controller
         }
 
         $order->load(['items.product.images', 'user']);
-        return view('client.orders.detail', compact('order'));
+
+        $statuses = \App\Enums\OrderStatus::getAllStatuses();
+        $currentStatus = $order->order_status;
+
+        return view('client.orders.detail', compact('order','statuses', 'currentStatus'));
     }
 
     public function detailProduct(string $id)

@@ -250,7 +250,7 @@ class CheckoutController extends Controller
 
             $shoppingCart->items()->delete(); 
             return redirect()->route('client.cart.index')  
-                ->with('message', 'Thanh toán thành công!');  
+                ->with('success', 'Thanh toán thành công!');  
         } else {   
             // Nếu thanh toán thất bại, xóa đơn hàng
             $order->delete(); // Xóa đơn hàng khỏi cơ sở dữ liệu 
