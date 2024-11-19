@@ -145,7 +145,7 @@ class CheckoutController extends Controller
                 $shoppingCart->items()->delete();  
                 DB::commit(); // Commit transaction  
                 return redirect()->route('client.cart.index')  
-                    ->with('message', 'Đơn hàng của bạn đã được đặt thành công! Thanh toán khi nhận hàng.');  
+                    ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Thanh toán khi nhận hàng.');  
             }  
 
             if ($paymentMethod === 'vnpay') {  
