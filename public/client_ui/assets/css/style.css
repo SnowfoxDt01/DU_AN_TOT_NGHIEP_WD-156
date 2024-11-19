@@ -3797,7 +3797,6 @@ input {
 .product-selection {
   width: 5%;
 }
-
 .product-details {
   width: 40%;
 }
@@ -5712,50 +5711,15 @@ h3 a {
   background-color: #ff4d00;
   color: white;
 }
-
 .btn-orange {
-  background-color: #ff6600;
-  /* Màu cam ban đầu */
-  color: white;
-  /* Màu chữ trắng */
-  border: 1px solid #ff6600;
-  /* Viền cam */
-  transition: all 0.3s ease;
-  /* Hiệu ứng chuyển màu mượt mà */
+  background-color: #ff6600; /* Màu cam ban đầu */
+  color: white; /* Màu chữ trắng */
+  border: 1px solid #ff6600; /* Viền cam */
+  transition: all 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
 }
 
 .btn-orange:hover {
-  background-color: white;
-  /* Khi hover, nền trở thành trắng */
-  color: #ff6600;
-  /* Màu chữ chuyển thành cam */
-  border: 1px solid #ff6600;
-  /* Viền vẫn cam */
-}
-
-.order-progress {
-  display: flex;
-  justify-content: space-between;
-}
-
-.progress-step {
-  padding: 10px 15px;
-  background-color: #e0e0e0;
-  /* Màu nền mặc định */
-  color: #888;
-  /* Màu chữ mặc định */
-  border-radius: 8px;
-  text-align: center;
-  margin-right: 8px;
-  flex: 1;
-}
-
-.progress-step.active {
-  background-color: #ff6600;
-  /* Màu nền nổi bật */
-  color: #fff;
-  /* Màu chữ nổi bật */
-  font-weight: bold;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  /* Tạo hiệu ứng nổi */
-}
+  background-color: white; /* Khi hover, nền trở thành trắng */
+  color: #ff6600; /* Màu chữ chuyển thành cam */
+  border: 1px solid #ff6600; /* Viền vẫn cam */
+} 
