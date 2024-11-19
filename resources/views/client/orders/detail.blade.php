@@ -33,6 +33,8 @@
                     <thead>
                         <tr>
                             <th>Sản phẩm</th>
+                            <th>Màu</th>
+                            <th>Kích cỡ</th>
                             <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Tổng</th>
@@ -46,6 +48,8 @@
                                         alt="{{ $item->product->name }}" class="img-thumbnail" style="width: 80px;">
                                     {{ $item->product->name }}
                                 </td>
+                                <td>{{$item->variantProducts->color->name }}</td>
+                                <td>{{$item->variantProducts->size->name }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ number_format($item->price, 0, ',', '.') }}đ</td>
                                 <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }}đ</td>
