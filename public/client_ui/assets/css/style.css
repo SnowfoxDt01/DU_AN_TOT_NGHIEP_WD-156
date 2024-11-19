@@ -3797,6 +3797,7 @@ input {
 .product-selection {
   width: 5%;
 }
+
 .product-details {
   width: 40%;
 }
@@ -5711,15 +5712,31 @@ h3 a {
   background-color: #ff4d00;
   color: white;
 }
+
 .btn-orange {
-  background-color: #ff6600; /* Màu cam ban đầu */
-  color: white; /* Màu chữ trắng */
-  border: 1px solid #ff6600; /* Viền cam */
-  transition: all 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+  background-color: #ff6600;
+  /* Màu cam ban đầu */
+  color: white;
+  /* Màu chữ trắng */
+  border: 1px solid #ff6600;
+  /* Viền cam */
+  transition: all 0.3s ease;
+  /* Hiệu ứng chuyển màu mượt mà */
 }
 
 .btn-orange:hover {
-  background-color: white; /* Khi hover, nền trở thành trắng */
-  color: #ff6600; /* Màu chữ chuyển thành cam */
-  border: 1px solid #ff6600; /* Viền vẫn cam */
-} 
+  background-color: white;
+  /* Khi hover, nền trở thành trắng */
+  color: #ff6600;
+  /* Màu chữ chuyển thành cam */
+  border: 1px solid #ff6600;
+  /* Viền vẫn cam */
+}
+
+/* Màu nền đen cho bảng */
+table {
+  background-color: #000000 !important;
+  /* Đảm bảo bảng có nền đen */
+  color: #fff !important;
+  /* Đảm bảo chữ trong bảng là màu trắng */
+}
