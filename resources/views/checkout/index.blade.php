@@ -177,7 +177,6 @@
                                 <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
                                 <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
                                     {{ number_format($cartTotal, 0, ',', '.') }}.đ
-                                    {{ number_format($cartTotal, 0, ',', '.') }}.đ
                                 </div>
                             </div>
                         </div>
