@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <a href="#0" class="payment d-block image">
-                    <img src="client_ui/assets/images/icon/payment.png" alt="icon">
+                    <img src="client_ui/assets/images/icon/vnpay.png" alt="icon">
                 </a>
             </div>
         </div>
