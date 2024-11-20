@@ -123,7 +123,7 @@ class CheckoutController extends Controller
             // Tạo đơn hàng mới  
             $order = new ShopOrder();
             $order->user_id = Auth::id();
-            $order->customer_id = auth()->user()->id;
+            $order->customer_id = auth()->user()->customer->id;
             $order->total_price = $finalAmount;
             $order->payment_method = $paymentMethod;
             $order->shipping_address = auth()->user()->customer->first()->address;
@@ -158,7 +158,7 @@ class CheckoutController extends Controller
                 $shoppingCart->items()->delete();
                 DB::commit(); // Commit transaction  
                 return redirect()->route('client.cart.index')
-                    ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Thanh toán khi nhận hàng.');
+                    ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Hãy thanh toán khi nhận hàng nhé !!!');
             }
 
             if ($paymentMethod === 'vnpay') {
