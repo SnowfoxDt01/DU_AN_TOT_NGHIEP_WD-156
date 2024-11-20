@@ -16,14 +16,24 @@
         background-color: #555;
     }
 
+    .user-info {
+        background-color: #191919 !important;
+    }
+
+    .user-info .text-white {
+        color: white;
+    }
+
     .selected {
         font-weight: bold;
         background-color: #007bff;
         color: white;
     }
+
     .column-labels .product-line-price {
-    width: 84px; /* Cài đặt chiều rộng cố định cho cột Tổng giá */
-}
+        width: 84px;
+        /* Cài đặt chiều rộng cố định cho cột Tổng giá */
+    }
 
     button {
         transition: all 0.3s ease;
@@ -31,13 +41,13 @@
 
     #default-payment {
         padding: 10px 15px;
-        background-color: #f9f9f9;
+        background-color: #191919;
         border-radius: 5px;
     }
 
     #payment-options {
         padding: 10px 15px;
-        background-color: #f9f9f9;
+        background-color: #191919;
         border-radius: 5px;
     }
 
