@@ -104,16 +104,20 @@ class ClientController extends Controller
 
         $discountAmount = 0;
 
+        $originalTotalPrice = $order->items->sum(function ($item) {
+            return $item->price * $item->quantity;
+        });
+
         if ($order->voucherUser && $order->voucherUser->voucher) {
             $voucher = $order->voucherUser->voucher;
 
             if ($voucher->discount_type === 'percentage') {
-                $discountAmount = $order->total_price * ($voucher->discount / 100);
+                $discountAmount = $originalTotalPrice * ($voucher->discount / 100);
             } elseif ($voucher->discount_type === 'fixed') {
                 $discountAmount = $voucher->discount;
             }
             //Tiền không âm
-            $discountAmount = min($discountAmount, $order->total_price);
+            $discountAmount = min($discountAmount, $originalTotalPrice);
         }
 
         return view('client.orders.detail', compact('order', 'discountAmount'));
