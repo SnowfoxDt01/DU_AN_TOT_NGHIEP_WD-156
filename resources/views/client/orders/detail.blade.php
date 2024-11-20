@@ -17,7 +17,7 @@
 
     <div class="container py-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <!-- Thông tin chung -->
                 <div class="order-info mt-4">
                     <h3 class="text-orange mb-3">Thông tin đơn hàng: </h3>
@@ -43,9 +43,17 @@
                         </span></p>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <!-- Thông tin người đặt hàng -->
+                <div class="order-customer mt-4">
+                    <h3 class="text-orange mb-3">Người đặt hàng: </h3>
+                    <p><strong>Tên:</strong> <span class="text-light">{{Auth::user()->name}}</span></p>
+                    <p><strong>Email:</strong> <span class="text-light">{{Auth::user()->email}}</span></p>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <!-- Thông tin khách hàng -->
-                <div class="order-customer mt-5">
+                <div class="order-customer mt-4">
                     <h3 class="text-orange mb-3">Địa chỉ nhận hàng: </h3>
                     <p><strong>Tên:</strong> <span class="text-light">{{ $order->user->name }}</span></p>
                     <p><strong>Địa chỉ:</strong> <span class="text-light">{{ $order->shipping_address }}</span></p>
