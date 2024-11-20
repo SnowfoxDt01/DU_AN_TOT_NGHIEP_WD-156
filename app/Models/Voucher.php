@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Voucher extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $fillable = [
         'code',
         'discount',
@@ -19,4 +19,8 @@ class Voucher extends Model
         'usage_limit',
         'usage_count',
     ];
+    public function voucherUsers()
+    {
+        return $this->hasMany(VoucherUser::class, 'voucher_id');
+    }
 }

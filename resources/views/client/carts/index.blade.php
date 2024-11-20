@@ -39,6 +39,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="shopping-cart radius-10 bor sub-bg">
                     @if (isset($shoppingCart))
                         <div class="user-info p-4">
@@ -77,9 +83,9 @@
                                 </div>
                                 <div class="product-price">
                                     @if ($item->product->sale_price > 0)
-                                        {{ number_format($item->product->sale_price, 0, ',', '.') }}
+                                        {{ number_format($item->product->sale_price, 0, ',', '.') }}.đ
                                     @else
-                                        {{ number_format($item->product->base_price, 0, ',', '.') }}
+                                        {{ number_format($item->product->base_price, 0, ',', '.') }}.đ
                                     @endif
                                 </div>
                                 <form action="{{ route('client.cart.update', $item->id) }}" method="POST">
@@ -97,7 +103,7 @@
                                     $totalPrice = $productPrice * $item->quantity;
                                     $cartTotal += $totalPrice; // Cộng dồn vào tổng giá trị giỏ hàng
                                     ?>
-                                    {{ number_format($totalPrice, 0, ',', '.') }}
+                                    {{ number_format($totalPrice, 0, ',', '.') }}.đ
                                 </div>
                                 <div class="product-removal">
                                     <form action="{{ route('client.cart.remove', $item->id) }}" method="POST"
@@ -116,14 +122,10 @@
                             <div class="totals-item theme-color float-end mt-20">
                                 <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
                                 <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
-                                    {{ number_format($cartTotal, 0, ',', '.') }}
+                                    {{ number_format($cartTotal, 0, ',', '.') }}.đ
                                 </div>
                             </div>
                         </div>
-                    @else
-                        <p>Chưa có sản phẩm nào trong giỏ hàng.</p>
-                    @endif
-
                 </div>
                 <div class="cart-actions">
                     <a href="{{ route('client.checkout.index') }}"
@@ -131,9 +133,9 @@
                         <span>Thanh toán</span>
                     </a>
                 </div>
-
-
-
+            @else
+                <p>Chưa có sản phẩm nào trong giỏ hàng.</p>
+                @endif
             </div>
         </section>
     </main>

@@ -134,9 +134,9 @@
                                 </div>
                                 <div class="product-price">
                                     @if ($item->product->sale_price > 0)
-                                        {{ number_format($item->product->sale_price, 0, ',', '.') }}
+                                        {{ number_format($item->product->sale_price, 0, ',', '.') }}.đ
                                     @else
-                                        {{ number_format($item->product->base_price, 0, ',', '.') }}
+                                        {{ number_format($item->product->base_price, 0, ',', '.') }}.đ
                                     @endif
                                 </div>
                                 <div class="product-quantity">
@@ -148,7 +148,7 @@
                                     $totalPrice = $productPrice * $item->quantity;
                                     $cartTotal += $totalPrice;
                                     ?>
-                                    {{ number_format($totalPrice, 0, ',', '.') }}
+                                    {{ number_format($totalPrice, 0, ',', '.') }}.đ
                                 </div>
                             </div>
                         @endforeach
@@ -157,7 +157,7 @@
                             <div class="totals-item theme-color float-end mt-20">
                                 <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
                                 <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
-                                    {{ number_format($cartTotal, 0, ',', '.') }}.VND
+                                    {{ number_format($cartTotal, 0, ',', '.') }}.đ
                                 </div>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                     <input type="hidden" name="payment_method" id="payment-method-input" value=""> 
                     <input type="hidden" name="final_amount" id="final-amount-input" value="">
                     <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
-                        Đặt hàng
+                       <span>Đặt hàng</span>
                     </button>
                 </form>
             </div>
@@ -247,7 +247,7 @@
                     $('#finalAmountMessage').text("Chúc mừng !!! Bạn đã được giảm : " + discount).removeClass(
                         'text-danger').addClass('text-success');
                     // Thay đổi $cartTotal = formattedAmount
-                    $('#cart-subtotal').text(formattedAmount + ".VND");
+                    $('#cart-subtotal').text(formattedAmount + ".đ");
                     $('#final-amount-input').val(response.final_amount);
                 },
                 error: function(xhr) {

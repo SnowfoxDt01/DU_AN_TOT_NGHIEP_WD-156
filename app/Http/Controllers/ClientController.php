@@ -13,8 +13,8 @@ use App\Models\Size;
 use App\Models\Voucher;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; 
-use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -76,36 +76,51 @@ class ClientController extends Controller
         return view('client.account.myaccount', compact('user', 'orders', 'confirmOrders', 'confirmedOrders', 'shippingOrders', 'completedOrders', 'canceledOrders'));
     }
 
- 
-    public function cancelOrder(Request $request, ShopOrder $order)  
-    {  
-        // Kiểm tra quyền truy cập  
-        if ($order->user_id !== auth()->id()) {  
-            abort(403, 'Bạn không có quyền hủy đơn hàng này.');  
-        }  
 
-        // Xác thực lý do hủy  
-        $request->validate([  
-            'cancel_reason' => 'required|string|max:255',  
-        ]);  
-
-        // Cập nhật trạng thái đơn hàng và thêm lý do hủy  
-        $order->order_status = 'canceled';  
-        $order->cancel_reason = $request->cancel_reason; // Đảm bảo có trường này trong bảng đơn hàng  
-        $order->save();  
-
-        // Có thể thêm thông báo thành công nếu cần  
-        return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');  
-    }  
-
-    public function orderDetail(ShopOrder $order)
+    public function cancelOrder(Request $request, ShopOrder $order)
     {
+        // Kiểm tra quyền truy cập  
         if ($order->user_id !== auth()->id()) {
-            abort(403, 'Bạn không có quyền truy cập đơn hàng này.');
+            abort(403, 'Bạn không có quyền hủy đơn hàng này.');
         }
 
-        $order->load(['items.product.images', 'user']);
-        return view('client.orders.detail', compact('order'));
+        // Xác thực lý do hủy  
+        $request->validate([
+            'cancel_reason' => 'required|string|max:255',
+        ]);
+
+        // Cập nhật trạng thái đơn hàng và thêm lý do hủy  
+        $order->order_status = 'canceled';
+        $order->cancel_reason = $request->cancel_reason; // Đảm bảo có trường này trong bảng đơn hàng  
+        $order->save();
+
+        // Có thể thêm thông báo thành công nếu cần  
+        return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
+    }
+
+    public function orderDetail(string $id)
+    {
+        $order = ShopOrder::with(['items.product.images', 'user', 'voucherUser.voucher'])->find($id);
+
+        $discountAmount = 0;
+
+        $originalTotalPrice = $order->items->sum(function ($item) {
+            return $item->price * $item->quantity;
+        });
+
+        if ($order->voucherUser && $order->voucherUser->voucher) {
+            $voucher = $order->voucherUser->voucher;
+
+            if ($voucher->discount_type === 'percentage') {
+                $discountAmount = $originalTotalPrice * ($voucher->discount / 100);
+            } elseif ($voucher->discount_type === 'fixed') {
+                $discountAmount = $voucher->discount;
+            }
+            //Tiền không âm
+            $discountAmount = min($discountAmount, $originalTotalPrice);
+        }
+
+        return view('client.orders.detail', compact('order', 'discountAmount'));
     }
 
     public function detailProduct(string $id)
@@ -163,5 +178,4 @@ class ClientController extends Controller
 
         return view('client.page.voucherList', compact('vouchers'));
     }
-
 }

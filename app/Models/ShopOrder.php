@@ -56,8 +56,14 @@ class ShopOrder extends Model
     {
         return $this->belongsToMany(Product::class, 'shop_order_items', 'order_id', 'product_id');
     }
+    
     public function payment()
     {
         return $this->hasOne(Payment::class, 'order_id');
+    }
+
+    public function voucherUser()
+    {
+        return $this->hasOne(VoucherUser::class, 'order_id');
     }
 }
