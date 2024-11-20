@@ -16,14 +16,24 @@
         background-color: #555;
     }
 
+    .user-info {
+        background-color: #191919 !important;
+    }
+
+    .user-info .text-white {
+        color: white;
+    }
+
     .selected {
         font-weight: bold;
         background-color: #007bff;
         color: white;
     }
+
     .column-labels .product-line-price {
-    width: 84px; /* Cài đặt chiều rộng cố định cho cột Tổng giá */
-}
+        width: 84px;
+        /* Cài đặt chiều rộng cố định cho cột Tổng giá */
+    }
 
     button {
         transition: all 0.3s ease;
@@ -31,13 +41,13 @@
 
     #default-payment {
         padding: 10px 15px;
-        background-color: #f9f9f9;
+        background-color: #191919;
         border-radius: 5px;
     }
 
     #payment-options {
         padding: 10px 15px;
-        background-color: #f9f9f9;
+        background-color: #191919;
         border-radius: 5px;
     }
 
@@ -74,11 +84,10 @@
                             <p><strong>Địa chỉ:</strong> <span id="user-address">{{ $customer->address }}</span></p>
                             <p><strong>Họ tên:</strong> <span id="user-name">{{ $customer->name }}</span></p>
                             <p><strong>Số điện thoại:</strong> <span id="user-phone">{{ $customer->phone }}</span></p>
-                            <button type="button" class="d-block text-center btn-two mt-10 px-2 py-2" id="edit-info-btn">
+                            <button type="button" class="d-block text-center btn-two mt-10 px-3 py-2" id="edit-info-btn">
                                 Thay đổi
                             </button>
                         </div>
-
                         <div id="edit-form" class="mt-4" style="display:none;">
                             <h4 class="mb-3">Địa Chỉ Của Tôi</h4>
                             <form method="POST" action="{{ route('client.profile.update') }}">
@@ -185,9 +194,8 @@
                     <p>Giỏ hàng của bạn hiện tại trống.</p>
                     @endif
 
-                    <hr>
                     <div class="col-md-4">
-                        <form id="voucherForm" class="form-inline">
+                        <form id="voucherForm" class="form-inline mt-5">
                             @csrf
                             <div class="input-container">
                                 <input type="text" name="code" class="mb-20 form-control custom-input" placeholder="Nhập mã giảm giá tại đây...">
@@ -208,7 +216,7 @@
                         <hr>
                         <div id="default-payment" class="d-flex align-items-center justify-content-between">
                             <span id="selected-payment-method" class="fw-bold">Thanh toán khi nhận hàng</span>
-                            <button type="button" id="change-payment-btn" class="d-block text-center btn-two px-2 py-2">
+                            <button type="button" id="change-payment-btn" class="d-block text-center btn-two px-3 py-2">
                                 Thay đổi
                             </button>
                         </div>
