@@ -206,7 +206,7 @@
                     <input type="hidden" name="payment_method" id="payment-method-input" value=""> 
                     <input type="hidden" name="final_amount" id="final-amount-input" value="">
                     <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
-                        Đặt hàng
+                       <span>Đặt hàng</span>
                     </button>
                 </form>
             </div>

@@ -5709,27 +5709,27 @@ h3 a {
 }
 
 .nav-tabs .nav-link.active {
-  background-color: #ff4d00;
+  background-color: #ff3700;
   color: white;
 }
 
 .btn-orange {
-  background-color: #ff6600;
+  background-color: #ff3700;
   /* Màu cam ban đầu */
   color: white;
   /* Màu chữ trắng */
-  border: 1px solid #ff6600;
+  border: 1px solid #ff3700;
   /* Viền cam */
   transition: all 0.3s ease;
   /* Hiệu ứng chuyển màu mượt mà */
 }
 
 .btn-orange:hover {
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   /* Khi hover, nền trở thành trắng */
-  color: #ff6600;
+  color: #ff3700;
   /* Màu chữ chuyển thành cam */
-  border: 1px solid #ff6600;
+  border: 1px solid #ff3700;
   /* Viền vẫn cam */
 }
 
