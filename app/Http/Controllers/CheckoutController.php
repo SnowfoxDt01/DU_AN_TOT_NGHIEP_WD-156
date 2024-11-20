@@ -132,6 +132,7 @@ class CheckoutController extends Controller
                 $voucher_user->order_id = $order->id;
                 $voucher_user->voucher_id = $voucherId;
                 $voucher_user->save();
+                session()->forget('voucher_id');
             }
             // Lưu chi tiết đơn hàng  
             foreach ($shoppingCart->items as $item) {
