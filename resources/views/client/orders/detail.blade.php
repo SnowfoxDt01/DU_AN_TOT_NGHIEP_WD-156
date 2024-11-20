@@ -16,6 +16,18 @@
     <hr class="divider" style="border-color: #ff7300;">
 
     <div class="container py-4">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-4">
                 <!-- Thông tin chung -->
@@ -34,8 +46,8 @@
                                 {{ App\Enums\OrderStatus::getDescription($order->order_status) }}
                             </span></p>
                     @endif
-                    <p><strong>Số tiền được giảm:</strong> <span
-                            class="text-danger">-{{ number_format($discountAmount, 0, ',', '.') }}.đ</span></p>
+                    <p><strong>Chiết khấu:</strong> <span class="text-danger"> -
+                            {{ number_format($discountAmount, 0, ',', '.') }}.đ</span></p>
                     <p><strong>Tổng tiền thanh toán:</strong> <span
                             class="text-success">{{ number_format($order->total_price, 0, ',', '.') }}.đ</span></p>
                     <p><strong>Phương thức thanh toán:</strong> <span>
@@ -47,8 +59,8 @@
                 <!-- Thông tin người đặt hàng -->
                 <div class="order-customer mt-4">
                     <h3 class="text-orange mb-3">Người đặt hàng: </h3>
-                    <p><strong>Tên:</strong> <span class="text-light">{{Auth::user()->name}}</span></p>
-                    <p><strong>Email:</strong> <span class="text-light">{{Auth::user()->email}}</span></p>
+                    <p><strong>Tên:</strong> <span class="text-light">{{ Auth::user()->name }}</span></p>
+                    <p><strong>Email:</strong> <span class="text-light">{{ Auth::user()->email }}</span></p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -79,10 +91,10 @@
                 @foreach ($order->items as $item)
                     <div class="row py-3 border-bottom" style="border-color: #ff7300;">
                         <div class="col-3 text-center d-flex align-items-center">
-                            <img src="{{ $item->product->images->first()?->image_path ?? 'default.jpg' }}"
-                                alt="{{ $item->product->name }}" class="img-thumbnail me-2"
+                            <img src="{{ $item->variantProducts->images->first()?->image_path ?? 'default.jpg' }}"
+                                alt="{{ $item->variantProducts->name }}" class="img-thumbnail me-2"
                                 style="width: 60px; height: auto; border: 1px solid #ff7300;">
-                            {{ $item->product->name }}
+                            {{ $item->variantProducts->name }}
                         </div>
                         <div class="col-2 text-center">
                             <span class="badge bg-orange">{{ $item->variantProducts->color->name }}</span>
@@ -105,6 +117,47 @@
             <a href="#" class="btn btn-secondary px-4 py-2">
                 <i class="fa-solid fa-phone me-1"></i> Liên hệ hỗ trợ
             </a>
+            @if (in_array($order->order_status, ['confirming', 'confirmed']) && $order->user_id == auth()->id())
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal"
+                    data-order-id="{{ $order->id }}">Hủy đơn hàng</button>
+            @endif
         </div>
     </div>
 @endsection
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: black; color: white;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelOrderModalLabel">Lý do hủy đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="cancelOrderForm" name="cancelOrderForm" method="POST">
+                @csrf
+                @method('POST')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="cancel_reason" class="form-label">Lý do hủy</label>
+                        <textarea class="form-control" id="cancel_reason" name="cancel_reason" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-danger">Hủy đơn hàng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cancelOrderModal = document.getElementById('cancelOrderModal');
+            cancelOrderModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var orderId = button.getAttribute('data-order-id');
+                var form = document.getElementById('cancelOrderForm');
+                form.action = '/client/order/' + orderId + '/cancel';
+            });
+        });
+    </script>
+@endpush
