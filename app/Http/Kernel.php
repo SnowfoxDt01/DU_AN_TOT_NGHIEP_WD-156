@@ -71,6 +71,7 @@ class Kernel extends HttpKernel
         'role' => RoleMiddleware::class,
         'permission' => PermissionMiddleware::class,
         'checkAdminRole' => \App\Http\Middleware\CheckAdminRole::class,
+        'check.pending.order' => \App\Http\Middleware\CheckPendingOrder::class,
     ];
     
 }

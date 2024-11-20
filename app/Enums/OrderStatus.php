@@ -18,7 +18,7 @@ final class OrderStatus extends Enum
     const DELIVERED = 'delivered';
     const COMPLETED = 'completed';
     const CANCELED = 'canceled';
-
+    const PENDING = 'pending';
 
     public static function getDescription($value): string
     {
@@ -37,6 +37,8 @@ final class OrderStatus extends Enum
                 return 'Đã hoàn thành';
             case self::CANCELED:
                 return 'Đã hủy';
+            case self::PENDING:
+                return 'Đơn lỗi';
             default:
                 return 'Không xác định';
         }

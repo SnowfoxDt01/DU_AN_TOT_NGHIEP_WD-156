@@ -17,6 +17,7 @@ class CheckoutController extends Controller
 {
     public function index()
     {
+        $this->handlePendingOrders();
         if (!auth()->check()) {
             return redirect()->route('client.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
         }
@@ -113,7 +114,7 @@ class CheckoutController extends Controller
         // Bắt đầu transaction  
         DB::beginTransaction();
 
-        try {
+        
             // Tạo đơn hàng mới  
             $order = new ShopOrder();
             $order->user_id = Auth::id();
@@ -123,6 +124,7 @@ class CheckoutController extends Controller
             $order->shipping_address = auth()->user()->customer->first()->address;
             $order->shipping_id = 1;
             $order->date_order = Carbon::now();
+            $order->order_status = 'pending';
             $order->save();
 
             $voucherId = session('voucher_id');
@@ -151,6 +153,8 @@ class CheckoutController extends Controller
             // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
             if ($paymentMethod === 'cash') {
                 $shoppingCart->items()->delete();
+                $order->order_status = 'confirming';
+                $order->save();
                 DB::commit(); // Commit transaction  
                 return redirect()->route('client.cart.index')
                     ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Hãy thanh toán khi nhận hàng nhé !!!');
@@ -160,11 +164,6 @@ class CheckoutController extends Controller
                 DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay  
                 return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay  
             }
-        } catch (\Exception $e) {
-            DB::rollback(); // Rollback nếu có lỗi xảy ra 
-            $order->delete(); 
-            return redirect()->route('client.cart.index')->with('error', 'Có lỗi xảy ra trong quá trình đặt hàng.');
-        }
 
         return redirect()->route('client.cart.index')->with('error', 'Phương thức thanh toán không hợp lệ!');
     }
@@ -250,7 +249,7 @@ class CheckoutController extends Controller
 
         if ($vnp_ResponseCode === '00') { // Mã phản hồi thanh toán thành công  
             // Cập nhật trạng thái đơn hàng  
-            // $order->status = 'completed'; // Trạng thái đơn hàng  
+            $order->order_status = 'confirming'; // Trạng thái đơn hàng  
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
 
@@ -265,4 +264,20 @@ class CheckoutController extends Controller
                 ->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');
         }
     }
+    public function handlePendingOrders()
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return;
+        }
+
+        $pendingOrder = ShopOrder::where('user_id', $user->id)
+            ->where('order_status', 'pending')
+            ->first();
+
+        if ($pendingOrder) {
+            $pendingOrder->delete(); // Hoặc cập nhật trạng thái là 'cancelled' nếu cần
+        }
+    }
+
 }

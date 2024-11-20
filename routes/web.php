@@ -151,6 +151,7 @@ Route::group([
 Route::group([
     'prefix' => 'client',
     'as' => 'client.',
+    'middleware' => ['auth', 'check.pending.order']
 ], function () {
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
