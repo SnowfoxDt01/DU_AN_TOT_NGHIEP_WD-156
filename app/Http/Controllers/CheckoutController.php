@@ -160,7 +160,8 @@ class CheckoutController extends Controller
                 return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay  
             }
         } catch (\Exception $e) {
-            DB::rollback(); // Rollback nếu có lỗi xảy ra  
+            DB::rollback(); // Rollback nếu có lỗi xảy ra 
+            $order->delete(); 
             return redirect()->route('client.cart.index')->with('error', 'Có lỗi xảy ra trong quá trình đặt hàng.');
         }
 
