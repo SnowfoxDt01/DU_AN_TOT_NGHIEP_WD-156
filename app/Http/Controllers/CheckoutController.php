@@ -101,16 +101,10 @@ class CheckoutController extends Controller
         $shoppingCart = auth()->user()->shoppingCart;  
 
         
-        // Tính tổng giá trị giỏ hàng  
-        // $cartTotal = $shoppingCart->items->sum(function ($item) {  
-        //     $price = $item->product->sale_price > 0   
-        //         ? $item->product->sale_price   
-        //         : $item->product->base_price;  
-        //     return $price * $item->quantity;  
-        // });  
-
-        // Lấy giá trị đã giảm giá từ input hidden
-        $finalAmount = $request->input('final_amount');
+        // Lấy giá trị final_amount, nếu không có thì dùng tổng tiền giỏ hàng
+        $finalAmount = $request->input('final_amount') ?? $shoppingCart->items->sum(function ($item) {
+            return ($item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price) * $item->quantity;
+        });
         // Bắt đầu transaction  
         DB::beginTransaction();  
 
