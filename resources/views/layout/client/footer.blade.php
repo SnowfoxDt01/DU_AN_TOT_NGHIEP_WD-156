@@ -43,8 +43,7 @@
                         <div class="mapouter">
                             <div class="gmap_canvas"><iframe width="350" height="300" id="gmap_canvas"
                                     src="https://maps.google.com/maps?q=Tr%E1%BB%8Bnh%20V%C4%83n%20B%C3%B4&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
-                                    href="https://123movies-i.net">123 movies</a><br>
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
                                 <style>
                                     .mapouter {
                                         position: relative;
@@ -83,7 +82,7 @@
                     </div>
                 </div>
                 <a href="#0" class="payment d-block image">
-                    <img src="client_ui/assets/images/icon/payment.png" alt="icon">
+                    <img src="client_ui/assets/images/icon/vnpay.png" alt="icon">
                 </a>
             </div>
         </div>

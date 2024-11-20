@@ -32,7 +32,7 @@ final class OrderStatus extends Enum
             case self::SHIPPING:
                 return 'Đang giao hàng';
             case self::DELIVERED:
-                return 'Đã nhận hàng';
+                return 'Đã giao hàng';
             case self::COMPLETED:
                 return 'Đã hoàn thành';
             case self::CANCELED:

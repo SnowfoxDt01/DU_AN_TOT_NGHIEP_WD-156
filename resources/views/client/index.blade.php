@@ -168,7 +168,7 @@
                                         </div>
                                         <a class="product__cart d-block bor-top"
                                             href="{{ route('client.detailProduct', $new->id) }}"><i
-                                                class="fa-regular fa-cart-shopping primary-color me-1"></i>
+                                                class="fa-regular bi bi-eye primary-color me-1"></i>
                                             <span>Chi tiết sản phẩm</span></a>
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@
                                         </div>
                                         <a class="product__cart d-block bor-top"
                                             href="{{ route('client.detailProduct', $top->product->id) }}"><i
-                                                class="fa-regular fa-cart-shopping primary-color me-1"></i>
+                                                class="bi bi-eye primary-color me-1"></i>
                                             <span>Chi tiết sản phẩm</span></a>
                                     </div>
                                 </div>

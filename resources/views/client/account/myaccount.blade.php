@@ -60,7 +60,8 @@
                         @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('success') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
                         <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
@@ -70,7 +71,7 @@
                             <p style="text-align: center;">
                                 {{ Auth::user()->name }}
                             </p>
-                            
+
                             <hr>
                             @if (Auth::user()->customer)
                                 <div class="row">
@@ -112,12 +113,15 @@
                             <p>Nhập mã bảo hành để kiểm tra thông tin tại đây.</p>
                         </div>
                         <!-- Order History Tab Content -->
-                        <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
+                        <div class="tab-pane fade" id="order-history" role="tabpanel"
+                            aria-labelledby="order-history-tab">
                             <h4>Lịch Sử Mua Hàng của: {{ Auth::user()->name }}</h4>
                             <hr>
                             <div class="d-flex mb-4">
-                                <input type="date" style="background-color: black; color: #fff" class="form-control me-2" placeholder="Từ ngày" value="2020-12-01">
-                                <input type="date" style="background-color: black; color: #fff" class="form-control" placeholder="Đến ngày" value="2024-11-06">
+                                <input type="date" style="background-color: black; color: #fff"
+                                    class="form-control me-2" placeholder="Từ ngày" value="2020-12-01">
+                                <input type="date" style="background-color: black; color: #fff" class="form-control"
+                                    placeholder="Đến ngày" value="2024-11-06">
                             </div>
                             <div class="mb-4">
                                 <!-- Tabs -->
@@ -130,7 +134,8 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pending-tab" data-bs-toggle="tab"
                                             data-bs-target="#pending" type="button" role="tab"
-                                            aria-controls="pending" style="color: #fff" aria-selected="false"><span>Chờ xác
+                                            aria-controls="pending" style="color: #fff" aria-selected="false"><span>Chờ
+                                                xác
                                                 nhận</span></button>
                                     </li>
                                     <li class="nav-item" role="presentation">
@@ -146,10 +151,10 @@
                                                 chuyển</span></button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" style="color: #fff" id="delivered-tab"
-                                            data-bs-toggle="tab" data-bs-target="#delivered" type="button"
-                                            role="tab" aria-controls="delivered" aria-selected="false"><span>Đã giao
-                                                hàng</span></button>
+                                        <button class="nav-link" style="color: #fff" id="completed-tab"
+                                            data-bs-toggle="tab" data-bs-target="#completed" type="button"
+                                            role="tab" aria-controls="completed" aria-selected="false"><span>Đã hoàn
+                                                thành</span></button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" style="color: #fff" id="cancelled-tab"
@@ -171,8 +176,16 @@
                                                 @foreach ($orders as $order)
                                                     <div class="card-body d-flex align-items-center"
                                                         style="background-color: black ;color: white;">
-                                                        <img src="{{$order->items->first()->product->images->first()->image_path}}"
-                                                            alt="Hình Ảnh Sản Phẩm" class="me-3" style="width: 80px;">
+                                                        @if (
+                                                            $order->items->isNotEmpty() &&
+                                                                $order->items->first()->product &&
+                                                                $order->items->first()->product->images->isNotEmpty())
+                                                            <img src="{{ $order->items->first()->product->images->first()->image_path }}"
+                                                                alt="Hình Ảnh Sản Phẩm" class="me-3"
+                                                                style="width: 80px;">
+                                                        @else
+                                                            <p>Không có ảnh </p>
+                                                        @endif
                                                         <div class="flex-grow-1">
                                                             @if ($order->items->isNotEmpty())
                                                                 <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
@@ -184,13 +197,13 @@
                                                                     $remainingItemsCount = $order->items->count() - 1;
                                                                 @endphp
                                                                 @if ($remainingItemsCount > 0)
-                                                                <small>
-                                                                    Và {{ $remainingItemsCount }} sản
+                                                                    <small>
+                                                                        Và {{ $remainingItemsCount }} sản
                                                                         phẩm khác
-                                                                </small>
+                                                                    </small>
                                                                 @endif
                                                                 <p>
-                                                                    Trạng thái: 
+                                                                    Trạng thái:
                                                                     {{ App\Enums\OrderStatus::getDescription($order->order_status) }}
                                                                 </p>
                                                             @else
@@ -199,16 +212,20 @@
                                                         </div>
                                                         <div class="text-end">
                                                             <div>
-                                                                {{ number_format($order->items->sum(function ($item) { 
-                                                                    // Lấy giá từ bảng product
-                                                                    $product = $item->product;
-                                                                    $price = $product->sale_price ? $product->sale_price : $product->base_price;
-                                                                    return $item->quantity * $price;
-                                                                }), 0, ',', '.') }} VND
+                                                                {{ number_format($order->total_price, 0, ',', '.') }} VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="text-secondary me-2">Xem Hóa Đơn</a>
-                                                                <a href="#" class="text-secondary">Xem Chi Tiết</a>
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
+                                                                    đơn</a>
+                                                                <a href="{{ route('client.order.detail', $order->id) }}"
+                                                                    class="btn btn-orange me-2">Xem chi tiết</a>
+                                                                @if (in_array($order->order_status, ['confirming', 'confirmed']) && $order->user_id == auth()->id())
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#cancelOrderModal"
+                                                                        data-order-id="{{ $order->id }}">Hủy đơn
+                                                                        hàng</button>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -220,31 +237,329 @@
                                     <!-- Pending Orders -->
                                     <div class="tab-pane fade" id="pending" role="tabpanel"
                                         aria-labelledby="pending-tab">
-                                        <p>Chờ xác nhận - Hiển thị các đơn hàng ở trạng thái "Chờ xác nhận".</p>
+                                        <div class="card mb-3">
+                                            @if ($confirmOrders->isEmpty())
+                                                <p>Không có đơn hàng nào.</p>
+                                            @else
+                                                @foreach ($confirmOrders as $confirm)
+                                                    <div class="card-body d-flex align-items-center"
+                                                        style="background-color: black ;color: white;">
+                                                        @if (
+                                                            $confirm->items->isNotEmpty() &&
+                                                                $confirm->items->first()->product &&
+                                                                $confirm->items->first()->product->images->isNotEmpty())
+                                                            <img src="{{ $confirm->items->first()->product->images->first()->image_path }}"
+                                                                alt="Hình Ảnh Sản Phẩm" class="me-3"
+                                                                style="width: 80px;">
+                                                        @else
+                                                            <p>Không có ảnh </p>
+                                                        @endif
+                                                        <div class="flex-grow-1">
+                                                            @if ($confirm->items->isNotEmpty())
+                                                                <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
+                                                                <h5 class="mb-1 text-truncate" style="max-width: 300px;">
+                                                                    {{ $confirm->items->first()->product->name }}
+                                                                </h5>
+                                                                <!-- Hiển thị số sản phẩm còn lại trong đơn hàng -->
+                                                                @php
+                                                                    $remainingItemsCount = $confirm->items->count() - 1;
+                                                                @endphp
+                                                                @if ($remainingItemsCount > 0)
+                                                                    <small>
+                                                                        Và {{ $remainingItemsCount }} sản
+                                                                        phẩm khác
+                                                                    </small>
+                                                                @endif
+                                                                <p>
+                                                                    Trạng thái:
+                                                                    {{ App\Enums\OrderStatus::getDescription($confirm->order_status) }}
+                                                                </p>
+                                                            @else
+                                                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>
+                                                                {{ number_format($confirm->total_price, 0, ',', '.') }} VND
+                                                            </div>
+                                                            <div class="mt-4 d-flex justify-content-start">
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
+                                                                    đơn</a>
+                                                                <a href="{{ route('client.order.detail', $confirm->id) }}"
+                                                                    class="btn btn-orange me-2">Xem chi tiết</a>
+                                                                @if ($confirm->order_status !== 'canceled' && $confirm->user_id == auth()->id())
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#cancelOrderModal"
+                                                                        data-order-id="{{ $confirm->id }}">Hủy đơn
+                                                                        hàng</button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <!-- Confirmed Orders -->
                                     <div class="tab-pane fade" id="confirmed" role="tabpanel"
                                         aria-labelledby="confirmed-tab">
-                                        <p>Đã xác nhận - Hiển thị các đơn hàng ở trạng thái "Đã xác nhận".</p>
+                                        <div class="card mb-3">
+                                            @if ($confirmedOrders->isEmpty())
+                                                <p>Không có đơn hàng nào.</p>
+                                            @else
+                                                @foreach ($confirmedOrders as $confirmed)
+                                                    <div class="card-body d-flex align-items-center"
+                                                        style="background-color: black ;color: white;">
+                                                        @if (
+                                                            $confirmed->items->isNotEmpty() &&
+                                                                $confirmed->items->first()->product &&
+                                                                $confirmed->items->first()->product->images->isNotEmpty())
+                                                            <img src="{{ $confirmed->items->first()->product->images->first()->image_path }}"
+                                                                alt="Hình Ảnh Sản Phẩm" class="me-3"
+                                                                style="width: 80px;">
+                                                        @else
+                                                            <p>Không có ảnh </p>
+                                                        @endif
+                                                        <div class="flex-grow-1">
+                                                            @if ($confirmed->items->isNotEmpty())
+                                                                <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
+                                                                <h5 class="mb-1 text-truncate" style="max-width: 300px;">
+                                                                    {{ $confirmed->items->first()->product->name }}
+                                                                </h5>
+                                                                <!-- Hiển thị số sản phẩm còn lại trong đơn hàng -->
+                                                                @php
+                                                                    $remainingItemsCount =
+                                                                        $confirmed->items->count() - 1;
+                                                                @endphp
+                                                                @if ($remainingItemsCount > 0)
+                                                                    <small>
+                                                                        Và {{ $remainingItemsCount }} sản
+                                                                        phẩm khác
+                                                                    </small>
+                                                                @endif
+                                                                <p>
+                                                                    Trạng thái:
+                                                                    {{ App\Enums\OrderStatus::getDescription($confirmed->order_status) }}
+                                                                </p>
+                                                            @else
+                                                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>
+                                                                {{ number_format($confirmed->total_price, 0, ',', '.') }}
+                                                                VND
+                                                            </div>
+                                                            <div class="mt-4 d-flex justify-content-start">
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
+                                                                    đơn</a>
+                                                                <a href="{{ route('client.order.detail', $confirmed->id) }}"
+                                                                    class="btn btn-orange me-2">Xem chi tiết</a>
+                                                                @if ($confirmed->order_status !== 'canceled' && $confirmed->user_id == auth()->id())
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#cancelOrderModal"
+                                                                        data-order-id="{{ $confirmed->id }}">Hủy đơn
+                                                                        hàng</button>
+                                                                @endif
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <!-- Shipping Orders -->
                                     <div class="tab-pane fade" id="shipping" role="tabpanel"
                                         aria-labelledby="shipping-tab">
-                                        <p>Đang vận chuyển - Hiển thị các đơn hàng ở trạng thái "Đang vận chuyển".</p>
+                                        <div class="card mb-3">
+                                            @if ($shippingOrders->isEmpty())
+                                                <p>Không có đơn hàng nào.</p>
+                                            @else
+                                                @foreach ($shippingOrders as $shipping)
+                                                    <div class="card-body d-flex align-items-center"
+                                                        style="background-color: black ;color: white;">
+                                                        @if (
+                                                            $shipping->items->isNotEmpty() &&
+                                                                $shipping->items->first()->product &&
+                                                                $shipping->items->first()->product->images->isNotEmpty())
+                                                            <img src="{{ $shipping->items->first()->product->images->first()->image_path }}"
+                                                                alt="Hình Ảnh Sản Phẩm" class="me-3"
+                                                                style="width: 80px;">
+                                                        @else
+                                                            <p>Không có ảnh </p>
+                                                        @endif
+                                                        <div class="flex-grow-1">
+                                                            @if ($shipping->items->isNotEmpty())
+                                                                <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
+                                                                <h5 class="mb-1 text-truncate" style="max-width: 300px;">
+                                                                    {{ $shipping->items->first()->product->name }}
+                                                                </h5>
+                                                                <!-- Hiển thị số sản phẩm còn lại trong đơn hàng -->
+                                                                @php
+                                                                    $remainingItemsCount =
+                                                                        $shipping->items->count() - 1;
+                                                                @endphp
+                                                                @if ($remainingItemsCount > 0)
+                                                                    <small>
+                                                                        Và {{ $remainingItemsCount }} sản
+                                                                        phẩm khác
+                                                                    </small>
+                                                                @endif
+                                                                <p>
+                                                                    Trạng thái:
+                                                                    {{ App\Enums\OrderStatus::getDescription($shipping->order_status) }}
+                                                                </p>
+                                                            @else
+                                                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>
+                                                                {{ number_format($shipping->total_price, 0, ',', '.') }}
+                                                                VND
+                                                            </div>
+                                                            <div class="mt-4 d-flex">
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
+                                                                    đơn</a>
+                                                                <a href="{{ route('client.order.detail', $shipping->id) }}"
+                                                                    class="btn btn-orange me-2">Xem chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
 
-                                    <!-- Delivered Orders -->
-                                    <div class="tab-pane fade" id="delivered" role="tabpanel"
-                                        aria-labelledby="delivered-tab">
-                                        <p>Đã giao hàng - Hiển thị các đơn hàng ở trạng thái "Đã giao hàng".</p>
+                                    <!-- Completed Orders -->
+                                    <div class="tab-pane fade" id="completed" role="tabpanel"
+                                        aria-labelledby="completed-tab">
+                                        <div class="card mb-3">
+                                            @if ($completedOrders->isEmpty())
+                                                <p>Không có đơn hàng nào.</p>
+                                            @else
+                                                @foreach ($completedOrders as $completed)
+                                                    <div class="card-body d-flex align-items-center"
+                                                        style="background-color: black ;color: white;">
+                                                        @if (
+                                                            $completed->items->isNotEmpty() &&
+                                                                $completed->items->first()->product &&
+                                                                $completed->items->first()->product->images->isNotEmpty())
+                                                            <img src="{{ $completed->items->first()->product->images->first()->image_path }}"
+                                                                alt="Hình Ảnh Sản Phẩm" class="me-3"
+                                                                style="width: 80px;">
+                                                        @else
+                                                            <p>Không có ảnh </p>
+                                                        @endif
+                                                        <div class="flex-grow-1">
+                                                            @if ($completed->items->isNotEmpty())
+                                                                <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
+                                                                <h5 class="mb-1 text-truncate" style="max-width: 300px;">
+                                                                    {{ $completed->items->first()->product->name }}
+                                                                </h5>
+                                                                <!-- Hiển thị số sản phẩm còn lại trong đơn hàng -->
+                                                                @php
+                                                                    $remainingItemsCount =
+                                                                        $completed->items->count() - 1;
+                                                                @endphp
+                                                                @if ($remainingItemsCount > 0)
+                                                                    <small>
+                                                                        Và {{ $remainingItemsCount }} sản
+                                                                        phẩm khác
+                                                                    </small>
+                                                                @endif
+                                                                <p>
+                                                                    Trạng thái:
+                                                                    {{ App\Enums\OrderStatus::getDescription($completed->order_status) }}
+                                                                </p>
+                                                            @else
+                                                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>
+                                                                {{ number_format($completed->total_price, 0, ',', '.') }}
+                                                                VND
+                                                            </div>
+                                                            <div class="mt-4 d-flex">
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
+                                                                    đơn</a>
+                                                                <a href="{{ route('client.order.detail', $completed->id) }}"
+                                                                    class="btn btn-orange me-2">Xem chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <!-- Cancelled Orders -->
                                     <div class="tab-pane fade" id="cancelled" role="tabpanel"
                                         aria-labelledby="cancelled-tab">
-                                        <p>Đã hủy - Hiển thị các đơn hàng ở trạng thái "Đã hủy".</p>
+                                        <div class="card mb-3">
+                                            @if ($canceledOrders->isEmpty())
+                                                <p>Không có đơn hàng nào.</p>
+                                            @else
+                                                @foreach ($canceledOrders as $canceled)
+                                                    <div class="card-body d-flex align-items-center"
+                                                        style="background-color: black ;color: white;">
+                                                        @if (
+                                                            $canceled->items->isNotEmpty() &&
+                                                                $canceled->items->first()->product &&
+                                                                $canceled->items->first()->product->images->isNotEmpty())
+                                                            <img src="{{ $canceled->items->first()->product->images->first()->image_path }}"
+                                                                alt="Hình Ảnh Sản Phẩm" class="me-3"
+                                                                style="width: 80px;">
+                                                        @else
+                                                            <p>Không có ảnh </p>
+                                                        @endif
+                                                        <div class="flex-grow-1">
+                                                            @if ($canceled->items->isNotEmpty())
+                                                                <!-- Hiển thị sản phẩm đầu tiên trong đơn hàng -->
+                                                                <h5 class="mb-1 text-truncate" style="max-width: 300px;">
+                                                                    {{ $canceled->items->first()->product->name }}
+                                                                </h5>
+                                                                <!-- Hiển thị số sản phẩm còn lại trong đơn hàng -->
+                                                                @php
+                                                                    $remainingItemsCount =
+                                                                        $canceled->items->count() - 1;
+                                                                @endphp
+                                                                @if ($remainingItemsCount > 0)
+                                                                    <small>
+                                                                        Và {{ $remainingItemsCount }} sản
+                                                                        phẩm khác
+                                                                    </small>
+                                                                @endif
+                                                                <p>
+                                                                    Trạng thái:
+                                                                    {{ App\Enums\OrderStatus::getDescription($canceled->order_status) }}
+                                                                </p>
+                                                            @else
+                                                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div>
+                                                                {{ number_format($canceled->total_price, 0, ',', '.') }}
+                                                                VND
+                                                            </div>
+                                                            <div class="mt-4 d-flex">
+                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
+                                                                    đơn</a>
+                                                                <a href="{{ route('client.order.detail', $canceled->id) }}"
+                                                                    class="btn btn-orange me-2">Xem chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -255,26 +570,30 @@
                             <div class="col-lg-12">
                                 <div class="checkout__item-left sub-bg">
                                     <h3 class="mb-40">Thay đổi mật khẩu</h3>
-                                    <form action="{{ route('client.myaccount.checkChangePassWord')  }}" method="POST">
+                                    <form action="{{ route('client.myaccount.checkChangePassWord') }}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label class="mb-10" for="current-password">Mật khẩu hiện tại *</label>
-                                                <input class="mb-20" id="current-password" name="current_password" type="password" required>
+                                                <input class="mb-20" id="current-password" name="current_password"
+                                                    type="password" required>
                                                 @error('current-password')
                                                     <small class="help-block text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
                                             <div class="col-md-12">
                                                 <label class="mb-10" for="new-password">Mật khẩu mới *</label>
-                                                <input class="mb-20" id="new-password" name="new_password" type="password" required>
+                                                <input class="mb-20" id="new-password" name="new_password"
+                                                    type="password" required>
                                                 @error('new-password')
                                                     <small class="help-block text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
                                             <div class="col-md-12">
-                                                <label class="mb-10" for="confirm-password">Xác nhận mật khẩu mới *</label>
-                                                <input class="mb-20" id="confirm-password" name="confirm_password" type="password" required>
+                                                <label class="mb-10" for="confirm-password">Xác nhận mật khẩu mới
+                                                    *</label>
+                                                <input class="mb-20" id="confirm-password" name="confirm_password"
+                                                    type="password" required>
                                                 @error('confirm-password')
                                                     <small class="help-block text-danger">{{ $message }}</small>
                                                 @enderror
@@ -301,4 +620,43 @@
             </div>
         </div>
     </section>
+    <!-- Cancel Order Modal -->
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: black; color: white;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelOrderModalLabel">Lý do hủy đơn hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="cancelOrderForm" name="cancelOrderForm" method="POST">
+                    @csrf
+                    @method('POST')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="cancel_reason" class="form-label">Lý do hủy</label>
+                            <textarea class="form-control" id="cancel_reason" name="cancel_reason" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-danger">Hủy đơn hàng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- hết modal --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cancelOrderModal = document.getElementById('cancelOrderModal');
+            cancelOrderModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var orderId = button.getAttribute('data-order-id');
+                var form = document.getElementById('cancelOrderForm');
+                form.action = '/client/order/' + orderId + '/cancel';
+            });
+        });
+    </script>
+
 @endsection

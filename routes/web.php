@@ -152,6 +152,7 @@ Route::group([
     'prefix' => 'client',
     'as' => 'client.',
 ], function () {
+
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
 
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
@@ -160,8 +161,6 @@ Route::group([
 
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-    
-
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
@@ -169,6 +168,10 @@ Route::group([
     Route::get('/shop', [ClientController::class, 'shopProducts'])->name('shop');
 
     Route::get('/voucherList', [ClientController::class, 'voucherList'])->name('voucherList');
+
+    Route::post('/order/{order}/cancel', [ClientController::class, 'cancelOrder'])->name('order.cancel');
+
+    Route::get('/orders/{order}', [ClientController::class, 'orderDetail'])->name('order.detail');
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
@@ -182,10 +185,9 @@ Route::group([
         Route::get('/', [ClientController::class, 'myAccount'])->name('myAccount');
 
         Route::post('/change-password', [UserControler::class, 'checkChangePassWord'])->name('checkChangePassWord');
-    
     });
 
-    
+
 
 
     Route::group([
@@ -194,10 +196,9 @@ Route::group([
     ], function () {
         Route::get('/', [ProfileController::class, 'index'])->name('profile');
 
-        Route::put('/update', [ProfileController::class, 'updateProfile'])->name('update'); 
-        
-        Route::post('/store', [ProfileController::class, 'store'])->name('store');
+        Route::put('/update', [ProfileController::class, 'updateProfile'])->name('update');
 
+        Route::post('/store', [ProfileController::class, 'store'])->name('store');
     });
 
     Route::group([
@@ -235,8 +236,6 @@ Route::group([
         Route::post('/apply-voucher', [CheckoutController::class, 'applyVoucher'])->name('applyVoucher');
 
         Route::post('/vnpay_payment', [CheckoutController::class, 'redirectToVnpay'])->name('redirectToVnpay');
-
-        
     });
 });
 
