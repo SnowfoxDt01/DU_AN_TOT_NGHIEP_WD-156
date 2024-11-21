@@ -5746,3 +5746,86 @@ table {
   color: #fff !important;
   /* Đảm bảo chữ trong bảng là màu trắng */
 }
+
+
+
+.address-card input[type="radio"] {
+  margin-right: 10px;
+}
+
+.address-label {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+.address-card:hover {
+  background-color: #000000;
+  color: rgb(255, 77, 0);
+}
+
+.address-card input[type="radio"]:checked+.address-label {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.address-card.selected {
+  border: 2px solid #ff4400;
+  background-color: #000000;
+  color: #ff4400;
+}
+
+
+.decrease-quantity,
+.increase-quantity {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.decrease-quantity:hover,
+.increase-quantity:hover {
+  background-color: #555;
+}
+
+.user-info {
+  background-color: #191919 !important;
+}
+
+.user-info .text-white {
+  color: white;
+}
+
+.selected {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+}
+
+.column-labels .product-line-price {
+  width: 84px;
+  /* Cài đặt chiều rộng cố định cho cột Tổng giá */
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+#default-payment {
+  padding: 10px 15px;
+  background-color: #191919;
+  border-radius: 5px;
+}
+
+#payment-options {
+  padding: 10px 15px;
+  background-color: #191919;
+  border-radius: 5px;
+}
+
+#vnpay-btn {
+  margin-left: 20px;
+}
