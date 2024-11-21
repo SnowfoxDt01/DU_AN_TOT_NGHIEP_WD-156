@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\CategoryController;
@@ -92,7 +91,8 @@ Route::group([
 
     Route::group([
         'prefix' => 'orders',
-        'as' => 'orders.'
+        'as' => 'orders.',
+        'middleware' => ['auth', 'check.pending.order']
     ], function () {
         Route::get('/', [ShopOrderController::class, 'index'])->name('index');
 
@@ -162,8 +162,7 @@ Route::group([
 
 Route::group([
     'prefix' => 'client',
-    'as' => 'client.',
-    'middleware' => ['auth', 'check.pending.order']
+    'as' => 'client.'
 ], function () {
 
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
@@ -178,14 +177,13 @@ Route::group([
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
-    Route::post('/address/{addressId}/set-default', [AddressController::class, 'setDefaultAddress'])->name('address.setDefault');
-
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 
 
     Route::group([
         'prefix' => 'myaccount',
         'as' => 'myaccount.',
+        'middleware' => ['auth', 'check.pending.order']
     ], function () {
         Route::get('/', [ClientController::class, 'myAccount'])->name('myAccount');
 
