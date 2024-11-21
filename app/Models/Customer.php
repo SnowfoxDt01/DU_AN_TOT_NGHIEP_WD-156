@@ -26,5 +26,9 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 
 }

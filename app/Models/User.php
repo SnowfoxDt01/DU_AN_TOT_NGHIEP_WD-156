@@ -37,7 +37,7 @@ class User extends Authenticatable
 
     public function customer()
     {
-        return $this->hasOne(Customer::class, 'id_user'); // Liên kết với bảng customers
+        return $this->hasOne(Customer::class, 'id_user');
     }
 
     public function orders()

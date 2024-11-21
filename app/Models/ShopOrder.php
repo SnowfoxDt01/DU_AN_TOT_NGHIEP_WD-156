@@ -24,7 +24,9 @@ class ShopOrder extends Model
         'user_id',
         'customer_id',
         'shipping_id ',
-        'cancel_reason'
+        'cancel_reason',
+        'recipient_name',
+        'recipient_phone',
 
 
     ];

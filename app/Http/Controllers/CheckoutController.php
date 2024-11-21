@@ -4,6 +4,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Voucher;
 use App\Models\VoucherUser;
 use Illuminate\Http\Request;
@@ -26,11 +27,15 @@ class CheckoutController extends Controller
 
         $customer = Auth::user()->customer;
 
+        $addresses = $customer->addresses;
+
+        $defaultAddress = $addresses->where('is_default', true)->first();
+
         if (!$shoppingCart) {
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng của bạn hiện tại trống.');
         }
 
-        return view('checkout.index', compact('shoppingCart', 'customer'));
+        return view('checkout.index', compact('shoppingCart', 'customer', 'addresses','defaultAddress'));
     }
 
     public function applyVoucher(Request $request)
@@ -103,6 +108,9 @@ class CheckoutController extends Controller
     public function process(Request $request)
     {
         $paymentMethod = $request->input('payment_method');
+
+        $addressId = $request->input('address_id');
+        $address = Address::find($addressId);
         // Lấy thông tin giỏ hàng  
         $shoppingCart = auth()->user()->shoppingCart;
 
@@ -114,56 +122,58 @@ class CheckoutController extends Controller
         // Bắt đầu transaction  
         DB::beginTransaction();
 
-        
-            // Tạo đơn hàng mới  
-            $order = new ShopOrder();
-            $order->user_id = Auth::id();
-            $order->customer_id = auth()->user()->customer->id;
-            $order->total_price = $finalAmount;
-            $order->payment_method = $paymentMethod;
-            $order->shipping_address = auth()->user()->customer->first()->address;
-            $order->shipping_id = 1;
-            $order->date_order = Carbon::now();
-            $order->order_status = 'pending';
+
+        // Tạo đơn hàng mới  
+        $order = new ShopOrder();
+        $order->user_id = Auth::id();
+        $order->customer_id = auth()->user()->customer->id;
+        $order->total_price = $finalAmount;
+        $order->payment_method = $paymentMethod;
+        $order->shipping_address = $address->address;
+        $order->recipient_name = $address->recipient_name;
+        $order->recipient_phone = $address->recipient_phone;
+        $order->shipping_id = 1;
+        $order->date_order = Carbon::now();
+        $order->order_status = 'pending';
+        $order->save();
+
+        $voucherId = session('voucher_id');
+        if ($voucherId) {
+            $voucher_user = new VoucherUser();
+            $voucher_user->user_id = Auth::id();
+            $voucher_user->order_id = $order->id;
+            $voucher_user->voucher_id = $voucherId;
+            $voucher_user->save();
+            session()->forget('voucher_id');
+        }
+        // Lưu chi tiết đơn hàng  
+        foreach ($shoppingCart->items as $item) {
+            $orderItem = new ShopOrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $item->product->id;
+            // Lấy variant_id từ relationship variantProduct của item  
+            $orderItem->variant_id = $item->variantProduct->id;
+            $orderItem->quantity = $item->quantity;
+            $orderItem->price = $item->product->sale_price > 0
+                ? $item->product->sale_price
+                : $item->product->base_price;
+            $orderItem->save();
+        }
+
+        // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
+        if ($paymentMethod === 'cash') {
+            $shoppingCart->items()->delete();
+            $order->order_status = 'confirming';
             $order->save();
+            DB::commit(); // Commit transaction  
+            return redirect()->route('client.cart.index')
+                ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Hãy thanh toán khi nhận hàng nhé !!!');
+        }
 
-            $voucherId = session('voucher_id');
-            if ($voucherId) {
-                $voucher_user = new VoucherUser();
-                $voucher_user->user_id = Auth::id();
-                $voucher_user->order_id = $order->id;
-                $voucher_user->voucher_id = $voucherId;
-                $voucher_user->save();
-                session()->forget('voucher_id');
-            }
-            // Lưu chi tiết đơn hàng  
-            foreach ($shoppingCart->items as $item) {
-                $orderItem = new ShopOrderItem();
-                $orderItem->order_id = $order->id;
-                $orderItem->product_id = $item->product->id;
-                // Lấy variant_id từ relationship variantProduct của item  
-                $orderItem->variant_id = $item->variantProduct->id;
-                $orderItem->quantity = $item->quantity;
-                $orderItem->price = $item->product->sale_price > 0
-                    ? $item->product->sale_price
-                    : $item->product->base_price;
-                $orderItem->save();
-            }
-
-            // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
-            if ($paymentMethod === 'cash') {
-                $shoppingCart->items()->delete();
-                $order->order_status = 'confirming';
-                $order->save();
-                DB::commit(); // Commit transaction  
-                return redirect()->route('client.cart.index')
-                    ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Hãy thanh toán khi nhận hàng nhé !!!');
-            }
-
-            if ($paymentMethod === 'vnpay') {
-                DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay  
-                return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay  
-            }
+        if ($paymentMethod === 'vnpay') {
+            DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay  
+            return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay  
+        }
 
         return redirect()->route('client.cart.index')->with('error', 'Phương thức thanh toán không hợp lệ!');
     }
@@ -279,5 +289,4 @@ class CheckoutController extends Controller
             $pendingOrder->delete(); // Hoặc cập nhật trạng thái là 'cancelled' nếu cần
         }
     }
-
 }
