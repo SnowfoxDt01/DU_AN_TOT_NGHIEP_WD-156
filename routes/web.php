@@ -190,9 +190,6 @@ Route::group([
         Route::post('/change-password', [UserControler::class, 'checkChangePassWord'])->name('checkChangePassWord');
     });
 
-
-
-
     Route::group([
         'prefix' => 'profile',
         'as' => 'profile.',
