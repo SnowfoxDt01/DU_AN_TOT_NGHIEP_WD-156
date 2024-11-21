@@ -85,7 +85,7 @@
                             <p><strong>Họ tên:</strong> <span id="user-name">{{ $customer->name }}</span></p>
                             <p><strong>Số điện thoại:</strong> <span id="user-phone">{{ $customer->phone }}</span></p>
                             <button type="button" class="d-block text-center btn-two mt-10 px-3 py-2" id="edit-info-btn">
-                                Thay đổi
+                              <span>Thay đổi</span>  
                             </button>
                         </div>
                         <div id="edit-form" class="mt-4" style="display:none;">
@@ -217,7 +217,7 @@
                         <div id="default-payment" class="d-flex align-items-center justify-content-between">
                             <span id="selected-payment-method" class="fw-bold">Thanh toán khi nhận hàng</span>
                             <button type="button" id="change-payment-btn" class="d-block text-center btn-two px-3 py-2">
-                                Thay đổi
+                             <span>Thay đổi</span>   
                             </button>
                         </div>
                         <div id="payment-options" class="mt-3 d-none">
@@ -241,7 +241,7 @@
                             @csrf
                             <input type="hidden" name="payment_method" id="payment-method-input" value="">
                             <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
-                                Đặt hàng
+                              <span>Đặt hàng</span>  
                             </button>
                         </form>
                     </div>
