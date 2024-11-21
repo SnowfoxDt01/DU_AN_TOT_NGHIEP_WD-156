@@ -47,7 +47,7 @@
                             </li>
                             <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" href="{{ route('client.logout') }}" style="color: #fff">
+                                <a class="nav-link" href="{{ route('logout') }}" style="color: #fff">
                                     <i class="bi bi-box-arrow-left" style="font-size: 20px;"> </i> Đăng xuất
                                 </a>
                             </li>

@@ -71,16 +71,16 @@
                             <a href="{{ route('client.myaccount.myAccount') }}" style="color: orangered; margin-right: 10px;">
                                 <i class="bi bi-person-fill-check" style="font-size: 25px"></i>
                                 {{ Auth::user()->name }} |</a>
-                            <a href="{{ route('client.logout') }}" style="color: orangered">Đăng Xuất</a>
+                            <a href="{{ route('logout') }}" style="color: orangered">Đăng Xuất</a>
                         </div>
                     @else
                         <div class="account d-flex align-items-center">
                             <div class="user__icon" style="margin-right: 10px">
-                                <a href="#0">
+                                <a href="{{ route('login') }}">
                                     <i class="fa-regular fa-user" style="font-size: 25px"></i>
                                 </a>
                             </div>
-                            <a href="{{ route('client.login') }}" class="acc__cont">
+                            <a href="{{ route('login') }}" class="acc__cont">
                                 <span style="color: orangered">Đăng nhập</span>
                             </a>
                         </div>
