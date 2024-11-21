@@ -14,7 +14,7 @@
                         <div class="login__content">
                             <h2 class="text-white mb-65">Đăng nhập</h2>
                             <div class="form-area login__form">
-                                <form action="{{ route('client.login') }}" method="POST">
+                                <form action="{{ route('login') }}" method="POST">
                                     @csrf
                                     <input type="text" name="email" placeholder="Nhập email..." value="{{ old('email') }}">
                                     @error('email')
@@ -28,7 +28,7 @@
                                     <hr>
                                 </form>
                                 <small>
-                                    Bạn chưa có tài khoản? <a href="{{ route('client.register') }}"
+                                    Bạn chưa có tài khoản? <a href="{{ route('register') }}"
                                         style="color: rgb(255, 110, 32);">Đăng kí tại đây!</a>
                                 </small>
                                 <span class="or pt-30 pb-40">Hoặc</span>

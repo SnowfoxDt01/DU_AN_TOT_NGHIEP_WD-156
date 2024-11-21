@@ -47,14 +47,9 @@
 
         <li class="nav-item">
             <div>
-                <a class="nav-link" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
+                <a class="nav-link" href="{{ route('logout') }}">
                     <i class="nav-icon bi bi-box-arrow-right"></i>
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
             </div>
         </li>
     </ul>

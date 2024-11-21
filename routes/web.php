@@ -23,10 +23,21 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoucherController;
 
+// http://127.0.0.1:8000/
+
+
 Route::get('/', [ClientController::class, 'index'])->name('client.index');
 
-Auth::routes();
-// http://127.0.0.1:8000/
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
@@ -153,16 +164,6 @@ Route::group([
     'as' => 'client.',
     'middleware' => ['auth', 'check.pending.order']
 ], function () {
-
-    Route::get('/register', [RegisterController::class, 'index'])->name('register');
-
-    Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-
-    Route::post('/login', [LoginController::class, 'login'])->name('login');
-
-    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/detail/{id}', [ClientController::class, 'detailProduct'])->name('detailProduct');
 
