@@ -18,7 +18,7 @@
                     <div class="row">
                         <!-- Cột bên trái -->
                         <div class="col-lg-6">
-                            @if ($customer)
+                            @if ($addresses)
                                 <!-- Hiển thị thông tin khách hàng và form sửa -->
                                 <div class="user-info p-4 bg-light shadow rounded mb-4">
                                     <h3 class="mb-4">Thông Tin Giao Hàng</h3>
@@ -27,21 +27,36 @@
                                         </p>
                                         <p><strong>Số điện thoại:</strong> <span
                                                 id="user-phone">{{ $customer->phone }}</span></p>
-                                        <div id="selected-address-info" class="d-none mt-3">
-                                            <h4>Địa chỉ nhận hàng:</h4>
-                                            <p><span id="selected-address"></span></p>
-                                            <p><strong>Người nhận:</strong> <span id="selected-recipient-name"></span></p>
-                                            <p><strong>Số điện thoại:</strong> <span id="selected-recipient-phone"></span>
-                                            </p>
-                                        </div>
-
-                                        <div id="address-list" class="d-flex flex-wrap">
+                                        @if ($defaultAddress)
+                                            <div id="selected-address-info" class="mt-3">
+                                                <h4>Địa chỉ nhận hàng:</h4>
+                                                <p><span id="selected-address">
+                                                        {{ $defaultAddress->address }},
+                                                        {{ $defaultAddress->ward }},
+                                                        {{ $defaultAddress->district }},
+                                                        {{ $defaultAddress->city }}
+                                                        @if ($defaultAddress->zip_code)
+                                                            (Mã bưu điện: {{ $defaultAddress->zip_code }})
+                                                        @endif
+                                                    </span></p>
+                                                <p><strong>Người nhận:</strong> <span
+                                                        id="selected-recipient-name">{{ $defaultAddress->recipient_name }}</span>
+                                                </p>
+                                                <p><strong>Số điện thoại:</strong> <span
+                                                        id="selected-recipient-phone">{{ $defaultAddress->recipient_phone }}</span>
+                                                </p>
+                                            </div>
+                                        @else
+                                            Chưa có địa chỉ.
+                                        @endif
+                                        <div id="address-list" class="d-flex flex-wrap d-none">
                                             @foreach ($addresses as $address)
                                                 <div class="address-card me-3 mb-3 p-3 border rounded"
                                                     style="cursor: pointer;" data-id="{{ $address->id }}"
                                                     data-recipient-name="{{ $address->recipient_name }}"
                                                     data-recipient-phone="{{ $address->recipient_phone }}"
-                                                    data-address="{{ $address->address }}" data-ward="{{ $address->ward }}"
+                                                    data-address="{{ $address->address }}"
+                                                    data-ward="{{ $address->ward }}"
                                                     data-district="{{ $address->district }}"
                                                     data-city="{{ $address->city }}"
                                                     data-zip-code="{{ $address->zip_code }}">
@@ -62,36 +77,77 @@
                                             @endforeach
                                         </div>
 
-                                        <button type="button" class="d-block text-center btn-two mt-10 px-3 py-2"
+                                        <button type="button" class="d-flex text-center btn-two mt-10 px-3 py-2"
                                             id="change-address-btn">
                                             <span>Thay đổi</span>
                                         </button>
+                                        <button type="button" class="d-flex text-center btn-two mt-10 px-3 py-2"
+                                            id="add-address-btn">
+                                            <span>Thêm địa chỉ</span>
+                                        </button>
+                                        <div id="add-address-section" class="mt-4">
+                                            <div id="add-address-form" class="mt-4 d-none p-4 rounded">
+                                                <h4 class="mb-4">Thêm Địa Chỉ Mới</h4>
+                                                <form method="POST" action="">
+                                                    @csrf
+                                                    <div class="mb-3">
+                                                        <label for="recipient_name" class="form-label">Tên người
+                                                            nhận</label>
+                                                        <input type="text" name="recipient_name" id="recipient_name"
+                                                            class="form-control" placeholder="Nhập tên người nhận" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="recipient_phone" class="form-label">Số điện
+                                                            thoại</label>
+                                                        <input type="text" name="recipient_phone" id="recipient_phone"
+                                                            class="form-control" placeholder="Nhập số điện thoại" required>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="mb-3">
+                                                                <label for="city" class="form-label">Tỉnh/Thành
+                                                                    phố</label>
+                                                                <input type="text" name="city" id="city"
+                                                                    class="form-control" placeholder="Nhập tỉnh/thành phố"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="mb-3">
+                                                                <label for="district" class="form-label">Quận/Huyện</label>
+                                                                <input type="text" name="district" id="district"
+                                                                    class="form-control" placeholder="Nhập quận/huyện"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="mb-3">
+                                                                <label for="ward" class="form-label">Phường/Xã</label>
+                                                                <input type="text" name="ward" id="ward"
+                                                                    class="form-control" placeholder="Nhập phường/xã"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="address" class="form-label">Địa chỉ cụ thể</label>
+                                                        <input type="text" name="address" id="address"
+                                                            class="form-control" placeholder="Nhập địa chỉ" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="zip_code" class="form-label">Mã bưu điện</label>
+                                                        <input type="text" name="zip_code" id="zip_code"
+                                                            class="form-control" placeholder="Nhập mã bưu điện (nếu có)">
+                                                    </div>
+                                                    <button type="submit" class="btn"
+                                                        style="background-color: orangered; color: #fff">Lưu Địa
+                                                        Chỉ</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        id="cancel-add-address">Hủy</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            @else
-                                <!-- Thêm mới thông tin khách hàng -->
-                                <div class="user-info p-4 bg-light shadow rounded">
-                                    <h3 class="mb-4">Thêm Thông Tin Khách Hàng</h3>
-                                    <form method="POST" action="{{ route('client.profile.store') }}">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Họ Tên</label>
-                                            <input type="text" name="name" id="name" class="form-control"
-                                                placeholder="Nhập họ tên" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="phone" class="form-label">Số Điện Thoại</label>
-                                            <input type="text" name="phone" id="phone" class="form-control"
-                                                placeholder="Nhập số điện thoại" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="address" class="form-label">Địa Chỉ</label>
-                                            <input type="text" name="address" id="address" class="form-control"
-                                                placeholder="Nhập địa chỉ" required>
-                                        </div>
-                                        <input type="hidden" name="id_user" value="{{ auth()->id() }}">
-                                        <button type="submit" class="btn btn-primary">Thêm Khách Hàng</button>
-                                    </form>
                                 </div>
                             @endif
                         </div>
@@ -136,7 +192,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-
+                                <div id="finalAmountMessage"></div>
                                 <div class="totals">
                                     <div class="totals-item theme-color float-end mt-20">
                                         <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
@@ -156,16 +212,15 @@
                         <div class="input-container">
                             <input type="text" name="code" class="mb-20 form-control custom-input"
                                 placeholder="Nhập mã giảm giá tại đây...">
+                            @error('$voucher')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
-                        @error('$voucher')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                         <input type="hidden" name="total_amount" value="{{ $cartTotal }}"> <!-- Tổng tiền -->
                         <button type="submit" class="d-inline-block text-center btn-two ">
                             <span>Áp dụng</span>
                         </button>
                     </form>
-                    <div id="finalAmountMessage"></div>
                 </div>
                 <hr>
                 <div class="payment-methods mt-4">
@@ -192,18 +247,18 @@
                         </div>
                     </div>
                 </div>
-                    <div class="payment-action mt-4">
-                        <form id="order-form" action="{{ route('client.checkout.process') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="payment_method" id="payment-method-input" value="cash">
-                             <input type="hidden" name="address_id" id="selected-address-id" value="">
-                            <input type="hidden" name="final_amount" id="final-amount-input" value="{{ $cartTotal }}">
-                            <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
-                              <span>Đặt hàng</span>  
-                            </button>
-                        </form>
-                    </div>
+                <div class="payment-action mt-4">
+                    <form id="order-form" action="{{ route('client.checkout.process') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="payment_method" id="payment-method-input" value="cash">
+                        <input type="hidden" name="address_id" id="selected-address-id" value="{{ $addressId }}">
+                        <input type="hidden" name="final_amount" id="final-amount-input" value="{{ $cartTotal }}">
+                        <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
+                            <span>Đặt hàng</span>
+                        </button>
+                    </form>
                 </div>
+            </div>
             </div>
             </div>
         </section>
@@ -317,6 +372,25 @@
                 selectedAddressInfo.classList.add('d-none');
                 addressList.classList.remove('d-none');
             });
+        });
+        document.getElementById('add-address-btn').addEventListener('click', function() {
+            document.getElementById('add-address-form').classList.remove('d-none');
+            this.classList.add('d-none');
+        });
+
+        document.getElementById('cancel-add-address').addEventListener('click', function() {
+            document.getElementById('add-address-form').classList.add('d-none');
+            document.getElementById('add-address-btn').classList.remove('d-none');
+        });
+
+        document.getElementById('change-address-btn').addEventListener('click', function() {
+            document.getElementById('add-address-form').classList.add('d-none');
+            document.getElementById('add-address-btn').classList.remove('d-none');
+        });
+
+        document.getElementById('add-address-btn').addEventListener('click', function() {
+            document.getElementById('address-list').classList.add('d-none');
+            document.getElementById('add-address-btn').classList.remove('d-none');
         });
     </script>
 @endpush
