@@ -192,16 +192,17 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="payment-action mt-4">
-                    <form id="order-form" action="{{ route('client.checkout.process') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="address_id" id="selected-address-id" value="">
-                        <input type="hidden" name="payment_method" id="payment-method-input" value="cash">
-                        <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
-                            <span>Đặt hàng</span>
-                        </button>
-                    </form>
+                    <div class="payment-action mt-4">
+                        <form id="order-form" action="{{ route('client.checkout.process') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="payment_method" id="payment-method-input" value="cash">
+                             <input type="hidden" name="address_id" id="selected-address-id" value="">
+                            <input type="hidden" name="final_amount" id="final-amount-input" value="{{ $cartTotal }}">
+                            <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
+                              <span>Đặt hàng</span>  
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
             </div>

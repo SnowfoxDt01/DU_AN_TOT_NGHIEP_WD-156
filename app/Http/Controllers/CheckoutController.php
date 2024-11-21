@@ -115,12 +115,21 @@ class CheckoutController extends Controller
         $shoppingCart = auth()->user()->shoppingCart;
 
 
-        // Lấy giá trị final_amount, nếu không có thì dùng tổng tiền giỏ hàng
-        $finalAmount = $request->input('final_amount') ?? $shoppingCart->items->sum(function ($item) {
+        // Tính toán tổng tiền giỏ hàng
+        $cartTotal = $shoppingCart->items->sum(function ($item) {
             return ($item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price) * $item->quantity;
         });
+
+        $finalAmount = $request->input('final_amount');
+
+        if (is_null($finalAmount)) {
+            $finalAmount = $cartTotal;
+        }
+
+        $discountAmount = $cartTotal - $finalAmount;
         // Bắt đầu transaction  
         DB::beginTransaction();
+
 
 
         // Tạo đơn hàng mới  
@@ -136,29 +145,28 @@ class CheckoutController extends Controller
         $order->date_order = Carbon::now();
         $order->order_status = 'pending';
         $order->save();
-
-        $voucherId = session('voucher_id');
-        if ($voucherId) {
-            $voucher_user = new VoucherUser();
-            $voucher_user->user_id = Auth::id();
-            $voucher_user->order_id = $order->id;
-            $voucher_user->voucher_id = $voucherId;
-            $voucher_user->save();
-            session()->forget('voucher_id');
-        }
-        // Lưu chi tiết đơn hàng  
-        foreach ($shoppingCart->items as $item) {
-            $orderItem = new ShopOrderItem();
-            $orderItem->order_id = $order->id;
-            $orderItem->product_id = $item->product->id;
-            // Lấy variant_id từ relationship variantProduct của item  
-            $orderItem->variant_id = $item->variantProduct->id;
-            $orderItem->quantity = $item->quantity;
-            $orderItem->price = $item->product->sale_price > 0
-                ? $item->product->sale_price
-                : $item->product->base_price;
-            $orderItem->save();
-        }
+      
+            $voucherId = session('voucher_id');
+            if ($voucherId) {
+                $voucher_user = new VoucherUser();
+                $voucher_user->user_id = Auth::id();
+                $voucher_user->order_id = $order->id;
+                $voucher_user->voucher_id = $voucherId;
+                $voucher_user->save();
+                session()->forget('voucher_id');
+            }
+            // Lưu chi tiết đơn hàng  
+            foreach ($shoppingCart->items as $item) {
+                $itemPrice = ($item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price) - ($discountAmount / $shoppingCart->items->count());
+                $orderItem = new ShopOrderItem();
+                $orderItem->order_id = $order->id;
+                $orderItem->product_id = $item->product->id;
+                // Lấy variant_id từ relationship variantProduct của item  
+                $orderItem->variant_id = $item->variantProduct->id;
+                $orderItem->quantity = $item->quantity;
+                $orderItem->price = $itemPrice;
+                $orderItem->save();
+            }
 
         // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
         if ($paymentMethod === 'cash') {
