@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\CategoryController;
@@ -178,6 +179,9 @@ Route::group([
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
+
+    Route::resource('addresses', AddressController::class);
+
 
 
     Route::group([
