@@ -11,6 +11,11 @@
                 </div>
             </div>
         </section>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <section class="checkout-page pt-130 pb-130">
             <div class="container">
@@ -69,10 +74,17 @@
                                                     <p><strong>Người nhận:</strong> {{ $address->recipient_name }}<br>
                                                         <strong>Số điện thoại:</strong> {{ $address->recipient_phone }}
                                                     </p>
-                                                    <button type="button" class="btn btn-link text-danger remove-address"
-                                                        data-id="{{ $address->id }}">
-                                                        Xoá địa chỉ
-                                                    </button>
+                                                    <form
+                                                        action="{{ route('client.addresses.destroy', $address->id) }}"
+                                                        id="delete-address-form" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-link text-danger"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này không?')">
+                                                            Xoá địa chỉ
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -88,19 +100,28 @@
                                         <div id="add-address-section" class="mt-4">
                                             <div id="add-address-form" class="mt-4 d-none p-4 rounded">
                                                 <h4 class="mb-4">Thêm Địa Chỉ Mới</h4>
-                                                <form method="POST" action="">
+                                                <form method="POST"
+                                                    action="{{ route('client.addresses.store') }}">
                                                     @csrf
                                                     <div class="mb-3">
                                                         <label for="recipient_name" class="form-label">Tên người
                                                             nhận</label>
                                                         <input type="text" name="recipient_name" id="recipient_name"
-                                                            class="form-control" placeholder="Nhập tên người nhận" required>
+                                                            class="form-control" placeholder="Nhập tên người nhận"
+                                                            value="{{ old('recipient_name') }}">
+                                                        @error('recipient_name')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="recipient_phone" class="form-label">Số điện
                                                             thoại</label>
                                                         <input type="text" name="recipient_phone" id="recipient_phone"
-                                                            class="form-control" placeholder="Nhập số điện thoại" required>
+                                                            class="form-control" placeholder="Nhập số điện thoại"
+                                                            value="{{ old('recipient_phone') }}">
+                                                        @error('recipient_phone')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
@@ -109,7 +130,10 @@
                                                                     phố</label>
                                                                 <input type="text" name="city" id="city"
                                                                     class="form-control" placeholder="Nhập tỉnh/thành phố"
-                                                                    required>
+                                                                    value="{{ old('city') }}">
+                                                                @error('city')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -117,7 +141,10 @@
                                                                 <label for="district" class="form-label">Quận/Huyện</label>
                                                                 <input type="text" name="district" id="district"
                                                                     class="form-control" placeholder="Nhập quận/huyện"
-                                                                    required>
+                                                                    value="{{ old('district') }}">
+                                                                @error('district')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -125,19 +152,30 @@
                                                                 <label for="ward" class="form-label">Phường/Xã</label>
                                                                 <input type="text" name="ward" id="ward"
                                                                     class="form-control" placeholder="Nhập phường/xã"
-                                                                    required>
+                                                                    value="{{ old('ward') }}">
+                                                                @error('ward')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="address" class="form-label">Địa chỉ cụ thể</label>
                                                         <input type="text" name="address" id="address"
-                                                            class="form-control" placeholder="Nhập địa chỉ" required>
+                                                            class="form-control" placeholder="Nhập địa chỉ"
+                                                            value="{{ old('address') }}">
+                                                        @error('address')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="zip_code" class="form-label">Mã bưu điện</label>
                                                         <input type="text" name="zip_code" id="zip_code"
-                                                            class="form-control" placeholder="Nhập mã bưu điện (nếu có)">
+                                                            class="form-control" placeholder="Nhập mã bưu điện (nếu có)"
+                                                            value="{{ old('zip_code') }}">
+                                                        @error('zip_code')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                     <button type="submit" class="btn"
                                                         style="background-color: orangered; color: #fff">Lưu Địa
