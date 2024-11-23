@@ -89,17 +89,17 @@
     <!-- Script để hiển thị biểu đồ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // const ctx = document.getElementById('revenueTrendChart').getContext('2d');
-        // const revenueData = {
-        //     labels: @json($revenueTrend->pluck('month')),
-        //     datasets: [{
-        //         label: 'Doanh thu',
-        //         data: @json($revenueTrend->pluck('total_revenue')),
-        //         borderColor: 'rgba(75, 192, 192, 1)',
-        //         borderWidth: 2,
-        //         fill: false
-        //     }]
-        // };
+        const ctx = document.getElementById('revenueTrendChart').getContext('2d');
+        const revenueData = {
+            labels: @json($revenueTrend->pluck('month')),
+            datasets: [{
+                label: 'Doanh thu',
+                data: @json($revenueTrend->pluck('total_revenue')),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
 
         const revenueTrendChart = new Chart(ctx, {
             type: 'line',
