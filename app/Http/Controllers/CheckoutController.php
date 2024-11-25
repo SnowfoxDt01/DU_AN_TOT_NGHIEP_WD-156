@@ -169,7 +169,18 @@ class CheckoutController extends Controller
             $orderItem->quantity = $item->quantity;
             $orderItem->price = $itemPrice;
             $orderItem->save();
+
+            $variant = $item->variantProduct;
+            if ($variant->quantity >= $item->quantity) {
+                $variant->decrement('quantity', $item->quantity);
+            } else {
+                DB::rollBack();
+                return redirect()->route('client.cart.index')
+                    ->with('error', "Sản phẩm '{$item->product->name}' không đủ hàng trong kho!");
+            }
         }
+
+
 
         // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
         if ($paymentMethod === 'cash') {
