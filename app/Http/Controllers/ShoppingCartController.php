@@ -66,10 +66,16 @@ class ShoppingCartController extends Controller
     {
         $cartItem = ShoppingCartItem::findOrFail($itemId);
         $quantity = $request->quantity ?? 1;
+        $maxQuantity = $cartItem->variantProduct->quantity;
+
+        if ($quantity > $maxQuantity) {
+            return response()->json([
+                'error' => 'Số lượng vượt quá số lượng tồn kho!',
+            ], 400);
+        }
     
-        $cartItem->update([
-            'quantity' => $quantity, 
-        ]);
+        $cartItem->quantity = $quantity;
+        $cartItem->save();
     
         // Tính tổng giá cho sản phẩm này
         $productPrice = $cartItem->product->sale_price > 0 ? $cartItem->product->sale_price : $cartItem->product->base_price;
