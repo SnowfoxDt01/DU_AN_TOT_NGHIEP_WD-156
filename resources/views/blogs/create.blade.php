@@ -23,7 +23,7 @@
 
             <div class="form-group col-md-6">
                 <label for="description">Mô tả</label>
-                <textarea name="description" id="description" class="form-control"></textarea>
+                <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
                 @error('description')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -31,7 +31,7 @@
 
             <div class="form-group col-md-12">
                 <label for="content">Nội dung</label>
-                <textarea name="content" id="content" class="form-control"></textarea>
+                <textarea name="content" id="content" class="form-control">{{ old('content') }}</textarea>
                 @error('content')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
