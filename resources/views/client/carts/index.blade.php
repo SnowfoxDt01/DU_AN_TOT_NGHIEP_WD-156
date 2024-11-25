@@ -92,7 +92,8 @@
                                     @csrf
                                     <div class="product-quantity">
                                         <button class="decrease-quantity"><i class="fas fa-minus"></i></button>
-                                        <input type="number" value="{{ $item->quantity }}" min="1">
+                                        <input type="number" value="{{ $item->quantity }}" min="1"
+                                            max="{{ $item->variantProduct->quantity }}">
                                         <button class="increase-quantity"><i class="fas fa-plus"></i></button>
                                     </div>
                                 </form>
@@ -145,51 +146,62 @@
     <script>
         $(document).ready(function() {
             $('.decrease-quantity, .increase-quantity').click(function(event) {
-                event.preventDefault(); // Ngăn không cho trang tải lại
+                event.preventDefault();
 
                 var input = $(this).siblings('input');
-                var currentVal = parseInt(input.val());
+                var currentVal = parseInt(input.val()); // Lấy giá trị hiện tại của input
+                var maxVal = parseInt(input.attr('max')); // Lấy giá trị tối đa từ thuộc tính max của input
+
+                var updateCart = false;
+
                 if ($(this).hasClass('decrease-quantity') && currentVal > 1) {
                     input.val(currentVal - 1);
-                } else if ($(this).hasClass('increase-quantity')) {
+                    updateCart = true;
+                } else if ($(this).hasClass('increase-quantity') && currentVal < maxVal) {
                     input.val(currentVal + 1);
+                    updateCart = true;
+                } else if ($(this).hasClass('increase-quantity') && currentVal >= maxVal) {
+                    alert('Bạn đã đạt số lượng tối đa trong kho!');
                 }
 
-                // Lấy id của item từ thuộc tính data
-                var itemId = $(this).closest('.product').data('item-id');
+                if (updateCart) {
+                    var itemId = $(this).closest('.product').data('item-id'); // Lấy id của item
 
-                // Gửi AJAX request
-                $.ajax({
-                    url: "{{ route('client.cart.update', ':itemId') }}".replace(':itemId', itemId),
-                    type: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        quantity: input.val()
-                    },
-                    success: function(response) {
-                        // Cập nhật tổng giá của sản phẩm cụ thể
-                        if (response.lineTotal) {
-                            $(input).closest('.product').find('.product-line-price').text(
-                                response.lineTotal);
+                    // Gửi yêu cầu AJAX để cập nhật giỏ hàng
+                    $.ajax({
+                        url: "{{ route('client.cart.update', ':itemId') }}".replace(':itemId',
+                            itemId),
+                        type: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            quantity: input.val()
+                        },
+                        success: function(response) {
+                            // Cập nhật tổng giá của sản phẩm cụ thể
+                            if (response.lineTotal) {
+                                $(input).closest('.product').find('.product-line-price').text(
+                                    response.lineTotal);
+                            }
+
+                            // Cập nhật tổng tiền giỏ hàng nếu có
+                            if (response.cartTotal) {
+                                $('#cart-subtotal').text(response.cartTotal);
+                            }
+
+                            console.log('Line Total:', response.lineTotal);
+                            console.log('Cart Total:', response.cartTotal);
+
+                            alert('Số lượng sản phẩm đã được cập nhật');
+                            console.log(response);
+                        },
+                        error: function(error) {
+                            console.error(error);
                         }
-
-                        // Cập nhật tổng tiền giỏ hàng nếu có
-                        if (response.cartTotal) {
-                            $('#cart-subtotal').text(response.cartTotal);
-                        }
-
-                        console.log('Line Total:', response.lineTotal);
-                        console.log('Cart Total:', response.cartTotal);
-                        // Thông báo cho người dùng rằng số lượng đã được cập nhật
-                        alert('Số lượng sản phẩm đã được cập nhật');
-                        console.log(response);
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
+                    });
+                }
             });
         });
+
 
         function confirmDelete() {
             return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
