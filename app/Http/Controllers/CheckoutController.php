@@ -285,10 +285,20 @@ class CheckoutController extends Controller
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
 
+            foreach ($order->items as $item) {
+                // Trừ số lượng sản phẩm từ kho
+                $item->product->decrement('quantity', $item->quantity);
+            }
+
             $shoppingCart->items()->delete();
             return redirect()->route('client.cart.index')
                 ->with('success', 'Thanh toán thành công!');
         } else {
+            foreach ($order->items as $orderItem) {
+                $variantProduct = $orderItem->variantProducts; // Lấy variant sản phẩm
+                $variantProduct->quantity += $orderItem->quantity; // Cộng lại số lượng
+                $variantProduct->save(); // Lưu lại thay đổi
+            }
             // Nếu thanh toán thất bại, xóa đơn hàng
             $order->delete(); // Xóa đơn hàng khỏi cơ sở dữ liệu 
 
@@ -308,6 +318,12 @@ class CheckoutController extends Controller
             ->first();
 
         if ($pendingOrder) {
+            foreach ($pendingOrder->items as $orderItem) {
+                $variantProduct = $orderItem->variantProducts; // Lấy variant sản phẩm
+                $variantProduct->quantity += $orderItem->quantity; // Cộng lại số lượng
+                $variantProduct->save(); // Lưu lại thay đổi
+            }
+
             $pendingOrder->delete(); // Hoặc cập nhật trạng thái là 'cancelled' nếu cần
         }
     }

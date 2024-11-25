@@ -558,3 +558,25 @@ CSS TABLE OF CONTENTS
 	new WOW().init();
 	// WOW Animatin area start here ***
 })(jQuery);
+
+function confirmDelete(itemId) {
+    Swal.fire({
+        title: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
+        text: "Bạn sẽ không thể khôi phục lại sản phẩm này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ff0000',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Xóa!',
+        cancelButtonText: 'Hủy',
+		backdrop: true,
+        background: '#000000',
+		color: '#ff4400',
+        backdrop: 'rgba(0, 0, 0, 0.7)'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Nếu người dùng xác nhận, gửi form xóa
+            document.getElementById('delete-form-' + itemId).submit();
+        }
+    });
+}

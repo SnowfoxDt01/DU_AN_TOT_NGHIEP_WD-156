@@ -107,11 +107,11 @@
                                     {{ number_format($totalPrice, 0, ',', '.') }}.đ
                                 </div>
                                 <div class="product-removal">
-                                    <form action="{{ route('client.cart.remove', $item->id) }}" method="POST"
-                                        onsubmit="return confirmDelete()">
+                                    <form id="delete-form-{{ $item->id }}"
+                                        action="{{ route('client.cart.remove', $item->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit">
+                                        <button type="button" onclick="confirmDelete({{ $item->id }})">
                                             <i class="fa-solid fa-x heading-color"></i>
                                         </button>
                                     </form>
@@ -161,7 +161,11 @@
                     input.val(currentVal + 1);
                     updateCart = true;
                 } else if ($(this).hasClass('increase-quantity') && currentVal >= maxVal) {
-                    alert('Bạn đã đạt số lượng tối đa trong kho!');
+                    toastr.warning('Số lượng sản phẩm không đủ', 'Cảnh báo', {
+                        "timeOut": 3000,
+                        "backgroundColor": "#ff0000",
+                        "iconClass": "toast-warning"
+                    });
                 }
 
                 if (updateCart) {
@@ -191,8 +195,11 @@
                             console.log('Line Total:', response.lineTotal);
                             console.log('Cart Total:', response.cartTotal);
 
-                            alert('Số lượng sản phẩm đã được cập nhật');
-                            console.log(response);
+                            toastr.success('Số lượng sản phẩm đã được cập nhật', 'Thông báo', {
+                                "timeOut": 3000,
+                                "backgroundColor": "#28a745", // Màu xanh lá
+                                "iconClass": "toast-success"
+                            });
                         },
                         error: function(error) {
                             console.error(error);
