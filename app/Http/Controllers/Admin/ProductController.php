@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -56,7 +57,7 @@ class ProductController extends Controller
         return view('products.add-product', compact('categories', 'sizes', 'colors'));
     }
 
-    public function addPostProduct(Request $request)
+    public function addPostProduct(StoreProductRequest $request)
     {
         // Thêm sản phẩm chính
         $productData = [
@@ -157,7 +158,7 @@ class ProductController extends Controller
         return view('products.edit-product', compact('product', 'sizes', 'colors', 'categories'));
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(StoreProductRequest $request, $id)
     {
         // Tìm sản phẩm để cập nhật
         $product = Product::with('variantProducts')->findOrFail($id);

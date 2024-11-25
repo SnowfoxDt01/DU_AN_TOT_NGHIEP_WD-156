@@ -59,29 +59,43 @@
                         <div class="form-group">
                             <label for="nameSP">Tên sản phẩm</label>
                             <input type="text" class="form-control" id="nameSP" name="nameSP"
-                                placeholder="Tên sản phẩm" value="{{ old('nameSP') }}" required>
+                                placeholder="Tên sản phẩm" value="{{ old('nameSP') }}">
+                            @error('nameSP')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="priceSP">Giá</label>
                                 <input type="number" class="form-control" id="priceSP" name="priceSP"
-                                    placeholder="Giá sản phẩm" value="{{ old('priceSP') }}" required>
+                                    placeholder="Giá sản phẩm" value="{{ old('priceSP') }}">
+                                @error('priceSP')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="sale_price">Giá khuyến mãi</label>
                                 <input type="number" class="form-control" id="sale_price" name="sale_price"
                                     value="{{ old('sale_price') }}" placeholder="Giá khuyến mãi">
+                                @error('sale_price')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="flash_sale_price">Giá siêu khuyến mãi</label>
                                 <input type="number" class="form-control" id="flash_sale_price" name="flash_sale_price"
                                     value="{{ old('flash_sale_price') }}" placeholder="Giá siêu khuyến mãi">
+                                @error('flash_sale_price')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="descriptionSP">Mô tả</label>
-                            <textarea class="form-control" id="descriptionSP" name="descriptionSP" value="{{ old('descriptionSP') }}"
-                                placeholder="Mô tả sản phẩm"></textarea>
+                            <textarea class="form-control" id="descriptionSP" name="descriptionSP" placeholder="Mô tả sản phẩm">{{ old('descriptionSP') }}</textarea>
+                            @error('descriptionSP')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="product_new">Trạng thái sản phẩm</label>
@@ -96,8 +110,10 @@
                         <h3>Hình ảnh</h3>
                         <div class="form-group">
                             <label for="imageSP">Hình ảnh</label>
-                            <!-- Thêm `multiple` và chỉnh `name` thành `images[]` -->
-                            <input type="file" class="form-control" id="imageSP" name="images[]" multiple required>
+                            <input type="file" class="form-control" id="imageSP" name="images[]" multiple>
+                            @error('images')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -114,16 +130,25 @@
                                         <label for="variant_name">Tên sản phẩm biến thể</label>
                                         <input type="text" class="form-control" name="variant_name[]"
                                             value="{{ old('variant_name[]') }}" placeholder="Tên biến thể">
+                                        @error('variant_name[]')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="variant_price">Giá</label>
                                         <input type="number" class="form-control" name="variant_price[]"
                                             value="{{ old('variant_price[]') }}" placeholder="Giá biến thể">
+                                        @error('variant_price[]')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="variant_quantity">Số lượng</label>
                                         <input type="number" class="form-control" name="variant_quantity[]"
                                             value="{{ old('variant_quantity[]') }}" placeholder="Số lượng biến thể">
+                                        @error('variant_quantity[]')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group col-md-3">
@@ -145,7 +170,10 @@
                                     <div class="form-group col-md-3">
                                         <label for="variant_image">Hình ảnh biến thể</label>
                                         <input type="file" class="form-control" id="variant_image"
-                                            name="variant_image[0]" required>
+                                            name="variant_image[0]">
+                                        @error('variant_image[0]')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="variant_status">Trạng thái</label>
@@ -221,15 +249,24 @@
                         <input type="hidden" name="variant_id[]" value="">
                         <div class="form-group col-md-4">
                             <label for="variant_name">Tên sản phẩm biến thể</label>
-                            <input type="text" class="form-control" name="variant_name[]" required>
+                            <input type="text" class="form-control" name="variant_name[]">
+                        @error('variant_name.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="variant_price">Giá</label>
-                            <input type="number" class="form-control" name="variant_price[]" required>
+                            <input type="number" class="form-control" name="variant_price[]">
+                        @error('variant_price.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="variant_quantity">Số lượng</label>
-                            <input type="number" class="form-control" name="variant_quantity[]" required>
+                            <input type="number" class="form-control" name="variant_quantity[]">
+                        @error('variant_quantity.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group col-md-3">
                             <label for="variant_size">Kích cỡ</label>
@@ -238,6 +275,9 @@
                                     <option value="{{ $size->id }}">{{ $size->name }}</option>
                                 @endforeach
                             </select>
+                        @error('variant_size.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group col-md-3">
                             <label for="variant_color">Màu</label>
@@ -246,10 +286,16 @@
                                     <option value="{{ $color->id }}">{{ $color->name }}</option>
                                 @endforeach
                             </select>
+                        @error('variant_color.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group col-md-3">
                             <label for="variant_image">Hình ảnh biến thể</label>
-                            <input type="file" class="form-control" id="variant_image" name="variant_image[0]" required>
+                            <input type="file" class="form-control" id="variant_image" name="variant_image[0]">
+                        @error('variant_image.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group col-md-3">
                             <label for="variant_status">Trạng thái</label>
@@ -257,6 +303,9 @@
                                 <option value="active">Hoạt động</option>
                                 <option value="inactive">Không hoạt động</option>
                             </select>
+                        @error('variant_status.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <hr>
                     </div>
