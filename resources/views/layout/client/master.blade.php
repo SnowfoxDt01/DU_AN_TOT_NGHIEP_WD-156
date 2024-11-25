@@ -29,8 +29,11 @@
     {{-- Bootstrap icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
     @stack('styles')
-    
+
 </head>
 
 <body>
@@ -98,6 +101,12 @@
     <script src="client_ui/assets/js/jquery.waypoints.js"></script>
     <!-- Script Js -->
     <script src="client_ui/assets/js/script.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 
     @stack('scripts')
 

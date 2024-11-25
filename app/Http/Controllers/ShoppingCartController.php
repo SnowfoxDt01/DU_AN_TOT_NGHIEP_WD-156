@@ -17,7 +17,7 @@ class ShoppingCartController extends Controller
         $categories = Category::all();
         // Lấy giỏ hàng của người dùng hiện tại
         $user = Auth::user();
-        $shoppingCart = $user->shoppingCart()->with('items.variantProduct.product.images', 'items.variantProduct.images')->first();
+        $shoppingCart = $user->shoppingCart->with('items.variantProduct.product.images', 'items.variantProduct.images')->first();
 
         return view('client.carts.index', compact('shoppingCart', 'categories'));
     }
@@ -54,7 +54,7 @@ class ShoppingCartController extends Controller
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $variantProduct->price,
-                
+
             ]);
         }
 
@@ -71,25 +71,26 @@ class ShoppingCartController extends Controller
         if ($quantity > $maxQuantity) {
             return response()->json([
                 'error' => 'Số lượng vượt quá số lượng tồn kho!',
+                'maxQuantity' => $maxQuantity,
             ], 400);
         }
-    
+
         $cartItem->quantity = $quantity;
         $cartItem->save();
-    
+
         // Tính tổng giá cho sản phẩm này
         $productPrice = $cartItem->product->sale_price > 0 ? $cartItem->product->sale_price : $cartItem->product->base_price;
         $lineTotal = number_format($productPrice * $quantity, 0, ',', '.');
-    
+
         // Tính tổng giá của toàn bộ giỏ hàng
         $cartTotal = ShoppingCartItem::where('cart_id', $cartItem->cart_id)
             ->get()
-            ->sum(function($item) {
+            ->sum(function ($item) {
                 $price = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
                 return $price * $item->quantity;
             });
         $cartTotalFormatted = number_format($cartTotal, 0, ',', '.');
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Số lượng sản phẩm đã được cập nhật',
@@ -97,13 +98,12 @@ class ShoppingCartController extends Controller
             'cartTotal' => $cartTotalFormatted,
         ]);
     }
-    
+
     public function remove(Request $request, $itemId)
     {
         $cartItem = ShoppingCartItem::findOrFail($itemId);
         $cartItem->delete();
 
-        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng!'); 
+        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng!');
     }
-
 }
