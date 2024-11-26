@@ -14,6 +14,9 @@ class ShoppingCartController extends Controller
 {
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
         $categories = Category::all();
         // Lấy giỏ hàng của người dùng hiện tại
         $user = Auth::user();
