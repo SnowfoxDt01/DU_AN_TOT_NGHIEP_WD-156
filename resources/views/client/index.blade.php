@@ -1,4 +1,67 @@
 @extends('layout.client.master')
+@push('styles')
+<style>
+    .product__offer {
+    padding: 30px 0;
+    text-align: center;
+}
+
+.product__offer h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.product__offer p {
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.countdown-wrapper {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.coundown-item {
+    text-align: center;
+    min-width: 70px; /* Đảm bảo các phần tử countdown không quá nhỏ */
+    padding: 10px; /* Thêm padding để dễ dàng tạo hình tròn */
+}
+
+.countdown-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+h6 {
+    font-size: 16px;
+    margin-top: 5px;
+    color: #fff;
+}
+
+.coundown-item span {
+    display: inline-block;
+    width: 50px; /* Điều chỉnh kích thước của các vòng tròn */
+    height: 50px;
+    line-height: 50px; /* Căn giữa nội dung trong vòng tròn */
+    border-radius: 50%; /* Tạo hình tròn */
+    background-color: #fff; /* Nền trắng */
+    border: 2px solid #fff; /* Viền cam */
+    color: #f60; /* Màu chữ */
+    font-size: 18px; /* Điều chỉnh kích thước chữ */
+}
+
+.countdown-item h6 {
+    margin-top: 5px;
+}
+
+</style>
+@endpush
 @section('content')
     <!-- Banner area start here -->
     <section class="banner-two">
@@ -336,42 +399,90 @@
             </ul>
         </div>
     </div>
+<hr>
+<section class="product__offer py-4 mb-1">
     <div class="container">
-        <div class="bor-top pb-65"></div>
-    </div>
-    <!-- Text slider area end here -->
-
-    <!-- Gallery area start here -->
-    <section class="gallery-area">
-        <div class="swiper gallery__slider">
-            <div class="swiper-wrapper">
-                @foreach ($sale_products as $sale)
-                    <div class="swiper-slide">
-                        <div class="gallery__item">
-                            <div class="off-tag">SALE<br>
-                                OFF</div>
-                            <br>
-                            <div class="gallery__image image">
-                                @if ($sale->images->count() > 0)
-                                    <img src="{{ $sale->images->first()->image_path }}" alt="image" height="320px">
-                                @else
-                                    <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail"
-                                        width="100">
-                                @endif
-                            </div>
-                            <div class="gallery__content">
-                                <h3 class="mb-10"><a
-                                        href="{{ route('client.detailProduct', $sale->id) }}">{{ $sale->name }}</a>
-                                </h3>
-                                <a href="{{ route('client.detailProduct', $sale->id) }}" class="btn-two mt-25"><span>Mua
-                                        ngay</span></a>
-                            </div>
-                        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h2 class="fw-bold">Ưu đãi đặc biệt</h2>
+                <p class="mb-3">Chương trình khuyến mãi giảm giá lên đến 50%! Còn lại:</p>
+                <div class="countdown-wrapper d-flex justify-content-center align-items-center gap-4 flex-wrap">
+                    <div class="coundown-item">
+                        <span id="day" class="countdown-number">00</span>
+                        <h6>Ngày</h6>
                     </div>
-                @endforeach
+                    <div class="coundown-item">
+                        <span id="hour" class="countdown-number">00</span>
+                        <h6>Giờ</h6>
+                    </div>
+                    <div class="coundown-item">
+                        <span id="min" class="countdown-number">00</span>
+                        <h6>Phút</h6>
+                    </div>
+                    <div class="coundown-item">
+                        <span id="sec" class="countdown-number">00</span>
+                        <h6>Giây</h6>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+<section class="gallery-area">
+    <div class="swiper gallery__slider">
+        <div class="swiper-wrapper">
+            @foreach ($sale_products as $sale)
+                <div class="swiper-slide">
+                    <div class="gallery__item">
+                        <div class="off-tag">SALE<br>OFF</div>
+                        <br>
+                        <div class="gallery__image image">
+                            @if ($sale->images->count() > 0)
+                                <img src="{{ $sale->images->first()->image_path }}" alt="image" height="320px">
+                            @else
+                                <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail" width="100">
+                            @endif
+                        </div>
+                        <div class="gallery__content">
+                            <h3 class="mb-10"><a href="{{ route('client.detailProduct', $sale->id) }}">{{ $sale->name }}</a></h3>
+                            <a href="{{ route('client.detailProduct', $sale->id) }}" class="btn-two mt-25"><span>Mua ngay</span></a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
     <hr>
-    <!-- Gallery area end here -->
 @endsection
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const countdown = setInterval(() => {
+        const endDate = new Date('2024-12-31T23:59:59'); // Ngày kết thúc
+        const now = new Date();
+        const timeRemaining = endDate - now;
+
+        if (timeRemaining <= 0) {
+            clearInterval(countdown);
+            document.getElementById('day').textContent = "00";
+            document.getElementById('hour').textContent = "00";
+            document.getElementById('min').textContent = "00";
+            document.getElementById('sec').textContent = "00";
+            return;
+        }
+
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById('day').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hour').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('min').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('sec').textContent = seconds.toString().padStart(2, '0');
+    }, 1000);
+});
+
+</script>
+@endpush

@@ -8,7 +8,6 @@
     }
 </style>
 @endpush
-
 @section('content')
 <section class="page-banner bg-image pt-130 pb-130" data-background="assets/images/banner/inner-banner.jpg">
     <div class="container">
