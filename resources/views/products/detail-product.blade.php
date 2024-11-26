@@ -214,6 +214,8 @@
                                     <p><strong>Người dùng:</strong> {{ $review->user->name ?? 'Ẩn danh' }}</p>
                                     <p><strong>Điểm đánh giá:</strong> {{ $review->rating }}/5</p>
                                     <p><strong>Bình luận:</strong> {{ $review->comment }}</p>
+                                    <p><strong>Trạng thái:</strong> {{ $review->is_visible ? 'Đang hiển thị' : 'Không hiển thị' }}
+                                    </p>
                                     <form action="{{ route('admin.reviews.toggleVisibility', $review->id) }}"
                                         method="POST">
                                         @csrf

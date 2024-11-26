@@ -195,7 +195,7 @@
                         <div class="review-wrp">
                             @if ($detailProduct->reviews->count() > 0)
                                 @php
-                                    $reviews = $detailProduct->reviews()->paginate(4);
+                                    $reviews = $detailProduct->reviews()->where('is_visible', true)->paginate(4);
                                 @endphp
                                 @foreach ($reviews as $review)
                                     <div class="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
@@ -336,7 +336,7 @@
         function selectSize(sizeId, sizeName) {
             // Lấy màu đã chọn (thêm dòng này)
             const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]').dataset
-            .colorId;
+                .colorId;
 
             // Tìm variantId dựa trên màu và size đã chọn (thay đổi ở đây)
             const variant = variantData[selectedColorId][sizeId];
