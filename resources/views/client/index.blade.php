@@ -1,67 +1,4 @@
 @extends('layout.client.master')
-@push('styles')
-<style>
-    .product__offer {
-    padding: 30px 0;
-    text-align: center;
-}
-
-.product__offer h2 {
-    font-size: 40px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.product__offer p {
-    font-size: 20px;
-    color: #fff;
-    margin-bottom: 20px;
-}
-
-.countdown-wrapper {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.coundown-item {
-    text-align: center;
-    min-width: 70px; /* Đảm bảo các phần tử countdown không quá nhỏ */
-    padding: 10px; /* Thêm padding để dễ dàng tạo hình tròn */
-}
-
-.countdown-number {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-}
-
-h6 {
-    font-size: 16px;
-    margin-top: 5px;
-    color: #fff;
-}
-
-.coundown-item span {
-    display: inline-block;
-    width: 50px; /* Điều chỉnh kích thước của các vòng tròn */
-    height: 50px;
-    line-height: 50px; /* Căn giữa nội dung trong vòng tròn */
-    border-radius: 50%; /* Tạo hình tròn */
-    background-color: #fff; /* Nền trắng */
-    border: 2px solid #fff; /* Viền cam */
-    color: #f60; /* Màu chữ */
-    font-size: 18px; /* Điều chỉnh kích thước chữ */
-}
-
-.countdown-item h6 {
-    margin-top: 5px;
-}
-
-</style>
-@endpush
 @section('content')
     <!-- Banner area start here -->
     <section class="banner-two">
@@ -329,25 +266,25 @@ h6 {
                                 <div class="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
                                     data-wow-delay=".4s">
                                     <div class="info">
-                                        <h4>HUNGRY UP !</h4>
-                                        <span>Offer end in :</span>
+                                        <h4>Nhanh tay nào!</h4>
+                                        <span>Ưu đãi kết thúc trong :</span>
                                     </div>
                                     <div class="d-flex gap-2 align-items-center">
                                         <div class="get-time">
                                             <h3 id="day">00</h3>
-                                            <span>Day</span>
+                                            <span>Ngày</span>
                                         </div>
                                         <div class="get-time">
                                             <h3 id="hour">00</h3>
-                                            <span>Hr</span>
+                                            <span>Giờ</span>
                                         </div>
                                         <div class="get-time">
                                             <h3 id="min">00</h3>
-                                            <span>Min</span>
+                                            <span>Phút</span>
                                         </div>
                                         <div class="get-time">
                                             <h3 id="sec">00</h3>
-                                            <span>Sec</span>
+                                            <span>Giây</span>
                                         </div>
                                     </div>
                                 </div>
@@ -400,34 +337,6 @@ h6 {
         </div>
     </div>
 <hr>
-<section class="product__offer py-4 mb-1">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-12">
-                <h2 class="fw-bold">Ưu đãi đặc biệt</h2>
-                <p class="mb-3">Chương trình khuyến mãi giảm giá lên đến 50%! Còn lại:</p>
-                <div class="countdown-wrapper d-flex justify-content-center align-items-center gap-4 flex-wrap">
-                    <div class="coundown-item">
-                        <span id="day" class="countdown-number">00</span>
-                        <h6>Ngày</h6>
-                    </div>
-                    <div class="coundown-item">
-                        <span id="hour" class="countdown-number">00</span>
-                        <h6>Giờ</h6>
-                    </div>
-                    <div class="coundown-item">
-                        <span id="min" class="countdown-number">00</span>
-                        <h6>Phút</h6>
-                    </div>
-                    <div class="coundown-item">
-                        <span id="sec" class="countdown-number">00</span>
-                        <h6>Giây</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <section class="gallery-area">
     <div class="swiper gallery__slider">
         <div class="swiper-wrapper">
