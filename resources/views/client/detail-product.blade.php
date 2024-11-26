@@ -357,6 +357,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateOptions(null, null);
         });
+        document.addEventListener("DOMContentLoaded", () => {
+        const qtyInput = document.querySelector(".qty");
+
+        document.querySelectorAll(".qtyminus, .qtyplus").forEach(button => {
+            button.addEventListener("click", () => {
+                let quantity = parseInt(qtyInput.value);
+
+                if (button.classList.contains("qtyminus") && quantity > 1) {
+                    quantity -= 1;
+                } else if (button.classList.contains("qtyplus")) {
+                    quantity += 1;
+                }
+
+                qtyInput.value = quantity;
+            });
+        });
+    });
     </script>
 @endsection
 @push('scripts')
