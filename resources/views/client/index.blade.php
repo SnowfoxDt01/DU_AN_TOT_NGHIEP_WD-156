@@ -337,7 +337,6 @@
         </div>
     </div>
 <hr>
-<section class="gallery-area">
     <div class="swiper gallery__slider">
         <div class="swiper-wrapper">
             @foreach ($sale_products as $sale)
@@ -365,33 +364,32 @@
     <hr>
 @endsection
 @push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const countdown = setInterval(() => {
-        const endDate = new Date('2024-12-31T23:59:59'); // Ngày kết thúc
-        const now = new Date();
-        const timeRemaining = endDate - now;
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdown = setInterval(() => {
+                const endDate = new Date('2024-12-31T23:59:59'); // Ngày kết thúc
+                const now = new Date();
+                const timeRemaining = endDate - now;
 
-        if (timeRemaining <= 0) {
-            clearInterval(countdown);
-            document.getElementById('day').textContent = "00";
-            document.getElementById('hour').textContent = "00";
-            document.getElementById('min').textContent = "00";
-            document.getElementById('sec').textContent = "00";
-            return;
-        }
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById('day').textContent = "00";
+                    document.getElementById('hour').textContent = "00";
+                    document.getElementById('min').textContent = "00";
+                    document.getElementById('sec').textContent = "00";
+                    return;
+                }
 
-        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-        document.getElementById('day').textContent = days.toString().padStart(2, '0');
-        document.getElementById('hour').textContent = hours.toString().padStart(2, '0');
-        document.getElementById('min').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('sec').textContent = seconds.toString().padStart(2, '0');
-    }, 1000);
-});
-
-</script>
+                document.getElementById('day').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hour').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('min').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('sec').textContent = seconds.toString().padStart(2, '0');
+            }, 1000);
+        });
+    </script>
 @endpush
