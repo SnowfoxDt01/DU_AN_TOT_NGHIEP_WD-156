@@ -130,7 +130,13 @@
                                                 @endforeach
                                             </div>
                                         </div>
-
+                                        <div class="d-flex flex-wrap py-3 bor-bottom">
+                                            <small>
+                                                <p>Số lượng : <span
+                                                        id="quantity-label">{{ $detailProduct->getTotalQuantity() }}</span>
+                                                </p>
+                                            </small>
+                                        </div>
                                         <div class="d-flex flex-wrap py-3 bor-bottom">
                                             <h4 class="pe-3">Kích thước:</h4>
                                             <div class="variant-sizes d-flex gap-2">
@@ -162,7 +168,8 @@
                                             </h2>
                                         </div>
                                         <button type="submit" class="d-block text-center btn-two mt-40">
-                                            <span><i class="fa-solid fa-basket-shopping pe-2"></i> Thêm vào giỏ hàng</span>
+                                            <span><i class="fa-solid fa-basket-shopping pe-2" id="add-to-cart-btn"></i>
+                                                Thêm vào giỏ hàng</span>
                                         </button>
                                     </form>
                                 </div>
@@ -281,104 +288,156 @@
 @endsection
 @push('scripts')
     <script>
-        const variantData = @json(
-            $detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
-                return $variants->groupBy('size_id')->map(function ($groupedVariants) {
-                    return $groupedVariants->first();
-                });
-            }));
+        const totalQuantity = {{ $detailProduct->getTotalQuantity() }}; // Tổng số lượng
+        const variantData = @json(collect($detailProduct->variantProducts)->groupBy('color_id')->map(function ($variants) {
+                    return $variants->groupBy('size_id')->map(function ($groupedVariants) {
+                        return $groupedVariants->first();
+                    });
+                }));
+
+        // Hàm cập nhật hiển thị số lượng
+        function updateQuantityDisplay(colorId = null, sizeId = null) {
+            const quantityLabel = document.getElementById('quantity-label');
+            let quantity = totalQuantity; // Mặc định là tổng số lượng
+
+            if (colorId && sizeId && variantData[colorId] && variantData[colorId][sizeId]) {
+                quantity = variantData[colorId][sizeId].quantity;
+            }
+
+            quantityLabel.textContent = quantity;
+        }
 
         // Hàm cập nhật kích thước dựa trên màu đã chọn
         function updateOptions(selectedColorId) {
             document.querySelectorAll('.size-option').forEach(el => {
                 const sizeId = el.getAttribute('data-size-id');
-                // Đặt tất cả các kích thước ở trạng thái disabled trước
-                el.classList.add('disabled');
+                el.classList.add('disabled'); // Vô hiệu hóa tất cả kích thước
 
-                // Chỉ enable kích thước nếu có trong màu đã chọn và có số lượng > 0
                 if (selectedColorId && variantData[selectedColorId] && variantData[selectedColorId][sizeId] &&
                     variantData[selectedColorId][sizeId].quantity > 0) {
                     el.classList.remove('disabled');
                 }
             });
-        }
 
-        function selectVariant(colorId, variantId, variantName) {
-            // Gán biến thể đã chọn
-            document.getElementById('variant_id').value = variantId;
-
-            // Đánh dấu màu sắc được chọn (thay đổi ở đây)
-            document.querySelectorAll('.color-option').forEach(option => {
-                option.style.border = '1px solid #ccc'; // Reset border về mặc định
-            });
-            document.querySelector(`.color-option[data-color-id="${colorId}"]`).style.border = '2px solid red';
-
-            // Cập nhật lại các kích thước khả dụng
-            updateOptions(colorId, null);
-
-            // Kiểm tra xem người dùng đã chọn kích thước nào chưa
+            // Kiểm tra kích thước đã chọn
             const selectedSizeId = document.getElementById('size_id').value;
-
-            // Nếu có kích thước đã chọn, kiểm tra xem kích thước đó có hợp lệ cho màu hiện tại không
-            if (selectedSizeId && (!variantData[colorId] || !variantData[colorId][selectedSizeId] || variantData[colorId][
-                    selectedSizeId
-                ].quantity <= 0)) {
-                // Nếu kích thước không khả dụng, xóa kích thước đã chọn
+            if (selectedSizeId && (!variantData[selectedColorId] || !variantData[selectedColorId][selectedSizeId] ||
+                    variantData[selectedColorId][selectedSizeId].quantity <= 0)) {
+                // Nếu kích thước không hợp lệ, xóa lựa chọn
                 document.getElementById('size_id').value = '';
                 document.querySelectorAll('.size-option').forEach(option => {
-                    option.style.border = '1px solid #ccc'; // Reset border về mặc định
-                });
-                document.querySelectorAll('.size-option .selected-mark').forEach(mark => {
-                    mark.style.display = 'none';
+                    option.style.border = '1px solid #ccc'; // Reset border
                 });
             }
         }
 
+        function selectVariant(colorId, variantId, variantName) {
+            document.getElementById('variant_id').value = variantId;
+
+            // Highlight màu đã chọn
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.style.border = '1px solid #ccc';
+            });
+            document.querySelector(`.color-option[data-color-id="${colorId}"]`).style.border = '2px solid red';
+
+            // Cập nhật kích thước khả dụng và số lượng
+            updateOptions(colorId);
+
+            // Cập nhật số lượng
+            updateQuantityDisplay(colorId, document.getElementById('size_id').value);
+        }
 
         function selectSize(sizeId, sizeName) {
-            // Lấy màu đã chọn (thêm dòng này)
-            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]').dataset
+            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]')?.dataset
                 .colorId;
-
-            // Tìm variantId dựa trên màu và size đã chọn (thay đổi ở đây)
-            const variant = variantData[selectedColorId][sizeId];
+            const variant = variantData[selectedColorId]?.[sizeId];
             const variantId = variant ? variant.id : null;
 
             document.getElementById('variant_id').value = variantId;
             document.getElementById('size_id').value = sizeId;
+
+            // Highlight kích thước đã chọn
             document.querySelectorAll('.size-option').forEach(option => {
-                option.style.border = '1px solid #ccc'; // Reset border về mặc định
+                option.style.border = '1px solid #ccc';
             });
             document.querySelector(`.size-option[data-size-id="${sizeId}"]`).style.border = '2px solid red';
+
+            // Cập nhật số lượng
+            updateQuantityDisplay(selectedColorId, sizeId);
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateOptions(null, null);
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateOptions(null, null);
-        });
 
         document.addEventListener("DOMContentLoaded", () => {
             const qtyInput = document.querySelector(".qty");
 
             document.querySelectorAll(".qtyminus, .qtyplus").forEach(button => {
                 button.addEventListener("click", () => {
-                    let quantity = parseInt(qtyInput.value);
+                    let quantity = parseInt(qtyInput.value) || 1; // Đảm bảo giá trị hợp lệ
+                    const maxQuantity = parseInt(document.getElementById('quantity-label')
+                        .textContent) || 0;
 
                     if (button.classList.contains("qtyminus") && quantity > 1) {
                         quantity -= 1;
                     } else if (button.classList.contains("qtyplus")) {
-                        quantity += 1;
+                        if (quantity < maxQuantity) {
+                            quantity += 1;
+                        }
                     }
 
-                    qtyInput.value = quantity;
+                    qtyInput.value = quantity; // Cập nhật giá trị hiển thị
                 });
             });
+
+            // Đồng bộ số lượng khi biến thể thay đổi
+            document.addEventListener("change", () => {
+                const maxQuantity = parseInt(document.getElementById('quantity-label').textContent) || 0;
+                let quantity = parseInt(qtyInput.value) || 1;
+
+                if (quantity > maxQuantity) {
+                    qtyInput.value = maxQuantity; // Nếu vượt quá số lượng tối đa, tự động giảm xuống
+                }
+            });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateQuantityDisplay(); // Hiển thị số lượng tổng khi tải trang
+            updateOptions(null); // Khởi tạo danh sách kích thước
+        });
+
+        function selectVariant(colorId, variantId, variantName) {
+            document.getElementById('variant_id').value = variantId;
+
+            // Highlight màu đã chọn
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.style.border = '1px solid #ccc';
+            });
+            document.querySelector(`.color-option[data-color-id="${colorId}"]`).style.border = '2px solid red';
+
+            // Cập nhật danh sách kích thước khả dụng
+            updateOptions(colorId);
+        }
+
+        function selectSize(sizeId, sizeName) {
+            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]')?.dataset
+                .colorId;
+            const variant = variantData[selectedColorId]?.[sizeId];
+            const variantId = variant ? variant.id : null;
+
+            document.getElementById('variant_id').value = variantId; // Gán variantId
+            document.getElementById('size_id').value = sizeId; // Gán sizeId
+
+            // Highlight kích thước đã chọn
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.style.border = '1px solid #ccc';
+            });
+            document.querySelector(`.size-option[data-size-id="${sizeId}"]`).style.border = '2px solid red';
+        }
+
+        if (!selectedColorId || !selectedSizeId) {
+            event.preventDefault();
+            toastr.error('Vui lòng chọn đầy đủ màu sắc và kích thước trước khi thêm vào giỏ hàng.');
+        }
     </script>
-    
+
     <script>
         const stars = document.querySelectorAll('.star span');
         const ratingInput = document.getElementById('rating-value');

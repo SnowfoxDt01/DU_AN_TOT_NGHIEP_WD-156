@@ -78,7 +78,7 @@
                                         <button class="increase-quantity"><i class="fas fa-plus"></i></button>
                                     </div>
                                     <small>
-                                        <p class="remaining-quantity">Còn : {{ $item->variantProduct->quantity }} sản phẩm
+                                        <p class="remaining-quantity">Còn lại {{ $item->variantProduct->quantity }} sản phẩm
                                         </p>
                                     </small>
                                 </form>
