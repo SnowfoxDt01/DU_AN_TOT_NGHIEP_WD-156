@@ -158,7 +158,7 @@ class ProductController extends Controller
         return view('products.edit-product', compact('product', 'sizes', 'colors', 'categories'));
     }
 
-    public function updateProduct(StoreProductRequest $request, $id)
+    public function updateProduct(Request $request, $id)
     {
         // Tìm sản phẩm để cập nhật
         $product = Product::with('variantProducts')->findOrFail($id);

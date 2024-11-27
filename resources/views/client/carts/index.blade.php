@@ -1,23 +1,4 @@
 @extends('layout.client.master')
-@push('styles')
-    <style>
-        .decrease-quantity,
-        .increase-quantity {
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .decrease-quantity:hover,
-        .increase-quantity:hover {
-            background-color: #555;
-        }
-    </style>
-@endpush
-
 @section('content')
     <main>
         <section class="page-banner bg-image pt-130 pb-130" data-background="">
@@ -96,6 +77,10 @@
                                             max="{{ $item->variantProduct->quantity }}">
                                         <button class="increase-quantity"><i class="fas fa-plus"></i></button>
                                     </div>
+                                    <small>
+                                        <p class="remaining-quantity">Còn : {{ $item->variantProduct->quantity }} sản phẩm
+                                        </p>
+                                    </small>
                                 </form>
                                 <div class="product-line-price">
                                     <?php

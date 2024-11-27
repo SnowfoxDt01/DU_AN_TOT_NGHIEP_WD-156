@@ -284,7 +284,8 @@ class CheckoutController extends Controller
             $order->order_status = 'confirming'; // Trạng thái đơn hàng  
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
-            
+
+            session()->forget('voucher_id');
             $shoppingCart->items()->delete();
             return redirect()->route('client.cart.index')
                 ->with('success', 'Thanh toán thành công!');

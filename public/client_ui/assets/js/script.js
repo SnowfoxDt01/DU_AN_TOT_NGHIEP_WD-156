@@ -564,14 +564,15 @@ function confirmDelete(itemId) {
         title: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
         text: "Bạn sẽ không thể khôi phục lại sản phẩm này!",
         icon: 'warning',
+		iconColor: '#e10d0d',
         showCancelButton: true,
         confirmButtonColor: '#ff0000',
         cancelButtonColor: '#6c757d',
         confirmButtonText: 'Xóa!',
         cancelButtonText: 'Hủy',
 		backdrop: true,
-        background: '#000000',
-		color: '#ff4400',
+        background: '#191919',
+		color: '#fff',
         backdrop: 'rgba(0, 0, 0, 0.7)'
     }).then((result) => {
         if (result.isConfirmed) {
