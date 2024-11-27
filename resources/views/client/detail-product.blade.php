@@ -278,6 +278,8 @@
             </div>
         </div>
     </section>
+@endsection
+@push('scripts')
     <script>
         const variantData = @json(
             $detailProduct->variantProducts->groupBy('color_id')->map(function ($variants) {
@@ -357,26 +359,26 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateOptions(null, null);
         });
+
         document.addEventListener("DOMContentLoaded", () => {
-        const qtyInput = document.querySelector(".qty");
+            const qtyInput = document.querySelector(".qty");
 
-        document.querySelectorAll(".qtyminus, .qtyplus").forEach(button => {
-            button.addEventListener("click", () => {
-                let quantity = parseInt(qtyInput.value);
+            document.querySelectorAll(".qtyminus, .qtyplus").forEach(button => {
+                button.addEventListener("click", () => {
+                    let quantity = parseInt(qtyInput.value);
 
-                if (button.classList.contains("qtyminus") && quantity > 1) {
-                    quantity -= 1;
-                } else if (button.classList.contains("qtyplus")) {
-                    quantity += 1;
-                }
+                    if (button.classList.contains("qtyminus") && quantity > 1) {
+                        quantity -= 1;
+                    } else if (button.classList.contains("qtyplus")) {
+                        quantity += 1;
+                    }
 
-                qtyInput.value = quantity;
+                    qtyInput.value = quantity;
+                });
             });
         });
-    });
     </script>
-@endsection
-@push('scripts')
+    
     <script>
         const stars = document.querySelectorAll('.star span');
         const ratingInput = document.getElementById('rating-value');
