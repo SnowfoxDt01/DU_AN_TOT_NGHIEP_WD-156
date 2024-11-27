@@ -5876,3 +5876,38 @@ button {
   color: rgb(255, 38, 0);
   text-align: center;
 }
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  /* Center items vertically */
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+  /* Allow content to wrap if needed */
+}
+
+.py-3 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.bor-bottom {
+  border-bottom: 1px solid #ddd;
+  /* Subtle bottom border */
+}
+
+small p {
+  font-size: 0.875rem;
+  /* Small font size for the paragraph */
+  margin: 0;
+  /* Remove margin from the paragraph */
+  color: #f53100;
+  /* Set text color to a shade of orange */
+}
+
+small {
+  font-size: 0.75rem;
+  /* Slightly smaller font size for small tag */
+}
