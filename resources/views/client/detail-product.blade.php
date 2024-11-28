@@ -234,51 +234,54 @@
                                 <p>Chưa có đánh giá cho sản phẩm này !</p>
                                 <hr>
                             @endif
-                            <div class="section-title mt-5 py-15 mb-30">
-                                <h2 class="text-capitalize primary-color mb-10">Thêm đánh giá của bạn</h2>
-                                <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
-                                    trống.
-                                </p>
-                                <form action="{{ route('admin.reviews.comment') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
-                                    <input type="hidden" name="user_id" value="{{ Auth::id() }}">
-                                    <div class="shop-single__rate-now">
-                                        <p>Chất lượng sản phẩm?</p>
-                                        <div class="star">
-                                            <span data-value="1"><i class="fa-regular fa-star"></i></span>
-                                            <span data-value="2"><i class="fa-regular fa-star"></i></span>
-                                            <span data-value="3"><i class="fa-regular fa-star"></i></span>
-                                            <span data-value="4"><i class="fa-regular fa-star"></i></span>
-                                            <span data-value="5"><i class="fa-regular fa-star"></i></span>
-                                        </div>
-                                        <input type="hidden" id="rating-value" name="rating" value="0">
-                                        @error('rating')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="comment-form">
-                                        <div class="row g-4">
-                                            <div class="col-md-6">
-                                                <input type="text" value="{{ Auth::user()->name }}"
-                                                    class="w-100 mb-4 bor px-4 py-2" placeholder="Tên của bạn">
+                            @if (Auth::check())
+                                <div class="section-title mt-5 py-15 mb-30">
+                                    <h2 class="text-capitalize primary-color mb-10">Thêm đánh giá của bạn</h2>
+                                    <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
+                                        trống.
+                                    </p>
+                                    <form action="{{ route('admin.reviews.comment') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
+                                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                        <div class="shop-single__rate-now">
+                                            <p>Chất lượng sản phẩm?</p>
+                                            <div class="star">
+                                                <span data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                <span data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                <span data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                <span data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                <span data-value="5"><i class="fa-regular fa-star"></i></span>
                                             </div>
-                                            <div class="col-md-6">
-                                                <input type="email" value="{{ Auth::user()->email }}"
-                                                    class="w-100 mb-4 bor px-4 py-2" placeholder="Email của bạn">
+                                            <input type="hidden" id="rating-value" name="rating" value="0">
+                                            @error('rating')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="comment-form">
+                                            <div class="row g-4">
+                                                <div class="col-md-6">
+                                                    <input type="text" value="{{ Auth::user()->name }}"
+                                                        class="w-100 mb-4 bor px-4 py-2" placeholder="Tên của bạn">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="email" value="{{ Auth::user()->email }}"
+                                                        class="w-100 mb-4 bor px-4 py-2" placeholder="Email của bạn">
+                                                </div>
+                                            </div>
+                                            <textarea class="w-100 mb-4 bor p-4" name="comment" id="comment" placeholder="Đánh giá"></textarea>
+                                            @error('comment')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                            <div class="btn-wrp">
+                                                <button class="btn-one" type="submit"><span>Gửi</span></button>
                                             </div>
                                         </div>
-                                        <textarea class="w-100 mb-4 bor p-4" name="comment" id="comment" placeholder="Đánh giá"></textarea>
-                                        @error('comment')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                        <div class="btn-wrp">
-                                            <button class="btn-one" type="submit"><span>Gửi</span></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
+                                    </form>
+                                </div>
+                            @else
+                                <span>Bạn cần <a href="{{route('login')}}"><p id="login-review">đăng nhập</p></a> để bình luận !</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -300,6 +303,7 @@
             const quantityLabel = document.getElementById('quantity-label');
             let quantity = totalQuantity; // Mặc định là tổng số lượng
 
+            // Nếu có màu và kích thước đã chọn, lấy số lượng từ biến thể
             if (colorId && sizeId && variantData[colorId] && variantData[colorId][sizeId]) {
                 quantity = variantData[colorId][sizeId].quantity;
             }
@@ -307,7 +311,7 @@
             quantityLabel.textContent = quantity;
         }
 
-        // Hàm cập nhật kích thước dựa trên màu đã chọn
+        // Hàm cập nhật các lựa chọn kích thước khi chọn màu
         function updateOptions(selectedColorId) {
             document.querySelectorAll('.size-option').forEach(el => {
                 const sizeId = el.getAttribute('data-size-id');
@@ -331,7 +335,8 @@
             }
         }
 
-        function selectVariant(colorId, variantId, variantName) {
+        // Hàm chọn màu sắc
+        function selectVariant(colorId, variantId) {
             document.getElementById('variant_id').value = variantId;
 
             // Highlight màu đã chọn
@@ -347,6 +352,7 @@
             updateQuantityDisplay(colorId, document.getElementById('size_id').value);
         }
 
+        // Hàm chọn kích thước
         function selectSize(sizeId, sizeName) {
             const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]')?.dataset
                 .colorId;
@@ -398,44 +404,11 @@
             });
         });
 
+        // Đồng bộ hiển thị khi trang tải
         document.addEventListener('DOMContentLoaded', function() {
             updateQuantityDisplay(); // Hiển thị số lượng tổng khi tải trang
             updateOptions(null); // Khởi tạo danh sách kích thước
         });
-
-        function selectVariant(colorId, variantId, variantName) {
-            document.getElementById('variant_id').value = variantId;
-
-            // Highlight màu đã chọn
-            document.querySelectorAll('.color-option').forEach(option => {
-                option.style.border = '1px solid #ccc';
-            });
-            document.querySelector(`.color-option[data-color-id="${colorId}"]`).style.border = '2px solid red';
-
-            // Cập nhật danh sách kích thước khả dụng
-            updateOptions(colorId);
-        }
-
-        function selectSize(sizeId, sizeName) {
-            const selectedColorId = document.querySelector('.color-option[style*="border: 2px solid red;"]')?.dataset
-                .colorId;
-            const variant = variantData[selectedColorId]?.[sizeId];
-            const variantId = variant ? variant.id : null;
-
-            document.getElementById('variant_id').value = variantId; // Gán variantId
-            document.getElementById('size_id').value = sizeId; // Gán sizeId
-
-            // Highlight kích thước đã chọn
-            document.querySelectorAll('.size-option').forEach(option => {
-                option.style.border = '1px solid #ccc';
-            });
-            document.querySelector(`.size-option[data-size-id="${sizeId}"]`).style.border = '2px solid red';
-        }
-
-        if (!selectedColorId || !selectedSizeId) {
-            event.preventDefault();
-            toastr.error('Vui lòng chọn đầy đủ màu sắc và kích thước trước khi thêm vào giỏ hàng.');
-        }
     </script>
 
     <script>
