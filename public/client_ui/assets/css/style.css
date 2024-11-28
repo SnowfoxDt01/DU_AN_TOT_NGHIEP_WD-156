@@ -5911,3 +5911,9 @@ small {
   font-size: 0.75rem;
   /* Slightly smaller font size for small tag */
 }
+
+#login-review {
+  color: rgb(255, 72, 0);
+  text-decoration: none;
+  /* Nếu bạn không muốn liên kết có gạch chân */
+}
