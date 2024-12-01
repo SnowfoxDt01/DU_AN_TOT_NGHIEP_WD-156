@@ -182,6 +182,10 @@ Route::group([
 
     Route::resource('addresses', AddressController::class);
 
+    Route::get('/products/shop', [ClientController::class, 'shopProducts'])->name('client.shop');
+
+    
+
 
 
     Route::group([

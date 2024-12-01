@@ -177,6 +177,9 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="text-center mt-5">
+                    <a href="{{ route('client.shop') }}" class="btn-one-light">Xem thêm</a>
+                </div>                
                 {{-- Top 10 sản phẩm bán chạy --}}
                 <div id="hot-product" class="tab-pane fade">
                     <div class="row g-4">
