@@ -180,6 +180,8 @@ Route::group([
 
     Route::get('/new', [ClientController::class, 'newProducts'])->name('new');
 
+    Route::get('/top', [ClientController::class, 'topProducts'])->name('top');
+
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 
     Route::resource('addresses', AddressController::class);

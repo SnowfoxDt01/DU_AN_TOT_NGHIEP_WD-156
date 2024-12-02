@@ -211,7 +211,7 @@
                     </div>
                     <!-- Nút Xem thêm cho sản phẩm bán chạy -->
                     <div class="text-center mt-5">
-                        <a href="{{ route('client.shop') }}" class="btn-one-light">Xem thêm</a>
+                        <a href="{{ route('client.top') }}" class="btn-one-light">Xem thêm</a>
                     </div>
                 </div>
             </div>

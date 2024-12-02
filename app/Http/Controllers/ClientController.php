@@ -147,6 +147,12 @@ class ClientController extends Controller
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
         return view('client.products.new', compact('products', 'flash_sale_products'));
     }
+    public function topProducts()
+    {
+        $products = Product::paginate(9);
+        $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
+        return view('client.products.top', compact('products', 'flash_sale_products'));
+    }
 
     public function productsOfCategory($id)
     {
