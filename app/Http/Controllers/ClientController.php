@@ -141,6 +141,13 @@ class ClientController extends Controller
         return view('client.products.shop', compact('products', 'flash_sale_products'));
     }
 
+    public function newProducts()
+    {
+        $products = Product::paginate(9);
+        $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
+        return view('client.products.new', compact('products', 'flash_sale_products'));
+    }
+
     public function productsOfCategory($id)
     {
         $category = Category::where('id', $id)->first();

@@ -178,6 +178,8 @@ Route::group([
 
     Route::get('/category/{id}', [ClientController::class, 'productsOfCategory'])->name('category');
 
+    Route::get('/new', [ClientController::class, 'newProducts'])->name('new');
+
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 
     Route::resource('addresses', AddressController::class);

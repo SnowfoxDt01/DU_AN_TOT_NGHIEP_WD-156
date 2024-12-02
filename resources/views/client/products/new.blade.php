@@ -29,11 +29,11 @@
 @section('content')
 <section class="page-banner bg-image pt-130 pb-130" data-background="assets/images/banner/inner-banner.jpg">
     <div class="container">
-        <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Sản Phẩm</h2>
+        <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Sản Phẩm Mới</h2>
         <div class="breadcrumb-list wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".3s">
             <a href="{{ route('client.index') }}" class="primary-hover"><i class="fa-solid fa-house me-1"></i> Home <i
                     class="fa-regular text-white fa-angle-right"></i></a>
-            <span>Sản Phẩm</span>
+            <span>Sản Phẩm Mới</span>
         </div>
     </div>
 </section>
