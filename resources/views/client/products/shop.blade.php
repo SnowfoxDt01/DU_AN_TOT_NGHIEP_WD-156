@@ -179,6 +179,11 @@
         var productColumns = document.querySelectorAll('.col-xl-4.col-lg-6.col-md-6');
         var productsArray = Array.from(productColumns);
 
+        if (selectedOption == '0') {
+                // Khi giá trị là 0, reload lại toàn bộ danh sách sản phẩm ban đầu
+                location.reload();
+                return;
+            }
         // Sắp xếp các sản phẩm theo lựa chọn
         if (selectedOption == '2') {
             productsArray.sort(function(a, b) {

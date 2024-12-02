@@ -103,8 +103,7 @@
     <!-- Product area start here -->
     <section class="product-area pt-130 pb-130 mt-130">
         <div class="container">
-            <div
-                class="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
+            <div class="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
                 <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".1s">
                     <span class="title-icon mr-10"></span>
                     <h2>NỔI BẬT</h2>
@@ -131,32 +130,22 @@
                             @if ($count < 12)
                                 <div class="col-xxl-3 col-xl-4 col-md-6">
                                     <div class="product__item bor">
-                                        <a href="{{ route('client.detailProduct', $new->id) }}" class="wishlist"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                        <a href="{{ route('client.detailProduct', $new->id) }}"
-                                            class="product__image pt-20 d-block">
+                                        <a href="{{ route('client.detailProduct', $new->id) }}" class="wishlist"><i class="fa-regular fa-heart"></i></a>
+                                        <a href="{{ route('client.detailProduct', $new->id) }}" class="product__image pt-20 d-block">
                                             @if ($new->images->count() > 0)
-                                                <img class="font-image" src="{{ $new->images->first()->image_path }}"
-                                                    alt="image" height="320px">
-                                                <img class="back-image" src="{{ $new->images->first()->image_path }}"
-                                                    alt="image" height="320px">
+                                                <img class="font-image" src="{{ $new->images->first()->image_path }}" alt="image" height="320px">
+                                                <img class="back-image" src="{{ $new->images->first()->image_path }}" alt="image" height="320px">
                                             @else
-                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
-                                                    class="img-thumbnail" width="100">
+                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail" width="100">
                                             @endif
                                         </a>
                                         <div class="product__content">
-                                            <h4 class="mb-15"><a class="primary-hover"
-                                                    href="{{ route('client.detailProduct', $new->id) }}"
-                                                    style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $new->name }}</a>
-                                            </h4>
+                                            <h4 class="mb-15"><a class="primary-hover" href="{{ route('client.detailProduct', $new->id) }}" style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $new->name }}</a></h4>
                                             @if ($new->sale_price == 0)
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($new->base_price) }}.đ</span>
+                                                <span class="primary-color ml-10">{{ number_format($new->base_price) }}.đ</span>
                                             @else
                                                 <del>{{ number_format($new->base_price) }}.đ</del>
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($new->sale_price) }}.đ</span>
+                                                <span class="primary-color ml-10">{{ number_format($new->sale_price) }}.đ</span>
                                             @endif
                                             <div class="star mt-20">
                                                 <i class="fa-solid fa-star"></i>
@@ -166,9 +155,7 @@
                                                 <i class="fa-solid fa-star"></i>
                                             </div>
                                         </div>
-                                        <a class="product__cart d-block bor-top"
-                                            href="{{ route('client.detailProduct', $new->id) }}"><i
-                                                class="fa-regular bi bi-eye primary-color me-1"></i>
+                                        <a class="product__cart d-block bor-top" href="{{ route('client.detailProduct', $new->id) }}"><i class="fa-regular bi bi-eye primary-color me-1"></i>
                                             <span>Chi tiết sản phẩm</span></a>
                                     </div>
                                 </div>
@@ -176,10 +163,11 @@
                             @endif
                         @endforeach
                     </div>
+                    <!-- Nút Xem thêm cho sản phẩm mới -->
+                    <div class="text-center mt-5">
+                        <a href="{{ route('client.shop') }}" class="btn-one-light">Xem thêm</a>
+                    </div>
                 </div>
-                <div class="text-center mt-5">
-                    <a href="{{ route('client.shop') }}" class="btn-one-light">Xem thêm</a>
-                </div>                
                 {{-- Top 10 sản phẩm bán chạy --}}
                 <div id="hot-product" class="tab-pane fade">
                     <div class="row g-4">
@@ -189,32 +177,21 @@
                                 <div class="col-xxl-3 col-xl-4 col-md-6">
                                     <div class="product__item bor">
                                         <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="{{ route('client.detailProduct', $top->product->id) }}"
-                                            class="product__image pt-20 d-block">
+                                        <a href="{{ route('client.detailProduct', $top->product->id) }}" class="product__image pt-20 d-block">
                                             @if ($top->product->images->count() > 0)
-                                                <img class="font-image"
-                                                    src="{{ $top->product->images->first()->image_path }}" alt="image"
-                                                    height="320px">
-                                                <img class="back-image"
-                                                    src="{{ $top->product->images->first()->image_path }}" alt="image"
-                                                    height="320px">
+                                                <img class="font-image" src="{{ $top->product->images->first()->image_path }}" alt="image" height="320px">
+                                                <img class="back-image" src="{{ $top->product->images->first()->image_path }}" alt="image" height="320px">
                                             @else
-                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image"
-                                                    class="img-thumbnail" width="100">
+                                                <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail" width="100">
                                             @endif
                                         </a>
                                         <div class="product__content">
-                                            <h4 class="mb-15"><a class="primary-hover"
-                                                    href="{{ route('client.detailProduct', $top->product->id) }}"
-                                                    style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $top->product->name }}</a>
-                                            </h4>
+                                            <h4 class="mb-15"><a class="primary-hover" href="{{ route('client.detailProduct', $top->product->id) }}" style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $top->product->name }}</a></h4>
                                             @if ($top->product->sale_price == 0)
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
+                                                <span class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
                                             @else
                                                 <del>{{ number_format($top->product->base_price) }}.đ</del>
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($top->product->sale_price) }}.đ</span>
+                                                <span class="primary-color ml-10">{{ number_format($top->product->sale_price) }}.đ</span>
                                             @endif
                                             <div class="star mt-20">
                                                 <i class="fa-solid fa-star"></i>
@@ -223,11 +200,8 @@
                                                 <i class="fa-solid fa-star"></i>
                                                 <i class="fa-solid fa-star"></i>
                                             </div>
-
                                         </div>
-                                        <a class="product__cart d-block bor-top"
-                                            href="{{ route('client.detailProduct', $top->product->id) }}"><i
-                                                class="bi bi-eye primary-color me-1"></i>
+                                        <a class="product__cart d-block bor-top" href="{{ route('client.detailProduct', $top->product->id) }}"><i class="bi bi-eye primary-color me-1"></i>
                                             <span>Chi tiết sản phẩm</span></a>
                                     </div>
                                 </div>
@@ -235,10 +209,15 @@
                             @endif
                         @endforeach
                     </div>
+                    <!-- Nút Xem thêm cho sản phẩm bán chạy -->
+                    <div class="text-center mt-5">
+                        <a href="{{ route('client.shop') }}" class="btn-one-light">Xem thêm</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+    
     <!-- Product area end here -->
 
     <!-- Get now area start here -->
@@ -339,7 +318,7 @@
             </ul>
         </div>
     </div>
-<hr>
+    <hr>
     <div class="swiper gallery__slider">
         <div class="swiper-wrapper">
             @foreach ($sale_products as $sale)
@@ -351,19 +330,22 @@
                             @if ($sale->images->count() > 0)
                                 <img src="{{ $sale->images->first()->image_path }}" alt="image" height="320px">
                             @else
-                                <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail" width="100">
+                                <img src="{{ asset('default_image.jpg') }}" alt="No Image" class="img-thumbnail"
+                                    width="100">
                             @endif
                         </div>
                         <div class="gallery__content">
-                            <h3 class="mb-10"><a href="{{ route('client.detailProduct', $sale->id) }}">{{ $sale->name }}</a></h3>
-                            <a href="{{ route('client.detailProduct', $sale->id) }}" class="btn-two mt-25"><span>Mua ngay</span></a>
+                            <h3 class="mb-10"><a
+                                    href="{{ route('client.detailProduct', $sale->id) }}">{{ $sale->name }}</a></h3>
+                            <a href="{{ route('client.detailProduct', $sale->id) }}" class="btn-two mt-25"><span>Mua
+                                    ngay</span></a>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-</section>
+    </section>
     <hr>
 @endsection
 @push('scripts')
