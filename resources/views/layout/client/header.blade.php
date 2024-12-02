@@ -28,7 +28,8 @@
                         <a href="{{ route('client.index') }}">Trang chủ</a>
                     </li>
                     <li>
-                        <a href="">Danh mục <i class="fa-regular fa-angle-down"></i></a>
+                        <a href="{{ route('client.category', 1) }}">Danh mục <i
+                                class="fa-regular fa-angle-down"></i></a>
                         <ul class="sub-menu">
                             @foreach ($categories as $category)
                                 <li class="subtwohober">
@@ -37,21 +38,21 @@
                                     </a>
                                 </li>
                             @endforeach
-
                         </ul>
+
 
                     </li>
                     <li>
                         <a href="{{ route('client.shop') }}">Sản phẩm</a>
                     </li>
                     <li>
-                        <a href="{{route('client.voucherList')}}">Mã ưu đãi</a>
+                        <a href="{{ route('client.voucherList') }}">Mã ưu đãi</a>
                     </li>
                     <li>
                         <a href="{{ route('client.blog.index') }}">Bài Viết</a>
                     </li>
                     <li>
-                        <a href="{{$gioiThieuUrl}}">Giới thiệu</a>
+                        <a href="{{ $gioiThieuUrl }}">Giới thiệu</a>
                     </li>
                     <li>
                         <a href="{{ $huongDanSizeUrl }}">Hướng dẫn</a>
@@ -68,7 +69,8 @@
                     </div>
                     @if (Auth::check())
                         <div class="d-flex align-items-center">
-                            <a href="{{ route('client.myaccount.myAccount') }}" style="color: orangered; margin-right: 10px;">
+                            <a href="{{ route('client.myaccount.myAccount') }}"
+                                style="color: orangered; margin-right: 10px;">
                                 <i class="bi bi-person-fill-check" style="font-size: 25px"></i>
                                 {{ Auth::user()->name }} |</a>
                             <a href="{{ route('logout') }}" style="color: orangered">Đăng Xuất</a>
