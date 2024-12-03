@@ -39,7 +39,13 @@ class ShoppingCartController extends Controller
         $variantProduct = VariantProduct::findOrFail($variantId);
 
         // 3. Lấy (hoặc tạo mới) giỏ hàng cho người dùng
-        $shoppingCart = ShoppingCart::firstOrCreate(['user_id' => $userId]);
+        if(Auth::check()){
+            $shoppingCart = ShoppingCart::firstOrCreate(['user_id' => $userId]);
+        }
+        else{
+        return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!');
+
+        }
 
         // 4. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         $existingItem = $shoppingCart->items()->where('variant_id', $variantId)->first();
@@ -102,7 +108,7 @@ class ShoppingCartController extends Controller
         ]);
     }
 
-    public function remove(Request $request, $itemId)
+    public function remove($itemId)
     {
         $cartItem = ShoppingCartItem::findOrFail($itemId);
         $cartItem->delete();
