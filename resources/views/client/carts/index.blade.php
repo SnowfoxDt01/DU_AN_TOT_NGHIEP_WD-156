@@ -120,7 +120,7 @@
                     </a>
                 </div>
             @else
-                <p>Chưa có sản phẩm nào trong giỏ hàng.</p>
+                <span class="text-danger">Chưa có sản phẩm nào trong giỏ hàng!</span>
                 @endif
             </div>
         </section>
