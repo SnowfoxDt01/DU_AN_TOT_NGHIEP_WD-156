@@ -280,7 +280,9 @@
                                     </form>
                                 </div>
                             @else
-                                <span>Bạn cần <a href="{{route('login')}}"><p id="login-review">đăng nhập</p></a> để bình luận !</span>
+                                <span>Bạn cần <a href="{{ route('login') }}">
+                                        <p id="login-review">đăng nhập</p>
+                                    </a> để bình luận !</span>
                             @endif
                         </div>
                     </div>
@@ -408,6 +410,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateQuantityDisplay(); // Hiển thị số lượng tổng khi tải trang
             updateOptions(null); // Khởi tạo danh sách kích thước
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('myform');
+            const variantInput = document.getElementById('variant_id');
+            const sizeInput = document.getElementById('size_id');
+
+            form.addEventListener('submit', function(event) {
+                // Kiểm tra xem màu sắc và kích thước đã được chọn hay chưa
+                if (!variantInput.value) {
+                    toastr.error('Vui lòng chọn màu sắc trước khi thêm vào giỏ hàng!');
+                    event.preventDefault(); // Ngăn form gửi đi
+                    return;
+                }
+
+                if (!sizeInput.value) {
+                    toastr.error('Vui lòng chọn kích thước trước khi thêm vào giỏ hàng!');
+                    event.preventDefault(); // Ngăn form gửi đi
+                    return;
+                }
+
+                // Kiểm tra số lượng sản phẩm hợp lệ
+                const quantityInput = document.querySelector('input[name="quantity"]');
+                const quantity = parseInt(quantityInput.value, 10);
+                if (isNaN(quantity) || quantity <= 0) {
+                    toastr.error('Số lượng phải lớn hơn 0!');
+                    event.preventDefault(); // Ngăn form gửi đi
+                    return;
+                }
+            });
         });
     </script>
 
