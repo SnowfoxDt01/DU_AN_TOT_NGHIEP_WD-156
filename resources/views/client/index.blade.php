@@ -165,7 +165,7 @@
                     </div>
                     <!-- Nút Xem thêm cho sản phẩm mới -->
                     <div class="text-center mt-5">
-                        <a href="{{ route('client.new') }}" class="btn-one-light">Xem thêm</a>
+                        <a href="{{ route('client.new') }}" class="btn-one-light"><span>Xem thêm +</span></a>
                     </div>
                 </div>
                 {{-- Top 10 sản phẩm bán chạy --}}
@@ -211,7 +211,7 @@
                     </div>
                     <!-- Nút Xem thêm cho sản phẩm bán chạy -->
                     <div class="text-center mt-5">
-                        <a href="{{ route('client.top') }}" class="btn-one-light">Xem thêm</a>
+                        <a href="{{ route('client.top') }}" class="btn-one-light"><span>Xem thêm +</span></a>
                     </div>
                 </div>
             </div>
