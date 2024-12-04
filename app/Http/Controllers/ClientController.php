@@ -126,7 +126,6 @@ class ClientController extends Controller
     public function detailProduct(string $id)
     {
         $detailProduct = Product::with('variantProducts')->findOrFail($id);
-        $detailProduct->increment('views');
         $sizes = Size::orderBy('name')->get();
 
         $totalReviews = $detailProduct->reviews->count();
@@ -144,10 +143,12 @@ class ClientController extends Controller
 
     public function newProducts()
     {
-        $products = Product::paginate(9);
+        $newProducts = Product::where('new', 1)->paginate(8);
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
-        return view('client.products.new', compact('products', 'flash_sale_products'));
+        return view('client.products.new', compact('newProducts', 'flash_sale_products'));
     }
+
+
     public function topProducts()
     {
         $products = Product::paginate(9);
