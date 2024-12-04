@@ -27,7 +27,6 @@
                     @endif
             </div>            
             <div class="col-md-6">
-                <h4>Giá: {{ number_format($variantProduct->price, 0, ',', '.') }} VND</h4>
                 <p><strong>Mã sản phẩm biến thể:</strong> {{ $variantProduct->id }}</p>
                 <p><strong>Số lượng:</strong> {{ $variantProduct->quantity }}</p>
                 <p><strong>Nhãn hàng:</strong> {{ $variantProduct->product->category->name_category ?? 'Không có nhãn hàng' }} </p>

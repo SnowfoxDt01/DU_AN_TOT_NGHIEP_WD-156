@@ -17,7 +17,7 @@
             <div class="card bg-light">
                 <div class="card-body text-center">
                     <h5 class="card-title">Tổng số danh mục</h5>
-                    <p class="card-text display-4">{{ $totalProducts }}</p>
+                    <p class="card-text display-4">{{ $totalCategories }}</p>
                 </div>
             </div>
         </div>
@@ -41,10 +41,10 @@
 
     <h2 class="mt-5">Số lượng sản phẩm theo danh mục</h2>
     <ul class="list-group mb-4">
-        @foreach($productsByProduct as $product)
+        @foreach($categories as $category)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ $product->product->name }}
-                <span class="badge badge-primary badge-pill">{{ $product->count }}</span>
+                {{ $category->name_category }}
+                <span class="badge badge-primary badge-pill">{{$category->products->count()}}</span>
             </li>
         @endforeach
     </ul>

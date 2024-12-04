@@ -135,14 +135,6 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="variant_price">Giá</label>
-                                        <input type="number" class="form-control" name="variant_price[]"
-                                            value="{{ old('variant_price[]') }}" placeholder="Giá biến thể">
-                                        @error('variant_price[]')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-4">
                                         <label for="variant_quantity">Số lượng</label>
                                         <input type="number" class="form-control" name="variant_quantity[]"
                                             value="{{ old('variant_quantity[]') }}" placeholder="Số lượng biến thể">
@@ -151,7 +143,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label for="variant_size">Kích cỡ</label>
                                         <select name="variant_size[]" class="form-control">
                                             @foreach ($sizes as $size)
@@ -159,7 +151,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label for="variant_color">Màu</label>
                                         <select name="variant_color[]" class="form-control">
                                             @foreach ($colors as $color)
@@ -167,7 +159,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label for="variant_image">Hình ảnh biến thể</label>
                                         <input type="file" class="form-control" id="variant_image"
                                             name="variant_image[0]">
@@ -175,7 +167,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label for="variant_status">Trạng thái</label>
                                         <select name="variant_status[]" class="form-control">
                                             <option value="active">Hoạt động</option>
@@ -255,20 +247,13 @@
                         @enderror
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="variant_price">Giá</label>
-                            <input type="number" class="form-control" name="variant_price[]">
-                        @error('variant_price.*')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="variant_quantity">Số lượng</label>
                             <input type="number" class="form-control" name="variant_quantity[]">
                         @error('variant_quantity.*')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_size">Kích cỡ</label>
                             <select name="variant_size[]" class="form-control">
                                 @foreach ($sizes as $size)
@@ -279,7 +264,7 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_color">Màu</label>
                             <select name="variant_color[]" class="form-control">
                                 @foreach ($colors as $color)
@@ -290,14 +275,14 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_image">Hình ảnh biến thể</label>
                             <input type="file" class="form-control" id="variant_image" name="variant_image[0]">
                         @error('variant_image.*')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_status">Trạng thái</label>
                             <select name="variant_status[]" class="form-control">
                                 <option value="active">Hoạt động</option>

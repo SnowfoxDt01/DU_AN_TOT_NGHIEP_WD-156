@@ -145,17 +145,12 @@
                                                 value="{{ $variant->name }}" required>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="variant_price">Giá</label>
-                                            <input type="number" class="form-control" name="variant_price[]"
-                                                value="{{ $variant->price }}" required>
-                                        </div>
-                                        <div class="form-group col-md-4">
                                             <label for="variant_quantity">Số lượng</label>
                                             <input type="number" class="form-control" name="variant_quantity[]"
                                                 value="{{ $variant->quantity }}" required>
                                         </div>
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label for="variant_size">Kích cỡ</label>
                                             <select name="variant_size[]" class="form-control">
                                                 @foreach ($sizes as $size)
@@ -166,18 +161,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="variant_color">Màu</label>
-                                            <select name="variant_color[]" class="form-control">
-                                                @foreach ($colors as $color)
-                                                    <option value="{{ $color->id }}"
-                                                        {{ $color->id == $variant->color_id ? 'selected' : '' }}>
-                                                        {{ $color->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label for="variant_image">Ảnh biến thể</label>
                                             <input type="file" class="form-control" name="variant_image[]" multiple>
 
@@ -191,7 +175,18 @@
                                                 <span>Không có ảnh</span>
                                             @endif
                                         </div>
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_color">Màu</label>
+                                            <select name="variant_color[]" class="form-control">
+                                                @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}"
+                                                        {{ $color->id == $variant->color_id ? 'selected' : '' }}>
+                                                        {{ $color->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label for="variant_status">Trạng thái</label>
                                             <select name="variant_status[]" class="form-control">
                                                 <option value="active"
@@ -276,15 +271,11 @@
                             <input type="text" class="form-control" name="variant_name[]" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="variant_price">Giá</label>
-                            <input type="number" class="form-control" name="variant_price[]" required>
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="variant_quantity">Số lượng</label>
                             <input type="number" class="form-control" name="variant_quantity[]" required>
                         </div>
                         
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_size">Kích cỡ</label>
                             <select name="variant_size[]" class="form-control">
                                 @foreach ($sizes as $size)
@@ -292,7 +283,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_color">Màu</label>
                             <select name="variant_color[]" class="form-control">
                                 @foreach ($colors as $color)
@@ -300,11 +291,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_image">Ảnh biến thể</label>
                             <input type="file" class="form-control" name="variant_image[]">
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="variant_status">Trạng thái</label>
                             <select name="variant_status[]" class="form-control">
                                 <option value="active">Hoạt động</option>

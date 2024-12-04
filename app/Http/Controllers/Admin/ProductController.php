@@ -104,7 +104,6 @@ class ProductController extends Controller
                     // Tạo sản phẩm biến thể nếu chưa tồn tại
                     $variant = VariantProduct::create([
                         'name' => $name,
-                        'price' => $request->variant_price[$key],
                         'quantity' => $request->variant_quantity[$key],
                         'product_id' => $product->id,
                         'size_id' => $sizeId,
@@ -216,7 +215,6 @@ class ProductController extends Controller
         
                     $variantProduct->update([
                         'name' => $name,
-                        'price' => $request->variant_price[$key],
                         'quantity' => $request->variant_quantity[$key],
                         'product_id' => $product->id,
                         'size_id' => $request->variant_size[$key],
@@ -253,7 +251,6 @@ class ProductController extends Controller
                     // Nếu không có variant_id, tạo mới biến thể
                     $variantProduct = VariantProduct::create([
                         'name' => $name,
-                        'price' => $request->variant_price[$key],
                         'quantity' => $request->variant_quantity[$key],
                         'product_id' => $product->id,
                         'size_id' => $request->variant_size[$key],
@@ -302,10 +299,7 @@ class ProductController extends Controller
         $totalReviews = $product->reviews->count();
 
         // Tính điểm trung bình đánh giá
-        $averageRating = $totalReviews > 0 ? $product->reviews->avg('rating') : 0;                              
-
-        // Tăng số lượt xem lên 1
-        $product->increment('views');
+        $averageRating = $totalReviews > 0 ? $product->reviews->avg('rating') : 0;
         // Trả về view chi tiết sản phẩm
         return view('products.detail-product', compact('product', 'totalReviews', 'averageRating'));
     }
