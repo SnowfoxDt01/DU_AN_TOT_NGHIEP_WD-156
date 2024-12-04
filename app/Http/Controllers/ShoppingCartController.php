@@ -8,7 +8,7 @@ use App\Models\VariantProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
-
+use App\Models\Product;
 
 class ShoppingCartController extends Controller
 {
@@ -36,6 +36,8 @@ class ShoppingCartController extends Controller
         $userId = Auth::id(); // Lấy user_id của người dùng hiện tại
 
         // 2. Kiểm tra biến thể sản phẩm
+        $product = Product::findOrFail($productId);
+
         $variantProduct = VariantProduct::findOrFail($variantId);
 
         // 3. Lấy (hoặc tạo mới) giỏ hàng cho người dùng
@@ -62,7 +64,7 @@ class ShoppingCartController extends Controller
                 'variant_id' => $variantId,
                 'product_id' => $productId,
                 'quantity' => $quantity,
-                'price' => $variantProduct->price,
+                'price' => $product->flash_sale_price ?? $product->sale_price ?? $product->base_price,
 
             ]);
         }
