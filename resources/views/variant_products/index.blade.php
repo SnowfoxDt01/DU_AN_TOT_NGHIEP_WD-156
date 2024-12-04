@@ -61,7 +61,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
-                    <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Sản phẩm chính</th>
                     <th>Hình ảnh</th>
@@ -76,7 +75,6 @@
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->product->name }}</td>
                         <td>

@@ -17,10 +17,9 @@ class Product extends Model
         'base_price',
         'flash_sale_price',
         'sale_price',
-        'image',
-        'quantity',
         'new',
-        'product_category_id'
+        'product_category_id',
+        'views'
     ];
 
     public function category()

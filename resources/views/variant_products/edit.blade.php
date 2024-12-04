@@ -24,11 +24,6 @@
             </div>
 
             <div class="form-group">
-                <label for="price">Giá</label>
-                <input type="number" name="price" class="form-control" value="{{ $variantProduct->price }}" required>
-            </div>
-
-            <div class="form-group">
                 <label for="quantity">Số lượng</label>
                 <input type="number" name="quantity" class="form-control" value="{{ $variantProduct->quantity }}" required>
             </div>

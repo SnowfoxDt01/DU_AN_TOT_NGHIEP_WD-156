@@ -73,8 +73,10 @@
                                         <i class="far fa-star"></i>
                                     @endif
                                 @endfor
-
                             </div>
+
+                            <p>Lượt xem : {{$detailProduct->views}}</p>
+
                             @if ($detailProduct->sale_price == 0)
                                 <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
                             @else

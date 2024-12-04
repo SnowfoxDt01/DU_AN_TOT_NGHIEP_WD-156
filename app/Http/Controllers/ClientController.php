@@ -126,6 +126,7 @@ class ClientController extends Controller
     public function detailProduct(string $id)
     {
         $detailProduct = Product::with('variantProducts')->findOrFail($id);
+        $detailProduct->increment('views');
         $sizes = Size::orderBy('name')->get();
 
         $totalReviews = $detailProduct->reviews->count();
