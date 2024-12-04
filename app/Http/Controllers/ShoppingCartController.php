@@ -65,7 +65,6 @@ class ShoppingCartController extends Controller
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $product->flash_sale_price ?? $product->sale_price ?? $product->base_price,
-
             ]);
         }
 
