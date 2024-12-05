@@ -6,8 +6,6 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolePermissionController;
-use App\Http\Controllers\UserControler;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -22,6 +20,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
 
 // http://127.0.0.1:8000/
@@ -152,7 +151,7 @@ Route::group([
 
     Route::resource('sizes', SizeController::class);
 
-    Route::resource('users', UserControler::class);
+    Route::resource('users', UserController::class);
 
     Route::resource('categories', CategoryController::class);
 
@@ -195,7 +194,7 @@ Route::group([
     ], function () {
         Route::get('/', [ClientController::class, 'myAccount'])->name('myAccount');
 
-        Route::post('/change-password', [UserControler::class, 'checkChangePassWord'])->name('checkChangePassWord');
+        Route::post('/change-password', [UserController::class, 'checkChangePassWord'])->name('checkChangePassWord');
     });
 
     Route::group([
