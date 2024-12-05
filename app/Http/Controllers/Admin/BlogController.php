@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class BlogController extends Controller
         return view('blogs.create');
     }
 
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
         $imagePath = null;
 
@@ -31,11 +32,11 @@ class BlogController extends Controller
         }
 
         Blog::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'content' => $request->input('content'),
             'image' => $imagePath,
-            'status' => $request->status,
+            'status' => $request->input('status'),
         ]);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Tạo mới bài viết thành công.');

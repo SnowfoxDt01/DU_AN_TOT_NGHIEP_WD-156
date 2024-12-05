@@ -25,7 +25,8 @@ class BlogRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
             'content' => 'required|string',
-            'status' => 'required|in:active,inactive',
+            'image' => 'nullable|image|max:2048',
+            'status' => 'required',
         ];
     }
     /**
@@ -38,7 +39,6 @@ class BlogRequest extends FormRequest
             'description.required' => 'Mô tả không được để trống.',
             'content.required' => 'Nội dung không được để trống.',
             'status.required' => 'Trạng thái không được để trống.',
-            'status.in' => 'Trạng thái chỉ có thể là active hoặc inactive.',
         ];
     }
 }
