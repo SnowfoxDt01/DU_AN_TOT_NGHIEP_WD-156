@@ -44,6 +44,13 @@
         <div class="container">
             <div class="pb-20 bor-bottom shop-page-wrp d-flex justify-content-between align-items-center mb-65">
                 <p class="fw-600">Tìm thấy {{ count($newProducts) }} sản phẩm mới.</p>
+                <div class="short">
+                    <select name="shortList" id="shortList" onchange="filterProducts()">
+                        <option value="0">Tất cả sản phẩm</option>
+                        <option value="2">Giá từ thấp đến cao</option>
+                        <option value="3">Giá từ cao xuống thấp</option>
+                    </select>
+                </div>
             </div>
             <div class="row g-4">
                 <div class="col-xl-3 col-lg-4">
@@ -153,7 +160,6 @@
                             </div>
                         @endforeach
                     </div>
-                    {{ $newProducts->links('pagination::custom') }}
                 </div>
             </div>
         </div>
@@ -162,8 +168,43 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const countdownDate = new Date("2024-12-31T23:59:59").getTime();
+        function filterProducts() {
+            var selectedOption = document.getElementById('shortList').value;
+
+            // Lấy tất cả các sản phẩm trong danh sách (bao gồm cả div cột)
+            var productColumns = document.querySelectorAll('.col-xl-4.col-lg-6.col-md-6');
+            var productsArray = Array.from(productColumns);
+
+            if (selectedOption == '0') {
+                // Khi giá trị là 0, reload lại toàn bộ danh sách sản phẩm ban đầu
+                location.reload();
+                return;
+            }
+            // Sắp xếp các sản phẩm theo lựa chọn
+            if (selectedOption == '2') {
+                productsArray.sort(function(a, b) {
+                    var priceA = parseInt(a.querySelector('.primary-color').textContent.replace(/[^\d]/g, ''));
+                    var priceB = parseInt(b.querySelector('.primary-color').textContent.replace(/[^\d]/g, ''));
+                    return priceA - priceB;
+                });
+            } else if (selectedOption == '3') {
+                productsArray.sort(function(a, b) {
+                    var priceA = parseInt(a.querySelector('.primary-color').textContent.replace(/[^\d]/g, ''));
+                    var priceB = parseInt(b.querySelector('.primary-color').textContent.replace(/[^\d]/g, ''));
+                    return priceB - priceA;
+                });
+            }
+
+            // Xóa tất cả các sản phẩm hiện tại và thêm lại các sản phẩm đã sắp xếp
+            var productList = document.querySelector('.col-xl-9 .row.g-4');
+            productList.innerHTML = '';
+            productsArray.forEach(function(productColumn) {
+                productList.appendChild(productColumn);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownDate = new Date("2024-12-31T23:59:59")
+                .getTime(); // Thay đổi ngày ưu đãi kết thúc tại đây
 
             function updateCountdown() {
                 const now = new Date().getTime();
@@ -175,12 +216,12 @@
                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                    document.getElementById("day").textContent = days;
-                    document.getElementById("hour").textContent = hours;
-                    document.getElementById("min").textContent = minutes;
-                    document.getElementById("sec").textContent = seconds;
+                    document.getElementById("day").textContent = days.toString().padStart(2, '0');
+                    document.getElementById("hour").textContent = hours.toString().padStart(2, '0');
+                    document.getElementById("min").textContent = minutes.toString().padStart(2, '0');
+                    document.getElementById("sec").textContent = seconds.toString().padStart(2, '0');
                 } else {
-                    document.querySelector(".product__coundown").innerHTML = "<span>Khuyến mãi kết thúc!</span>";
+                    document.querySelector('.product__coundown').innerHTML = `<h4>Ưu đãi đã kết thúc!</h4>`;
                 }
             }
 

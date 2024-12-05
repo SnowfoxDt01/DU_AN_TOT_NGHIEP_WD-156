@@ -150,11 +150,25 @@ class ClientController extends Controller
 
 
     public function topProducts()
-    {
-        $products = Product::paginate(9);
-        $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
-        return view('client.products.top', compact('products', 'flash_sale_products'));
-    }
+{
+    // Lấy tất cả các sản phẩm, phân trang 9 sản phẩm một lần
+    $products = Product::paginate(9);
+
+    // Lấy danh sách các sản phẩm yêu thích (tính theo số lượng đã bán)
+    $topProducts = ShopOrderItem::with('product')
+        ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
+        ->groupBy('product_id')
+        ->orderByDesc('total_sales')
+        ->take(10)
+        ->get();
+
+    // Lấy các sản phẩm đang flash sale
+    $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
+
+    // Trả về view và truyền dữ liệu
+    return view('client.products.top', compact('products', 'topProducts', 'flash_sale_products'));
+}
+
 
     public function productsOfCategory($id)
     {
