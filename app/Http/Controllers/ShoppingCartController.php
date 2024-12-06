@@ -43,14 +43,8 @@ class ShoppingCartController extends Controller
         $productId = $request->input('product_id');
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
-        $userId = Auth::user()->id; // Lấy user_id của người dùng hiện tại
+        $userId = Auth::id(); // Lấy user_id của người dùng hiện tại
 
-        // 2. Kiểm tra biến thể sản phẩm
-        $product = Product::findOrFail($productId);
-
-        $variantProduct = VariantProduct::findOrFail($variantId);
-
-        // 3. Lấy (hoặc tạo mới) giỏ hàng cho người dùng
         if(Auth::check()){
             $shoppingCart = ShoppingCart::firstOrCreate(['user_id' => $userId]);
         }
@@ -58,7 +52,12 @@ class ShoppingCartController extends Controller
         return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!');
 
         }
+        // 2. Kiểm tra biến thể sản phẩm
+        $product = Product::findOrFail($productId);
 
+        $variantProduct = VariantProduct::findOrFail($variantId);
+
+        // 3. Lấy (hoặc tạo mới) giỏ hàng cho người dùng
         // 4. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         $existingItem = $shoppingCart->items()->where('variant_id', $variantId)->first();
 
