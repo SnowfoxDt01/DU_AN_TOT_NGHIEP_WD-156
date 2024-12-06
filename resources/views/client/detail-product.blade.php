@@ -242,7 +242,7 @@
                                     <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
                                         trống.
                                     </p>
-                                    <form action="{{ route('admin.reviews.comment') }}" method="POST">
+                                    <form action="{{ route('client.comment') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
                                         <input type="hidden" name="user_id" value="{{ Auth::id() }}">

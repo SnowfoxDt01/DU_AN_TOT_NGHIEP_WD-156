@@ -51,8 +51,6 @@ Route::group([
     ], function () {
 
         Route::post('/toggle-visibility/{id}', [ReviewController::class, 'toggleVisibility'])->name('toggleVisibility');
-
-        Route::post('/products/review', [ReviewController::class, 'store'])->name('comment');
     });
 
     Route::group([
@@ -207,6 +205,8 @@ Route::group([
 
         Route::get('/detail/{id}', [ClientController::class, 'detailBlog'])->name('detailBlog');
     });
+
+    Route::post('/products/review', [ReviewController::class, 'store'])->name('comment');
 
     Route::group([
         'prefix' => 'cart',
