@@ -48,7 +48,7 @@ class ShopOrderController extends Controller
             });
         }
 
-        $orders = $query->paginate(5);
+        $orders = $query->orderBy('created_at', 'desc')->paginate(5);
 
         return view('orders.index', compact('orders'));
     }
