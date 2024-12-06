@@ -74,13 +74,11 @@
                                                     <p><strong>Người nhận:</strong> {{ $address->recipient_name }}<br>
                                                         <strong>Số điện thoại:</strong> {{ $address->recipient_phone }}
                                                     </p>
-                                                    <form
-                                                        action="{{ route('client.addresses.destroy', $address->id) }}"
+                                                    <form action="{{ route('client.addresses.destroy', $address->id) }}"
                                                         id="delete-address-form" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-link text-danger"
+                                                        <button type="submit" class="btn btn-link text-danger"
                                                             onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này không?')">
                                                             Xoá địa chỉ
                                                         </button>
@@ -100,8 +98,7 @@
                                         <div id="add-address-section" class="mt-4">
                                             <div id="add-address-form" class="mt-4 d-none p-4 rounded">
                                                 <h4 class="mb-4">Thêm Địa Chỉ Mới</h4>
-                                                <form method="POST"
-                                                    action="{{ route('client.addresses.store') }}">
+                                                <form method="POST" action="{{ route('client.addresses.store') }}">
                                                     @csrf
                                                     <div class="mb-3">
                                                         <label for="recipient_name" class="form-label">Tên người
@@ -203,7 +200,7 @@
                                 </div>
 
                                 <?php $cartTotal = 0; ?>
-                                @foreach ($shoppingCart->items as $item)
+                                @foreach ($selectedProducts as $item)
                                     <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center">
                                         <div class="product-details d-flex align-items-center">
                                             <img src="{{ $item->variantProduct->images->first()->image_path }}"
@@ -224,13 +221,15 @@
                                             <?php
                                             $productPrice = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
                                             $totalPrice = $productPrice * $item->quantity;
-                                            $cartTotal += $totalPrice;
+                                            $cartTotal += $totalPrice; // Cộng dồn vào tổng tiền
                                             ?>
                                             {{ number_format($totalPrice, 0, ',', '.') }}.đ
                                         </div>
                                     </div>
                                 @endforeach
+
                                 <div id="finalAmountMessage"></div>
+
                                 <div class="totals">
                                     <div class="totals-item theme-color float-end mt-20">
                                         <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
@@ -239,9 +238,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @else
-                            <p>Giỏ hàng của bạn hiện tại trống.</p>
+                            @else
+                                <p>Giỏ hàng của bạn hiện tại trống.</p>
                 @endif
 
                 <div class="col-md-4">
@@ -291,6 +289,13 @@
                         <input type="hidden" name="payment_method" id="payment-method-input" value="cash">
                         <input type="hidden" name="address_id" id="selected-address-id" value="{{ $addressId }}">
                         <input type="hidden" name="final_amount" id="final-amount-input" value="{{ $cartTotal }}">
+
+                        <!-- Truyền ID sản phẩm đã chọn -->
+                        @foreach ($selectedProducts as $item)
+                            <input type="hidden" name="selected_products[]" value="{{ $item->product->id }}">
+                        @endforeach
+
+                        <!-- Nút Đặt hàng -->
                         <button type="submit" class="d-block text-center btn-two mt-20" id="submit-payment">
                             <span>Đặt hàng</span>
                         </button>

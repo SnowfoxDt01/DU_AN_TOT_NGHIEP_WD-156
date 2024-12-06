@@ -16,32 +16,57 @@ use Carbon\Carbon;
 
 class CheckoutController extends Controller
 {
-    public function index()
-    {
-        $this->handlePendingOrders();
-        if (!auth()->check()) {
-            return redirect()->route('client.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
-        }
+    public function index(Request $request)
+{
+    $this->handlePendingOrders();
 
-        $shoppingCart = auth()->user()->shoppingCart;
-
-        $customer = Auth::user()->customer;
-
-        $addresses = $customer->addresses;
-
-        $defaultAddress = $addresses->first();
-
-        $addressId = null;
-        if ($defaultAddress) {
-            $addressId = $defaultAddress->id;
-        }
-
-        if (!$shoppingCart) {
-            return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng của bạn hiện tại trống.');
-        }
-
-        return view('checkout.index', compact('shoppingCart', 'customer', 'addresses', 'defaultAddress', 'addressId'));
+    if (!auth()->check()) {
+        return redirect()->route('client.login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
     }
+
+    $shoppingCart = auth()->user()->shoppingCart;
+
+    if (!$shoppingCart) {
+        return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng của bạn hiện tại trống.');
+    }
+
+    // Lấy các sản phẩm đã chọn từ request
+    $selectedItems = $request->input('selected_items', []);
+
+    // Kiểm tra nếu selectedItems không phải là mảng, chuyển nó thành mảng
+    if (!is_array($selectedItems)) {
+        $selectedItems = explode(',', $selectedItems); // Chuyển chuỗi thành mảng nếu nó là chuỗi
+    }
+
+    // Nếu không có sản phẩm nào được chọn
+    if (empty($selectedItems)) {
+        return redirect()->route('client.cart.index')->with('error', 'Bạn chưa chọn sản phẩm nào để thanh toán.');
+    }
+
+    // Lọc ra các sản phẩm đã chọn
+    $selectedProducts = $shoppingCart->items->filter(function ($item) use ($selectedItems) {
+        return in_array($item->id, $selectedItems);
+    });
+
+    // Nếu không có sản phẩm hợp lệ, thông báo lỗi
+    if ($selectedProducts->isEmpty()) {
+        return redirect()->route('client.cart.index')->with('error', 'Không có sản phẩm hợp lệ.');
+    }
+
+    // Thông tin khách hàng và địa chỉ
+    $customer = Auth::user()->customer;
+    $addresses = $customer->addresses;
+    $defaultAddress = $addresses->first();
+
+    $addressId = null;
+    if ($defaultAddress) {
+        $addressId = $defaultAddress->id;
+    }
+
+    // Truyền dữ liệu vào view
+    return view('checkout.index', compact('shoppingCart', 'selectedProducts', 'customer', 'addresses', 'defaultAddress', 'addressId'));
+}
+
 
     public function applyVoucher(Request $request)
     {
@@ -111,31 +136,39 @@ class CheckoutController extends Controller
     }
 
     public function process(Request $request)
-    {
-        $paymentMethod = $request->input('payment_method');
+{
+    $paymentMethod = $request->input('payment_method');
+    $addressId = $request->input('address_id');
+    $address = Address::find($addressId);
+    
+    // Lấy thông tin giỏ hàng của người dùng
+    $shoppingCart = auth()->user()->shoppingCart;
 
-        $addressId = $request->input('address_id');
-        $address = Address::find($addressId);
-        // Lấy thông tin giỏ hàng  
-        $shoppingCart = auth()->user()->shoppingCart;
+    // Lấy các sản phẩm đã chọn từ request
+    $selectedProductIds = $request->input('selected_products', []);
 
+    // Nếu không có sản phẩm nào được chọn, trả về lỗi
+    if (empty($selectedProductIds)) {
+        return redirect()->route('client.cart.index')->with('error', 'Bạn chưa chọn sản phẩm nào để thanh toán!');
+    }
 
-        // Tính toán tổng tiền giỏ hàng
-        $cartTotal = $shoppingCart->items->sum(function ($item) {
-            return ($item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price) * $item->quantity;
-        });
+    // Tính toán tổng tiền cho các sản phẩm đã chọn
+    $cartTotal = $shoppingCart->items->filter(function ($item) use ($selectedProductIds) {
+        return in_array($item->product->id, $selectedProductIds);
+    })->sum(function ($item) {
+        return ($item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price) * $item->quantity;
+    });
 
-        $finalAmount = $request->input('final_amount');
+    // Nếu giá trị final_amount từ client khác với tính toán từ server thì cập nhật lại
+    $finalAmount = $request->input('final_amount', $cartTotal);
+    if (is_null($finalAmount)) {
+        $finalAmount = $cartTotal;
+    }
 
-        if (is_null($finalAmount)) {
-            $finalAmount = $cartTotal;
-        }
+    DB::beginTransaction();
 
-        DB::beginTransaction();
-
-
-
-        // Tạo đơn hàng mới  
+    try {
+        // Tạo đơn hàng mới
         $order = new ShopOrder();
         $order->user_id = Auth::id();
         $order->customer_id = auth()->user()->customer->id;
@@ -144,11 +177,12 @@ class CheckoutController extends Controller
         $order->shipping_address = $address->address;
         $order->recipient_name = $address->recipient_name;
         $order->recipient_phone = $address->recipient_phone;
-        $order->shipping_id = 1;
+        $order->shipping_id = 1; // Bạn có thể thay đổi nếu cần
         $order->date_order = Carbon::now();
         $order->order_status = 'pending';
         $order->save();
 
+        // Lưu voucher nếu có
         $voucherId = session('voucher_id');
         if ($voucherId) {
             $voucher_user = new VoucherUser();
@@ -158,18 +192,23 @@ class CheckoutController extends Controller
             $voucher_user->save();
             session()->forget('voucher_id');
         }
-        // Lưu chi tiết đơn hàng  
+
+        // Lưu chi tiết đơn hàng chỉ cho các sản phẩm đã chọn
         foreach ($shoppingCart->items as $item) {
+            if (!in_array($item->product->id, $selectedProductIds)) {
+                continue; // Bỏ qua sản phẩm không được chọn
+            }
+
             $itemPrice = ($item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price);
             $orderItem = new ShopOrderItem();
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $item->product->id;
-            // Lấy variant_id từ relationship variantProduct của item  
             $orderItem->variant_id = $item->variantProduct->id;
             $orderItem->quantity = $item->quantity;
             $orderItem->price = $itemPrice;
             $orderItem->save();
 
+            // Giảm số lượng trong kho nếu cần
             $variant = $item->variantProduct;
             if ($variant->quantity >= $item->quantity) {
                 $variant->decrement('quantity', $item->quantity);
@@ -180,25 +219,29 @@ class CheckoutController extends Controller
             }
         }
 
-
-
-        // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất  
+        // Xóa giỏ hàng nếu thanh toán thành công
         if ($paymentMethod === 'cash') {
             $shoppingCart->items()->delete();
             $order->order_status = 'confirming';
             $order->save();
-            DB::commit(); // Commit transaction  
+            DB::commit(); // Commit transaction
             return redirect()->route('client.cart.index')
                 ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Hãy thanh toán khi nhận hàng nhé !!!');
         }
 
         if ($paymentMethod === 'vnpay') {
-            DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay  
-            return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay  
+            DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay
+            return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay
         }
 
         return redirect()->route('client.cart.index')->with('error', 'Phương thức thanh toán không hợp lệ!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->route('client.cart.index')->with('error', 'Đã xảy ra lỗi trong quá trình xử lý đơn hàng!');
     }
+}
+
+
 
     private function redirectToVnpay($order)
     {

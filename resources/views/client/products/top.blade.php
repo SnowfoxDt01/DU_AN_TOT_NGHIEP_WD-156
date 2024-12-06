@@ -31,11 +31,11 @@
 @section('content')
     <section class="page-banner bg-image pt-130 pb-130" data-background="assets/images/banner/inner-banner.jpg">
         <div class="container">
-            <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Sản Phẩm Yêu Thích</h2>
+            <h2 class="wow fadeInUp mb-15" data-wow-duration="1.1s" data-wow-delay=".1s">Sản Phẩm Bán Chạy</h2>
             <div class="breadcrumb-list wow fadeInUp" data-wow-duration="1.3s" data-wow-delay=".3s">
                 <a href="{{ route('client.index') }}" class="primary-hover"><i class="fa-solid fa-house me-1"></i> Home <i
                         class="fa-regular text-white fa-angle-right"></i></a>
-                <span>Sản Phẩm Yêu Thích</span>
+                <span>Sản Phẩm Bán Chạy</span>
             </div>
         </div>
     </section>
@@ -43,7 +43,7 @@
     <section class="product-area pt-130 pb-130">
         <div class="container">
             <div class="pb-20 bor-bottom shop-page-wrp d-flex justify-content-between align-items-center mb-65">
-                <p class="fw-600">Tìm thấy {{ count($topProducts) }} sản phẩm yêu thích.</p>
+                <p class="fw-600">Tìm thấy {{ count($topProducts) }} sản phẩm bán chạy.</p>
                 <div class="short">
                     <select name="shortList" id="shortList" onchange="filterProducts()">
                         <option value="0">Tất cả sản phẩm</option>

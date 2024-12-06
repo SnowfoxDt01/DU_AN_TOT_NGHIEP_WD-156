@@ -52,15 +52,13 @@
                         @foreach ($shoppingCart->items as $item)
                             <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center"
                                 data-item-id="{{ $item->id }}">
+                                <div class="product-select">
+                                    <input type="checkbox" class="product-checkbox" name="selected_items[]"
+                                        value="{{ $item->id }}">
+                                </div>
                                 <div class="product-details d-flex align-items-center">
                                     <img src="{{ $item->variantProduct->images->first()->image_path }}" alt="image">
                                     <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->name }}</h4>
-                                </div>
-                                <div class="product-color">
-                                    <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->color->name }}</h4>
-                                </div>
-                                <div class="product-size">
-                                    <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->size->name }}</h4>
                                 </div>
                                 <div class="product-price">
                                     @if ($item->product->sale_price > 0)
@@ -78,7 +76,8 @@
                                         <button class="increase-quantity"><i class="fas fa-plus"></i></button>
                                     </div>
                                     <small>
-                                        <p class="remaining-quantity">Còn lại {{ $item->variantProduct->quantity }} sản phẩm
+                                        <p class="remaining-quantity">Còn lại {{ $item->variantProduct->quantity }} sản
+                                            phẩm
                                         </p>
                                     </small>
                                 </form>
@@ -113,12 +112,13 @@
                             </div>
                         </div>
                 </div>
-                <div class="cart-actions">
-                    <a href="{{ route('client.checkout.index') }}"
-                        class="d-inline-block text-center btn-two mt-30 px-4 py-3">
+                <form action="{{ route('client.checkout.index') }}" method="POST" id="checkout-form">
+                    @csrf
+                    <input type="hidden" name="selected_items" id="selected_items">
+                    <button type="submit" class="d-inline-block text-center btn-two mt-30 px-4 py-3">
                         <span>Thanh toán</span>
-                    </a>
-                </div>
+                    </button>
+                </form>
             @else
                 <span class="text-danger">Chưa có sản phẩm nào trong giỏ hàng!</span>
                 @endif
@@ -198,6 +198,22 @@
         function confirmDelete() {
             return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
         }
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            var selectedItems = [];
+            // Lấy tất cả checkbox đã được chọn
+            document.querySelectorAll('.product-checkbox:checked').forEach(function(checkbox) {
+                selectedItems.push(checkbox.value); // Lưu giá trị của sản phẩm đã chọn (ID)
+            });
+
+            // Kiểm tra nếu không có sản phẩm nào được chọn
+            if (selectedItems.length === 0) {
+                alert("Vui lòng chọn sản phẩm để thanh toán.");
+                e.preventDefault(); // Ngừng gửi form
+            } else {
+                // Đưa các sản phẩm đã chọn vào input hidden
+                document.getElementById('selected_items').value = selectedItems.join(',');
+            }
+        });
     </script>
 
 
