@@ -46,6 +46,9 @@
                                 {{ App\Enums\OrderStatus::getDescription($order->order_status) }}
                             </span></p>
                     @endif
+                    @if ($order->cancel_reason != null)
+                        <p><strong>Lí do hủy đơn:</strong> <span class="text-light">{{ $order->cancel_reason }}</span></p>
+                    @endif
                     <p><strong>Chiết khấu:</strong> <span class="text-danger"> -
                             {{ number_format($discountAmount, 0, ',', '.') }}.đ</span></p>
                     <p><strong>Tổng tiền thanh toán:</strong> <span
@@ -61,16 +64,17 @@
                     <h3 class="text-orange mb-3">Người đặt hàng: </h3>
                     <p><strong>Tên:</strong> <span class="text-light">{{ Auth::user()->name }}</span></p>
                     <p><strong>Email:</strong> <span class="text-light">{{ Auth::user()->email }}</span></p>
-                    <p><strong>Số điện thoại:</strong> <span class="text-light">{{ Auth::user()->customer->phone  }}</span></p>
+                    <p><strong>Số điện thoại:</strong> <span class="text-light">{{ Auth::user()->customer->phone }}</span>
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
                 <!-- Thông tin khách hàng -->
                 <div class="order-customer mt-4">
                     <h3 class="text-orange mb-3">Địa chỉ nhận hàng: </h3>
-                    <p><strong>Tên:</strong> <span class="text-light">{{ $order->recipient_name  }}</span></p>
+                    <p><strong>Tên:</strong> <span class="text-light">{{ $order->recipient_name }}</span></p>
                     <p><strong>Địa chỉ:</strong> <span class="text-light">{{ $order->shipping_address }}</span></p>
-                    <p><strong>Số điện thoại:</strong> <span class="text-light">{{ $order->recipient_phone  }}</span></p>
+                    <p><strong>Số điện thoại:</strong> <span class="text-light">{{ $order->recipient_phone }}</span></p>
                 </div>
             </div>
         </div>
