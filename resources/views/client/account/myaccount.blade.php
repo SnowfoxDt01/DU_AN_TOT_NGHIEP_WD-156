@@ -20,7 +20,7 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" style="color: #fff;" id="warranty-tab" data-bs-toggle="tab"
                                     href="#warranty" role="tab" aria-controls="warranty" aria-selected="false">
-                                    <i class="bi bi-shield-check" style="font-size: 20px;"> </i> Tra cứu bảo hành
+                                    <i class="bi bi-person-gear" style="font-size: 20px;"> </i> Cập nhật thông tin cá nhân
                                 </a>
                             </li>
                             <hr>
@@ -35,7 +35,7 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" style="color: #fff" id="update-info-tab" data-bs-toggle="tab"
                                     href="#update-info" role="tab" aria-controls="update-info" aria-selected="false">
-                                    <i class="bi bi-person-gear" style="font-size: 20px;"> </i> Thay đổi thông tin
+                                    <i class="bi bi-key" style="font-size: 20px;"> </i> Đổi mật khẩu
                                 </a>
                             </li>
                             <hr>
@@ -76,19 +76,19 @@
                             @if (Auth::user()->customer)
                                 <div class="row">
                                     <div>
-                                        <p><strong>Họ và Tên : </strong> {{ Auth::user()->customer->first()->name }}</p>
+                                        <p><strong>Họ và Tên : </strong> {{ Auth::user()->customer->name }}</p>
                                     </div>
                                     <hr>
                                     <div>
-                                        <p><strong>Email : </strong> {{ Auth::user()->customer->first()->email }}</p>
+                                        <p><strong>Email : </strong> {{ Auth::user()->customer->email }}</p>
                                     </div>
                                     <hr>
                                     <div>
-                                        <p><strong>Số điện thoại :</strong> {{ Auth::user()->customer->first()->phone }}</p>
+                                        <p><strong>Số điện thoại :</strong> {{ Auth::user()->customer->phone }}</p>
                                     </div>
                                     <hr>
                                     <div>
-                                        <p><strong>Địa chỉ : </strong> {{ Auth::user()->customer->first()->address }}</p>
+                                        <p><strong>Địa chỉ : </strong> {{ Auth::user()->customer->address }}</p>
                                     </div>
                                     <hr>
                                     <div>
@@ -109,8 +109,50 @@
                         </div>
                         <!-- Warranty Tab Content -->
                         <div class="tab-pane fade" id="warranty" role="tabpanel" aria-labelledby="warranty-tab">
-                            <h4>Tra cứu bảo hành</h4>
-                            <p>Nhập mã bảo hành để kiểm tra thông tin tại đây.</p>
+                            <div class="col-lg-12">
+                                <div class="checkout__item-left sub-bg">
+                                    <h3 class="mb-40">Thay đổi thông tin cá nhân</h3>
+                                    <form action="" method="POST">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="mb-10" for="name">Tên khách hàng *</label>
+                                                <input class="mb-20" id="name" name="name" type="text"
+                                                    value="{{ old('name', $customer->name ?? '') }}">
+                                                @error('name')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="mb-10" for="email">Email *</label>
+                                                <input class="mb-20" id="email" name="email" type="text"
+                                                    value="{{ old('email', $customer->email ?? '') }}">
+                                                @error('email')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="mb-10" for="phone">Số điện thoại *</label>
+                                                <input class="mb-20" id="phone" name="phone" type="text"
+                                                    value="{{ old('phone', $customer->phone ?? '') }}" required>
+                                                @error('phone')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="mb-10" for="address">Địa chỉ *</label>
+                                                <input class="mb-20" id="address" name="address" type="text"
+                                                    value="{{ old('address', $customer->address ?? '') }}" required>
+                                                @error('address')
+                                                    <small class="help-block text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn-one mt-35"><span>Cập nhật thông tin</span></button>
+                                    </form>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- Order History Tab Content -->
                         <div class="tab-pane fade" id="order-history" role="tabpanel"

@@ -15,15 +15,25 @@ class ShoppingCartController extends Controller
     public function index()
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem giỏ hàng.');
         }
-        $categories = Category::all();
-        // Lấy giỏ hàng của người dùng hiện tại
+    
         $user = Auth::user();
-        $shoppingCart = $user->shoppingCart->with('items.variantProduct.product.images', 'items.variantProduct.images')->first();
-
-        return view('client.carts.index', compact('shoppingCart', 'categories'));
+    
+        // Lấy giỏ hàng của người dùng hiện tại
+        $shoppingCart = $user->shoppingCart()->with('items.variantProduct.product.images', 'items.variantProduct.images')->first();
+    
+        // Nếu người dùng chưa có giỏ hàng, có thể tạo mới
+        if (!$shoppingCart) {
+            $shoppingCart = ShoppingCart::create(['user_id' => $user->id]);
+        }
+    
+        // Tổng số lượng sản phẩm trong giỏ hàng
+        $cartQuantity = $shoppingCart->items->sum('quantity');
+    
+        return view('client.carts.index', compact('shoppingCart', 'cartQuantity'));
     }
+    
 
     // ShoppingCartController.php
 
@@ -33,7 +43,7 @@ class ShoppingCartController extends Controller
         $productId = $request->input('product_id');
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
-        $userId = Auth::id(); // Lấy user_id của người dùng hiện tại
+        $userId = Auth::user()->id; // Lấy user_id của người dùng hiện tại
 
         // 2. Kiểm tra biến thể sản phẩm
         $product = Product::findOrFail($productId);
