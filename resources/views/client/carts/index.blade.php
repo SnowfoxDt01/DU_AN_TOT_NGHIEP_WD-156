@@ -30,7 +30,7 @@
                     @if (isset($shoppingCart))
                         <div class="user-info p-4">
                             <h3>Thông tin người dùng</h3>
-                            <p><strong>Người dùng:</strong> {{ $shoppingCart->user->name }}</p>
+                            <p><strong>Người dùng:</strong> {{ Auth::user()->name }}</p>
                         </div>
                     @endif
                     <hr>

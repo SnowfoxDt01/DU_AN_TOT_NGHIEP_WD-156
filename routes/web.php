@@ -56,18 +56,6 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'blogs',
-        'as' => 'blogs.'
-    ], function () {
-
-        Route::get('/blog/index', [BlogController::class, 'index'])->name('index');
-
-        Route::get('/blog/create', [BlogController::class, 'create'])->name('create');
-
-        Route::post('/blog/create', [BlogController::class, 'store'])->name('store');
-    });
-
-    Route::group([
         'prefix' => 'products',
         'as' => 'products.'
     ], function () {
@@ -158,6 +146,9 @@ Route::group([
     Route::resource('customers', CustomerController::class);
 
     Route::resource('vouchers', VoucherController::class);
+
+    Route::resource('blogs', BlogController::class);
+
 });
 
 Route::group([

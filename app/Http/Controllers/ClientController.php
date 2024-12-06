@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
+use App\Http\Requests\CustomerRequest;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ShopOrder;
 use App\Models\ShopOrderItem;
@@ -38,6 +40,9 @@ class ClientController extends Controller
     public function myAccount()
     {
         $user = Auth::user();
+
+        $customer = $user->customer ?? null;
+
         $orders = ShopOrder::where('user_id', $user->id)
             ->with('items.product.images')
             ->orderBy('date_order', 'desc')
@@ -73,7 +78,7 @@ class ClientController extends Controller
             ->orderBy('date_order', 'desc')
             ->get();
 
-        return view('client.account.myaccount', compact('user', 'orders', 'confirmOrders', 'confirmedOrders', 'shippingOrders', 'completedOrders', 'canceledOrders'));
+        return view('client.account.myaccount', compact('user', 'orders', 'confirmOrders', 'confirmedOrders', 'shippingOrders', 'completedOrders', 'canceledOrders', 'customer'));
     }
 
 
@@ -150,24 +155,24 @@ class ClientController extends Controller
 
 
     public function topProducts()
-{
-    // Lấy tất cả các sản phẩm, phân trang 9 sản phẩm một lần
-    $products = Product::paginate(9);
+    {
+        // Lấy tất cả các sản phẩm, phân trang 9 sản phẩm một lần
+        $products = Product::paginate(9);
 
-    // Lấy danh sách các sản phẩm yêu thích (tính theo số lượng đã bán)
-    $topProducts = ShopOrderItem::with('product')
-        ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
-        ->groupBy('product_id')
-        ->orderByDesc('total_sales')
-        ->take(10)
-        ->get();
+        // Lấy danh sách các sản phẩm yêu thích (tính theo số lượng đã bán)
+        $topProducts = ShopOrderItem::with('product')
+            ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
+            ->groupBy('product_id')
+            ->orderByDesc('total_sales')
+            ->take(10)
+            ->get();
 
-    // Lấy các sản phẩm đang flash sale
-    $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
+        // Lấy các sản phẩm đang flash sale
+        $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
 
-    // Trả về view và truyền dữ liệu
-    return view('client.products.top', compact('products', 'topProducts', 'flash_sale_products'));
-}
+        // Trả về view và truyền dữ liệu
+        return view('client.products.top', compact('products', 'topProducts', 'flash_sale_products'));
+    }
 
 
     public function productsOfCategory($id)
@@ -206,5 +211,22 @@ class ClientController extends Controller
             ->paginate(9);
 
         return view('client.page.voucherList', compact('vouchers'));
+    }
+
+    public function updateCustomerInfo(CustomerRequest $request, string $id)
+    {
+        $user = auth()->user();
+        $customer = $user->customer;
+
+        $customer->update($id, [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'id_user' => $user->id,
+        ]);
+
+
+        return redirect()->back()->with('success', "Cập nhật thành công.");
     }
 }

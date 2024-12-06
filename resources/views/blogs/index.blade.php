@@ -41,8 +41,11 @@
                         @endif
                     </td>
                     <td>
-                        <a href="">
+                        <a href="{{ route('admin.blogs.edit', $blog->id) }}">
                             <button class="btn btn-success" style="display: inline-block;"><i class="bi bi-pencil-square"></i></button>
+                        </a>
+                        <a href="{{ route('admin.blogs.show', $blog->id) }}" class="btn btn-info">
+                            <i class="fa-solid fa-circle-info"></i>
                         </a>
                         <form action="" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')" style="display: inline-block;">
                             @csrf
