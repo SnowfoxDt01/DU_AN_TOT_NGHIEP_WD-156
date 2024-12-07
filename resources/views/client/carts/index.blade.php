@@ -1,4 +1,46 @@
 @extends('layout.client.master')
+@push('styles')
+    <style>
+        .column-labels {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-select {
+            flex: 1;
+            text-align: center;
+        }
+
+        .product-details {
+            flex: 3;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .product-size,
+        .product-line-price,
+        .product-removal {
+            flex: 1;
+            text-align: center;
+        }
+
+        .column-labels .product-color {
+            margin-left: 45px;
+        }
+
+        .column-labels label {
+            padding: 0 10px;
+            white-space: nowrap;
+        }
+
+        .product-checkbox {
+            transform: scale(2);
+        }
+        
+    </style>
+@endpush
 @section('content')
     <main>
         <section class="page-banner bg-image pt-130 pb-130" data-background="">
@@ -36,6 +78,7 @@
                     <hr>
                     <div
                         class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
+                        <label class="product-select">Chọn</label>
                         <label class="product-details">Sản phẩm</label>
                         <label class="product-color">Màu</label>
                         <label class="product-size">Kích cỡ</label>
@@ -45,6 +88,7 @@
                         <label class="product-removal">Xóa</label>
                     </div>
 
+
                     @if (isset($shoppingCart) && $shoppingCart->items->count() > 0)
                         <?php
                         $cartTotal = 0; // Khởi tạo tổng giá trị giỏ hàng
@@ -52,13 +96,19 @@
                         @foreach ($shoppingCart->items as $item)
                             <div class="product p-4 bor-bottom d-flex justify-content-between align-items-center"
                                 data-item-id="{{ $item->id }}">
-                                <div class="product-select">
+                                <div class="product-select d-flex justify-content-center align-items-center">
                                     <input type="checkbox" class="product-checkbox" name="selected_items[]"
                                         value="{{ $item->id }}">
                                 </div>
                                 <div class="product-details d-flex align-items-center">
                                     <img src="{{ $item->variantProduct->images->first()->image_path }}" alt="image">
                                     <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->name }}</h4>
+                                </div>
+                                <div class="product-color">
+                                    <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->color->name }}</h4>
+                                </div>
+                                <div class="product-size">
+                                    <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->size->name }}</h4>
                                 </div>
                                 <div class="product-price">
                                     @if ($item->product->sale_price > 0)
@@ -77,16 +127,14 @@
                                     </div>
                                     <small>
                                         <p class="remaining-quantity">Còn lại {{ $item->variantProduct->quantity }} sản
-                                            phẩm
-                                        </p>
+                                            phẩm</p>
                                     </small>
                                 </form>
                                 <div class="product-line-price">
                                     <?php
-                                    // Tính giá trị cho từng sản phẩm
                                     $productPrice = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
                                     $totalPrice = $productPrice * $item->quantity;
-                                    $cartTotal += $totalPrice; // Cộng dồn vào tổng giá trị giỏ hàng
+                                    $cartTotal += $totalPrice;
                                     ?>
                                     {{ number_format($totalPrice, 0, ',', '.') }}.đ
                                 </div>
