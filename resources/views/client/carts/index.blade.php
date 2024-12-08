@@ -155,10 +155,11 @@
                             <div class="totals-item theme-color float-end mt-20">
                                 <span class="fw-bold text-uppercase py-2">Tổng tiền =</span>
                                 <div class="totals-value d-inline py-2 pe-2" id="cart-subtotal">
-                                    {{ number_format($cartTotal, 0, ',', '.') }}.đ
+                                    0 đ
                                 </div>
                             </div>
                         </div>
+                        
                 </div>
                 <form action="{{ route('client.checkout.index') }}" method="POST" id="checkout-form">
                     @csrf
@@ -178,69 +179,83 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.decrease-quantity, .increase-quantity').click(function(event) {
-                event.preventDefault();
+    // Cập nhật tổng tiền khi tăng/giảm số lượng hoặc thay đổi checkbox
+    function updateCartTotal() {
+        var cartTotal = 0;
 
-                var input = $(this).siblings('input');
-                var currentVal = parseInt(input.val()); // Lấy giá trị hiện tại của input
-                var maxVal = parseInt(input.attr('max')); // Lấy giá trị tối đa từ thuộc tính max của input
+        // Duyệt qua tất cả checkbox được chọn
+        $('.product-checkbox:checked').each(function() {
+            var productElement = $(this).closest('.product'); // Lấy sản phẩm tương ứng với checkbox
+            var linePrice = productElement.find('.product-line-price').text().replace(/[^0-9]/g, ''); // Lấy giá trị
+            cartTotal += parseInt(linePrice); // Cộng giá trị vào tổng tiền
+        });
 
-                var updateCart = false;
+        // Cập nhật tổng tiền hiển thị
+        $('#cart-subtotal').text(cartTotal.toLocaleString('vi-VN') + ' đ');
+    }
 
-                if ($(this).hasClass('decrease-quantity') && currentVal > 1) {
-                    input.val(currentVal - 1);
-                    updateCart = true;
-                } else if ($(this).hasClass('increase-quantity') && currentVal < maxVal) {
-                    input.val(currentVal + 1);
-                    updateCart = true;
-                } else if ($(this).hasClass('increase-quantity') && currentVal >= maxVal) {
-                    toastr.warning('Số lượng sản phẩm không đủ', 'Cảnh báo', {
+    // Xử lý sự kiện tăng/giảm số lượng
+    $('.decrease-quantity, .increase-quantity').click(function(event) {
+        event.preventDefault();
+
+        var input = $(this).siblings('input');
+        var currentVal = parseInt(input.val()); // Lấy giá trị hiện tại
+        var maxVal = parseInt(input.attr('max')); // Giá trị tối đa
+        var updateCart = false;
+
+        if ($(this).hasClass('decrease-quantity') && currentVal > 1) {
+            input.val(currentVal - 1);
+            updateCart = true;
+        } else if ($(this).hasClass('increase-quantity') && currentVal < maxVal) {
+            input.val(currentVal + 1);
+            updateCart = true;
+        } else if ($(this).hasClass('increase-quantity') && currentVal >= maxVal) {
+            toastr.warning('Số lượng sản phẩm không đủ', 'Cảnh báo', {
+                "timeOut": 3000,
+                "backgroundColor": "#ff0000",
+                "iconClass": "toast-warning"
+            });
+        }
+
+        if (updateCart) {
+            var itemId = $(this).closest('.product').data('item-id'); // Lấy ID của sản phẩm
+
+            // Gửi yêu cầu AJAX để cập nhật số lượng
+            $.ajax({
+                url: "{{ route('client.cart.update', ':itemId') }}".replace(':itemId', itemId),
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    quantity: input.val()
+                },
+                success: function(response) {
+                    // Cập nhật tổng giá cho sản phẩm này
+                    if (response.lineTotal) {
+                        $(input).closest('.product').find('.product-line-price').text(response.lineTotal);
+                    }
+
+                    // Cập nhật tổng tiền cho các sản phẩm được chọn
+                    updateCartTotal();
+
+                    toastr.success('Số lượng sản phẩm đã được cập nhật', 'Thông báo', {
                         "timeOut": 3000,
-                        "backgroundColor": "#ff0000",
-                        "iconClass": "toast-warning"
+                        "backgroundColor": "#28a745",
+                        "iconClass": "toast-success"
                     });
-                }
-
-                if (updateCart) {
-                    var itemId = $(this).closest('.product').data('item-id'); // Lấy id của item
-
-                    // Gửi yêu cầu AJAX để cập nhật giỏ hàng
-                    $.ajax({
-                        url: "{{ route('client.cart.update', ':itemId') }}".replace(':itemId',
-                            itemId),
-                        type: 'POST',
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            quantity: input.val()
-                        },
-                        success: function(response) {
-                            // Cập nhật tổng giá của sản phẩm cụ thể
-                            if (response.lineTotal) {
-                                $(input).closest('.product').find('.product-line-price').text(
-                                    response.lineTotal);
-                            }
-
-                            // Cập nhật tổng tiền giỏ hàng nếu có
-                            if (response.cartTotal) {
-                                $('#cart-subtotal').text(response.cartTotal);
-                            }
-
-                            console.log('Line Total:', response.lineTotal);
-                            console.log('Cart Total:', response.cartTotal);
-
-                            toastr.success('Số lượng sản phẩm đã được cập nhật', 'Thông báo', {
-                                "timeOut": 3000,
-                                "backgroundColor": "#28a745", // Màu xanh lá
-                                "iconClass": "toast-success"
-                            });
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        }
-                    });
+                },
+                error: function(error) {
+                    console.error(error);
                 }
             });
-        });
+        }
+    });
+
+    // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
+    $('.product-checkbox').change(function() {
+        updateCartTotal();
+    });
+});
+
 
 
         function confirmDelete() {
