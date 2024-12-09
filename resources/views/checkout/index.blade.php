@@ -42,10 +42,10 @@
                                     <div class="user-info p-4 bg-light shadow rounded mb-4">
                                         <h3 class="mb-4">Thông Tin Giao Hàng</h3>
                                         <div id="user-info-display">
-                                            <p><strong>Khách hàng:</strong> <span id="user-name">{{ $customer->name }}</span>
+                                            <p><strong>Khách hàng:</strong> <span id="user-name">{{ Auth::user()->name }}</span>
                                             </p>
                                             <p><strong>Số điện thoại:</strong> <span
-                                                    id="user-phone">{{ $customer->phone }}</span></p>
+                                                    id="user-phone">{{ $customer->phone ?? null }}</span></p>
                                             @if ($defaultAddress)
                                                 <div id="selected-address-info" class="mt-3">
                                                     <h4>Địa chỉ nhận hàng:</h4>

@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             $cartQuantity = 0;
             if (auth()->check()) {
                 $cart = ShoppingCart::where('user_id', auth()->id())->first();
-                $cartQuantity = $cart ? $cart->items()->sum('quantity') : 0;
+                $cartQuantity = $cart ? $cart->items()->count('variant_id') : 0;
             }
             $view->with('cartQuantity', $cartQuantity);
         });

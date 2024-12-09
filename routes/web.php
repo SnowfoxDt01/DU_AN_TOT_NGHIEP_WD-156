@@ -22,6 +22,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
+use Illuminate\Http\Request;
 
 // http://127.0.0.1:8000/
 
@@ -146,7 +147,6 @@ Route::group([
     Route::resource('vouchers', VoucherController::class);
 
     Route::resource('blogs', BlogController::class);
-
 });
 
 Route::group([
@@ -173,6 +173,11 @@ Route::group([
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 
     Route::resource('addresses', AddressController::class);
+
+    Route::post('/save-tab', function (Request $request) {
+        session(['active_tab' => $request->tab]);
+        return response()->json(['success' => true]);
+    })->name('save.tab');
 
 
 

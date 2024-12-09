@@ -9,39 +9,46 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-xl-3 col-lg-4" style="margin-right: 50px">
+                    @php
+                        $activeTab = session('active_tab', '#account'); // Mặc định tab đầu tiên là #account
+                    @endphp
                     <div class="product__left-item sub-bg">
                         <ul class="nav flex-column" id="accountTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" style="color: #fff" id="account-tab" data-bs-toggle="tab"
-                                    href="#account" role="tab" aria-controls="account" aria-selected="true">
+                                <a class="nav-link active @if ($activeTab == '#account') active @endif"
+                                    style="color: #fff" id="account-tab" data-bs-toggle="tab" href="#account" role="tab"
+                                    aria-controls="account" aria-selected="true">
                                     <i class="bi bi-person-vcard" style="font-size: 20px;"> </i> Tài khoản</a>
                             </li>
                             <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff;" id="warranty-tab" data-bs-toggle="tab"
-                                    href="#warranty" role="tab" aria-controls="warranty" aria-selected="false">
+                                <a class="nav-link @if ($activeTab == '#warranty') active @endif" style="color: #fff;"
+                                    id="warranty-tab" data-bs-toggle="tab" href="#warranty" role="tab"
+                                    aria-controls="warranty" aria-selected="false">
                                     <i class="bi bi-person-gear" style="font-size: 20px;"> </i> Cập nhật thông tin cá nhân
                                 </a>
                             </li>
                             <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff" id="order-history-tab" data-bs-toggle="tab"
-                                    href="#order-history" role="tab" aria-controls="order-history"
-                                    aria-selected="false">
+                                <a class="nav-link @if ($activeTab == '#order-history') active @endif" style="color: #fff"
+                                    id="order-history-tab" data-bs-toggle="tab" href="#order-history" role="tab"
+                                    aria-controls="order-history" aria-selected="false">
                                     <i class="bi bi-receipt" style="font-size: 20px;"> </i> Lịch sử mua hàng
                                 </a>
                             </li>
                             <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff" id="update-info-tab" data-bs-toggle="tab"
-                                    href="#update-info" role="tab" aria-controls="update-info" aria-selected="false">
+                                <a class="nav-link @if ($activeTab == '#update-info') active @endif" style="color: #fff"
+                                    id="update-info-tab" data-bs-toggle="tab" href="#update-info" role="tab"
+                                    aria-controls="update-info" aria-selected="false">
                                     <i class="bi bi-key" style="font-size: 20px;"> </i> Đổi mật khẩu
                                 </a>
                             </li>
                             <hr>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" style="color: #fff" id="support-tab" data-bs-toggle="tab"
-                                    href="#support" role="tab" aria-controls="support" aria-selected="false">
+                                <a class="nav-link @if ($activeTab == '#support') active @endif" style="color: #fff"
+                                    id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
+                                    aria-controls="support" aria-selected="false">
                                     <i class="bi bi-headset" style="font-size: 20px;"> </i> Hỗ trợ
                                 </a>
                             </li>
@@ -60,6 +67,13 @@
                         @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                                     aria-label="Close"></button>
                             </div>
@@ -148,7 +162,8 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn-one mt-35"><span>Cập nhật thông tin</span></button>
+                                        <button type="submit" class="btn-one mt-35"><span>Cập nhật thông
+                                                tin</span></button>
                                     </form>
 
                                 </div>
@@ -265,8 +280,9 @@
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#cancelOrderModal"
-                                                                        data-order-id="{{ $order->id }}">Hủy đơn
-                                                                        hàng</button>
+                                                                        data-order-id="{{ $order->id }}"
+                                                                        data-order-status="{{ $order->order_status }}">
+                                                                        Hủy đơn hàng</button>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -333,8 +349,9 @@
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#cancelOrderModal"
-                                                                        data-order-id="{{ $confirm->id }}">Hủy đơn
-                                                                        hàng</button>
+                                                                        data-order-id="{{ $confirm->id }}"
+                                                                        data-order-status="{{ $confirm->order_status }}">
+                                                                        Hủy đơn hàng</button>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -403,8 +420,9 @@
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#cancelOrderModal"
-                                                                        data-order-id="{{ $confirmed->id }}">Hủy đơn
-                                                                        hàng</button>
+                                                                        data-order-id="{{ $confirmed->id }}"
+                                                                        data-order-status="{{ $confirmed->order_status }}">Hủy
+                                                                        đơn hàng</button>
                                                                 @endif
                                                             </div>
 
@@ -677,7 +695,10 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="cancel_reason" class="form-label">Lý do hủy</label>
-                            <textarea class="form-control" id="cancel_reason" name="cancel_reason" rows="3" required></textarea>
+                            <textarea class="form-control" id="cancel_reason" name="cancel_reason" rows="3"></textarea>
+                            @error('cancel_reason')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -689,16 +710,47 @@
         </div>
     </div>
     {{-- hết modal --}}
+@endsection
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var cancelOrderModal = document.getElementById('cancelOrderModal');
             cancelOrderModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var orderId = button.getAttribute('data-order-id');
+                var button = event.relatedTarget; // Nút bấm mở modal
+                var orderId = button.getAttribute('data-order-id'); // Lấy order ID
+                var orderStatus = button.getAttribute('data-order-status'); // Lấy trạng thái đơn hàng
+
+                if (!['confirming', 'confirmed', 'preparing'].includes(orderStatus)) {
+                    toastr.error('Trạng thái đơn hàng không hợp lệ, không thể hủy.');
+                    event.preventDefault(); // Ngăn không cho mở modal
+                    return;
+                }
+
+                // Nếu hợp lệ, thiết lập action cho form
                 var form = document.getElementById('cancelOrderForm');
                 form.action = '/client/order/' + orderId + '/cancel';
             });
         });
     </script>
 
-@endsection
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabs = document.querySelectorAll('#accountTabs .nav-link');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabId = this.getAttribute('href'); // Lấy ID tab hiện tại
+                    sessionStorage.setItem('activeTab', tabId); // Lưu ID tab vào sessionStorage
+                });
+            });
+
+            // Khi tải lại trang, kiểm tra xem có tab nào được lưu không
+            var activeTab = sessionStorage.getItem('activeTab');
+            if (activeTab) {
+                var targetTab = document.querySelector(`#accountTabs .nav-link[href="${activeTab}"]`);
+                if (targetTab) {
+                    targetTab.click(); // Kích hoạt tab đã lưu
+                }
+            }
+        });
+    </script>
+@endpush

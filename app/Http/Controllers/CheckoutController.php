@@ -55,7 +55,7 @@ class CheckoutController extends Controller
 
         // Thông tin khách hàng và địa chỉ
         $customer = Auth::user()->customer;
-        $addresses = $customer->addresses;
+        $addresses = $customer->addresses ?? collect();
         $defaultAddress = $addresses->first();
 
         $addressId = null;
