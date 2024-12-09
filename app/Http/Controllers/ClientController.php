@@ -141,7 +141,18 @@ class ClientController extends Controller
         $totalReviews = $detailProduct->reviews->count();
 
         $averageRating = $totalReviews > 0 ? $detailProduct->reviews->avg('rating') : 0;
-        return view('client.detail-product', compact('detailProduct', 'totalReviews', 'sizes', 'averageRating'));
+
+        $hasPurchased = false;
+
+        if (Auth::check()) {
+            $hasPurchased = ShopOrder::where('user_id', Auth::id())
+                ->whereHas('items', function ($query) use ($id) {
+                    $query->where('product_id', $id);
+                })
+                ->exists();
+        }
+
+        return view('client.detail-product', compact('detailProduct', 'totalReviews', 'sizes', 'averageRating', 'hasPurchased'));
     }
 
     public function shopProducts()

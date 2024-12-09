@@ -195,7 +195,7 @@ class CheckoutController extends Controller
 
             // Lưu chi tiết đơn hàng chỉ cho các sản phẩm đã chọn
             foreach ($shoppingCart->items as $item) {
-                if (!in_array($item->product->id, $selectedProductIds)) {
+                if (!in_array($item->variantProduct->id, $selectedProductIds)) {
                     continue; // Bỏ qua sản phẩm không được chọn
                 }
 
@@ -208,7 +208,7 @@ class CheckoutController extends Controller
                 $orderItem->price = $itemPrice;
                 $orderItem->save();
 
-                // Giảm số lượng trong kho nếu cần
+                // Giảm số lượng trong kho
                 $variant = $item->variantProduct;
                 if ($variant->quantity >= $item->quantity) {
                     $variant->decrement('quantity', $item->quantity);
@@ -224,7 +224,7 @@ class CheckoutController extends Controller
             if ($paymentMethod === 'cash') {
                 // Xóa chỉ các sản phẩm đã chọn
                 foreach ($shoppingCart->items as $item) {
-                    if (in_array($item->product->id, $selectedProductIds)) {
+                    if (in_array($item->variantProduct->id, $selectedProductIds)) {
                         $item->delete(); // Xóa sản phẩm đã chọn
                     }
                 }
