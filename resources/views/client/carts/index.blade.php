@@ -37,6 +37,7 @@
 
         .product-checkbox {
             transform: scale(2);
+            accent-color: #fa4f09;
         }
         
     </style>
@@ -78,7 +79,9 @@
                     <hr>
                     <div
                         class="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-white text-uppercase">
-                        <label class="product-select">Chọn</label>
+                        <label class="product-select">
+                            <input type="checkbox" id="select-all" class="product-checkbox">
+                        </label>
                         <label class="product-details">Sản phẩm</label>
                         <label class="product-color">Màu</label>
                         <label class="product-size">Kích cỡ</label>
@@ -159,7 +162,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                 </div>
                 <form action="{{ route('client.checkout.index') }}" method="POST" id="checkout-form">
                     @csrf
@@ -183,8 +186,8 @@
     function updateCartTotal() {
         var cartTotal = 0;
 
-        // Duyệt qua tất cả checkbox được chọn
-        $('.product-checkbox:checked').each(function() {
+        // Duyệt qua tất cả checkbox được chọn (trừ checkbox "Chọn tất cả")
+        $('.product-checkbox:checked').not('#select-all').each(function() {
             var productElement = $(this).closest('.product'); // Lấy sản phẩm tương ứng với checkbox
             var linePrice = productElement.find('.product-line-price').text().replace(/[^0-9]/g, ''); // Lấy giá trị
             cartTotal += parseInt(linePrice); // Cộng giá trị vào tổng tiền
@@ -252,9 +255,26 @@
 
     // Cập nhật tổng tiền khi chọn/bỏ chọn sản phẩm
     $('.product-checkbox').change(function() {
+        if (!$(this).is('#select-all')) {
+            // Kiểm tra trạng thái của checkbox "Chọn tất cả"
+            if ($('.product-checkbox:checked').not('#select-all').length === $('.product-checkbox').not('#select-all').length) {
+                $('#select-all').prop('checked', true);
+            } else {
+                $('#select-all').prop('checked', false);
+            }
+        }
+
         updateCartTotal();
     });
+
+    // Xử lý sự kiện nhấp vào checkbox "Chọn tất cả"
+    $('#select-all').change(function() {
+        var isChecked = $(this).is(':checked'); // Kiểm tra trạng thái checkbox "Chọn tất cả"
+        $('.product-checkbox').not('#select-all').prop('checked', isChecked); // Chọn hoặc bỏ chọn tất cả sản phẩm
+        updateCartTotal(); // Cập nhật tổng tiền
+    });
 });
+
 
 
 
