@@ -306,7 +306,7 @@
 
                             <!-- Truyền ID sản phẩm đã chọn -->
                             @foreach ($selectedProducts as $item)
-                                <input type="hidden" name="selected_products[]" value="{{ $item->product->id }}">
+                                <input type="hidden" name="selected_products[]" value="{{ $item->variantProduct->id }}">
                             @endforeach
 
                             <!-- Nút Đặt hàng -->

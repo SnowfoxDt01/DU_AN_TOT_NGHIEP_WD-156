@@ -735,18 +735,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var tabs = document.querySelectorAll('#accountTabs .nav-link');
+            // Xác định tên key theo URL (hoặc ID trang)
+            var pageKey = 'activeTab_' + window.location.pathname;
+
+            // Xử lý lưu tab vào sessionStorage khi người dùng click
+            var tabs = document.querySelectorAll('.nav-link[data-bs-toggle="tab"]');
             tabs.forEach(function(tab) {
                 tab.addEventListener('click', function() {
-                    var tabId = this.getAttribute('href'); // Lấy ID tab hiện tại
-                    sessionStorage.setItem('activeTab', tabId); // Lưu ID tab vào sessionStorage
+                    var tabId = this.getAttribute('href'); // Lấy ID của tab
+                    sessionStorage.setItem(pageKey, tabId); // Lưu tab với key tương ứng
                 });
             });
 
-            // Khi tải lại trang, kiểm tra xem có tab nào được lưu không
-            var activeTab = sessionStorage.getItem('activeTab');
+            // Khi tải lại trang, kiểm tra tab đã lưu
+            var activeTab = sessionStorage.getItem(pageKey);
             if (activeTab) {
-                var targetTab = document.querySelector(`#accountTabs .nav-link[href="${activeTab}"]`);
+                var targetTab = document.querySelector(`.nav-link[href="${activeTab}"]`);
                 if (targetTab) {
                     targetTab.click(); // Kích hoạt tab đã lưu
                 }

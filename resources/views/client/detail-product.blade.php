@@ -75,7 +75,7 @@
                                 @endfor
                             </div>
 
-                            <p>Lượt xem : {{$detailProduct->views}}</p>
+                            <p>Lượt xem : {{ $detailProduct->views }}</p>
 
                             @if ($detailProduct->sale_price == 0)
                                 <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
@@ -184,14 +184,19 @@
 
             <!-- description review area start here -->
             <div class="shop-singe-tab">
+                @php
+                    $activeTab = session('active_tab', '#description'); // Mặc định tab đầu tiên là #account
+                @endphp
                 <ul class="nav nav-pills mb-4 bor-top bor-bottom py-2">
                     <li class="nav-item">
-                        <a href="#description" data-bs-toggle="tab" class="nav-link ps-0 pe-3 active">
+                        <a href="#description" data-bs-toggle="tab"
+                            class="nav-link ps-0 pe-3 active @if ($activeTab == '#description') active @endif">
                             <h4 class="text-uppercase">Mô tả</h4>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#review" data-bs-toggle="tab" class="nav-link">
+                        <a href="#review" data-bs-toggle="tab"
+                            class="nav-link @if ($activeTab == '#review') active @endif">
                             <h4 class="text-uppercase">Đánh giá</h4>
                         </a>
                     </li>
@@ -237,50 +242,54 @@
                                 <hr>
                             @endif
                             @if (Auth::check())
-                                <div class="section-title mt-5 py-15 mb-30">
-                                    <h2 class="text-capitalize primary-color mb-10">Thêm đánh giá của bạn</h2>
-                                    <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
-                                        trống.
-                                    </p>
-                                    <form action="{{ route('client.comment') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
-                                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
-                                        <div class="shop-single__rate-now">
-                                            <p>Chất lượng sản phẩm?</p>
-                                            <div class="star">
-                                                <span data-value="1"><i class="fa-regular fa-star"></i></span>
-                                                <span data-value="2"><i class="fa-regular fa-star"></i></span>
-                                                <span data-value="3"><i class="fa-regular fa-star"></i></span>
-                                                <span data-value="4"><i class="fa-regular fa-star"></i></span>
-                                                <span data-value="5"><i class="fa-regular fa-star"></i></span>
-                                            </div>
-                                            <input type="hidden" id="rating-value" name="rating" value="0">
-                                            @error('rating')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="comment-form">
-                                            <div class="row g-4">
-                                                <div class="col-md-6">
-                                                    <input type="text" value="{{ Auth::user()->name }}"
-                                                        class="w-100 mb-4 bor px-4 py-2" placeholder="Tên của bạn">
+                                @if ($hasPurchased)
+                                    <div class="section-title mt-5 py-15 mb-30">
+                                        <h2 class="text-capitalize primary-color mb-10">Thêm đánh giá của bạn</h2>
+                                        <p class="mb-20">Email của bạn sẽ không bị công khai. Vui lòng không được bỏ
+                                            trống.
+                                        </p>
+                                        <form action="{{ route('client.comment') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
+                                            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                            <div class="shop-single__rate-now">
+                                                <p>Chất lượng sản phẩm?</p>
+                                                <div class="star">
+                                                    <span data-value="1"><i class="fa-regular fa-star"></i></span>
+                                                    <span data-value="2"><i class="fa-regular fa-star"></i></span>
+                                                    <span data-value="3"><i class="fa-regular fa-star"></i></span>
+                                                    <span data-value="4"><i class="fa-regular fa-star"></i></span>
+                                                    <span data-value="5"><i class="fa-regular fa-star"></i></span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <input type="email" value="{{ Auth::user()->email }}"
-                                                        class="w-100 mb-4 bor px-4 py-2" placeholder="Email của bạn">
+                                                <input type="hidden" id="rating-value" name="rating" value="0">
+                                                @error('rating')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="comment-form">
+                                                <div class="row g-4">
+                                                    <div class="col-md-6">
+                                                        <input type="text" value="{{ Auth::user()->name }}"
+                                                            class="w-100 mb-4 bor px-4 py-2" placeholder="Tên của bạn">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="email" value="{{ Auth::user()->email }}"
+                                                            class="w-100 mb-4 bor px-4 py-2" placeholder="Email của bạn">
+                                                    </div>
+                                                </div>
+                                                <textarea class="w-100 mb-4 bor p-4" name="comment" id="comment" placeholder="Đánh giá"></textarea>
+                                                @error('comment')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                                <div class="btn-wrp">
+                                                    <button class="btn-one" type="submit"><span>Gửi</span></button>
                                                 </div>
                                             </div>
-                                            <textarea class="w-100 mb-4 bor p-4" name="comment" id="comment" placeholder="Đánh giá"></textarea>
-                                            @error('comment')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                            <div class="btn-wrp">
-                                                <button class="btn-one" type="submit"><span>Gửi</span></button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                        </form>
+                                    </div>
+                                @else
+                                    <span>Hãy mua sản phẩm để bình luận.</span>
+                                @endif
                             @else
                                 <span>Bạn cần <a href="{{ route('login') }}">
                                         <p id="login-review">đăng nhập</p>
@@ -466,6 +475,31 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xác định tên key theo URL (hoặc ID trang)
+            var pageKey = 'activeTab_' + window.location.pathname;
+
+            // Xử lý lưu tab vào sessionStorage khi người dùng click
+            var tabs = document.querySelectorAll('.nav-link[data-bs-toggle="tab"]');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabId = this.getAttribute('href'); // Lấy ID của tab
+                    sessionStorage.setItem(pageKey, tabId); // Lưu tab với key tương ứng
+                });
+            });
+
+            // Khi tải lại trang, kiểm tra tab đã lưu
+            var activeTab = sessionStorage.getItem(pageKey);
+            if (activeTab) {
+                var targetTab = document.querySelector(`.nav-link[href="${activeTab}"]`);
+                if (targetTab) {
+                    targetTab.click(); // Kích hoạt tab đã lưu
+                }
+            }
         });
     </script>
 @endpush
