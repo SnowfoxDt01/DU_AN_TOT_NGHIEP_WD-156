@@ -230,6 +230,7 @@ class CheckoutController extends Controller
                 }
                 $order->order_status = 'confirming';
                 $order->save();
+                session()->forget('voucher_id');
                 DB::commit(); // Commit transaction
                 return redirect()->route('client.cart.index')
                     ->with('success', 'Đơn hàng của bạn đã được đặt thành công! Hãy thanh toán khi nhận hàng nhé !!!');

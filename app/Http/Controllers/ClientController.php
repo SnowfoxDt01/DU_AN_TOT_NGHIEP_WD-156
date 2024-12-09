@@ -229,12 +229,20 @@ class ClientController extends Controller
         return view('client.page.voucherList', compact('vouchers'));
     }
 
-    public function updateCustomerInfo(CustomerRequest $request, string $id)
+    public function updateInfo()
+    {
+        session(['active_tab' => 'warranty']); // Lưu tab vào session
+
+        return redirect()->to('client/myaccount');
+    }
+
+
+
+    public function updateCustomerInfo(CustomerRequest $request)
     {
         $user = auth()->user();
-        $customer = $user->customer;
 
-        $customer->update($id, [
+        Customer::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),

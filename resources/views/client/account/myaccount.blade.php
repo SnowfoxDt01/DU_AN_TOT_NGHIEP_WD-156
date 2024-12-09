@@ -126,7 +126,7 @@
                             <div class="col-lg-12">
                                 <div class="checkout__item-left sub-bg">
                                     <h3 class="mb-40">Thay đổi thông tin cá nhân</h3>
-                                    <form action="" method="POST">
+                                    <form action="{{route('client.updateInfo')}}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
