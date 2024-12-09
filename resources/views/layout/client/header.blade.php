@@ -78,12 +78,15 @@
                     @else
                         <div class="account d-flex align-items-center">
                             <div class="user__icon" style="margin-right: 10px">
-                                <a href="{{ route('login') }}">
+                                <a href="{{ route('register') }}">
                                     <i class="fa-regular fa-user" style="font-size: 25px"></i>
                                 </a>
                             </div>
+                            <a href="{{ route('register') }}" class="acc__cont">
+                                <span style="color: orangered">Đăng ký  | </span>
+                            </a>
                             <a href="{{ route('login') }}" class="acc__cont">
-                                <span style="color: orangered">Đăng nhập</span>
+                                 <span style="color: orangered"> Đăng nhập </span>
                             </a>
                         </div>
                     @endif
