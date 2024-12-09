@@ -44,158 +44,172 @@
                                         <div id="user-info-display">
                                             <p><strong>Khách hàng:</strong> <span id="user-name">{{ Auth::user()->name }}</span>
                                             </p>
-                                            <p><strong>Số điện thoại:</strong> <span
-                                                    id="user-phone">{{ $customer->phone ?? null }}</span></p>
-                                            @if ($defaultAddress)
-                                                <div id="selected-address-info" class="mt-3">
-                                                    <h4>Địa chỉ nhận hàng:</h4>
-                                                    <p><span id="selected-address">
-                                                            {{ $defaultAddress->address }},
-                                                            {{ $defaultAddress->ward }},
-                                                            {{ $defaultAddress->district }},
-                                                            {{ $defaultAddress->city }}
-                                                            @if ($defaultAddress->zip_code)
-                                                                (Mã bưu điện: {{ $defaultAddress->zip_code }})
-                                                            @endif
-                                                        </span></p>
-                                                    <p><strong>Người nhận:</strong> <span
-                                                            id="selected-recipient-name">{{ $defaultAddress->recipient_name }}</span>
-                                                    </p>
-                                                    <p><strong>Số điện thoại:</strong> <span
-                                                            id="selected-recipient-phone">{{ $defaultAddress->recipient_phone }}</span>
-                                                    </p>
-                                                </div>
-                                            @else
-                                                Chưa có địa chỉ.
-                                            @endif
-                                            <div id="address-list" class="d-flex flex-wrap d-none">
-                                                @foreach ($addresses as $address)
-                                                    <div class="address-card me-3 mb-3 p-3 border rounded"
-                                                        style="cursor: pointer;" data-id="{{ $address->id }}"
-                                                        data-recipient-name="{{ $address->recipient_name }}"
-                                                        data-recipient-phone="{{ $address->recipient_phone }}"
-                                                        data-address="{{ $address->address }}"
-                                                        data-ward="{{ $address->ward }}"
-                                                        data-district="{{ $address->district }}"
-                                                        data-city="{{ $address->city }}"
-                                                        data-zip-code="{{ $address->zip_code }}">
-                                                        <strong>{{ $address->address }}</strong><br>
-                                                        <span>{{ $address->ward }}, {{ $address->district }},
-                                                            {{ $address->city }}</span><br>
-                                                        @if ($address->zip_code)
-                                                            <span>Mã bưu điện: {{ $address->zip_code }}</span><br>
-                                                        @endif
-                                                        <p><strong>Người nhận:</strong> {{ $address->recipient_name }}<br>
-                                                            <strong>Số điện thoại:</strong> {{ $address->recipient_phone }}
+                                            @if ($customer)
+                                                <p><strong>Số điện thoại:</strong> <span
+                                                        id="user-phone">{{ $customer->phone ?? null }}</span></p>
+                                                @if ($defaultAddress)
+                                                    <div id="selected-address-info" class="mt-3">
+                                                        <h4>Địa chỉ nhận hàng:</h4>
+                                                        <p><span id="selected-address">
+                                                                {{ $defaultAddress->address }},
+                                                                {{ $defaultAddress->ward }},
+                                                                {{ $defaultAddress->district }},
+                                                                {{ $defaultAddress->city }}
+                                                                @if ($defaultAddress->zip_code)
+                                                                    (Mã bưu điện: {{ $defaultAddress->zip_code }})
+                                                                @endif
+                                                            </span></p>
+                                                        <p><strong>Người nhận:</strong> <span
+                                                                id="selected-recipient-name">{{ $defaultAddress->recipient_name }}</span>
                                                         </p>
-                                                        <form action="{{ route('client.addresses.destroy', $address->id) }}"
-                                                            id="delete-address-form" method="POST">
+                                                        <p><strong>Số điện thoại:</strong> <span
+                                                                id="selected-recipient-phone">{{ $defaultAddress->recipient_phone }}</span>
+                                                        </p>
+                                                    </div>
+                                                @else
+                                                    Chưa có địa chỉ.
+                                                @endif
+                                                <div id="address-list" class="d-flex flex-wrap d-none">
+                                                    @foreach ($addresses as $address)
+                                                        <div class="address-card me-3 mb-3 p-3 border rounded"
+                                                            style="cursor: pointer;" data-id="{{ $address->id }}"
+                                                            data-recipient-name="{{ $address->recipient_name }}"
+                                                            data-recipient-phone="{{ $address->recipient_phone }}"
+                                                            data-address="{{ $address->address }}"
+                                                            data-ward="{{ $address->ward }}"
+                                                            data-district="{{ $address->district }}"
+                                                            data-city="{{ $address->city }}"
+                                                            data-zip-code="{{ $address->zip_code }}">
+                                                            <strong>{{ $address->address }}</strong><br>
+                                                            <span>{{ $address->ward }}, {{ $address->district }},
+                                                                {{ $address->city }}</span><br>
+                                                            @if ($address->zip_code)
+                                                                <span>Mã bưu điện: {{ $address->zip_code }}</span><br>
+                                                            @endif
+                                                            <p><strong>Người nhận:</strong> {{ $address->recipient_name }}<br>
+                                                                <strong>Số điện thoại:</strong> {{ $address->recipient_phone }}
+                                                            </p>
+                                                            <form
+                                                                action="{{ route('client.addresses.destroy', $address->id) }}"
+                                                                id="delete-address-form" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-link text-danger"
+                                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này không?')">
+                                                                    Xoá địa chỉ
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+
+                                                <button type="button" class="d-flex text-center btn-two mt-10 px-3 py-2"
+                                                    id="change-address-btn">
+                                                    <span>Thay đổi</span>
+                                                </button>
+                                                <button type="button" class="d-flex text-center btn-two mt-10 px-3 py-2"
+                                                    id="add-address-btn">
+                                                    <span>Thêm địa chỉ</span>
+                                                </button>
+                                                <div id="add-address-section" class="mt-4">
+                                                    <div id="add-address-form" class="mt-4 d-none p-4 rounded">
+                                                        <h4 class="mb-4">Thêm Địa Chỉ Mới</h4>
+                                                        <form method="POST" action="{{ route('client.addresses.store') }}">
                                                             @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-link text-danger"
-                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này không?')">
-                                                                Xoá địa chỉ
-                                                            </button>
+                                                            <div class="mb-3">
+                                                                <label for="recipient_name" class="form-label">Tên người
+                                                                    nhận</label>
+                                                                <input type="text" name="recipient_name" id="recipient_name"
+                                                                    class="form-control" placeholder="Nhập tên người nhận"
+                                                                    value="{{ old('recipient_name') }}">
+                                                                @error('recipient_name')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient_phone" class="form-label">Số điện
+                                                                    thoại</label>
+                                                                <input type="text" name="recipient_phone"
+                                                                    id="recipient_phone" class="form-control"
+                                                                    placeholder="Nhập số điện thoại"
+                                                                    value="{{ old('recipient_phone') }}">
+                                                                @error('recipient_phone')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="city" class="form-label">Tỉnh/Thành
+                                                                            phố</label>
+                                                                        <input type="text" name="city" id="city"
+                                                                            class="form-control"
+                                                                            placeholder="Nhập tỉnh/thành phố"
+                                                                            value="{{ old('city') }}">
+                                                                        @error('city')
+                                                                            <small class="text-danger">{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="district"
+                                                                            class="form-label">Quận/Huyện</label>
+                                                                        <input type="text" name="district" id="district"
+                                                                            class="form-control" placeholder="Nhập quận/huyện"
+                                                                            value="{{ old('district') }}">
+                                                                        @error('district')
+                                                                            <small class="text-danger">{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="mb-3">
+                                                                        <label for="ward"
+                                                                            class="form-label">Phường/Xã</label>
+                                                                        <input type="text" name="ward" id="ward"
+                                                                            class="form-control" placeholder="Nhập phường/xã"
+                                                                            value="{{ old('ward') }}">
+                                                                        @error('ward')
+                                                                            <small class="text-danger">{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="address" class="form-label">Địa chỉ cụ
+                                                                    thể</label>
+                                                                <input type="text" name="address" id="address"
+                                                                    class="form-control" placeholder="Nhập địa chỉ"
+                                                                    value="{{ old('address') }}">
+                                                                @error('address')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="zip_code" class="form-label">Mã bưu điện</label>
+                                                                <input type="text" name="zip_code" id="zip_code"
+                                                                    class="form-control"
+                                                                    placeholder="Nhập mã bưu điện (nếu có)"
+                                                                    value="{{ old('zip_code') }}">
+                                                                @error('zip_code')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <button type="submit" class="btn"
+                                                                style="background-color: orangered; color: #fff">Lưu Địa
+                                                                Chỉ</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                id="cancel-add-address">Hủy</button>
                                                         </form>
                                                     </div>
-                                                @endforeach
-                                            </div>
-
-                                            <button type="button" class="d-flex text-center btn-two mt-10 px-3 py-2"
-                                                id="change-address-btn">
-                                                <span>Thay đổi</span>
-                                            </button>
-                                            <button type="button" class="d-flex text-center btn-two mt-10 px-3 py-2"
-                                                id="add-address-btn">
-                                                <span>Thêm địa chỉ</span>
-                                            </button>
-                                            <div id="add-address-section" class="mt-4">
-                                                <div id="add-address-form" class="mt-4 d-none p-4 rounded">
-                                                    <h4 class="mb-4">Thêm Địa Chỉ Mới</h4>
-                                                    <form method="POST" action="{{ route('client.addresses.store') }}">
-                                                        @csrf
-                                                        <div class="mb-3">
-                                                            <label for="recipient_name" class="form-label">Tên người
-                                                                nhận</label>
-                                                            <input type="text" name="recipient_name" id="recipient_name"
-                                                                class="form-control" placeholder="Nhập tên người nhận"
-                                                                value="{{ old('recipient_name') }}">
-                                                            @error('recipient_name')
-                                                                <small class="text-danger">{{ $message }}</small>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="recipient_phone" class="form-label">Số điện
-                                                                thoại</label>
-                                                            <input type="text" name="recipient_phone" id="recipient_phone"
-                                                                class="form-control" placeholder="Nhập số điện thoại"
-                                                                value="{{ old('recipient_phone') }}">
-                                                            @error('recipient_phone')
-                                                                <small class="text-danger">{{ $message }}</small>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <div class="mb-3">
-                                                                    <label for="city" class="form-label">Tỉnh/Thành
-                                                                        phố</label>
-                                                                    <input type="text" name="city" id="city"
-                                                                        class="form-control" placeholder="Nhập tỉnh/thành phố"
-                                                                        value="{{ old('city') }}">
-                                                                    @error('city')
-                                                                        <small class="text-danger">{{ $message }}</small>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="mb-3">
-                                                                    <label for="district" class="form-label">Quận/Huyện</label>
-                                                                    <input type="text" name="district" id="district"
-                                                                        class="form-control" placeholder="Nhập quận/huyện"
-                                                                        value="{{ old('district') }}">
-                                                                    @error('district')
-                                                                        <small class="text-danger">{{ $message }}</small>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="mb-3">
-                                                                    <label for="ward" class="form-label">Phường/Xã</label>
-                                                                    <input type="text" name="ward" id="ward"
-                                                                        class="form-control" placeholder="Nhập phường/xã"
-                                                                        value="{{ old('ward') }}">
-                                                                    @error('ward')
-                                                                        <small class="text-danger">{{ $message }}</small>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="address" class="form-label">Địa chỉ cụ thể</label>
-                                                            <input type="text" name="address" id="address"
-                                                                class="form-control" placeholder="Nhập địa chỉ"
-                                                                value="{{ old('address') }}">
-                                                            @error('address')
-                                                                <small class="text-danger">{{ $message }}</small>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="zip_code" class="form-label">Mã bưu điện</label>
-                                                            <input type="text" name="zip_code" id="zip_code"
-                                                                class="form-control" placeholder="Nhập mã bưu điện (nếu có)"
-                                                                value="{{ old('zip_code') }}">
-                                                            @error('zip_code')
-                                                                <small class="text-danger">{{ $message }}</small>
-                                                            @enderror
-                                                        </div>
-                                                        <button type="submit" class="btn"
-                                                            style="background-color: orangered; color: #fff">Lưu Địa
-                                                            Chỉ</button>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            id="cancel-add-address">Hủy</button>
-                                                    </form>
                                                 </div>
-                                            </div>
+                                            @else
+                                                <p>Bạn cần <a href="{{ route('client.updateInfo') }}#warranty"
+                                                        style="color: orangered">thêm thông tin cá nhân</a>
+                                                    để thêm địa chỉ</p>
+
+                                            @endif
                                         </div>
                                     </div>
                                 @endif
