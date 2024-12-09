@@ -75,7 +75,7 @@ class ClientController extends Controller
         $canceledOrders = ShopOrder::where('user_id', $user->id)
             ->where('order_status', OrderStatus::CANCELED)
             ->with('items.product.images')
-            ->orderBy('date_order', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         return view('client.account.myaccount', compact('user', 'orders', 'confirmOrders', 'confirmedOrders', 'shippingOrders', 'completedOrders', 'canceledOrders', 'customer'));
@@ -87,6 +87,11 @@ class ClientController extends Controller
         // Kiểm tra quyền truy cập  
         if ($order->user_id !== auth()->id()) {
             abort(403, 'Bạn không có quyền hủy đơn hàng này.');
+        }
+
+        $validStatuses = ['confirming', 'confirmed'];
+        if (!in_array($order->order_status, $validStatuses)) {
+            return redirect()->back()->with('error', 'Trạng thái đơn hàng không hợp lệ.');
         }
 
         // Xác thực lý do hủy  
