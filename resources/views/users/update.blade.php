@@ -1,4 +1,4 @@
-@extends('layout.admin.master')
+@extends('layout.ad.master')
 @section('content')
         <form action="{{ route('admin.users.update',$user->id) }}" method="POST">
             @csrf

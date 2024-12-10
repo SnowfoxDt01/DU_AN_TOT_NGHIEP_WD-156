@@ -1,4 +1,4 @@
-@extends('layout.admin.master')
+@extends('layout.ad.master')
 @section('content')
     <section class="content-header">
         <h1>
@@ -42,7 +42,7 @@
                     </td>
                     <td>
                         <a href="{{ route('admin.users.show', $user->id) }}"><button class="btn btn-primary">
-                            <i class="fa-solid fa-circle-info"></i>
+                            <i class="bi bi-clock-history"></i>
                         </button></a>
                     </td>
                 </tr>

@@ -1,4 +1,4 @@
-@extends('layout.admin.master')
+@extends('layout.ad.master')
 
 @section('content')
     <h1>Sửa Banner</h1>
