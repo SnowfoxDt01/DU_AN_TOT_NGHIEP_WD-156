@@ -30,7 +30,7 @@ class CategoryController extends Controller
 
         $categories = $query->paginate(5);
 
-        return view('categories.index', compact('categories'));
+        return view('categories.index2', compact('categories'));
     }
 
     /**
