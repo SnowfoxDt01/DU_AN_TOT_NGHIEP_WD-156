@@ -1,85 +1,95 @@
 @extends('layout.ad.master')
 @section('content')
-    <section class="content-header">
-        <h1>
-            Danh sách khách hàng
-            <small>Trang chủ</small>
-        </h1>
-        <ol class="breadcrumb">
-            {{-- <li><a href=""><i class="fa fa-dashboard"></i>Home</a></li> --}}
-            <li class="active">Khách hàng</li>
-        </ol>
-    </section>
-    <hr>
-    <form method="GET" action="{{ route('admin.customers.index') }}">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="name">Tên khách hàng:</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ request('name') }}">
+    <div class="card card-body">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <div class="d-sm-flex align-items-center justify-space-between">
+                    <h4 class="fw-semibold fs-4 mb-4 mb-md-0 card-title">Danh sách khách hàng</h4>
+                    <nav aria-label="breadcrumb" class="ms-auto">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item" aria-current="page">
+                                <span class="badge fw-medium fs-2 bg-primary-subtle text-primary">
+                                    Danh sách khách hàng
+                                </span>
+                            </li>
+                        </ol>
+                    </nav>
                 </div>
-            </div>
-    
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" name="email" id="email" class="form-control" value="{{ request('email') }}">
-                </div>
-            </div>
-    
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="phone">Số điện thoại:</label>
-                    <input type="text" name="phone" id="phone" class="form-control" value="{{ request('phone') }}">
-                </div>
-            </div>
-    
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label for="status">Trạng thái:</label>
-                    <select name="status" id="status" class="form-control">
-                        <option value="">-- Tất cả --</option>
-                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đang hoạt động</option>
-                        <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Dừng hoạt động</option>
-                    </select>
-                </div>
-            </div>
-    
-            <div>
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
             </div>
         </div>
-    </form>
-    <hr>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Tên khách hàng</th>
-                <th scope="col">Email</th>
-                <th scope="col">Số điện thoại</th>
-                <th scope="col">Địa chỉ</th>
-                <th scope="col">Trạng thái</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($customers as $customer)
-                <tr>
-                    <td>{{ $customer->id }}</td>
-                    <td>{{ $customer->name }}</td>
-                    <td>{{ $customer->email }}</td>
-                    <td>{{ $customer->phone }}</td>
-                    <td>{{ $customer->address }}</td>
-                    <td>
-                        @if ($customer->status == 0)
-                            <span class="badge bg-red">Dừng hoạt động</span>
-                        @elseif($customer->status == 1)
-                            <span class="badge bg-green">Đang hoạt động</span>
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    {{ $customers->links() }}
+    </div>
+    <div class="product-list">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center gap-6 mb-9">
+                    <form method="GET" class="d-flex align-items-center gap-3 w-100"
+                        action="{{ route('admin.customers.index') }}">
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-group">
+                                <label for="name">Tên khách hàng:</label>
+                                <input type="text" name="name" id="name" class="form-control"
+                                    value="{{ request('name') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="text" name="email" id="email" class="form-control"
+                                    value="{{ request('email') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại:</label>
+                                <input type="text" name="phone" id="phone" class="form-control"
+                                    value="{{ request('phone') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status">Trạng thái:</label>
+                                <select name="status" id="status" class="form-control">
+                                    <option value="">-- Tất cả --</option>
+                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đang hoạt động
+                                    </option>
+                                    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Dừng hoạt động
+                                    </option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary d-flex align-items-center mt-auto">
+                                <i class="ti ti-filter" style="font-size: 20px"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-responsive border rounded">
+                    <table class="table align-middle text-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên khách hàng</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Địa chỉ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($customers as $customer)
+                                <tr>
+                                    <td>{{ $customer->id }}</td>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->email }}</td>
+                                    <td>{{ $customer->phone }}</td>
+                                    <td>{{ $customer->address }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="d-flex align-items-center justify-content-end py-1">
+                        {{ $customers->links() }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection

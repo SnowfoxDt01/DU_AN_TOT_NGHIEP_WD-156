@@ -9,7 +9,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/dist/img/favicon.jpg') }}" />
     <link rel="stylesheet" href="src/assets/css/styles.min.css" />
+    <link rel="stylesheet" href="src/assets/css/custom.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    @stack('styles')
 </head>
 
 <body>
@@ -42,6 +44,16 @@
     <script src="src/assets/js/dashboard.js"></script>
     <!-- solar icons -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
+    @stack('scripts')
 </body>
 
 </html>

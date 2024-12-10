@@ -1,0 +1,134 @@
+/* Toàn bộ phần container */
+.product-list {
+    margin: 0 auto;
+}
+
+/* Toàn bộ phần hiển thị */
+.product-list .card-body {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng container */
+    max-width: none;
+    /* Loại bỏ giới hạn chiều rộng mặc định (nếu có) */
+    padding: 20px;
+    /* Khoảng cách bên trong */
+    background-color: #f9f9f9;
+    /* Màu nền nhẹ */
+}
+
+.product-list .card {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    max-width: none;
+    /* Không giới hạn chiều rộng */
+}
+
+
+/* Thẻ card */
+.card {
+    border: 1px solid #ddd;
+    /* Viền nhẹ */
+    border-radius: 8px;
+    /* Bo góc */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng */
+    overflow: hidden;
+    /* Ẩn tràn */
+}
+
+/* Card-body */
+.card-body {
+    padding: 20px;
+    /* Khoảng cách bên trong */
+    background-color: #f9f9f9;
+    /* Màu nền nhẹ */
+}
+
+/* Form tìm kiếm */
+.card-body form {
+    display: flex;
+    flex-wrap: wrap;
+    /* Đảm bảo không tràn khi màn hình nhỏ */
+    gap: 10px;
+    /* Khoảng cách giữa các input */
+}
+
+.card-body form input,
+.card-body form select {
+    min-width: 150px;
+    /* Đảm bảo input không quá nhỏ */
+    max-width: 200px;
+    /* Giới hạn chiều rộng */
+}
+
+/* Button trong form */
+.card-body form button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.card-body form button:hover {
+    background-color: #0056b3;
+}
+
+/* Bảng sản phẩm */
+.table-responsive {
+    margin-top: 20px;
+    /* Khoảng cách giữa form và bảng */
+}
+
+.table {
+    border: 1px solid #ddd;
+    /* Viền bảng */
+    background-color: #fff;
+    /* Nền trắng */
+}
+
+.table th,
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    margin-right: 20px;
+}
+
+
+.table th {
+    background-color: #f1f1f1;
+    /* Màu nền cho tiêu đề cột */
+    font-weight: bold;
+    /* In đậm */
+}
+
+.img-prd {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+}
+
+/* Hành động */
+.table td div {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    /* Khoảng cách giữa các nút */
+}
+
+.table td div .btn {
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+.table td div .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.table td div .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
