@@ -336,11 +336,21 @@ class CheckoutController extends Controller
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
 
+            $selectedProductIds = $request->input('selected_products', []);
+
+            foreach ($shoppingCart->items as $item) {
+                if (in_array($item->variantProduct->id, $selectedProductIds)) {
+                    $item->delete(); // Xóa sản phẩm đã chọn
+                }
+            }
             session()->forget('voucher_id');
-            $shoppingCart->items()->delete();
+
             return redirect()->route('client.cart.index')
                 ->with('success', 'Thanh toán thành công!');
         } else {
+
+            session()->forget('voucher_id');
+
             foreach ($order->items as $orderItem) {
                 $variantProduct = $orderItem->variantProducts; // Lấy variant sản phẩm
                 $variantProduct->quantity += $orderItem->quantity; // Cộng lại số lượng
