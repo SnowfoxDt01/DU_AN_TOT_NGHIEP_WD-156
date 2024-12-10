@@ -1,4 +1,4 @@
-@extends('layout.admin.master')
+@extends('layout.ad.master')
 @push('styles')
     <style>
         .img-prd {

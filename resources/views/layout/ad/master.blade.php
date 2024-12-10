@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MaterailM Free Bootstrap Admin Template by WrapPixel</title>
+    <title>VSNK SHOP</title>
     <base href="{{ asset('') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" type="image/png" href="src/assets/images/logos/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/dist/img/favicon.jpg') }}" />
     <link rel="stylesheet" href="src/assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
@@ -26,11 +26,10 @@
 
             <div class="body-wrapper-inner">
                 <div class="container-fluid">
-                
-                    @yield('content')
 
-                    @include('layout.ad.footer')
+                    @yield('content')
                 </div>
+                @include('layout.ad.footer')
             </div>
         </div>
     </div>

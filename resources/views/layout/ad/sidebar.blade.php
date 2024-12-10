@@ -3,8 +3,9 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="src/assets/images/logos/logo.svg" alt="" />
+                    <a href="{{ route('admin.users.index') }}" class="text-nowrap logo-img">
+                        <img src="{{ asset('assets/dist/img/mainlogo.png') }}" style="height: 100px; width: 100%"
+                            alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -19,76 +20,84 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.users.index') }}" aria-expanded="false">
-                                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                                <i class="bi bi-person-lines-fill"></i>
                                 <span class="hide-menu">Quản lý tài khoản</span>
                             </a>
                         </li>
+                        @role('super-admin')
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="{{ route('role-permission.index') }}" aria-expanded="false">
+                                    <i class="bi bi-grid-3x3"></i>
+                                    <span class="hide-menu">Bảng phân quyền</span>
+                                </a>
+                            </li>
+                        @endrole
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
-                                <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
+                                <i class="bi bi-list-task"></i>
                                 <span class="hide-menu">Quản lý danh mục</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
-                                <iconify-icon icon="solar:danger-circle-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Alerts</span>
+                            <a class="sidebar-link" href="{{ route('admin.customers.index') }}" aria-expanded="false">
+                                <i class="bi bi-person-vcard-fill"></i>
+                                <span class="hide-menu">Quản lý khách hàng</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
-                                <iconify-icon icon="solar:bookmark-square-minimalistic-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Card</span>
+                            <a class="sidebar-link" href="{{ route('admin.products.listProduct') }}"
+                                aria-expanded="false">
+                                <i class="bi bi-bookmarks-fill"></i>
+                                <span class="hide-menu">Quản lý sản phẩm</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
-                                <iconify-icon icon="solar:file-text-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Forms</span>
+                            <a class="sidebar-link" href="{{ route('admin.variant-products.index') }}"
+                                aria-expanded="false">
+                                <i class="bi bi-gear-fill"></i>
+                                <span class="hide-menu">Quản lý sản phẩm biến thể</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
-                                <iconify-icon icon="solar:text-field-focus-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Typography</span>
-                            </a>
-                        </li>
-                        <li>
-                            <span class="sidebar-divider lg"></span>
-                        </li>
-                        <li class="nav-small-cap">
-                            <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                            <span class="hide-menu">AUTH</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
-                                <iconify-icon icon="solar:login-3-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Login</span>
+                            <a class="sidebar-link" href="{{ route('admin.colors.index') }}" aria-expanded="false">
+                                <i class="bi bi-palette-fill"></i>
+                                <span class="hide-menu">Quản lý màu sắc</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
-                                <iconify-icon icon="solar:user-plus-rounded-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Register</span>
-                            </a>
-                        </li>
-                        <li>
-                            <span class="sidebar-divider lg"></span>
-                        </li>
-                        <li class="nav-small-cap">
-                            <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                            <span class="hide-menu">EXTRA</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
-                                <iconify-icon icon="solar:sticker-smile-circle-2-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Icons</span>
+                            <a class="sidebar-link" href="{{ route('admin.sizes.index') }}" aria-expanded="false">
+                                <i class="bi bi-rulers"></i>
+                                <span class="hide-menu">Quản lý kích cỡ</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
-                                <iconify-icon icon="solar:planet-3-line-duotone"></iconify-icon>
-                                <span class="hide-menu">Sample Page</span>
+                            <a class="sidebar-link" href="{{ route('admin.orders.index') }}" aria-expanded="false">
+                                <i class="bi bi-receipt"></i>
+                                <span class="hide-menu">Quản lý dơn hàng</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.payments.index') }}" aria-expanded="false">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <span class="hide-menu">Quản lý hóa đơn</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.blogs.index') }}" aria-expanded="false">
+                                <i class="bi bi-newspaper"></i>
+                                <span class="hide-menu">Quản lý bài viết</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.banners.index') }}" aria-expanded="false">
+                                <i class="bi bi-images"></i>
+                                <span class="hide-menu">Banner</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.vouchers.index') }}" aria-expanded="false">
+                                <i class="bi bi-ticket-perforated"></i>
+                                <span class="hide-menu">Quản lý mã giảm giá</span>
                             </a>
                         </li>
                     </ul>
