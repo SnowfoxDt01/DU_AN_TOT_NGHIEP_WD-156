@@ -44,27 +44,38 @@ class ShoppingCartController extends Controller
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
         $userId = Auth::id(); // Lấy user_id của người dùng hiện tại
-
-        if(Auth::check()){
+    
+        if (Auth::check()) {
             $shoppingCart = ShoppingCart::firstOrCreate(['user_id' => $userId]);
+        } else {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!');
         }
-        else{
-        return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!');
-
-        }
-        // 2. Kiểm tra biến thể sản phẩm
+    
+        // 2. Kiểm tra sản phẩm và biến thể
         $product = Product::findOrFail($productId);
-
         $variantProduct = VariantProduct::findOrFail($variantId);
-
-        // 3. Lấy (hoặc tạo mới) giỏ hàng cho người dùng
-        // 4. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    
+        // Kiểm tra số lượng tồn kho của biến thể
+        $availableStock = $variantProduct->quantity;
+    
+        if ($quantity > $availableStock) {
+            return redirect()->back()->with('error', 'Số lượng yêu cầu vượt quá số lượng tồn kho!');
+        }
+    
+        // 3. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         $existingItem = $shoppingCart->items()->where('variant_id', $variantId)->first();
-
+    
         if ($existingItem) {
+            // Kiểm tra số lượng tối đa có thể thêm
+            $newQuantity = $existingItem->quantity + $quantity;
+    
+            if ($newQuantity > $availableStock) {
+                return redirect()->back()->with('error', 'Trong giỏ hàng không thể vượt quá số lượng tồn kho!');
+            }
+    
             // 4.1. Nếu sản phẩm đã tồn tại, cập nhật số lượng
             $existingItem->update([
-                'quantity' => $existingItem->quantity + $quantity
+                'quantity' => $newQuantity
             ]);
         } else {
             // 4.2. Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
@@ -76,10 +87,11 @@ class ShoppingCartController extends Controller
                 'price' => $product->flash_sale_price ?? $product->sale_price ?? $product->base_price,
             ]);
         }
-
-        // 5. Chuyển hướng về trang giỏ hàng 
+    
+        // 5. Chuyển hướng về trang giỏ hàng
         return redirect()->route('client.cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
     }
+    
 
     public function update(Request $request, $itemId)
     {

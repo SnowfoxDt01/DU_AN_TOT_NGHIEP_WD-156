@@ -49,6 +49,9 @@
                     @if ($order->cancel_reason != null)
                         <p><strong>Lí do hủy đơn:</strong> <span class="text-light">{{ $order->cancel_reason }}</span></p>
                     @endif
+                    <p><strong>Tổng tiền tạm tính :</strong> <span
+                            class="text-success">{{ number_format($order->total_price + ($discountAmount ?? 0), 0, ',', '.') }}.đ</span>
+                    </p>
                     <p><strong>Chiết khấu:</strong> <span class="text-danger"> -
                             {{ number_format($discountAmount, 0, ',', '.') }}.đ</span></p>
                     <p><strong>Tổng tiền thanh toán:</strong> <span
