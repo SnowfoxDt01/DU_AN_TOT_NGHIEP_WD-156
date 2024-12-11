@@ -10,6 +10,9 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/dist/img/favicon.jpg') }}" />
     <link rel="stylesheet" href="src/assets/css/styles.min.css" />
     <link rel="stylesheet" href="src/assets/css/custom.css" />
+    {{-- toastr alert --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    {{-- bootstrap icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     @stack('styles')
 </head>
@@ -42,8 +45,23 @@
     <script src="src/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="src/assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="src/assets/js/dashboard.js"></script>
+    {{-- sweet alert --}}
+    <script src="src/assets/js/sweetalert.js"></script>
+    {{-- checkOrder --}}
+    <script src="src/assets/js/checkOrder.js"></script>
+    {{-- ckeditor --}}
+    <script src="src/assets/js/ckeditor.js"></script>
+
+
     <!-- solar icons -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
+
+
+    @include('layout.ad.success')
+    @include('layout.ad.error')
 
     <script>
         $.ajaxSetup({

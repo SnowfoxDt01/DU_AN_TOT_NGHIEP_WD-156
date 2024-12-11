@@ -11,7 +11,7 @@
     /* Loại bỏ giới hạn chiều rộng mặc định (nếu có) */
     padding: 20px;
     /* Khoảng cách bên trong */
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     /* Màu nền nhẹ */
 }
 
@@ -39,7 +39,7 @@
 .card-body {
     padding: 20px;
     /* Khoảng cách bên trong */
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     /* Màu nền nhẹ */
 }
 

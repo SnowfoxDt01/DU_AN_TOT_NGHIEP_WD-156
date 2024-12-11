@@ -99,18 +99,19 @@
                                                     class="bi bi-pencil-square"></i></button>
                                         </a>
                                         <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST"
-                                            onsubmit="return confirm('Bạn có chắc muốn xóa không?')"
-                                            style="display: inline-block;">
+                                            class="delete-form" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"><i
                                                     class="bi bi-trash3-fill"></i></button>
                                         </form>
+
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <br>
                     <div class="d-flex align-items-center justify-content-end py-1">
                         {{ $categories->links() }}
                     </div>

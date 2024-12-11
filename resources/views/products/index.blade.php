@@ -50,7 +50,7 @@
                             </select>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                            <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i></button>
                         </div>
                     </form>
                     <button class="btn btn-primary"><a href="{{ route('admin.products.addProduct') }}"
@@ -102,7 +102,7 @@
                                             </a>
                                             {{-- xóa mềm --}}
                                             <form action="{{ route('admin.products.deleteProduct', $value->id) }}"
-                                                method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa không?')">
+                                                method="POST" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">
@@ -112,7 +112,7 @@
                                             {{-- xóa cứng --}}
                                             <form action="{{ route('admin.products.hardDeleteProduct', $value->id) }}"
                                                 method="POST"
-                                                onsubmit="return confirm('Bạn có chắc muốn xóa cứng không?')">
+                                                class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">
