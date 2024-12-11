@@ -1,0 +1,37 @@
+.card {
+    max-width: 1400px;
+    margin: 20px auto;
+    /* Canh giữa card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card img {
+    max-height: 400px;
+    /* Giới hạn chiều cao ảnh */
+    object-fit: cover;
+    /* Cắt ảnh nếu cần */
+    display: block;
+    margin: 0 auto;
+    /* Canh giữa ảnh */
+}
+
+.card .content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.btn-primary a {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-primary a:hover {
+    text-decoration: underline;
+}

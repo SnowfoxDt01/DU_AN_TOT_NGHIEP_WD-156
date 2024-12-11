@@ -1,0 +1,43 @@
+        /* Kiểu cho notification bell */
+        .nav-item .notification {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            min-width: 20px;
+            min-height: 20px;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* Hiển thị thông báo khi có đơn hàng mới */
+        .nav-item .notification.active {
+            display: flex;
+            background-color: #dc3545;
+            /* Màu đỏ cho thông báo */
+        }
+
+        /* Tùy chỉnh badge hiển thị số lượng đơn hàng */
+        #orderNotificationCount {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            padding: 5px;
+            min-width: 20px;
+            min-height: 20px;
+            color: white;
+            text-align: center;
+            line-height: 1;
+        }
+
+        /* Dropdown nội dung */
+        #newOrdersList {
+            max-height: 300px;
+            /* Giới hạn chiều cao */
+            overflow-y: auto;
+            /* Cuộn nếu vượt quá chiều cao */
+        }

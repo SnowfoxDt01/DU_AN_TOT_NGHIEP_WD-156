@@ -63,7 +63,7 @@ class CategoryController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
+        return redirect()->route('admin.categories.index')->with('success', 'Tạo mới danh mục thành công.');
     }
 
 
@@ -125,6 +125,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return back();
+        return back()->with('success', 'Xóa danh mục thành công.');
     }
 }
