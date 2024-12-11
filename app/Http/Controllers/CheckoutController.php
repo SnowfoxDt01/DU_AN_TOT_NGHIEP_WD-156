@@ -137,7 +137,6 @@ class CheckoutController extends Controller
 
     public function process(Request $request)
     {
-        // dd(session()->getId());
         $paymentMethod = $request->input('payment_method');
         $addressId = $request->input('address_id');
         $address = Address::find($addressId);
@@ -147,7 +146,7 @@ class CheckoutController extends Controller
 
         // Lấy các sản phẩm đã chọn từ request
         $selectedProductIds = $request->input('selected_products', []);
-        
+
         // Nếu không có sản phẩm nào được chọn, trả về lỗi
         if (empty($selectedProductIds)) {
             return redirect()->route('client.cart.index')->with('error', 'Bạn chưa chọn sản phẩm nào để thanh toán!');
@@ -182,7 +181,7 @@ class CheckoutController extends Controller
             $order->date_order = Carbon::now();
             $order->order_status = 'pending';
             $order->save();
-            
+
             // Lưu voucher nếu có
             $voucherId = session('voucher_id');
             if ($voucherId) {
@@ -220,10 +219,6 @@ class CheckoutController extends Controller
                 }
             }
 
-            // Trong hàm process(), sau khi tạo đơn hàng $order  
-            $cookie = cookie('selected_products', json_encode($selectedProductIds), 120);  
-            return $this->redirectToVnpay($order)->withCookie($cookie);
-
             // Xóa giỏ hàng nếu thanh toán thành công
             // Xóa giỏ hàng chỉ sau khi tất cả đã hoàn tất
             if ($paymentMethod === 'cash') {
@@ -243,11 +238,8 @@ class CheckoutController extends Controller
 
 
             if ($paymentMethod === 'vnpay') {
-                
-                // session()->put('selected_products', $selectedProductIds);
                 DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay
                 return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay
-                
             }
 
             return redirect()->route('client.cart.index')->with('error', 'Phương thức thanh toán không hợp lệ!');
@@ -255,13 +247,14 @@ class CheckoutController extends Controller
             DB::rollBack();
             return redirect()->route('client.cart.index')->with('error', 'Đã xảy ra lỗi trong quá trình xử lý đơn hàng!');
         }
-        
     }
 
 
 
     private function redirectToVnpay($order)
     {
+
+
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('client.vnpay.return');
         $vnp_TmnCode = "UO4PS5ZJ"; //Mã website tại VNPAY 
@@ -274,8 +267,6 @@ class CheckoutController extends Controller
         $vnp_Locale = "VN";
         $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-
-        
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -299,7 +290,7 @@ class CheckoutController extends Controller
         if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
             $inputData['vnp_Bill_State'] = $vnp_Bill_State;
         }
-        
+
         //var_dump($inputData);
         ksort($inputData);
         $query = "";
@@ -326,13 +317,9 @@ class CheckoutController extends Controller
 
     public function vnpayReturn(Request $request)
     {
-        // dd(session()->getId());
         $vnp_ResponseCode = $request->input('vnp_ResponseCode');
         $orderId = $request->input('vnp_TxnRef');
 
-        // Lấy danh sách sản phẩm từ cookie  
-        $selectedProductIds = json_decode($request->cookie('selected_products'), true); 
-       
         $shoppingCart = auth()->user()->shoppingCart;
 
         // Tìm đơn hàng dựa trên orderId  
@@ -349,17 +336,17 @@ class CheckoutController extends Controller
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
 
-            // Xóa sản phẩm đã chọn khỏi giỏ hàng
+            $selectedProductIds = $request->input('selected_products', []);
+
             foreach ($shoppingCart->items as $item) {
                 if (in_array($item->variantProduct->id, $selectedProductIds)) {
                     $item->delete(); // Xóa sản phẩm đã chọn
                 }
             }
+            session()->forget('voucher_id');
 
-            session()->forget('voucher_id'); // Xóa mã voucher trong session
-            $cookie = cookie('selected_products', null, -1); // Xóa cookie  
-            DB::commit(); // Commit transaction
-            return redirect()->route('client.cart.index')->with('success', 'Thanh toán VNPay thành công!')->withCookie($cookie);
+            return redirect()->route('client.cart.index')
+                ->with('success', 'Thanh toán thành công!');
         } else {
 
             session()->forget('voucher_id');
