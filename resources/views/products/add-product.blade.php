@@ -1,7 +1,6 @@
 @extends('layout.ad.master')
 
 @push('styles')
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .img-preview {
             width: 150px;
@@ -11,11 +10,11 @@
         }
 
         .meta-box {
-            border: 1px solid #ddd;
+            border: 1px solid #ffffff;
             border-radius: 8px;
             margin-bottom: 20px;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
         }
 
         .meta-box-header {
@@ -27,33 +26,40 @@
         }
 
         .variant {
-            border: 1px solid #ccc;
+            border: 1px solid #ffffff;
             border-radius: 8px;
             padding: 10px;
-            background-color: #fff;
+            background-color: #ffffff;
             margin-bottom: 15px;
         }
     </style>
 @endpush
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            Tạo mới sản phẩm
-            <small>Trang chủ |</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li class="active">Tạo mới sản phẩm</li>
-        </ol>
-    </section>
-
-    <hr>
+    <div class="card card-body">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <div class="d-sm-flex align-items-center justify-space-between">
+                    <h4 class="fw-semibold fs-4 mb-4 mb-md-0 card-title">Thêm sản phẩm</h4>
+                    <nav aria-label="breadcrumb" class="ms-auto">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item" aria-current="page">
+                                <span class="badge fw-medium fs-2 bg-primary-subtle text-primary">
+                                    Thêm sản phẩm
+                                </span>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <form action="{{ route('admin.products.addPostProduct') }}" class="row g-3" method="POST"
             enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="meta-box">
                         <h3>Thông tin chung</h3>
                         <div class="form-group">
@@ -64,7 +70,7 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="form-row">
+                        <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="priceSP">Giá</label>
                                 <input type="number" class="form-control" id="priceSP" name="priceSP"
@@ -89,6 +95,13 @@
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="imageSP">Hình ảnh</label>
+                                <input type="file" class="form-control" id="imageSP" name="images[]" multiple>
+                                @error('images')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="descriptionSP">Mô tả</label>
@@ -97,82 +110,82 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="product_new">Trạng thái sản phẩm</label>
-                            <select class="form-control" id="product_new" name="product_new">
-                                <option value="0">Hàng trong kho</option>
-                                <option value="1">Hàng mới</option>
-                            </select>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="product_new">Trạng thái sản phẩm</label>
+                                <select class="form-control" id="product_new" name="product_new">
+                                    <option value="0">Hàng trong kho</option>
+                                    <option value="1">Hàng mới</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="product_category_idSP">Danh mục</label>
+                                <select class="form-control" id="product_category_idSP" name="product_category_idSP">
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name_category }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="meta-box">
-                        <h3>Hình ảnh</h3>
-                        <div class="form-group">
-                            <label for="imageSP">Hình ảnh</label>
-                            <input type="file" class="form-control" id="imageSP" name="images[]" multiple>
-                            @error('images')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <h3>Biến thể</h3>
+                </div>
+                <div class="col-md-6">
                     <div class="meta-box">
                         <div id="variant-container">
                             <div class="variant">
                                 <div class="meta-box-header" data-toggle="collapse" data-target="#variant-details-0">
-                                    <h3>Biến thể <i class="fas fa-angle-down"></i></h3>
+                                    <h3>Biến thể <i class="bi bi-arrow-down-up"></i></h3>
                                 </div>
-                                <div id="variant-details-0" class="collapse show row g-3">
+                                <div id="variant-details-0" class="collapse show g-3">
                                     <input type="hidden" name="variant_id[]" value="">
-                                    <div class="form-group col-md-4">
-                                        <label for="variant_name">Tên sản phẩm biến thể</label>
-                                        <input type="text" class="form-control" name="variant_name[]"
-                                            value="{{ old('variant_name[]') }}" placeholder="Tên biến thể">
-                                        @error('variant_name[]')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="variant_quantity">Số lượng</label>
-                                        <input type="number" class="form-control" name="variant_quantity[]"
-                                            value="{{ old('variant_quantity[]') }}" placeholder="Số lượng biến thể">
-                                        @error('variant_quantity[]')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label for="variant_size">Kích cỡ</label>
-                                        <select name="variant_size[]" class="form-control">
-                                            @foreach ($sizes as $size)
-                                                <option value="{{ $size->id }}">{{ $size->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="variant_color">Màu</label>
-                                        <select name="variant_color[]" class="form-control">
-                                            @foreach ($colors as $color)
-                                                <option value="{{ $color->id }}">{{ $color->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="variant_image">Hình ảnh biến thể</label>
-                                        <input type="file" class="form-control" id="variant_image"
-                                            name="variant_image[0]">
-                                        @error('variant_image[0]')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="variant_status">Trạng thái</label>
-                                        <select name="variant_status[]" class="form-control">
-                                            <option value="active">Hoạt động</option>
-                                            <option value="inactive">Không hoạt động</option>
-                                        </select>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_name">Tên biến thể</label>
+                                            <input type="text" class="form-control" name="variant_name[]"
+                                                value="{{ old('variant_name[]') }}" placeholder="Tên biến thể">
+                                            @error('variant_name[]')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_quantity">Số lượng</label>
+                                            <input type="number" class="form-control" name="variant_quantity[]"
+                                                value="{{ old('variant_quantity[]') }}" placeholder="Số lượng biến thể">
+                                            @error('variant_quantity[]')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_size">Kích cỡ</label>
+                                            <select name="variant_size[]" class="form-control">
+                                                @foreach ($sizes as $size)
+                                                    <option value="{{ $size->id }}">{{ $size->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_color">Màu</label>
+                                            <select name="variant_color[]" class="form-control">
+                                                @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}">{{ $color->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_image">Hình ảnh biến thể</label>
+                                            <input type="file" class="form-control" id="variant_image"
+                                                name="variant_image[0]">
+                                            @error('variant_image[0]')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="variant_status">Trạng thái</label>
+                                            <select name="variant_status[]" class="form-control">
+                                                <option value="active">Hoạt động</option>
+                                                <option value="inactive">Không hoạt động</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <hr>
                                 </div>
@@ -180,7 +193,6 @@
                             <hr>
                         </div>
                     </div>
-
                     <div class="meta-box">
                         <div class="form-group">
                             <label for="number-of-variants">Số lượng biến thể muốn thêm:</label>
@@ -191,20 +203,6 @@
                         <hr>
                         <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
                         <a href="{{ route('admin.products.listProduct') }}" class="btn btn-secondary">Trở về</a>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="meta-box">
-                        <h3>Danh mục sản phẩm</h3>
-                        <div class="form-group">
-                            <label for="product_category_idSP">Danh mục</label>
-                            <select class="form-control" id="product_category_idSP" name="product_category_idSP">
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name_category }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -240,7 +238,7 @@
                     <div class="row g-3">
                         <input type="hidden" name="variant_id[]" value="">
                         <div class="form-group col-md-4">
-                            <label for="variant_name">Tên sản phẩm biến thể</label>
+                            <label for="variant_name">Tên biến thể</label>
                             <input type="text" class="form-control" name="variant_name[]">
                         @error('variant_name.*')
                             <small class="text-danger">{{ $message }}</small>

@@ -77,7 +77,8 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.payments.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('admin.payments.index') }}"
+                                aria-expanded="false">
                                 <i class="bi bi-file-earmark-text"></i>
                                 <span class="hide-menu">Quản lý hóa đơn</span>
                             </a>
@@ -95,7 +96,8 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.vouchers.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('admin.vouchers.index') }}"
+                                aria-expanded="false">
                                 <i class="bi bi-ticket-perforated"></i>
                                 <span class="hide-menu">Quản lý mã giảm giá</span>
                             </a>
