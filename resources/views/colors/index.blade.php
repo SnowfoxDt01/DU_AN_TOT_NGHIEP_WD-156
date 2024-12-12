@@ -50,6 +50,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <br>
+                    <div class="d-flex align-items-center justify-content-end py-1">
+                        {{ $colors->links() }}
+                    </div>
                 </div>
 
             </div>

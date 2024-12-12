@@ -9,7 +9,7 @@ class ColorController extends Controller
 {
     public function index()
     {
-        $colors = Color::all(); // Lấy tất cả màu sắc
+        $colors = Color::paginate(5); // Lấy tất cả màu sắc
         return view('colors.index', compact('colors'));
     }
 

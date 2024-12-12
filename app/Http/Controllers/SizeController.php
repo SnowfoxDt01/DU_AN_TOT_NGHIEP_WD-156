@@ -10,7 +10,7 @@ class SizeController extends Controller
     // Hiển thị danh sách kích thước
     public function index()
     {
-        $sizes = Size::all();
+        $sizes = Size::paginate(5);
         return view('sizes.index', compact('sizes'));
     }
 
