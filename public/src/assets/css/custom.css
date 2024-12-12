@@ -41,3 +41,22 @@
             overflow-y: auto;
             /* Cuộn nếu vượt quá chiều cao */
         }
+
+        .collapse {
+            display: none;
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .collapse.show {
+            display: block;
+        }
+
+        .has-arrow::after {
+            content: "▼";
+            float: right;
+        }
+
+        .has-arrow[aria-expanded="true"]::after {
+            content: "▲";
+        }
