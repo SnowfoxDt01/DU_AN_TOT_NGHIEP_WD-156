@@ -57,8 +57,12 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <br>
+                        <div class="d-flex align-items-center justify-content-end py-1">
+                            {{ $sizes->links() }}
+                        </div>
                     </div>
-    
+
                 </div>
             </div>
         </div>

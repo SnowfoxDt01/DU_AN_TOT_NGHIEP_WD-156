@@ -12,7 +12,7 @@ class BannerController extends Controller
     public function index()
     {
         // Lấy danh sách tất cả các banner
-        $banners = Banner::all();
+        $banners = Banner::paginate(5);
         return view('banners.index', compact('banners'));
     }
 
