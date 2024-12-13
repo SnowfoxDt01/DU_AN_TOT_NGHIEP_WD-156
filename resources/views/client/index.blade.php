@@ -22,10 +22,6 @@
                                         class="primary-color">KHUYẾN MÃI </span> NGAY</h4>
                                 <h1 data-animation="fadeInUp" data-delay="1.3s">{{ $banner->title }}<br></h1>
                                 <p class="mt-40" data-animation="fadeInUp" data-delay="1.5s">{!! nl2br($banner->description) !!}</p>
-                                <div class="btn-wrp mt-65">
-                                    <a class="btn-one-light ml-20" href="shop-single.html" data-animation="fadeInUp"
-                                        data-delay="1.9s"><span>Xem chi tiết</span></a>
-                                </div>
                             </div>
                         </div>
                     </div>
