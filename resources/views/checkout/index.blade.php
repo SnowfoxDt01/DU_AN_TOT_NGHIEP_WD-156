@@ -52,9 +52,7 @@
                                                         <h4>Địa chỉ nhận hàng:</h4>
                                                         <p><span id="selected-address">
                                                                 {{ $defaultAddress->address }},
-                                                                {{ $defaultAddress->ward }},
-                                                                {{ $defaultAddress->district }},
-                                                                {{ $defaultAddress->city }}
+
                                                                 @if ($defaultAddress->zip_code)
                                                                     (Mã bưu điện: {{ $defaultAddress->zip_code }})
                                                                 @endif
@@ -76,13 +74,8 @@
                                                             data-recipient-name="{{ $address->recipient_name }}"
                                                             data-recipient-phone="{{ $address->recipient_phone }}"
                                                             data-address="{{ $address->address }}"
-                                                            data-ward="{{ $address->ward }}"
-                                                            data-district="{{ $address->district }}"
-                                                            data-city="{{ $address->city }}"
                                                             data-zip-code="{{ $address->zip_code }}">
                                                             <strong>{{ $address->address }}</strong><br>
-                                                            <span>{{ $address->ward }}, {{ $address->district }},
-                                                                {{ $address->city }}</span><br>
                                                             @if ($address->zip_code)
                                                                 <span>Mã bưu điện: {{ $address->zip_code }}</span><br>
                                                             @endif
@@ -137,45 +130,6 @@
                                                                     <small class="text-danger">{{ $message }}</small>
                                                                 @enderror
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <div class="mb-3">
-                                                                        <label for="city" class="form-label">Tỉnh/Thành
-                                                                            phố</label>
-                                                                        <input type="text" name="city" id="city"
-                                                                            class="form-control"
-                                                                            placeholder="Nhập tỉnh/thành phố"
-                                                                            value="{{ old('city') }}">
-                                                                        @error('city')
-                                                                            <small class="text-danger">{{ $message }}</small>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="mb-3">
-                                                                        <label for="district"
-                                                                            class="form-label">Quận/Huyện</label>
-                                                                        <input type="text" name="district" id="district"
-                                                                            class="form-control" placeholder="Nhập quận/huyện"
-                                                                            value="{{ old('district') }}">
-                                                                        @error('district')
-                                                                            <small class="text-danger">{{ $message }}</small>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="mb-3">
-                                                                        <label for="ward"
-                                                                            class="form-label">Phường/Xã</label>
-                                                                        <input type="text" name="ward" id="ward"
-                                                                            class="form-control" placeholder="Nhập phường/xã"
-                                                                            value="{{ old('ward') }}">
-                                                                        @error('ward')
-                                                                            <small class="text-danger">{{ $message }}</small>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                             <div class="mb-3">
                                                                 <label for="address" class="form-label">Địa chỉ cụ
                                                                     thể</label>
@@ -205,7 +159,7 @@
                                                     </div>
                                                 </div>
                                             @else
-                                                <p>Bạn cần <a href="{{ route('client.updateInfo') }}#warranty"
+                                                <p>Bạn cần <a href="{{ route('client.createInfo') }}#warranty"
                                                         style="color: orangered">thêm thông tin cá nhân</a>
                                                     để thêm địa chỉ</p>
 
@@ -417,13 +371,10 @@
                         const recipientName = card.getAttribute('data-recipient-name');
                         const recipientPhone = card.getAttribute('data-recipient-phone');
                         const address = card.getAttribute('data-address');
-                        const ward = card.getAttribute('data-ward');
-                        const district = card.getAttribute('data-district');
-                        const city = card.getAttribute('data-city');
                         const zipCode = card.getAttribute('data-zip-code');
 
                         document.getElementById('selected-address').textContent =
-                            `${address}, ${ward}, ${district}, ${city} ${zipCode ? ', Mã bưu điện: ' + zipCode : ''}`;
+                            `${address} ${zipCode ? ', Mã bưu điện: ' + zipCode : ''}`;
                         document.getElementById('selected-recipient-name').textContent = recipientName;
                         document.getElementById('selected-recipient-phone').textContent =
                             recipientPhone;

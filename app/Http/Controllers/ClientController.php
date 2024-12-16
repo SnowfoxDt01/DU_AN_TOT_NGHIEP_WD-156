@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Http\Requests\CustomerRequest;
+use App\Models\Address;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
@@ -229,7 +230,7 @@ class ClientController extends Controller
         return view('client.page.voucherList', compact('vouchers'));
     }
 
-    public function updateInfo()
+    public function createInfo()
     {
         session(['active_tab' => 'warranty']);
 
@@ -241,17 +242,31 @@ class ClientController extends Controller
     public function createCustomerInfo(CustomerRequest $request)
     {
         $user = auth()->user();
-
-        Customer::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'id_user' => $user->id,
-        ]);
-
-
-        return redirect()->back()->with('success', "Cập nhật thành công.");
+    
+        DB::beginTransaction();
+        try {
+            $customer = Customer::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address'),
+                'id_user' => $user->id,
+            ]);
+    
+            Address::create([
+                'address' => $customer->address,
+                'zip_code' => null,
+                'recipient_name' => $customer->name,
+                'recipient_phone' => $customer->phone,
+                'customer_id' => $customer->id,
+            ]);
+    
+            DB::commit(); // Commit transaction nếu mọi thứ thành công
+            return redirect()->back()->with('success', "Cập nhật thành công.");
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback transaction nếu có lỗi
+            return redirect()->back()->with('error', "Đã xảy ra lỗi: " . $e->getMessage());
+        }
     }
 
     public function updateCustomerInfo(CustomerRequest $request, string $id)

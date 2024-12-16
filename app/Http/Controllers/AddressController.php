@@ -27,9 +27,6 @@ class AddressController extends Controller
         $request->validate([
             'recipient_name' => 'required|string|max:255',
             'recipient_phone' => 'required|string|max:15',
-            'city' => 'required|string|max:255',
-            'district' => 'required|string|max:255',
-            'ward' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'zip_code' => 'nullable|string|max:10',
         ]);
@@ -39,9 +36,6 @@ class AddressController extends Controller
         $address->customer_id = Auth::user()->customer->id;
         $address->recipient_name = $request->recipient_name;
         $address->recipient_phone = $request->recipient_phone;
-        $address->city = $request->city;
-        $address->district = $request->district;
-        $address->ward = $request->ward;
         $address->address = $request->address;
         $address->zip_code = $request->zip_code;
         $address->save();

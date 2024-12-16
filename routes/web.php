@@ -174,6 +174,8 @@ Route::group([
 
     Route::resource('addresses', AddressController::class);
 
+    Route::get('client/createInfo', [ClientController::class, 'createInfo'])->name('createInfo');
+
     Route::post('client/createInfo', [ClientController::class, 'createCustomerInfo'])->name('createInfo');
 
     Route::put('client/{id}/updateInfo', [ClientController::class, 'updateCustomerInfo'])->name('updateInfo');
