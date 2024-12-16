@@ -126,46 +126,88 @@
                             <div class="col-lg-12">
                                 <div class="checkout__item-left sub-bg">
                                     <h3 class="mb-40">Thay đổi thông tin cá nhân</h3>
-                                    <form action="{{route('client.updateInfo')}}" method="POST">
-                                        @csrf
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label class="mb-10" for="name">Tên khách hàng *</label>
-                                                <input class="mb-20" id="name" name="name" type="text"
-                                                    value="{{ old('name', $customer->name ?? '') }}">
-                                                @error('name')
-                                                    <small class="help-block text-danger">{{ $message }}</small>
-                                                @enderror
+                                    @if ($customer)
+                                        <form action="{{ route('client.updateInfo',$customer->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="mb-10" for="name">Tên khách hàng *</label>
+                                                    <input class="mb-20" id="name" name="name" type="text"
+                                                        value="{{ old('name', $customer->name ?? '') }}">
+                                                    @error('name')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="mb-10" for="email">Email *</label>
+                                                    <input class="mb-20" id="email" name="email" type="text"
+                                                        value="{{ old('email', $customer->email ?? '') }}">
+                                                    @error('email')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="mb-10" for="phone">Số điện thoại *</label>
+                                                    <input class="mb-20" id="phone" name="phone" type="text"
+                                                        value="{{ old('phone', $customer->phone ?? '') }}" required>
+                                                    @error('phone')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="mb-10" for="address">Địa chỉ *</label>
+                                                    <input class="mb-20" id="address" name="address" type="text"
+                                                        value="{{ old('address', $customer->address ?? '') }}" required>
+                                                    @error('address')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="mb-10" for="email">Email *</label>
-                                                <input class="mb-20" id="email" name="email" type="text"
-                                                    value="{{ old('email', $customer->email ?? '') }}">
-                                                @error('email')
-                                                    <small class="help-block text-danger">{{ $message }}</small>
-                                                @enderror
+                                            <button type="submit" class="btn-one mt-35"><span>Cập nhật thông
+                                                    tin</span></button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('client.createInfo') }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="mb-10" for="name">Tên khách hàng *</label>
+                                                    <input class="mb-20" id="name" name="name" type="text"
+                                                        value="{{ old('name', $customer->name ?? '') }}">
+                                                    @error('name')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="mb-10" for="email">Email *</label>
+                                                    <input class="mb-20" id="email" name="email" type="text"
+                                                        value="{{ old('email', $customer->email ?? '') }}">
+                                                    @error('email')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="mb-10" for="phone">Số điện thoại *</label>
+                                                    <input class="mb-20" id="phone" name="phone" type="text"
+                                                        value="{{ old('phone', $customer->phone ?? '') }}" required>
+                                                    @error('phone')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="mb-10" for="address">Địa chỉ *</label>
+                                                    <input class="mb-20" id="address" name="address" type="text"
+                                                        value="{{ old('address', $customer->address ?? '') }}" required>
+                                                    @error('address')
+                                                        <small class="help-block text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="mb-10" for="phone">Số điện thoại *</label>
-                                                <input class="mb-20" id="phone" name="phone" type="text"
-                                                    value="{{ old('phone', $customer->phone ?? '') }}" required>
-                                                @error('phone')
-                                                    <small class="help-block text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label class="mb-10" for="address">Địa chỉ *</label>
-                                                <input class="mb-20" id="address" name="address" type="text"
-                                                    value="{{ old('address', $customer->address ?? '') }}" required>
-                                                @error('address')
-                                                    <small class="help-block text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn-one mt-35"><span>Cập nhật thông
-                                                tin</span></button>
-                                    </form>
-
+                                            <button type="submit" class="btn-one mt-35"><span>Thêm thông
+                                                    tin</span></button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
