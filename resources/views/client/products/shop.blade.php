@@ -77,7 +77,7 @@
                                 @endif
                             </div>
                             <div class="product__content p-0">
-                                <h4 class="mb-15"><a class="primary-hover" href="shop-single.html">
+                                <h4 class="mb-15"><a class="primary-hover" href="{{ route('client.detailProduct', 19) }}">
                                         {{ $flash->name }}</a></h4>
                                 @if ($flash->flash_sale_price == 0)
                                     <span class="primary-color ml-10">{{ number_format($flash->base_price) }}.đ</span>
@@ -183,7 +183,6 @@
                             </div>
                         @endforeach
                     </div>
-                    {{ $products->links('pagination::custom') }}
                 </div>
             </div>
         </div>

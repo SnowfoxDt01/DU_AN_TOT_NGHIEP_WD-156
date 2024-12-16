@@ -314,8 +314,6 @@
                                                                 {{ number_format($order->total_price, 0, ',', '.') }} VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
-                                                                    đơn</a>
                                                                 <a href="{{ route('client.order.detail', $order->id) }}"
                                                                     class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if (in_array($order->order_status, ['confirming', 'confirmed']) && $order->user_id == auth()->id())
@@ -383,8 +381,6 @@
                                                                 {{ number_format($confirm->total_price, 0, ',', '.') }} VND
                                                             </div>
                                                             <div class="mt-4 d-flex justify-content-start">
-                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
-                                                                    đơn</a>
                                                                 <a href="{{ route('client.order.detail', $confirm->id) }}"
                                                                     class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if ($confirm->order_status !== 'canceled' && $confirm->user_id == auth()->id())
@@ -454,8 +450,6 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex justify-content-start">
-                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
-                                                                    đơn</a>
                                                                 <a href="{{ route('client.order.detail', $confirmed->id) }}"
                                                                     class="btn btn-orange me-2">Xem chi tiết</a>
                                                                 @if ($confirmed->order_status !== 'canceled' && $confirmed->user_id == auth()->id())
@@ -526,8 +520,6 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
-                                                                    đơn</a>
                                                                 <a href="{{ route('client.order.detail', $shipping->id) }}"
                                                                     class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
@@ -589,8 +581,6 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
-                                                                    đơn</a>
                                                                 <a href="{{ route('client.order.detail', $completed->id) }}"
                                                                     class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
@@ -652,8 +642,6 @@
                                                                 VND
                                                             </div>
                                                             <div class="mt-4 d-flex">
-                                                                <a href="#" class="btn btn-orange me-2">Xem hóa
-                                                                    đơn</a>
                                                                 <a href="{{ route('client.order.detail', $canceled->id) }}"
                                                                     class="btn btn-orange me-2">Xem chi tiết</a>
                                                             </div>
