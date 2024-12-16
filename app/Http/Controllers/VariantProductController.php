@@ -39,7 +39,7 @@ class VariantProductController extends Controller
             $query->where('product_id', $request->product_id);
         }
 
-        $variantProducts = $query->get();
+        $variantProducts = $query->paginate(5);
 
         $products = Product::all();
         $sizes = Size::all();

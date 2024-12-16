@@ -15,19 +15,28 @@
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.users.index') }}" aria-expanded="false">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                 <i class="bi bi-person-lines-fill"></i>
                                 <span class="hide-menu">Quản lý tài khoản</span>
                             </a>
+                            <ul class="collapse first-level" aria-expanded="false">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="{{ route('admin.users.index') }}">
+                                        <i class="bi bi-people-fill"></i>
+                                        <span class="hide-menu">Danh sách tài khoản</span>
+                                    </a>
+                                </li>
+                                @role('super-admin')
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="{{ route('role-permission.index') }}">
+                                        <i class="bi bi-grid-3x3"></i>
+                                        <span class="hide-menu">Bảng phân quyền</span>
+                                    </a>
+                                </li>
+                                @endrole
+                            </ul>
                         </li>
-                        @role('super-admin')
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="{{ route('role-permission.index') }}" aria-expanded="false">
-                                    <i class="bi bi-grid-3x3"></i>
-                                    <span class="hide-menu">Bảng phân quyền</span>
-                                </a>
-                            </li>
-                        @endrole
+                        
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
                                 <i class="bi bi-list-task"></i>
@@ -86,18 +95,19 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.banners.index') }}" aria-expanded="false">
-                                <i class="bi bi-images"></i>
-                                <span class="hide-menu">Banner</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.vouchers.index') }}"
                                 aria-expanded="false">
                                 <i class="bi bi-ticket-perforated"></i>
                                 <span class="hide-menu">Quản lý mã giảm giá</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.banners.index') }}" aria-expanded="false">
+                                <i class="bi bi-images"></i>
+                                <span class="hide-menu">Banner</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

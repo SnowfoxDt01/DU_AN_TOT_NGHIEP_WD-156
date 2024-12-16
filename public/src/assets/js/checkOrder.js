@@ -33,4 +33,4 @@ function checkNewOrders() {
             });
         }
         // Kiểm tra đơn hàng mới mỗi 5 giây
-        setInterval(checkNewOrders, 3000);
+        setInterval(checkNewOrders, 2000);

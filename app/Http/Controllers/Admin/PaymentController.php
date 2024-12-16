@@ -16,7 +16,7 @@ class PaymentController extends Controller
     public function index()
     {
         
-        $payments = Payment::with(['order.customer'])->get(); // Lấy tất cả hóa đơn cùng với thông tin đơn hàng liên quan
+        $payments = Payment::with(['order.customer'])->paginate(5); // Lấy tất cả hóa đơn cùng với thông tin đơn hàng liên quan
         // dd($payments);
         return view('payments.index', compact('payments')); // Trả về view danh sách hóa đơn
     }

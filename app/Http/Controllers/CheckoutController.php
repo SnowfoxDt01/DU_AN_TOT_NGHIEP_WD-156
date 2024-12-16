@@ -238,6 +238,11 @@ class CheckoutController extends Controller
 
 
             if ($paymentMethod === 'vnpay') {
+                foreach ($shoppingCart->items as $item) {
+                    if (in_array($item->variantProduct->id, $selectedProductIds)) {
+                        $item->delete(); // Xóa sản phẩm đã chọn
+                    }
+                }
                 DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay
                 return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay
             }
@@ -320,7 +325,7 @@ class CheckoutController extends Controller
         $vnp_ResponseCode = $request->input('vnp_ResponseCode');
         $orderId = $request->input('vnp_TxnRef');
 
-        $shoppingCart = auth()->user()->shoppingCart;
+
 
         // Tìm đơn hàng dựa trên orderId  
         $order = ShopOrder::find($orderId);
@@ -336,13 +341,6 @@ class CheckoutController extends Controller
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
 
-            $selectedProductIds = $request->input('selected_products', []);
-
-            foreach ($shoppingCart->items as $item) {
-                if (in_array($item->variantProduct->id, $selectedProductIds)) {
-                    $item->delete(); // Xóa sản phẩm đã chọn
-                }
-            }
             session()->forget('voucher_id');
 
             return redirect()->route('client.cart.index')
@@ -365,12 +363,7 @@ class CheckoutController extends Controller
     }
     public function handlePendingOrders()
     {
-        $user = auth()->user();
-        if (!$user) {
-            return;
-        }
-
-        $pendingOrder = ShopOrder::where('user_id', $user->id)
+        $pendingOrder = ShopOrder::where('user_id', Auth::user()->id)
             ->where('order_status', 'pending')
             ->first();
 
