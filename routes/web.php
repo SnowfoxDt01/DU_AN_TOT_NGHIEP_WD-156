@@ -195,6 +195,8 @@ Route::group([
         Route::get('/', [ClientController::class, 'myAccount'])->name('myAccount');
 
         Route::post('/change-password', [UserController::class, 'checkChangePassWord'])->name('checkChangePassWord');
+
+        Route::get('/orders/filter', [ShopOrderController::class, 'filter'])->name('orders.filter');
     });
 
     Route::group([

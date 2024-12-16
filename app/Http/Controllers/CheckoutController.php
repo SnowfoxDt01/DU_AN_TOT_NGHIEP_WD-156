@@ -63,8 +63,21 @@ class CheckoutController extends Controller
             $addressId = $defaultAddress->id;
         }
 
+        $vouchers = Voucher::where(function ($query) {
+            $query->whereNull('expiry_date')
+                ->orWhere('expiry_date', '>=', Carbon::now());
+        })
+            ->where(function ($query) {
+                $query->whereNull('usage_limit')
+                    ->orWhereColumn('usage_count', '<', 'usage_limit');
+            })
+            ->where(function ($query) {
+                $query->where('status', 'active');
+            })
+            ->get();
+
         // Truyền dữ liệu vào view
-        return view('checkout.index', compact('shoppingCart', 'selectedProducts', 'customer', 'addresses', 'defaultAddress', 'addressId'));
+        return view('checkout.index', compact('shoppingCart', 'selectedProducts', 'customer', 'addresses', 'defaultAddress', 'addressId', 'vouchers'));
     }
 
 
