@@ -216,12 +216,6 @@
                             aria-labelledby="order-history-tab">
                             <h4>Lịch Sử Mua Hàng của: {{ Auth::user()->name }}</h4>
                             <hr>
-                            <div class="d-flex mb-4">
-                                <input type="date" style="background-color: black; color: #fff"
-                                    class="form-control me-2" placeholder="Từ ngày" value="2020-12-01">
-                                <input type="date" style="background-color: black; color: #fff" class="form-control"
-                                    placeholder="Đến ngày" value="2024-11-06">
-                            </div>
                             <div class="mb-4">
                                 <!-- Tabs -->
                                 <ul class="nav nav-tabs" id="orderTabs" role="tablist">
