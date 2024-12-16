@@ -11,9 +11,7 @@ class Address extends Model
 
     protected $fillable = [
         'address',
-        'ward',
-        'district',
-        'city',
+        'customer_id',
         'zip_code',
         'recipient_name',
         'recipient_phone',
