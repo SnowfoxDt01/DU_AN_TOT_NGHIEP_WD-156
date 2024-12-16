@@ -359,7 +359,6 @@ class CheckoutController extends Controller
             // Nếu thanh toán thất bại, xóa đơn hàng
             $order->delete(); // Xóa đơn hàng khỏi cơ sở dữ liệu 
 
-            
             return redirect()->route('client.cart.index')
                 ->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');
         }
