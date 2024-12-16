@@ -231,14 +231,14 @@ class ClientController extends Controller
 
     public function updateInfo()
     {
-        session(['active_tab' => 'warranty']); // Lưu tab vào session
+        session(['active_tab' => 'warranty']);
 
         return redirect()->to('client/myaccount');
     }
 
 
 
-    public function updateCustomerInfo(CustomerRequest $request)
+    public function createCustomerInfo(CustomerRequest $request)
     {
         $user = auth()->user();
 
@@ -250,6 +250,22 @@ class ClientController extends Controller
             'id_user' => $user->id,
         ]);
 
+
+        return redirect()->back()->with('success', "Cập nhật thành công.");
+    }
+
+    public function updateCustomerInfo(CustomerRequest $request, string $id)
+    {
+        $user = auth()->user();
+        $customer = $user->customer;
+
+        $customer->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address'=>$request->address,
+            'id_user' => $user->id,
+        ]);
 
         return redirect()->back()->with('success', "Cập nhật thành công.");
     }

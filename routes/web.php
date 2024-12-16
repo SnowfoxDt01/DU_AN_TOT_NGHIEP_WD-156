@@ -174,9 +174,9 @@ Route::group([
 
     Route::resource('addresses', AddressController::class);
 
-    Route::get('client/updateInfo', [ClientController::class, 'updateInfo'])->name('updateInfo');
+    Route::post('client/createInfo', [ClientController::class, 'createCustomerInfo'])->name('createInfo');
 
-    Route::post('client/updateInfo', [ClientController::class, 'updateCustomerInfo'])->name('updateInfo');
+    Route::put('client/{id}/updateInfo', [ClientController::class, 'updateCustomerInfo'])->name('updateInfo');
 
     Route::post('/save-tab', function (Request $request) {
         session(['active_tab' => $request->tab]);
