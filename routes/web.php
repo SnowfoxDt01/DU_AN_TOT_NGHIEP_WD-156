@@ -79,7 +79,7 @@ Route::group([
     Route::group([
         'prefix' => 'orders',
         'as' => 'orders.',
-        'middleware' => ['auth', 'check.pending.order']
+        // 'middleware' => ['auth', 'check.pending.order']
     ], function () {
         Route::get('/', [ShopOrderController::class, 'index'])->name('index');
 
