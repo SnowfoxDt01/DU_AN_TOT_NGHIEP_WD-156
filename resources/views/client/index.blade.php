@@ -266,7 +266,8 @@
                         @foreach ($flash_sale_products as $flash)
                             <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".2s">
                                 <span class="title-icon mr-10"></span>
-                                <h2>{{ $flash->name }}</h2>
+                                <h2 class="mb-15"><a class="primary-hover" href="{{ route('client.detailProduct', 19) }}">
+                                    {{ $flash->name }}</a></h2>
                             </div>
                             <div class="get-now__content">
                                 <div class="get-info py-4 wow fadeInUp" data-wow-delay=".2s">

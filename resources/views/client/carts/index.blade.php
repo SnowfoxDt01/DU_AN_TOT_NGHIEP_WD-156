@@ -36,7 +36,7 @@
         }
 
         .product-checkbox {
-            transform: scale(2);
+            transform: scale(1.75);
             accent-color: #fa4f09;
         }
     </style>
@@ -189,7 +189,7 @@
                 $('.product-checkbox:checked').not('#select-all').each(function() {
                     var productElement = $(this).closest('.product'); // Lấy sản phẩm tương ứng với checkbox
                     var linePrice = productElement.find('.product-line-price').text().replace(/[^0-9]/g,
-                    ''); // Lấy giá trị
+                        ''); // Lấy giá trị
                     cartTotal += parseInt(linePrice); // Cộng giá trị vào tổng tiền
                 });
 
@@ -236,7 +236,7 @@
                             // Cập nhật tổng giá cho sản phẩm này
                             if (response.lineTotal) {
                                 $(input).closest('.product').find('.product-line-price').text(
-                                    response.lineTotal);
+                                    response.lineTotal + '.Đ');
                             }
 
                             // Cập nhật tổng tiền cho các sản phẩm được chọn
@@ -274,13 +274,10 @@
             $('#select-all').change(function() {
                 var isChecked = $(this).is(':checked'); // Kiểm tra trạng thái checkbox "Chọn tất cả"
                 $('.product-checkbox').not('#select-all').prop('checked',
-                isChecked); // Chọn hoặc bỏ chọn tất cả sản phẩm
+                    isChecked); // Chọn hoặc bỏ chọn tất cả sản phẩm
                 updateCartTotal(); // Cập nhật tổng tiền
             });
         });
-
-
-
 
         function confirmDelete() {
             return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
@@ -302,6 +299,4 @@
             }
         });
     </script>
-
-
 @endsection
