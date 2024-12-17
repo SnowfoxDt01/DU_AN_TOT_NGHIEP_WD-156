@@ -12,10 +12,12 @@
                     </div>
                     <div class="col-xxl-4">
                         <div class="login__content">
-                            <h2 class="text-white mb-65">Đăng nhập</h2>
+                            <h2 class="text-white mb-65">Đặt lại mật khẩu</h2>
                             <div class="form-area login__form">
-                                <form action="{{ route('login') }}" method="POST">
+                                <form action="{{ route('password.update') }}" method="POST">
                                     @csrf
+                                    <input type="hidden" name="token" value="{{ $token }}">
+
                                     <input type="text" name="email" placeholder="Nhập email..."
                                         value="{{ old('email') }}">
                                     @error('email')
@@ -25,26 +27,13 @@
                                     @error('password')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
-                                    <button class="mt-30">Đăng nhập</button>
+                                    <input class="mt-30" type="password" name="password_confirmation" placeholder="Nhập lại mật khẩu...">
+                                    @error('password')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                    <button class="mt-30" type="submit">Đặt lại mật khẩu</button>
                                     <hr>
                                 </form>
-                                    <small>
-                                        <a href="{{ route('password.request') }}" style="color: rgb(255, 110, 32);">Bạn quên mật khẩu
-                                            ?</a>
-                                    </small>
-                                <br>
-                                <small>
-                                    Bạn chưa có tài khoản? <a href="{{ route('register') }}"
-                                        style="color: rgb(255, 110, 32);">Đăng kí tại đây!</a>
-                                </small>
-                                <span class="or pt-30 pb-40">Hoặc</span>
-                            </div>
-                            <div class="login__with">
-                                <a href="#0"><img src="client_ui/assets/images/icon/google.svg" alt="">
-                                    Đăng nhập bằng google</a>
-                                <a class="mt-15" href="#0"><img src="client_ui/assets/images/icon/facebook.svg"
-                                        alt="">
-                                    Đăng nhập bằng facebook</a>
                             </div>
                         </div>
                     </div>
