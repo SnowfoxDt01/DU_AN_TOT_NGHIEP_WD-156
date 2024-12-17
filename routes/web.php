@@ -11,6 +11,8 @@ use App\Http\Controllers\ShopOrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Auth\Client\LoginController;
 use App\Http\Controllers\Auth\Client\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // http://127.0.0.1:8000/
 
@@ -39,6 +42,13 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('password/forgot', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+
+Route::post('password/forgot', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
+
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
