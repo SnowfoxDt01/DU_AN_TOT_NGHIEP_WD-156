@@ -124,7 +124,7 @@
                     <div class="row g-4">
                         @php $count = 0; @endphp
                         @foreach ($newProducts as $new)
-                            @if ($count < 12)
+                            @if ($count < 8)
                                 <div class="col-xxl-3 col-xl-4 col-md-6">
                                     <div class="product__item bor">
                                         <a href="{{ route('client.detailProduct', $new->id) }}" class="wishlist"><i
@@ -157,8 +157,7 @@
                                             @php
                                                 $totalReviews = $new->reviews->count();
 
-                                                $averageRating =
-                                                    $totalReviews > 0 ? $new->reviews->avg('rating') : 0;
+                                                $averageRating = $totalReviews > 0 ? $new->reviews->avg('rating') : 0;
                                             @endphp
                                             <div class="star mt-20">
                                                 @for ($i = 0; $i < 5; $i++)
@@ -193,7 +192,7 @@
                     <div class="row g-4">
                         @php $count = 0; @endphp
                         @foreach ($topProducts as $top)
-                            @if ($count < 12)
+                            @if ($count < 8)
                                 <div class="col-xxl-3 col-xl-4 col-md-6">
                                     <div class="product__item bor">
                                         <a href="#0" class="wishlist"><i class="fa-regular fa-heart"></i></a>
@@ -266,8 +265,9 @@
                         @foreach ($flash_sale_products as $flash)
                             <div class="section-header d-flex align-items-center wow fadeInUp" data-wow-delay=".2s">
                                 <span class="title-icon mr-10"></span>
-                                <h2 class="mb-15"><a class="primary-hover" href="{{ route('client.detailProduct', 19) }}">
-                                    {{ $flash->name }}</a></h2>
+                                <h2 class="mb-15"><a class="primary-hover"
+                                        href="{{ route('client.detailProduct', 19) }}">
+                                        {{ $flash->name }}</a></h2>
                             </div>
                             <div class="get-now__content">
                                 <div class="get-info py-4 wow fadeInUp" data-wow-delay=".2s">

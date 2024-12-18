@@ -95,10 +95,11 @@
                                 <div class="details-area">
                                     <div class="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
                                         <h4 class="pe-3">Danh mục :</h4>
-                                        <a href="#0"
-                                            class="primary-hover">{{ $detailProduct->category->name_category }}</a>
+                                        <a href="{{ route('client.category', $detailProduct->category->id) }}"
+                                            class="primary-hover">
+                                            {{ $detailProduct->category->name_category }}
+                                        </a>
                                     </div>
-
                                     <form id='myform' method='POST' action="{{ route('client.cart.add') }}">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
