@@ -41,7 +41,7 @@ class ProductController extends Controller
 
         $categories = \App\Models\Category::all();
 
-        $listProduct = $query->paginate(5);
+        $listProduct = $query->paginate(10);
 
         return view('products.index')->with([
             'listProduct' => $listProduct,
