@@ -77,12 +77,16 @@
 
                             <p>Lượt xem : {{ $detailProduct->views }}</p>
 
-                            @if ($detailProduct->sale_price == 0)
-                                <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
-                            @else
+                            @if ($detailProduct->flash_sale_price > 0)
+                                <del>{{ number_format($detailProduct->base_price) }}.đ</del>
+                                <h2 class="pb-3">{{ number_format($detailProduct->flash_sale_price) }}.đ</h2>
+                            @elseif ($detailProduct->sale_price > 0)
                                 <del>{{ number_format($detailProduct->base_price) }}.đ</del>
                                 <h2 class="pb-3">{{ number_format($detailProduct->sale_price) }}.đ</h2>
+                            @else
+                                <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
                             @endif
+
                             <div class="description">
                                 <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
                                 <p class="text-justify mb-10">
