@@ -19,7 +19,7 @@ class RegisterController extends Controller
         }catch(\Throwable $th){
             return redirect()->back()->with('error', 'Đã có lỗi xảy ra. Vui lòng thử lại.');
         }
-        return redirect()->route('client.index')->with('success', 'Đăng ký thành công.');
+        return redirect()->route('login')->with('success', 'Đăng ký thành công.');
         
     }
 }
