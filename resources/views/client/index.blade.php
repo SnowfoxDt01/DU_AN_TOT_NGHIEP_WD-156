@@ -219,17 +219,11 @@
                                                     href="{{ route('client.detailProduct', $top->product->id) }}"
                                                     style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $top->product->name }}</a>
                                             </h4>
-                                            @if ($top->flash_sale_price > 0)
-                                                <del>{{ number_format($top->base_price) }}.đ</del>
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($top->flash_sale_price) }}.đ</span>
-                                            @elseif ($top->sale_price > 0)
-                                                <del>{{ number_format($top->base_price) }}.đ</del>
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($top->sale_price) }}.đ</span>
+                                            @if ($top->sale_price == 0)
+                                                <span class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
                                             @else
-                                                <span
-                                                    class="primary-color ml-10">{{ number_format($top->base_price) }}.đ</span>
+                                                <del>{{ number_format($top->product->base_price) }}.đ</del>
+                                                <span class="primary-color ml-10">{{ number_format($top->product->sale_price) }}.đ</span>
                                             @endif
                                             <div class="star mt-20">
                                                 <i class="fa-solid fa-star"></i>
