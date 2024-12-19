@@ -113,11 +113,14 @@
                                     <h4 class="ps-4 text-capitalize">{{ $item->variantProduct->size->name }}</h4>
                                 </div>
                                 <div class="product-price">
-                                    @if ($item->product->sale_price > 0)
+                                    @if ($item->product->flash_sale_price > 0)
+                                        {{ number_format($item->product->flash_sale_price, 0, ',', '.') }}.đ
+                                    @elseif ($item->product->sale_price > 0)
                                         {{ number_format($item->product->sale_price, 0, ',', '.') }}.đ
                                     @else
                                         {{ number_format($item->product->base_price, 0, ',', '.') }}.đ
                                     @endif
+
                                 </div>
                                 <form action="{{ route('client.cart.update', $item->id) }}" method="POST">
                                     @csrf
@@ -134,8 +137,14 @@
                                 </form>
                                 <div class="product-line-price">
                                     <?php
-                                    $productPrice = $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->base_price;
+                                    $productPrice = $item->product->flash_sale_price > 0 
+                                        ? $item->product->flash_sale_price 
+                                        : ($item->product->sale_price > 0 
+                                            ? $item->product->sale_price 
+                                            : $item->product->base_price);
+
                                     $totalPrice = $productPrice * $item->quantity;
+
                                     $cartTotal += $totalPrice;
                                     ?>
                                     {{ number_format($totalPrice, 0, ',', '.') }}.đ
