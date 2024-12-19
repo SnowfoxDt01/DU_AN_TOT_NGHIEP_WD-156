@@ -31,8 +31,7 @@ class CheckoutController extends Controller
         }
 
         // Lấy các sản phẩm đã chọn từ request
-        $selectedItems = $request->input('selected_items', []);
-
+        $selectedItems = session('selected_items');
         // Kiểm tra nếu selectedItems không phải là mảng, chuyển nó thành mảng
         if (!is_array($selectedItems)) {
             $selectedItems = explode(',', $selectedItems); // Chuyển chuỗi thành mảng nếu nó là chuỗi
@@ -159,7 +158,7 @@ class CheckoutController extends Controller
 
         // Lấy các sản phẩm đã chọn từ request
         $selectedProductIds = $request->input('selected_products', []);
-
+        session()->put('selected_products', $selectedProductIds);
         // Nếu không có sản phẩm nào được chọn, trả về lỗi
         if (empty($selectedProductIds)) {
             return redirect()->route('client.cart.index')->with('error', 'Bạn chưa chọn sản phẩm nào để thanh toán!');
@@ -251,11 +250,6 @@ class CheckoutController extends Controller
 
 
             if ($paymentMethod === 'vnpay') {
-                foreach ($shoppingCart->items as $item) {
-                    if (in_array($item->variantProduct->id, $selectedProductIds)) {
-                        $item->delete(); // Xóa sản phẩm đã chọn
-                    }
-                }
                 DB::commit(); // Commit transaction trước khi chuyển hướng đến VNPay
                 return $this->redirectToVnpay($order); // Chuyển hướng đến VNPay
             }
@@ -353,7 +347,21 @@ class CheckoutController extends Controller
             $order->order_status = 'confirming'; // Trạng thái đơn hàng  
             $order->payment_status = 'paid'; // Trạng thái thanh toán  
             $order->save(); // Lưu vào cơ sở dữ liệu  
+            $selectedItems = session()->get('selected_items', []);
+            // Kiểm tra nếu có sản phẩm được chọn trong session
+            if (!empty($selectedItems)) {
+                $shoppingCart = auth()->user()->shoppingCart; // Lấy giỏ hàng của người dùng hiện tại
+                // Duyệt qua các sản phẩm trong giỏ hàng
+                foreach ($shoppingCart->items as $item) {
+                    // Kiểm tra nếu variant_product_id có trong danh sách selected_items
+                    if (in_array($item->id, $selectedItems)) {
+                        $item->delete(); // Xóa sản phẩm khỏi giỏ hàng
+                    }
+                }
 
+                // Xóa session sau khi xóa sản phẩm khỏi giỏ hàng
+                session()->forget('selected_items');
+            }
             session()->forget('voucher_id');
 
             return redirect()->route('client.cart.index')

@@ -159,6 +159,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        {{ $newProducts->links('pagination::custom') }}
                     </div>
                 </div>
             </div>

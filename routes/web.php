@@ -242,6 +242,9 @@ Route::group([
         Route::post('/{item}/update', [ShoppingCartController::class, 'update'])->name('update');
 
         Route::delete('/{item}/remove', [ShoppingCartController::class, 'remove'])->name('remove');
+
+        Route::post('/cart/save-session', [ShoppingCartController::class, 'saveSelectedItems'])->name('saveSession');
+
     });
 
     Route::group([

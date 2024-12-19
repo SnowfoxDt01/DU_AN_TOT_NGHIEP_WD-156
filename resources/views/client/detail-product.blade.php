@@ -77,12 +77,16 @@
 
                             <p>Lượt xem : {{ $detailProduct->views }}</p>
 
-                            @if ($detailProduct->sale_price == 0)
-                                <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
-                            @else
+                            @if ($detailProduct->flash_sale_price > 0)
+                                <del>{{ number_format($detailProduct->base_price) }}.đ</del>
+                                <h2 class="pb-3">{{ number_format($detailProduct->flash_sale_price) }}.đ</h2>
+                            @elseif ($detailProduct->sale_price > 0)
                                 <del>{{ number_format($detailProduct->base_price) }}.đ</del>
                                 <h2 class="pb-3">{{ number_format($detailProduct->sale_price) }}.đ</h2>
+                            @else
+                                <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
                             @endif
+
                             <div class="description">
                                 <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
                                 <p class="text-justify mb-10">
@@ -125,7 +129,7 @@
                                                                     alt="variant-{{ $variant->name }}"
                                                                     style="width: 50px; height: 50px; object-fit: cover; margin-right: 5px;">
                                                             @endif
-                                                            <span>{{ $variant->name }}</span>
+                                                            <span>{{ $variant->color->name }}</span>
                                                             <span class="selected-mark"
                                                                 style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span>
                                                         </div>
@@ -289,6 +293,7 @@
                                         </form>
                                     </div>
                                 @else
+                                    <hr>
                                     <span>Hãy mua sản phẩm để bình luận.</span>
                                 @endif
                             @else

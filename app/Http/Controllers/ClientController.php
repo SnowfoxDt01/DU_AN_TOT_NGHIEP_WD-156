@@ -23,6 +23,7 @@ class ClientController extends Controller
 {
     public function index()
     {
+        // dd(session()->all());
         $categories = Category::all();
         $banners = Banner::where('status', Banner::STATUS_ACTIVE)->get();
         $newProducts = Product::where('new', 1)->paginate(8);
@@ -137,6 +138,17 @@ class ClientController extends Controller
     public function detailProduct(string $id)
     {
         $detailProduct = Product::with('variantProducts')->findOrFail($id);
+
+        // Kiểm tra trong session xem sản phẩm đã được xem hay chưa
+        $viewedProducts = session()->get('viewed_products', []);
+
+        if (!in_array($id, $viewedProducts)) {
+            // Tăng lượt xem và lưu vào session
+            $detailProduct->increment('views');
+            $viewedProducts[] = $id;
+            session()->put('viewed_products', $viewedProducts);
+        }
+
         $sizes = Size::orderBy('name')->get();
 
         $totalReviews = $detailProduct->reviews->count();
@@ -165,7 +177,7 @@ class ClientController extends Controller
 
     public function newProducts()
     {
-        $newProducts = Product::where('new', 1)->paginate(8);
+        $newProducts = Product::where('new', 1)->paginate(9);
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
         return view('client.products.new', compact('newProducts', 'flash_sale_products'));
     }
