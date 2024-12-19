@@ -189,7 +189,7 @@
                 $('.product-checkbox:checked').not('#select-all').each(function() {
                     var productElement = $(this).closest('.product'); // Lấy sản phẩm tương ứng với checkbox
                     var linePrice = productElement.find('.product-line-price').text().replace(/[^0-9]/g,
-                    ''); // Lấy giá trị
+                        ''); // Lấy giá trị
                     cartTotal += parseInt(linePrice); // Cộng giá trị vào tổng tiền
                 });
 
@@ -274,7 +274,7 @@
             $('#select-all').change(function() {
                 var isChecked = $(this).is(':checked'); // Kiểm tra trạng thái checkbox "Chọn tất cả"
                 $('.product-checkbox').not('#select-all').prop('checked',
-                isChecked); // Chọn hoặc bỏ chọn tất cả sản phẩm
+                    isChecked); // Chọn hoặc bỏ chọn tất cả sản phẩm
                 updateCartTotal(); // Cập nhật tổng tiền
             });
         });
@@ -285,21 +285,47 @@
         function confirmDelete() {
             return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
         }
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
-            var selectedItems = [];
-            // Lấy tất cả checkbox đã được chọn
-            document.querySelectorAll('.product-checkbox:checked').forEach(function(checkbox) {
-                selectedItems.push(checkbox.value); // Lưu giá trị của sản phẩm đã chọn (ID)
+        $(document).ready(function() {
+            function saveSelectedItemsToSession(selectedItems) {
+                $.ajax({
+                    url: "{{ route('client.cart.saveSession') }}", // Định nghĩa route này
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        selected_items: selectedItems
+                    },
+                    success: function(response) {
+                        console.log("Selected items saved to session:", response);
+                    },
+                    error: function(error) {
+                        console.error("Failed to save selected items to session:", error);
+                    }
+                });
+            }
+
+            // Cập nhật session khi chọn/bỏ chọn sản phẩm
+            $('.product-checkbox').change(function() {
+                var selectedItems = [];
+                $('.product-checkbox:checked').not('#select-all').each(function() {
+                    selectedItems.push($(this).val());
+                });
+
+                saveSelectedItemsToSession(selectedItems);
             });
 
-            // Kiểm tra nếu không có sản phẩm nào được chọn
-            if (selectedItems.length === 0) {
-                alert("Vui lòng chọn sản phẩm để thanh toán.");
-                e.preventDefault(); // Ngừng gửi form
-            } else {
-                // Đưa các sản phẩm đã chọn vào input hidden
-                document.getElementById('selected_items').value = selectedItems.join(',');
-            }
+            // Xử lý sự kiện nhấp vào checkbox "Chọn tất cả"
+            $('#select-all').change(function() {
+                var isChecked = $(this).is(':checked');
+                $('.product-checkbox').not('#select-all').prop('checked', isChecked);
+
+                var selectedItems = [];
+                if (isChecked) {
+                    $('.product-checkbox').not('#select-all').each(function() {
+                        selectedItems.push($(this).val());
+                    });
+                }
+                saveSelectedItemsToSession(selectedItems);
+            });
         });
     </script>
 

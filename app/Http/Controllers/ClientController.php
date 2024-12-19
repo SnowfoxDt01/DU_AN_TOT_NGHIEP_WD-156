@@ -23,6 +23,7 @@ class ClientController extends Controller
 {
     public function index()
     {
+        // dd(session()->all());
         $categories = Category::all();
         $banners = Banner::where('status', Banner::STATUS_ACTIVE)->get();
         $newProducts = Product::where('new', 1)->paginate(8);

@@ -288,6 +288,7 @@
                                         </form>
                                     </div>
                                 @else
+                                    <hr>
                                     <span>Hãy mua sản phẩm để bình luận.</span>
                                 @endif
                             @else
