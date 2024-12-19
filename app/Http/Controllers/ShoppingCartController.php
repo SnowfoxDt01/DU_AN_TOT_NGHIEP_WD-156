@@ -7,7 +7,6 @@ use App\Models\ShoppingCartItem;
 use App\Models\VariantProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Category;
 use App\Models\Product;
 
 class ShoppingCartController extends Controller
@@ -17,23 +16,23 @@ class ShoppingCartController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem giỏ hàng.');
         }
-    
+
         $user = Auth::user();
-    
+
         // Lấy giỏ hàng của người dùng hiện tại
         $shoppingCart = $user->shoppingCart()->with('items.variantProduct.product.images', 'items.variantProduct.images')->first();
-    
+
         // Nếu người dùng chưa có giỏ hàng, có thể tạo mới
         if (!$shoppingCart) {
             $shoppingCart = ShoppingCart::create(['user_id' => $user->id]);
         }
-    
+
         // Tổng số lượng sản phẩm trong giỏ hàng
         $cartQuantity = $shoppingCart->items->sum('quantity');
-    
+
         return view('client.carts.index', compact('shoppingCart', 'cartQuantity'));
     }
-    
+
 
     // ShoppingCartController.php
 
@@ -44,35 +43,35 @@ class ShoppingCartController extends Controller
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
         $userId = Auth::id(); // Lấy user_id của người dùng hiện tại
-    
+
         if (Auth::check()) {
             $shoppingCart = ShoppingCart::firstOrCreate(['user_id' => $userId]);
         } else {
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!');
         }
-    
+
         // 2. Kiểm tra sản phẩm và biến thể
         $product = Product::findOrFail($productId);
         $variantProduct = VariantProduct::findOrFail($variantId);
-    
+
         // Kiểm tra số lượng tồn kho của biến thể
         $availableStock = $variantProduct->quantity;
-    
+
         if ($quantity > $availableStock) {
             return redirect()->back()->with('error', 'Số lượng yêu cầu vượt quá số lượng tồn kho!');
         }
-    
+
         // 3. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         $existingItem = $shoppingCart->items()->where('variant_id', $variantId)->first();
-    
+
         if ($existingItem) {
             // Kiểm tra số lượng tối đa có thể thêm
             $newQuantity = $existingItem->quantity + $quantity;
-    
+
             if ($newQuantity > $availableStock) {
                 return redirect()->back()->with('error', 'Trong giỏ hàng không thể vượt quá số lượng tồn kho!');
             }
-    
+
             // 4.1. Nếu sản phẩm đã tồn tại, cập nhật số lượng
             $existingItem->update([
                 'quantity' => $newQuantity
@@ -87,11 +86,11 @@ class ShoppingCartController extends Controller
                 'price' => $product->flash_sale_price ?? $product->sale_price ?? $product->base_price,
             ]);
         }
-    
+
         // 5. Chuyển hướng về trang giỏ hàng
         return redirect()->route('client.cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
     }
-    
+
 
     public function update(Request $request, $itemId)
     {
@@ -129,6 +128,21 @@ class ShoppingCartController extends Controller
             'cartTotal' => $cartTotalFormatted,
         ]);
     }
+
+    public function saveSelectedItems(Request $request)
+    {
+        $selectedItems = $request->input('selected_items', []);
+
+        // Lưu vào session
+        session(['selected_items' => $selectedItems]);
+
+        return response()->json([
+            'message' => 'Selected items saved to session.',
+            'selected_items' => $selectedItems,
+        ]);
+    }
+
+
 
     public function remove($itemId)
     {

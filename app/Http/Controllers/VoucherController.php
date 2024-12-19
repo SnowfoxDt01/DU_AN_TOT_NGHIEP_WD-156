@@ -22,7 +22,7 @@ class VoucherController extends Controller
     {
         $request->validate([
             'code' => 'required|unique:vouchers',
-            'discount' => 'required|numeric',
+            'discount' => 'required|numeric|max: 999999.99',
             'expiry_date' => 'nullable|date|after:today',
         ]);
         Voucher::create($request->all());
