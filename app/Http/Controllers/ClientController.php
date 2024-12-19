@@ -177,7 +177,7 @@ class ClientController extends Controller
 
     public function newProducts()
     {
-        $newProducts = Product::where('new', 1)->paginate(8);
+        $newProducts = Product::where('new', 1)->paginate(9);
         $flash_sale_products = Product::where('flash_sale_price', '<>', 0)->get();
         return view('client.products.new', compact('newProducts', 'flash_sale_products'));
     }
