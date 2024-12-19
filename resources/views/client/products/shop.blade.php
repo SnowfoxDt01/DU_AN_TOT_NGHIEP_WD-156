@@ -182,6 +182,8 @@
                                 </div>
                             </div>
                         @endforeach
+                        {{ $products->links('pagination::custom') }}
+
                     </div>
                 </div>
             </div>

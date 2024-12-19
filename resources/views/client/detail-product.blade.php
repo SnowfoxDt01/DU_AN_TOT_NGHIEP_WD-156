@@ -129,7 +129,7 @@
                                                                     alt="variant-{{ $variant->name }}"
                                                                     style="width: 50px; height: 50px; object-fit: cover; margin-right: 5px;">
                                                             @endif
-                                                            <span>{{ $variant->name }}</span>
+                                                            <span>{{ $variant->color->name }}</span>
                                                             <span class="selected-mark"
                                                                 style="display: none; position: absolute; top: 5px; right: 5px; background-color: green; color: white; padding: 2px 5px; border-radius: 50%;">✓</span>
                                                         </div>
