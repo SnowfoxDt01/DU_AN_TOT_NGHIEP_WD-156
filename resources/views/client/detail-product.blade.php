@@ -77,12 +77,16 @@
 
                             <p>Lượt xem : {{ $detailProduct->views }}</p>
 
-                            @if ($detailProduct->sale_price == 0)
-                                <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
-                            @else
+                            @if ($detailProduct->flash_sale_price > 0)
+                                <del>{{ number_format($detailProduct->base_price) }}.đ</del>
+                                <h2 class="pb-3">{{ number_format($detailProduct->flash_sale_price) }}.đ</h2>
+                            @elseif ($detailProduct->sale_price > 0)
                                 <del>{{ number_format($detailProduct->base_price) }}.đ</del>
                                 <h2 class="pb-3">{{ number_format($detailProduct->sale_price) }}.đ</h2>
+                            @else
+                                <h2 class="pb-3">{{ number_format($detailProduct->base_price) }}.đ</h2>
                             @endif
+
                             <div class="description">
                                 <h4 class="pb-2 primary-color">Mô tả sản phẩm</h4>
                                 <p class="text-justify mb-10">
@@ -95,10 +99,11 @@
                                 <div class="details-area">
                                     <div class="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
                                         <h4 class="pe-3">Danh mục :</h4>
-                                        <a href="#0"
-                                            class="primary-hover">{{ $detailProduct->category->name_category }}</a>
+                                        <a href="{{ route('client.category', $detailProduct->category->id) }}"
+                                            class="primary-hover">
+                                            {{ $detailProduct->category->name_category }}
+                                        </a>
                                     </div>
-
                                     <form id='myform' method='POST' action="{{ route('client.cart.add') }}">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $detailProduct->id }}">
