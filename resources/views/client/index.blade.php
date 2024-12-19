@@ -219,7 +219,7 @@
                                                     href="{{ route('client.detailProduct', $top->product->id) }}"
                                                     style="display: inline-block; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $top->product->name }}</a>
                                             </h4>
-                                            @if ($top->sale_price == 0)
+                                            @if ($top->product->sale_price == 0)
                                                 <span class="primary-color ml-10">{{ number_format($top->product->base_price) }}.đ</span>
                                             @else
                                                 <del>{{ number_format($top->product->base_price) }}.đ</del>
