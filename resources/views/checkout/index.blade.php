@@ -149,7 +149,7 @@
                                         @else
                                             <p>Bạn cần <a href="{{ route('client.createInfo') }}#warranty"
                                                     style="color: orangered">thêm thông tin cá nhân</a>
-                                                để thêm địa chỉ</p>
+                                                mới có thể đặt hàng</p>
 
                                         @endif
                                     </div>
