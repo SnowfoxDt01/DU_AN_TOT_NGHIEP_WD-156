@@ -183,8 +183,8 @@
                                                 <div class="form-group col-md-4">
                                                     <label for="variant_image">Hình ảnh biến thể</label>
                                                     <input type="file" class="form-control" id="variant_image"
-                                                        name="variant_image[0]">
-                                                    @error('variant_image[0]')
+                                                        name="variant_image[]">
+                                                    @error('variant_image[]')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -287,7 +287,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="variant_image">Hình ảnh biến thể</label>
-                            <input type="file" class="form-control" id="variant_image" name="variant_image[0]">
+                            <input type="file" class="form-control" id="variant_image" name="variant_image[]">
                         @error('variant_image.*')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
