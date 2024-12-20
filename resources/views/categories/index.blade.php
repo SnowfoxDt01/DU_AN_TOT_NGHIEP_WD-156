@@ -50,6 +50,8 @@
                             </button>
                         </div>
                     </form>
+                    <button class="btn btn-primary"><a href="{{ route('admin.categories.create') }}"
+                            style="color: #fff;">Thêm danh mục</a></button>
                 </div>
                 <div class="table-responsive border rounded">
                     <table class="table align-middle text-nowrap mb-0">
@@ -98,8 +100,8 @@
                                             <button class="btn btn-success" style="display: inline-block;"><i
                                                     class="bi bi-pencil-square"></i></button>
                                         </a>
-                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST"
-                                            class="delete-form" style="display: inline-block;">
+                                        <form action="{{ route('admin.categories.destroy', $category->id) }}"
+                                            method="POST" class="delete-form" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"><i
